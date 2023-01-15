@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Response;
+using Project.Core.Caching.Attributes;
 using Project.Core.Model;
 using Project.IdentityService.Commands;
+using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
 
 namespace Project.IdentityService.Controllers
@@ -27,6 +30,18 @@ namespace Project.IdentityService.Controllers
         public async Task<IActionResult> RefreshToken([FromHeader] TokenModel Token)
         {
             return await mediator.Send(new RefreshTokenCommand(Token));
+        }
+        [HttpGet]
+        [Cache(1000)]
+        public async Task<IActionResult> GetID()
+        {
+            await Task.CompletedTask; 
+            return ApiResponse.OK<User>(new Data.User
+            {
+                UserID = Guid.NewGuid(),
+                Email = "Khang",
+                UserName = "Khang"
+            });
         }
     }
 }

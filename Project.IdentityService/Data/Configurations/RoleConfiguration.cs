@@ -10,8 +10,6 @@ namespace Project.IdentityService.Data.Configurations
             builder.HasKey(role => role.RoleID);
             builder.Property(role => role.RoleID).IsRequired();
             builder.Property(role => role.RoleName).IsRequired();
-            builder.Property(role => role.CreateAt).IsRequired();
-            builder.Property(role => role.UpdateAt).IsRequired();
             builder.HasMany(auth => auth.User)
                    .WithOne(user => user.Role)
                    .HasForeignKey(user => user.RoleID)

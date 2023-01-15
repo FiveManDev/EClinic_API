@@ -2,7 +2,7 @@
 
 namespace Project.IdentityService.Data
 {
-    public class Role : BaseEntity
+    public class Role
     {
         public string RoleID { get; set; }
         public string RoleName { get; set; }

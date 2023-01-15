@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Common.Constants;
 using Project.Core.Authentication;
+using Project.Core.Caching;
 using Project.Core.Filters;
 using Project.Core.Logger;
 using Project.Core.Mapper;
@@ -29,6 +30,7 @@ builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
     config.AddReceiveEndpoint<RabbitMQConsumer>(ExchangeConstants.IdentityService, context);
 });
+builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
