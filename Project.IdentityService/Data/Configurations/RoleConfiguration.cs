@@ -15,7 +15,7 @@ namespace Project.IdentityService.Data.Configurations
                    .HasForeignKey(user => user.RoleID)
                    .HasConstraintName("PK_User_Many_To_One_Role")
                    .OnDelete(DeleteBehavior.Cascade);
-            builder.ToTable("Users");
+            builder.ToTable("Roles");
 
         }
     }

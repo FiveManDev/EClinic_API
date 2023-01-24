@@ -10,7 +10,6 @@ namespace Project.IdentityService.Data.Configurations
             builder.HasKey(user => user.UserID);
             builder.Property(user => user.UserID).HasDefaultValueSql("NEWID()").IsRequired();
             builder.Property(user => user.UserName).IsRequired();
-            builder.Property(user => user.Email).IsRequired();
             builder.Property(user => user.PasswordHash).IsRequired();
             builder.Property(user => user.PasswordSalt).IsRequired();
             builder.Property(user => user.Enabled).IsRequired();

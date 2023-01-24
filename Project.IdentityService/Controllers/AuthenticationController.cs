@@ -38,8 +38,6 @@ namespace Project.IdentityService.Controllers
             await Task.CompletedTask; 
             return ApiResponse.OK<User>(new Data.User
             {
-                UserID = Guid.NewGuid(),
-                Email = "Khang",
                 UserName = "Khang"
             });
         }

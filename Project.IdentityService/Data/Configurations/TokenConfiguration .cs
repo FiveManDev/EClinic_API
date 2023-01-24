@@ -18,7 +18,7 @@ namespace Project.IdentityService.Data.Configurations
                     .HasForeignKey<Token>(token => token.UserID)
                     .HasConstraintName("PK_User_One_To_One_Token")
                     .OnDelete(DeleteBehavior.Cascade);
-            builder.ToTable("Users");
+            builder.ToTable("Tokens");
         }
     }
 }

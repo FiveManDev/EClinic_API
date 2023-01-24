@@ -1,6 +1,7 @@
-﻿#nullable disable
-
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
 
 namespace Project.IdentityService.Migrations
 {
@@ -13,9 +14,7 @@ namespace Project.IdentityService.Migrations
                 columns: table => new
                 {
                     RoleID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,7 +27,6 @@ namespace Project.IdentityService.Migrations
                 {
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Enabled = table.Column<bool>(type: "bit", nullable: false),
@@ -70,13 +68,13 @@ namespace Project.IdentityService.Migrations
 
             migrationBuilder.InsertData(
                 table: "Roles",
-                columns: new[] { "RoleID", "CreateAt", "RoleName", "UpdateAt" },
+                columns: new[] { "RoleID", "RoleName" },
                 values: new object[,]
                 {
-                    { "Ad", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3077), "Admin", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3086) },
-                    { "Dt", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3088), "Doctor", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3089) },
-                    { "Sp", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3087), "Supporter", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3088) },
-                    { "user", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3089), "User", new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3090) }
+                    { "Ad", "Admin" },
+                    { "Dt", "Doctor" },
+                    { "Sp", "Supporter" },
+                    { "user", "User" }
                 });
 
             migrationBuilder.CreateIndex(

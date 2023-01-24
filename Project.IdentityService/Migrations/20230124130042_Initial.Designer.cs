@@ -12,7 +12,7 @@ using Project.IdentityService.Data.Configurations;
 namespace Project.IdentityService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230105170542_Initial")]
+    [Migration("20230124130042_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,14 +29,8 @@ namespace Project.IdentityService.Migrations
                     b.Property<string>("RoleID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("RoleID");
 
@@ -46,30 +40,22 @@ namespace Project.IdentityService.Migrations
                         new
                         {
                             RoleID = "Ad",
-                            CreateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3077),
-                            RoleName = "Admin",
-                            UpdateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3086)
+                            RoleName = "Admin"
                         },
                         new
                         {
                             RoleID = "Sp",
-                            CreateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3087),
-                            RoleName = "Supporter",
-                            UpdateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3088)
+                            RoleName = "Supporter"
                         },
                         new
                         {
                             RoleID = "Dt",
-                            CreateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3088),
-                            RoleName = "Doctor",
-                            UpdateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3089)
+                            RoleName = "Doctor"
                         },
                         new
                         {
                             RoleID = "user",
-                            CreateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3089),
-                            RoleName = "User",
-                            UpdateAt = new DateTime(2023, 1, 6, 0, 5, 42, 306, DateTimeKind.Local).AddTicks(3090)
+                            RoleName = "User"
                         });
                 });
 
@@ -110,9 +96,6 @@ namespace Project.IdentityService.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("bit");

@@ -32,7 +32,7 @@ namespace Project.Core.RabbitMQ
                     configurator.Host(rabbitMQSettings.Host, hostConfigurator =>
                     {
                         hostConfigurator.Username(rabbitMQSettings.UserName);
-                        hostConfigurator.Password(rabbitMQSettings.UserName);
+                        hostConfigurator.Password(rabbitMQSettings.Password);
                     });
                     configurator.UseMessageRetry(retryConfigurator =>
                     {
