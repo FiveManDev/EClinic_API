@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.Core.Caching;
+using Project.Core.Cors;
 using Project.Core.Filters;
 using Project.Core.Logger;
 using Project.Core.Mapper;
@@ -26,6 +27,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 //builder.Logging.AddLogger(builder.Configuration);
 builder.Services.AddMyMapper();
 builder.Services.AddMyVersioning();
+var CorsName = "Eclinic";
+builder.Services.AddMyCors(CorsName);
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
     config.AddReceiveEndpoint<RabbitMQConsumer>(ExchangeConstants.IdentityService, context);
@@ -55,7 +58,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors(CorsName);
 app.MapControllers();
 
 app.Run();
