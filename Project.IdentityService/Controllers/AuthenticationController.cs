@@ -27,8 +27,9 @@ namespace Project.IdentityService.Controllers
             return await mediator.Send(new SignInCommand(signInDtos));
         }
         [HttpGet]
-        public async Task<IActionResult> RefreshToken([FromHeader] TokenModel Token)
+        public async Task<IActionResult> RefreshToken([FromHeader] string AccessToken, [FromHeader] string RefreshToken)
         {
+            TokenModel Token = new TokenModel { AccessToken= AccessToken ,RefreshToken = RefreshToken};
             return await mediator.Send(new RefreshTokenCommand(Token));
         }
         [HttpGet]
