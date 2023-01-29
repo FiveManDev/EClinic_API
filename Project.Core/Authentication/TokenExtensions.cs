@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Project.Core.Model;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,33 +27,35 @@ namespace Project.Core.Authentication
             var accessToken = GenerateAccessToken(tokenInformation, jWTOptions, tokenOptions);
             var refreshToken = GenerateRefreshToken(tokenInformation, jWTOptions, tokenOptions);
             return new TokenModel { AccessToken = accessToken, RefreshToken = refreshToken };
-        }
+        }   
         private static string GenerateAccessToken(JWTTokenInformation tokenInformation, JWTOptions jWTOptions, TokenOptions tokenOptions)
         {
-            var claims = new[] {
-            new Claim(ClaimTypes.Role,tokenInformation.Role),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim("UserID",tokenInformation.UserID.ToString())
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var secretKeyBytes = Encoding.UTF8.GetBytes(jWTOptions.SecretKey);
+            var expires = DateTime.UtcNow.AddDays(tokenOptions.ExpireAccessToken);
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                     new Claim(ClaimTypes.Role,tokenInformation.Role),
+                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                     new Claim("UserID",tokenInformation.UserID.ToString())
+                }),
+                Expires = expires,
+                Issuer = jWTOptions.ValidIssuer,
+                Audience= jWTOptions.ValidAudience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
             };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jWTOptions.SecretKey));
-
-            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(jWTOptions.ValidIssuer,
-                jWTOptions.ValidAudience,
-                claims,
-                expires: DateTime.UtcNow.AddDays(tokenOptions.ExpireAccessToken),
-                signingCredentials: signingCredentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var token = jwtTokenHandler.CreateToken(tokenDescription);
+            var accessToken = jwtTokenHandler.WriteToken(token);
+            return accessToken;
         }
         private static string GenerateRefreshToken(JWTTokenInformation tokenInformation, JWTOptions jWTOptions, TokenOptions tokenOptions)
         {
             var claims = new[] {
-            new Claim("IsRefresh", "true"),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim("UserID",tokenInformation.UserID.ToString())
+                new Claim("IsRefresh", "true"),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                new Claim("UserID",tokenInformation.UserID.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jWTOptions.SecretKey));
