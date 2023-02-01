@@ -6,13 +6,17 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7099
+          "Host": "172.20.0.12",
+          "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/api/v1/identity/{controller}/{Action}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
     //Identity Service End
-  ]
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:8888"
+  }
 }
