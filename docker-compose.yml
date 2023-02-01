@@ -1,0 +1,66 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server:latest"
+    container_name: sqlserver
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.8
+    ports:
+     - "1444:1433"
+    environment:
+     - ACCEPT_EULA=Y
+     - SA_PASSWORD=Eclinic123
+  mongodb:
+    image: "mongo:latest"
+    container_name: mongodb
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.9
+    ports:
+     - "27017:27017"
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.11
+    ports:
+     - "6379:6379"
+  rabbitmq:
+    image: "rabbitmq:3.11-management"
+    container_name: rabbitmq
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.10
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=eclinic
+      - RABBITMQ_DEFAULT_PASS=eclinic
+  project.identityservice:
+    image: ${DOCKER_REGISTRY-}projectidentityservice
+    build:
+      context: .
+      dockerfile: Project.IdentityService/Dockerfile
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.12
+    depends_on:
+      - rabbitmq
+  project.apigateways:
+    image: ${DOCKER_REGISTRY-}projectapigateways
+    build:
+      context: .
+      dockerfile: Project.APIGateways/Dockerfile
+    networks:
+      - eclinic
+networks:
+  eclinic:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
