@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace Project.Data.Repository.MongoDB
 {
-    internal class MongoRepository<T> : IMongoDBRepository<T> where T : IMongoDBEntity
+    public class MongoDBRepository<T> : IMongoDBRepository<T> where T : MongoDBEntity
     {
         private readonly IMongoCollection<T> dbCollection;
         private readonly FilterDefinitionBuilder<T> filterBuilder = Builders<T>.Filter;
-        public MongoRepository(IMongoDatabase database, string collectionName)
+        public MongoDBRepository(IMongoDatabase database, string collectionName)
         {
             dbCollection = database.GetCollection<T>(collectionName);
         }
@@ -35,7 +35,7 @@ namespace Project.Data.Repository.MongoDB
             {
                 throw new ArgumentNullException(nameof(entity));
             }
-            await dbCollection.InsertOneAsync(entity);
+           await dbCollection.InsertOneAsync(entity);
         }
         public async Task CreateManyAsync(List<T> entity)
         {

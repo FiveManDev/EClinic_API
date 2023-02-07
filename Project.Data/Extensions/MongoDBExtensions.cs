@@ -25,12 +25,12 @@ namespace Project.Data.Extensions
         }
 
         public static IServiceCollection AddMongoDBRepository<T>(this IServiceCollection services, string collectionName)
-            where T : IMongoDBEntity
+            where T : MongoDBEntity
         {
             services.AddSingleton<IMongoDBRepository<T>>(serviceProvider =>
             {
                 var database = serviceProvider.GetService<IMongoDatabase>();
-                return new MongoRepository<T>(database, collectionName);
+                return new MongoDBRepository<T>(database, collectionName);
             });
 
             return services;

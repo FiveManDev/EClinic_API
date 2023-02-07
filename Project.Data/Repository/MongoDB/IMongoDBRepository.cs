@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Project.Data.Repository.MongoDB
 {
-    public interface IMongoDBRepository<T> where T : IMongoDBEntity
+    public interface IMongoDBRepository<T> where T : MongoDBEntity
     {
         Task<List<T>> GetAllAsync();
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filters);

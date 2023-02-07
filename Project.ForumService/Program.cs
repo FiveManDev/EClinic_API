@@ -1,32 +1,44 @@
-using Project.Core.RabbitMQ;
-using Project.IdentityService.RabbitMQ;
+using Project.Core.Authentication;
+using Project.Core.Cors;
+using Project.Core.Mapper;
+using Project.Core.MediatR;
+using Project.Core.Swagger;
+using Project.Core.Versioning;
+using Project.Data.Extensions;
+using Project.ForumService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//builder.Logging.AddLogger(builder.Configuration);
+builder.Services.AddMyVersioning();
+var CorsName = "Eclinic";
+builder.Services.AddMyCors(CorsName);
+var collectionNames = builder.Configuration.GetSection("EClinicDB:CollectionNames").Get<List<string>>();
+var serviceSettings = builder.Configuration.GetSection("EClinicDB:ConnectionURI").Get<string>();
+var mongoDbSettings = builder.Configuration.GetSection("EClinicDB:DatabaseName").Get<string>();
+builder.Services.AddMongoDB(serviceSettings, mongoDbSettings)
+    .AddMongoDBRepository<Post>(collectionNames[0])
+    .AddMongoDBRepository<Answer>(collectionNames[1])
+    .AddMongoDBRepository<Comment>(collectionNames[2]);
+builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
-//builder.Services.AddMassTransitWithRabbitMQ("Forum");
+builder.Services.AddMyMediatR();
+builder.Services.AddMyMapper();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
-{
-    config.AddReceiveEndpoint<RabbitMQConsumer>("ForumUser", context);
-    config.AddReceiveEndpoint<RabbitMQProfileConsumer>("ForumProfile", context);
-});
+builder.Services.AddMySwagger();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseMySwagger();
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors(CorsName);
 app.MapControllers();
 
 app.Run();
