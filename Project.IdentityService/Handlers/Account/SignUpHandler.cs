@@ -37,7 +37,7 @@ namespace Project.IdentityService.Handlers.Account
                     return ApiResponse.BadRequest("Password and confirm password are not the same");
                 }
                 var pass = Cryptography.EncryptPassword(request.SignUpDtos.Password);
-                var user = new User { UserName = request.SignUpDtos.UserName, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = RoleConstants.IDUser };
+                var user = new User { UserName = request.SignUpDtos.UserName, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = RoleConstants.IDUser, CreatedAt = DateTime.Now };
                 var result = await userRepository.CreateAsync(user);
                 if (!result)
                 {

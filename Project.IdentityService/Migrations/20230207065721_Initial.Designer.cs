@@ -12,7 +12,7 @@ using Project.IdentityService.Data.Configurations;
 namespace Project.IdentityService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230124130042_Initial")]
+    [Migration("20230207065721_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,42 +59,13 @@ namespace Project.IdentityService.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Project.IdentityService.Data.Token", b =>
-                {
-                    b.Property<Guid>("TokenID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AccessToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("TokenID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
-
-                    b.ToTable("Tokens");
-                });
-
             modelBuilder.Entity("Project.IdentityService.Data.User", b =>
                 {
                     b.Property<Guid>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Enabled")
@@ -109,7 +80,7 @@ namespace Project.IdentityService.Migrations
                     b.Property<string>("RoleID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("UpdateAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
@@ -120,17 +91,6 @@ namespace Project.IdentityService.Migrations
                     b.HasIndex("RoleID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Project.IdentityService.Data.Token", b =>
-                {
-                    b.HasOne("Project.IdentityService.Data.User", "User")
-                        .WithOne("Token")
-                        .HasForeignKey("Project.IdentityService.Data.Token", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Project.IdentityService.Data.User", b =>
@@ -145,11 +105,6 @@ namespace Project.IdentityService.Migrations
             modelBuilder.Entity("Project.IdentityService.Data.Role", b =>
                 {
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Project.IdentityService.Data.User", b =>
-                {
-                    b.Navigation("Token");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,7 +22,6 @@ namespace Project.IdentityService.Handlers.Account
             {
                 var user = await userRepository.GetAsync(request.AccountStatusDtos.UserID);
                 user.Enabled = request.AccountStatusDtos.Enable;
-                user.UpdateAt = DateTime.Now;
                 var result = await userRepository.UpdateAsync(user);
                 if (!result) { throw new Exception("Update faild"); }
                 return ApiResponse.OK("Change status success");

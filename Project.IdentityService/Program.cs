@@ -14,7 +14,6 @@ using Project.IdentityService.Data;
 using Project.IdentityService.Data.Configurations;
 using Project.IdentityService.RabbitMQ;
 using Project.IdentityService.Repository.RoleRepository;
-using Project.IdentityService.Repository.TokenRepository;
 using Project.IdentityService.Repository.UserRepository;
 using System.Reflection;
 
@@ -36,7 +35,6 @@ builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped(typeof(NotFoundIdFilter<IUserRepository, User>));
 
 builder.Configuration.SetTokenOptions();

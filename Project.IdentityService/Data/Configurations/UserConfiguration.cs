@@ -13,8 +13,8 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(user => user.PasswordHash).IsRequired();
             builder.Property(user => user.PasswordSalt).IsRequired();
             builder.Property(user => user.Enabled).IsRequired();
-            builder.Property(user => user.CreateAt).IsRequired();
-            builder.Property(user => user.UpdateAt).IsRequired();
+            builder.Property(user => user.CreatedAt).IsRequired();
+            builder.Property(user => user.UpdatedAt).IsRequired();
             builder.ToTable("Users");
         }
     }

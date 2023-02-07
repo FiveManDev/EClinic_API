@@ -2,7 +2,7 @@
 {
     public class BaseEntity
     {
-        public DateTime CreateAt { get; set; }
-        public DateTime UpdateAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

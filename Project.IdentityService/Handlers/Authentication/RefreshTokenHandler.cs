@@ -5,7 +5,6 @@ using Project.Core.Authentication;
 using Project.Core.Model;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Repository.RoleRepository;
-using Project.IdentityService.Repository.TokenRepository;
 using Project.IdentityService.Repository.UserRepository;
 
 namespace Project.IdentityService.Handlers.Authentication
@@ -14,13 +13,11 @@ namespace Project.IdentityService.Handlers.Authentication
     {
         private readonly IUserRepository userRepository;
         private readonly IRoleRepository roleRepository;
-        private readonly ITokenRepository tokenRepository;
 
-        public RefreshTokenHandler(IUserRepository userRepository, IRoleRepository roleRepository, ITokenRepository tokenRepository)
+        public RefreshTokenHandler(IUserRepository userRepository, IRoleRepository roleRepository)
         {
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
-            this.tokenRepository = tokenRepository;
         }
 
         public async Task<ObjectResult> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
@@ -46,16 +43,6 @@ namespace Project.IdentityService.Handlers.Authentication
                 var role = await roleRepository.GetAsync(role => role.RoleID == user.RoleID);
                 var tokenInformation = new JWTTokenInformation { Role = role.RoleName, UserID = user.UserID };
                 var tokenModel = TokenExtensions.GetToken(tokenInformation);
-                var token = await tokenRepository.GetAsync(token => token.UserID == userID);
-                bool tokenResult = false;
-                token.AccessToken = tokenModel.AccessToken;
-                token.RefreshToken = tokenModel.RefreshToken;
-                token.UpdateAt = DateTime.Now;
-                tokenResult = await tokenRepository.UpdateAsync(token);
-                if (!tokenResult)
-                {
-                    return ApiResponse.InternalServerError();
-                }
                 return ApiResponse.OK(tokenModel);
             }
             catch

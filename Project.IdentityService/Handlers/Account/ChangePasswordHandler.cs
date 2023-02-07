@@ -36,7 +36,7 @@ namespace Project.IdentityService.Handlers.Account
 
                     user.PasswordSalt = passwordModel.Salt;
                     user.PasswordHash = passwordModel.Hash;
-                    user.UpdateAt = DateTime.Now;
+                    user.UpdatedAt = DateTime.Now;
 
                     var result = await userRepository.UpdateAsync(user);
 

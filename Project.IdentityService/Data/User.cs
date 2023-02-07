@@ -11,6 +11,5 @@ namespace Project.IdentityService.Data
         public bool Enabled { get; set; } = true;
         public string RoleID { get; set; }
         public Role Role { get; set; }
-        public Token Token { get; set; }
     }
 }
