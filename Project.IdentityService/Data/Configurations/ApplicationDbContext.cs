@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Project.Common.Constants;
 
 namespace Project.IdentityService.Data.Configurations
@@ -14,16 +15,9 @@ namespace Project.IdentityService.Data.Configurations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>(e =>
-            {
-                e.HasKey(x => x.RoleID);
-            });
-            modelBuilder.Entity<Role>().HasData(
-                new Role { RoleID = RoleConstants.IDAdmin, RoleName = RoleConstants.Admin },
-                new Role { RoleID = RoleConstants.IDSupporter, RoleName = RoleConstants.Supporter },
-                new Role { RoleID = RoleConstants.IDDoctor, RoleName = RoleConstants.Doctor },
-                new Role { RoleID = RoleConstants.IDUser, RoleName = RoleConstants.User }
-            );
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            
         }
     }
 }

@@ -1,0 +1,27 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Project.ProfileService.Data;
+using System.Reflection.Emit;
+
+namespace Project.IdentityService.Data.Configurations
+{
+    public class DoctorProfileConfiguration : IEntityTypeConfiguration<DoctorProfile>
+    {
+        public void Configure(EntityTypeBuilder<DoctorProfile> builder)
+        {
+            builder.HasKey(p => p.UserID);
+            builder.Property(p => p.UserID).IsRequired();
+            builder.Property(p => p.Title).IsRequired();
+            builder.Property(p => p.Description).IsRequired();
+            builder.Property(p => p.WorkStart).IsRequired();
+            builder.Property(p => p.SpecializationID).IsRequired();
+            builder.Property(p => p.Quality).IsRequired();
+            builder.HasOne(p => p.Profile)
+                  .WithOne(dp => dp.DoctorProfile)
+                  .HasForeignKey<DoctorProfile>(p => p.UserID)
+                  .HasConstraintName("PK_Profile_One_To_One_DoctorProfile")
+                  .OnDelete(DeleteBehavior.Cascade);
+            builder.ToTable("DoctorProfiles");
+        }
+    }
+}
