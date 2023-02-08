@@ -8,14 +8,15 @@ namespace Project.IdentityService.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Profile> builder)
         {
-            builder.HasKey(p => p.UserID);
-            builder.Property(p => p.UserID).HasDefaultValueSql("NEWID()").IsRequired();
+            builder.HasKey(p => p.ProfileID);
+            builder.Property(p => p.ProfileID).HasDefaultValueSql("NEWID()").IsRequired();
+            builder.Property(p => p.UserID).IsRequired();
             builder.Property(p => p.FirstName).IsRequired();
             builder.Property(p => p.LastName).IsRequired();
             builder.Property(p => p.Gender).IsRequired();
             builder.Property(p => p.DateOfBirth);
             builder.Property(p => p.Address);
-            builder.Property(p => p.Email);
+            builder.Property(p => p.Email).IsRequired();
             builder.Property(p => p.Phone);
             builder.ToTable("Profiles");
         }

@@ -2,6 +2,7 @@
 {
     public class Profile
     {
+        public Guid ProfileID { get; set; }
         public Guid UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -10,10 +11,8 @@
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public PatientProfile PatientProfile { get; set; }
         public SupporterProfile SupporterProfile { get; set; }
         public DoctorProfile DoctorProfile { get; set; }
-        public ICollection<FamilyProfile> FamilyProfile { get; set; }
-        public ICollection<FamilyProfile> FamilyRelationshipProfile { get; set; }
+        public HealthProfile HealthProfile { get; set; }
     }
 }

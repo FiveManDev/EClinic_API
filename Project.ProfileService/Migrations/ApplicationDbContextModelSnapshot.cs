@@ -24,7 +24,7 @@ namespace Project.ProfileService.Migrations
 
             modelBuilder.Entity("Project.ProfileService.Data.DoctorProfile", b =>
                 {
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("ProfileID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -44,33 +44,14 @@ namespace Project.ProfileService.Migrations
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserID");
+                    b.HasKey("ProfileID");
 
                     b.ToTable("DoctorProfiles", (string)null);
                 });
 
-            modelBuilder.Entity("Project.ProfileService.Data.FamilyProfile", b =>
+            modelBuilder.Entity("Project.ProfileService.Data.HealthProfile", b =>
                 {
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PatientID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Relationship")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserID", "PatientID");
-
-                    b.HasIndex("PatientID");
-
-                    b.ToTable("FamilyProfiles", (string)null);
-                });
-
-            modelBuilder.Entity("Project.ProfileService.Data.PatientProfile", b =>
-                {
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("ProfileID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BloodType")
@@ -80,17 +61,22 @@ namespace Project.ProfileService.Migrations
                     b.Property<float>("Height")
                         .HasColumnType("real");
 
+                    b.Property<Guid>("RelationshipID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<float>("Weight")
                         .HasColumnType("real");
 
-                    b.HasKey("UserID");
+                    b.HasKey("ProfileID");
 
-                    b.ToTable("PatientProfiles", (string)null);
+                    b.HasIndex("RelationshipID");
+
+                    b.ToTable("HealthProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.Profile", b =>
                 {
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("ProfileID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
@@ -102,6 +88,7 @@ namespace Project.ProfileService.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -118,14 +105,40 @@ namespace Project.ProfileService.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserID");
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ProfileID");
 
                     b.ToTable("Profiles", (string)null);
                 });
 
+            modelBuilder.Entity("Project.ProfileService.Data.Relationship", b =>
+                {
+                    b.Property<Guid>("RelationshipID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("RelationshipName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RelationshipID");
+
+                    b.ToTable("Relationships", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            RelationshipID = new Guid("13accb41-1cad-4171-85aa-f3d76464c3dc"),
+                            RelationshipName = "Me"
+                        });
+                });
+
             modelBuilder.Entity("Project.ProfileService.Data.SupporterProfile", b =>
                 {
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("ProfileID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -135,7 +148,7 @@ namespace Project.ProfileService.Migrations
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserID");
+                    b.HasKey("ProfileID");
 
                     b.ToTable("SupporterProfiles", (string)null);
                 });
@@ -144,7 +157,7 @@ namespace Project.ProfileService.Migrations
                 {
                     b.HasOne("Project.ProfileService.Data.Profile", "Profile")
                         .WithOne("DoctorProfile")
-                        .HasForeignKey("Project.ProfileService.Data.DoctorProfile", "UserID")
+                        .HasForeignKey("Project.ProfileService.Data.DoctorProfile", "ProfileID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PK_Profile_One_To_One_DoctorProfile");
@@ -152,42 +165,32 @@ namespace Project.ProfileService.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("Project.ProfileService.Data.FamilyProfile", b =>
-                {
-                    b.HasOne("Project.ProfileService.Data.Profile", "OtherProfile")
-                        .WithMany("FamilyRelationshipProfile")
-                        .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Project.ProfileService.Data.Profile", "MyProfile")
-                        .WithMany("FamilyProfile")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("MyProfile");
-
-                    b.Navigation("OtherProfile");
-                });
-
-            modelBuilder.Entity("Project.ProfileService.Data.PatientProfile", b =>
+            modelBuilder.Entity("Project.ProfileService.Data.HealthProfile", b =>
                 {
                     b.HasOne("Project.ProfileService.Data.Profile", "Profile")
-                        .WithOne("PatientProfile")
-                        .HasForeignKey("Project.ProfileService.Data.PatientProfile", "UserID")
+                        .WithOne("HealthProfile")
+                        .HasForeignKey("Project.ProfileService.Data.HealthProfile", "ProfileID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("PK_Profile_One_To_One_PatientProfile");
+                        .HasConstraintName("PK_Profile_One_To_One_HealthProfile");
+
+                    b.HasOne("Project.ProfileService.Data.Relationship", "Relationship")
+                        .WithMany("HealthProfiles")
+                        .HasForeignKey("RelationshipID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("PK_Relationship_One_To_Many_HealthProfiles");
 
                     b.Navigation("Profile");
+
+                    b.Navigation("Relationship");
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.SupporterProfile", b =>
                 {
                     b.HasOne("Project.ProfileService.Data.Profile", "Profile")
                         .WithOne("SupporterProfile")
-                        .HasForeignKey("Project.ProfileService.Data.SupporterProfile", "UserID")
+                        .HasForeignKey("Project.ProfileService.Data.SupporterProfile", "ProfileID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PK_Profile_One_To_One_SupporterProfile");
@@ -199,13 +202,14 @@ namespace Project.ProfileService.Migrations
                 {
                     b.Navigation("DoctorProfile");
 
-                    b.Navigation("FamilyProfile");
-
-                    b.Navigation("FamilyRelationshipProfile");
-
-                    b.Navigation("PatientProfile");
+                    b.Navigation("HealthProfile");
 
                     b.Navigation("SupporterProfile");
+                });
+
+            modelBuilder.Entity("Project.ProfileService.Data.Relationship", b =>
+                {
+                    b.Navigation("HealthProfiles");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,5 +3,5 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Project.ProfileService.Commands
 {
-    public record SignInCommand() : IRequest<ObjectResult>;
+    public record CreateProfileCommands() : IRequest<ObjectResult>;
 }

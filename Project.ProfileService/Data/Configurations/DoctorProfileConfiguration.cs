@@ -9,8 +9,8 @@ namespace Project.IdentityService.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<DoctorProfile> builder)
         {
-            builder.HasKey(p => p.UserID);
-            builder.Property(p => p.UserID).IsRequired();
+            builder.HasKey(p => p.ProfileID);
+            builder.Property(p => p.ProfileID).IsRequired();
             builder.Property(p => p.Title).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.WorkStart).IsRequired();
@@ -18,7 +18,7 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(p => p.Quality).IsRequired();
             builder.HasOne(p => p.Profile)
                   .WithOne(dp => dp.DoctorProfile)
-                  .HasForeignKey<DoctorProfile>(p => p.UserID)
+                  .HasForeignKey<DoctorProfile>(p => p.ProfileID)
                   .HasConstraintName("PK_Profile_One_To_One_DoctorProfile")
                   .OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("DoctorProfiles");

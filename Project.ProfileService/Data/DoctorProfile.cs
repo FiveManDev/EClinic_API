@@ -2,7 +2,7 @@
 {
     public class DoctorProfile
     {
-        public Guid UserID { get; set; }
+        public Guid ProfileID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime WorkStart { get; set; }
