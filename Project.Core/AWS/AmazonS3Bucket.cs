@@ -210,7 +210,7 @@ namespace Project.Core.AWS
                 };
 
                 var result = await s3Client.DeleteObjectAsync(deleteRequest);
-                if (result.HttpStatusCode != System.Net.HttpStatusCode.OK)
+                if (result.HttpStatusCode != System.Net.HttpStatusCode.NoContent)
                 {
                     throw new Exception("Delete file failed");
                 }

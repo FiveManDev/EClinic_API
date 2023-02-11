@@ -2,6 +2,6 @@
 {
     public class Bucket
     {
-        public const string BucketName = "EclinicBucket";
+        public const string BucketName = "eclinicbucket";
     }
 }

@@ -6,9 +6,9 @@
         public const string Supporter = "Supporter";
         public const string Doctor = "Doctor";
         public const string User = "User";
-        public const string IDAdmin = "Ad";
-        public const string IDSupporter = "Sp";
-        public const string IDDoctor = "Dt";
-        public const string IDUser = "user";
+        public const string IDAdmin = "AD";
+        public const string IDSupporter = "SP";
+        public const string IDDoctor = "DT";
+        public const string IDUser = "US";
     }
 }

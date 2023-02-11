@@ -1,3 +1,4 @@
+using Project.Core.AWS;
 using Project.Core.Caching;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRedisCache(builder.Configuration);
+builder.Services.AddAWSS3Bucket(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
