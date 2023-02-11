@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
+using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
@@ -12,11 +13,12 @@ namespace Project.ForumService.Handlers.CommentHandlers
     {
         private readonly IMongoDBRepository<Comment> repository;
         private readonly IMapper mapper;
-
-        public CreateReplyCommentHandler(IMongoDBRepository<Comment> repository, IMapper mapper)
+        private readonly ILogger<CreateReplyCommentHandler> logger;
+        public CreateReplyCommentHandler(IMongoDBRepository<Comment> repository, IMapper mapper, ILogger<CreateReplyCommentHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(CreateReplyCommentCommands request, CancellationToken cancellationToken)
@@ -35,8 +37,9 @@ namespace Project.ForumService.Handlers.CommentHandlers
                 await repository.UpdateAsync(comment);
                 return ApiResponse.Created("Create Reply Comment Succes");
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

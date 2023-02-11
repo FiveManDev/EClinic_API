@@ -33,7 +33,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProfileService", "ProfileService", "{7F92F78F-0749-436C-990E-B51CCB219FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.ProfileService", "Project.ProfileService\Project.ProfileService.csproj", "{EA777619-E17F-4B1A-A0E6-B0E61977167F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.ProfileService", "Project.ProfileService\Project.ProfileService.csproj", "{EA777619-E17F-4B1A-A0E6-B0E61977167F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

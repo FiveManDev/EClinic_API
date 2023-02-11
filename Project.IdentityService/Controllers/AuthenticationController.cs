@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Core.Caching.Attributes;
-using Project.Core.Model;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
@@ -27,20 +26,9 @@ namespace Project.IdentityService.Controllers
             return await mediator.Send(new SignInCommand(signInDtos));
         }
         [HttpGet]
-        public async Task<IActionResult> RefreshToken([FromHeader] string AccessToken, [FromHeader] string RefreshToken)
+        public async Task<IActionResult> RefreshToken([FromHeader] string RefreshToken)
         {
-            TokenModel Token = new TokenModel { AccessToken= AccessToken ,RefreshToken = RefreshToken};
-            return await mediator.Send(new RefreshTokenCommand(Token));
-        }
-        [HttpGet]
-        [Cache(1000)]
-        public async Task<IActionResult> GetID()
-        {
-            await Task.CompletedTask; 
-            return ApiResponse.OK<User>(new Data.User
-            {
-                UserName = "Khang"
-            });
+            return await mediator.Send(new RefreshTokenCommand(RefreshToken));
         }
     }
 }

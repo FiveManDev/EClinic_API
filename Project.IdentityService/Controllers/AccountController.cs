@@ -34,42 +34,23 @@ namespace Project.IdentityService.Controllers
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideDoctorAccount(ProvideAccount provideAccount)
+        public async Task<IActionResult> ProvideAccount([FromBody] Guid UserID)
         {
-            return await mediator.Send(new ProvideAccountCommand(provideAccount, RoleConstants.IDDoctor));
+            return await mediator.Send(new ProvideAccountCommand(UserID));
 
-        }
-        [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideSupportAccount(ProvideAccount provideAccount)
-        {
-            return await mediator.Send(new ProvideAccountCommand(provideAccount, RoleConstants.IDSupporter));
-
-        }
-        [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideAdminAccount(ProvideAccount provideAccount)
-        {
-
-            return await mediator.Send(new ProvideAccountCommand(provideAccount, RoleConstants.IDAdmin));
         }
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDtos changePasswordDtos)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
-            if (userId == null)
-            {
-                return ApiResponse.NotFound("Account not found.");
-            }
             return await mediator.Send(new ChangePasswordCommand(changePasswordDtos, userId));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        [ServiceFilter(typeof(NotFoundIdFilter<IUserRepository, User>))]
-        public async Task<IActionResult> ChangeStatus([FromBody] AccountStatusDtos accountStatusDtos)
+        public async Task<IActionResult> ChangeStatus(Guid UserID)
         {
-            return await mediator.Send(new ChangeStatusCommand(accountStatusDtos));
+            return await mediator.Send(new ChangeStatusCommand(UserID));
         }
 
     }

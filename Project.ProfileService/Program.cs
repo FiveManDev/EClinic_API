@@ -6,6 +6,7 @@ using Project.Core.MediatR;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
 using Project.ProfileService.Data.Configurations;
+using Project.ProfileService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,7 @@ builder.Services.AddMyMapper();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
-
+builder.Services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,11 +43,15 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMySwagger();
 }
-
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors(CorsName);
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<ProfileDataService>();
+});
 app.MapControllers();
 
 app.Run();

@@ -12,7 +12,7 @@ using Project.ProfileService.Data.Configurations;
 namespace Project.ProfileService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230208183007_Initial")]
+    [Migration("20230211160009_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,6 +84,10 @@ namespace Project.ProfileService.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Avatar")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfBirth")

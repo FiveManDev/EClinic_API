@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Common.Security;
+using Project.Core.Logger;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Repository.UserRepository;
 namespace Project.IdentityService.Handlers.Account
@@ -9,10 +10,12 @@ namespace Project.IdentityService.Handlers.Account
     public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, ObjectResult>
     {
         private readonly IUserRepository userRepository;
+        private readonly ILogger<ChangePasswordHandler> logger;
 
-        public ChangePasswordHandler(IUserRepository userRepository)
+        public ChangePasswordHandler(IUserRepository userRepository, ILogger<ChangePasswordHandler> logger)
         {
             this.userRepository = userRepository;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
@@ -51,9 +54,9 @@ namespace Project.IdentityService.Handlers.Account
                     return ApiResponse.BadRequest("Incorrect password!");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

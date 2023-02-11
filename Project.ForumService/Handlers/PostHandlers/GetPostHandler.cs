@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Project.Common.Response;
+using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
@@ -15,11 +16,12 @@ namespace Project.ForumService.Handlers.PostHandlers
     {
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
-
-        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper)
+        private readonly ILogger<GetCommentHandler> logger;
+        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetCommentHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(GetPostQuery request, CancellationToken cancellationToken)
@@ -39,8 +41,9 @@ namespace Project.ForumService.Handlers.PostHandlers
                 }
                 return ApiResponse.OK(postDtos);
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

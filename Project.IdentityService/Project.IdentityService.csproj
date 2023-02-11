@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\account.proto" />
+    <None Remove="Protos\profile.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.21.12" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.51.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,6 +27,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Project.Core\Project.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\account.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\profile.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

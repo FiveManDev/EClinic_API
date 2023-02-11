@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
+using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
@@ -11,10 +12,11 @@ namespace Project.ForumService.Handlers.AnswersHandlers
     public class LikeAnswerHandler : IRequestHandler<LikeAnswerCommands, ObjectResult>
     {
         private readonly IMongoDBRepository<Answer> repository;
-
-        public LikeAnswerHandler(IMongoDBRepository<Answer> repository)
+        private readonly ILogger<LikeAnswerHandler> logger;
+        public LikeAnswerHandler(IMongoDBRepository<Answer> repository, ILogger<LikeAnswerHandler> logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(LikeAnswerCommands request, CancellationToken cancellationToken)
@@ -42,8 +44,9 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                 return ApiResponse.OK("Update Like Answer Success");
 
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

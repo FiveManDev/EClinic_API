@@ -27,6 +27,11 @@ namespace Project.Core.Caching.Service
             return cacheResponse;
         }
 
+        public async Task RemoveCacheAsync(string cacheKey)
+        {
+            await distributedCache.RemoveAsync(cacheKey);
+        }
+
         public async Task SetCacheResponseAsync(string cacheKey, object response, TimeSpan timeOut)
         {
             if (response == null)

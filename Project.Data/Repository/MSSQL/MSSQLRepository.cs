@@ -34,6 +34,19 @@ namespace Project.Data.Repository.MSSQL
             return Convert.ToBoolean(result);
         }
 
+        public async Task<TEntity> CreateEntityAsync(TEntity entity)
+        {
+            await dbSet.AddAsync(entity);
+            var result = await dbContext.SaveChangesAsync();
+            var check = Convert.ToBoolean(result);
+            if (check)
+            {
+                return entity;
+            }
+            return null;
+            
+        }
+
         public async Task<bool> CreateRangeAsync(List<TEntity> entities)
         {
             await dbSet.AddRangeAsync(entities);

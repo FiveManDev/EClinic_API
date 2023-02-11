@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
+using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
@@ -13,11 +14,13 @@ namespace Project.ForumService.Handlers.PostHandlers
     {
         private readonly IMongoDBRepository<Answer> repository;
         private readonly IMapper mapper;
+        private readonly ILogger<CreateAnswerHandler> logger;
 
-        public CreateAnswerHandler(IMongoDBRepository<Answer> repository, IMapper mapper)
+        public CreateAnswerHandler(IMongoDBRepository<Answer> repository, IMapper mapper, ILogger<CreateAnswerHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(CreateAnswerCommands request, CancellationToken cancellationToken)
@@ -30,8 +33,9 @@ namespace Project.ForumService.Handlers.PostHandlers
                 await repository.CreateAsync(answer);
                 return ApiResponse.Created("Create Answer Succes");
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

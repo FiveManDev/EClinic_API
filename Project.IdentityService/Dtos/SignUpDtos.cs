@@ -17,8 +17,10 @@ namespace Project.IdentityService.Dtos
         [Required, EmailAddress]
         public string Email { get; set; }
         [Required]
+        [StringLength(maximumLength: 20, MinimumLength = 6)]
         public string Password { get; set; }
         [Required]
+        [StringLength(maximumLength: 20, MinimumLength = 6)]
         public string ConfirmPassword { get; set; }
     }
 }

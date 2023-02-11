@@ -11,6 +11,7 @@ namespace Project.Data.Repository.MSSQL
         Task<bool> AnyAsync(Guid ID);
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filters);
         Task<int> CountAsync(Expression<Func<TEntity, bool>> filters);
+        Task<TEntity> CreateEntityAsync(TEntity entity);
         Task<bool> CreateAsync(TEntity entity);
         Task<bool> CreateRangeAsync(List<TEntity> entities);
         Task<bool> UpdateAsync(TEntity entity);

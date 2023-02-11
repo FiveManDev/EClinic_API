@@ -1,22 +1,22 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
+using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
-using Project.ForumService.Dtos.PostsDtos;
-using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.AnswersHandlers
 {
     public class UpdateAnswerHandler : IRequestHandler<UpdateAnswerCommands, ObjectResult>
     {
         private readonly IMongoDBRepository<Answer> repository;
+        private readonly ILogger<UpdateAnswerHandler> logger;
 
-        public UpdateAnswerHandler(IMongoDBRepository<Answer> repository)
+        public UpdateAnswerHandler(IMongoDBRepository<Answer> repository, ILogger<UpdateAnswerHandler> logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(UpdateAnswerCommands request, CancellationToken cancellationToken)
@@ -35,8 +35,9 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                 await repository.UpdateAsync(answer);
                 return ApiResponse.OK("Update Answer Success.");
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

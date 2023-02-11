@@ -1,24 +1,21 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
+using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
-using Project.ForumService.Dtos.CommentsDtos;
-using Project.ForumService.Dtos.PostsDtos;
-using Project.ForumService.Queries;
-using System.Xml.Linq;
 
 namespace Project.ForumService.Handlers.CommentHandlers
 {
     public class UpdateReplyCommentHandler : IRequestHandler<UpdateReplyCommentCommands, ObjectResult>
     {
         private readonly IMongoDBRepository<Comment> repository;
-
-        public UpdateReplyCommentHandler(IMongoDBRepository<Comment> repository)
+        private readonly ILogger<UpdateReplyCommentHandler> logger;
+        public UpdateReplyCommentHandler(IMongoDBRepository<Comment> repository, ILogger<UpdateReplyCommentHandler> logger)
         {
             this.repository = repository;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(UpdateReplyCommentCommands request, CancellationToken cancellationToken)
@@ -41,8 +38,9 @@ namespace Project.ForumService.Handlers.CommentHandlers
                 await repository.UpdateAsync(comment);
                 return ApiResponse.OK("Update Comment Success.");
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
             }
         }

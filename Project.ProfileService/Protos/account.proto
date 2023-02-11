@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "Project.ProfileService.Protos";
+
+service AccountService  {
+  rpc CreateAccount (CreateAccountRequest) returns (AccountResponse);
+}
+
+message CreateAccountRequest  {
+  string Email = 1;
+  string Role = 2;
+}
+message AccountResponse  {
+  bool isSuccess = 1;
+  string UserID = 2;
+}
