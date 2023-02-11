@@ -10,6 +10,7 @@ namespace Project.Core.AWS
 {
     public interface IAmazonS3Bucket
     {
+        Task<List<string>> GetAllKeyAsync();
         Task<string> GetFileAsync(string Key);
         Task<List<string>> GetManyFileAsync(List<string> Keys);
         Task<string> UploadFileAsync(IFormFile File, FileType FileType);

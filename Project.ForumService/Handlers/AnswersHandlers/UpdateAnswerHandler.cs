@@ -31,7 +31,6 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                 answer.Content = request.UpdateAnswerDtos.Content;
                 answer.Tag = request.UpdateAnswerDtos.Tag;
                 answer.UpdatedAt = DateTime.Now;
-                // Sử lý lưu image
                 await repository.UpdateAsync(answer);
                 return ApiResponse.OK("Update Answer Success.");
             }

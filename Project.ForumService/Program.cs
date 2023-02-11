@@ -1,4 +1,5 @@
 using Project.Core.Authentication;
+using Project.Core.AWS;
 using Project.Core.Cors;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
@@ -24,7 +25,7 @@ builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
 builder.Services.AddMyMediatR();
 builder.Services.AddMyMapper();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAWSS3Bucket(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
 var app = builder.Build();

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Project.Common.Response;
+using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
@@ -17,11 +18,14 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
         private readonly ILogger<GetCommentHandler> logger;
-        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetCommentHandler> logger)
+        private readonly IAmazonS3Bucket bucket;
+
+        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetCommentHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
+            this.bucket = bucket;
         }
 
         public async Task<ObjectResult> Handle(GetPostQuery request, CancellationToken cancellationToken)
@@ -35,9 +39,14 @@ namespace Project.ForumService.Handlers.PostHandlers
                 }
                 PostDtos postDtos = mapper.Map<PostDtos>(post);
                 var userID = Guid.Parse(request.UserID);
-                if(post.LikeUserIds!=null)
+                if(post.LikeUserIds.Count>0)
                 {
                     postDtos.IsLike = post.LikeUserIds.Contains(userID);
+                }
+                if (post.Image.Count > 0)
+                {
+                    var images = await bucket.GetManyFileAsync(post.Image);
+                    post.Image = images;
                 }
                 return ApiResponse.OK(postDtos);
             }

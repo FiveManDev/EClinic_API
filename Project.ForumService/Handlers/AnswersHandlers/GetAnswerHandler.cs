@@ -30,18 +30,18 @@ namespace Project.ForumService.Handlers.AnswersHandlers
         {
             try
             {
-                Answer answer = await repository.GetAsync(a=>a.PostID == request.PostID);
+                Answer answer = await repository.GetAsync(a => a.PostID == request.PostID);
                 if (answer == null)
                 {
                     return ApiResponse.NotFound("Answer Not Found.");
                 }
                 AnswerDtos answerDtos = mapper.Map<AnswerDtos>(answer);
                 var userID = Guid.Parse(request.UserID);
-                if(answer.LikeUserIds !=null)
+                if (answer.LikeUserIds.Count > 0)
                 {
                     answerDtos.IsLike = answer.LikeUserIds.Contains(userID);
                 }
-                
+
                 return ApiResponse.OK(answerDtos);
             }
             catch (Exception ex)

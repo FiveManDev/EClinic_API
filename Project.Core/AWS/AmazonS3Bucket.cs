@@ -180,7 +180,7 @@ namespace Project.Core.AWS
                     {
                         throw new Exception("File uploaded failed");
                     }
-                    Keys.Append(key);
+                    Keys.Add(key);
                 }
 
                 return Keys;
@@ -242,7 +242,7 @@ namespace Project.Core.AWS
                     };
 
                     var result = await s3Client.DeleteObjectAsync(deleteRequest);
-                    if (result.HttpStatusCode != System.Net.HttpStatusCode.OK)
+                    if (result.HttpStatusCode != System.Net.HttpStatusCode.NoContent)
                     {
                         throw new Exception("Delete file failed");
                     }
@@ -256,6 +256,31 @@ namespace Project.Core.AWS
             }
         }
 
+        public async Task<List<string>> GetAllKeyAsync()
+        {
+            try
+            {
+                var objectKeys = new List<string>();
+                var listRequest = new ListObjectsV2Request
+                {
+                    BucketName = Bucket.BucketName,
+                };
 
+                ListObjectsV2Response listResponse;
+                do
+                {
+                    listResponse = await s3Client.ListObjectsV2Async(listRequest);
+                    objectKeys.AddRange(listResponse.S3Objects.Select(x => x.Key));
+                    listRequest.ContinuationToken = listResponse.NextContinuationToken;
+                } while (listResponse.IsTruncated);
+
+                return objectKeys;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return null;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace Project.ForumService.Data
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public string[] Image { get; set; } = new string[] {};
+        public List<string> Image { get; set; } = new List<string>();
         public Guid AuthorID { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

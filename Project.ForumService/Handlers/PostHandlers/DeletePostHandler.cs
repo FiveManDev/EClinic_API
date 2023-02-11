@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
+using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
@@ -14,12 +15,15 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Answer> answerRepository;
         private readonly IMongoDBRepository<Comment> commentRepository;
         private readonly ILogger<DeleteCommentHandler> logger;
-        public DeleteCommentHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMongoDBRepository<Comment> commentRepository, ILogger<DeleteCommentHandler> logger)
+        private readonly IAmazonS3Bucket bucket;
+
+        public DeleteCommentHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMongoDBRepository<Comment> commentRepository, ILogger<DeleteCommentHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
             this.answerRepository = answerRepository;
             this.commentRepository = commentRepository;
             this.logger = logger;
+            this.bucket = bucket;
         }
 
         public async Task<ObjectResult> Handle(DeletePostCommands request, CancellationToken cancellationToken)
@@ -34,6 +38,11 @@ namespace Project.ForumService.Handlers.PostHandlers
                 var answer = await answerRepository.GetAsync(a => a.PostID == result.Id);
                 var comments = await commentRepository.GetAllAsync(c => c.PostId == result.Id);
                 await repository.RemoveAsync(request.PostID);
+                if (result.Image.Count > 0)
+                {
+                    await bucket.DeleteManyFileAsync(result.Image);
+                }
+                
                 if (answer != null)
                 {
                     await answerRepository.RemoveAsync(answer.Id);

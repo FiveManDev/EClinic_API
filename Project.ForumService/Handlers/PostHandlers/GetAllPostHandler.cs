@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Project.Common.Response;
+using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
@@ -17,13 +18,14 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
         private readonly ILogger<GetAllCommentHandler> logger;
-        public GetAllCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetAllCommentHandler> logger)
+        private readonly IAmazonS3Bucket bucket;
+        public GetAllCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetAllCommentHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
+            this.bucket = bucket;
         }
-
 
         public async Task<ObjectResult> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
         {
@@ -35,6 +37,14 @@ namespace Project.ForumService.Handlers.PostHandlers
                     return ApiResponse.NotFound("Post Not Found.");
                 }
                 List<PostDtos> postDtos = mapper.Map<List<PostDtos>>(posts);
+                foreach (PostDtos post in postDtos)
+                {
+                    if (post.Image.Count > 0)
+                    {
+                        var images = await bucket.GetManyFileAsync(post.Image);
+                        post.Image = images;
+                    }
+                }
                 return ApiResponse.OK<List<PostDtos>>(postDtos);
             }
             catch (Exception ex)
