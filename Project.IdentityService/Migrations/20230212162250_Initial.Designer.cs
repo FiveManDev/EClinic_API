@@ -12,7 +12,7 @@ using Project.IdentityService.Data.Configurations;
 namespace Project.IdentityService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230207155820_Initial")]
+    [Migration("20230212162250_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,23 +40,28 @@ namespace Project.IdentityService.Migrations
                     b.HasData(
                         new
                         {
-                            RoleID = "Ad",
+                            RoleID = "AD",
                             RoleName = "Admin"
                         },
                         new
                         {
-                            RoleID = "Sp",
+                            RoleID = "SP",
                             RoleName = "Supporter"
                         },
                         new
                         {
-                            RoleID = "Dt",
+                            RoleID = "DT",
                             RoleName = "Doctor"
                         },
                         new
                         {
-                            RoleID = "user",
+                            RoleID = "US",
                             RoleName = "User"
+                        },
+                        new
+                        {
+                            RoleID = "EP",
+                            RoleName = "Expert"
                         });
                 });
 

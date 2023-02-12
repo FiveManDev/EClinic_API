@@ -2,16 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
-using Project.Common.Enum;
-using Project.Common.Functionality;
-using Project.Common.Response;
-using Project.Common.Security;
 using Project.Core.Authentication;
-using Project.Core.Filters;
 using Project.IdentityService.Commands;
-using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
-using Project.IdentityService.Repository.UserRepository;
 
 namespace Project.IdentityService.Controllers
 {
@@ -33,10 +26,31 @@ namespace Project.IdentityService.Controllers
             return await mediator.Send(new SignUpCommand(signUpDtos));
         }
         [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideAccount([FromBody] Guid UserID)
+        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> ProvideDoctorAccount([FromBody] Guid ProfileID)
         {
-            return await mediator.Send(new ProvideAccountCommand(UserID));
+            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDUser));
+
+        }
+        [HttpPost]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> ProvideSupporterAccount([FromBody] Guid ProfileID)
+        {
+            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDSupporter));
+
+        }
+        [HttpPost]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> ProvideAdminAccount([FromBody] Guid ProfileID)
+        {
+            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDAdmin));
+
+        }
+        [HttpPost]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> ProvideExpertAccount([FromBody] Guid ProfileID)
+        {
+            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDExpert));
 
         }
         [HttpPut]
@@ -50,7 +64,8 @@ namespace Project.IdentityService.Controllers
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ChangeStatus(Guid UserID)
         {
-            return await mediator.Send(new ChangeStatusCommand(UserID));
+            return Ok();
+            //return await mediator.Send(new ChangeStatusCommand(UserID));
         }
 
     }

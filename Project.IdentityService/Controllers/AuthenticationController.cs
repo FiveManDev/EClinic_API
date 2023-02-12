@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Project.Common.Response;
-using Project.Core.Caching.Attributes;
 using Project.IdentityService.Commands;
-using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
 
 namespace Project.IdentityService.Controllers

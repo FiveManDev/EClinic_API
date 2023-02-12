@@ -50,10 +50,11 @@ namespace Project.IdentityService.Migrations
                 columns: new[] { "RoleID", "RoleName" },
                 values: new object[,]
                 {
-                    { "Ad", "Admin" },
-                    { "Dt", "Doctor" },
-                    { "Sp", "Supporter" },
-                    { "user", "User" }
+                    { "AD", "Admin" },
+                    { "DT", "Doctor" },
+                    { "EP", "Expert" },
+                    { "SP", "Supporter" },
+                    { "US", "User" }
                 });
 
             migrationBuilder.CreateIndex(

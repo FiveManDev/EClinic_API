@@ -21,7 +21,8 @@ namespace Project.IdentityService.Data.Configurations
                 new Role { RoleID = RoleConstants.IDAdmin, RoleName = RoleConstants.Admin },
                 new Role { RoleID = RoleConstants.IDSupporter, RoleName = RoleConstants.Supporter },
                 new Role { RoleID = RoleConstants.IDDoctor, RoleName = RoleConstants.Doctor },
-                new Role { RoleID = RoleConstants.IDUser, RoleName = RoleConstants.User }
+                new Role { RoleID = RoleConstants.IDUser, RoleName = RoleConstants.User },
+                new Role { RoleID = RoleConstants.IDExpert, RoleName = RoleConstants.Expert }
             );
             builder.ToTable("Roles");
 

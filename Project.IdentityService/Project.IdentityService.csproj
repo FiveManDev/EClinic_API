@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\account.proto" />
     <None Remove="Protos\profile.proto" />
   </ItemGroup>
 
@@ -30,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\account.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\profile.proto" GrpcServices="Client" />
   </ItemGroup>
 

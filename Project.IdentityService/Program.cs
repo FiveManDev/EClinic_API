@@ -12,7 +12,6 @@ using Project.IdentityService.Data;
 using Project.IdentityService.Data.Configurations;
 using Project.IdentityService.Repository.RoleRepository;
 using Project.IdentityService.Repository.UserRepository;
-using Project.IdentityService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -25,10 +24,6 @@ builder.Services.AddMyMapper();
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);
-//builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
-//{
-//    config.AddReceiveEndpoint<RabbitMQConsumer>(ExchangeConstants.IdentityService, context);
-//});
 builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
@@ -41,7 +36,6 @@ builder.Services.AddMyMediatR();
 builder.Services.AddMyMapper();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
-builder.Services.AddGrpc();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -55,8 +49,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors(CorsName);
 app.MapControllers();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapGrpcService<AccountDataService>();
-});
 app.Run();

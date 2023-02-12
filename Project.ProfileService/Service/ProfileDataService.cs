@@ -24,6 +24,25 @@ namespace Project.ProfileService.Service
             }); 
             return result;
         }
-        
+        public override Task<CheckProfileResponse> CheckProfile(CheckProfileRequest request, ServerCallContext context)
+        {
+            Console.WriteLine(request.ProfileID);
+            var result = Task.FromResult(new CheckProfileResponse
+            {
+                IsSuccess = true,
+                Email = "Test@gmail.com"
+            });
+            return result;
+        }
+        public override Task<UpdateProfileResponse> UpdateProfile(ProfileUpdateRequest request, ServerCallContext context)
+        {
+            Console.WriteLine(request.UserID);
+            Console.WriteLine(request.ProfileID);
+            var result = Task.FromResult(new UpdateProfileResponse
+            {
+                IsSuccess = true,
+            });
+            return result;
+        }
     }
 }

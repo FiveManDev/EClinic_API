@@ -38,23 +38,28 @@ namespace Project.IdentityService.Migrations
                     b.HasData(
                         new
                         {
-                            RoleID = "Ad",
+                            RoleID = "AD",
                             RoleName = "Admin"
                         },
                         new
                         {
-                            RoleID = "Sp",
+                            RoleID = "SP",
                             RoleName = "Supporter"
                         },
                         new
                         {
-                            RoleID = "Dt",
+                            RoleID = "DT",
                             RoleName = "Doctor"
                         },
                         new
                         {
-                            RoleID = "user",
+                            RoleID = "US",
                             RoleName = "User"
+                        },
+                        new
+                        {
+                            RoleID = "EP",
+                            RoleName = "Expert"
                         });
                 });
 
