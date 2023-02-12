@@ -133,7 +133,7 @@ namespace Project.Core.AWS
                 {
                     throw new Exception($"Bucket {bucket} does not exist.");
                 }
-                var key = string.IsNullOrEmpty(prefix) ? File.FileName : $"{prefix?.TrimEnd('/')}/{File.FileName}";
+                var key = $"{prefix?.TrimEnd('/')}/{DateTime.Now}_{File.FileName}";
                 var request = new PutObjectRequest()
                 {
                     BucketName = bucket,
@@ -168,7 +168,7 @@ namespace Project.Core.AWS
                 }
                 foreach (var File in Files)
                 {
-                    var key = string.IsNullOrEmpty(prefix) ? File.FileName : $"{prefix?.TrimEnd('/')}/{File.FileName}";
+                    var key = $"{prefix?.TrimEnd('/')}/{DateTime.Now}_{File.FileName}";
                     var request = new PutObjectRequest()
                     {
                         BucketName = bucket,

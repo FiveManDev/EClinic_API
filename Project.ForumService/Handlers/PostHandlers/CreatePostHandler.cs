@@ -17,7 +17,7 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMapper mapper;
         private readonly ILogger<CreateCommentHandler> logger;
         private readonly IAmazonS3Bucket bucket;
-        public CreateCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<CreateCommentHandler> logger,IAmazonS3Bucket bucket)
+        public CreateCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<CreateCommentHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -32,7 +32,8 @@ namespace Project.ForumService.Handlers.PostHandlers
                 Post post = mapper.Map<Post>(request.createPostDtos);
                 post.CreatedAt = DateTime.Now;
                 post.UpdatedAt = DateTime.Now;
-                post.Image = await bucket.UploadManyFileAsync(request.createPostDtos.Images,FileType.Image);
+                post.IsActive = false;
+                post.Image = await bucket.UploadManyFileAsync(request.createPostDtos.Images, FileType.Image);
                 await repository.CreateAsync(post);
                 return ApiResponse.Created("Create Answer Succes");
 

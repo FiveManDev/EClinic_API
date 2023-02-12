@@ -6,7 +6,7 @@ namespace Project.ForumService.Dtos.AnswersDtos
     {
         public Guid PostID { get; set; }
         public string Content { get; set; }
-        public List<string> Tag { get; set; }
+        public List<Guid> Tags { get; set; }
         public Guid AuthorID { get; set; }
     }
 }

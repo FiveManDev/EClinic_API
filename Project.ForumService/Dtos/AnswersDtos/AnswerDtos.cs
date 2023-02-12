@@ -1,4 +1,5 @@
 ﻿using Project.ForumService.Data;
+using Project.ForumService.Dtos.HashtagDtos;
 
 namespace Project.ForumService.Dtos.AnswersDtos
 {
@@ -6,7 +7,7 @@ namespace Project.ForumService.Dtos.AnswersDtos
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
-        public List<string> Tag { get; set; }
+        public List<Guid> Tags { get; set; }
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
         public Guid AuthorID { get; set; }

@@ -12,6 +12,7 @@ namespace Project.Data.Repository.MongoDB
         Task CreateAsync(T entity);
         Task CreateManyAsync(List<T> entity);
         Task UpdateAsync(T entity);
+        Task UpdateManyAsync(List<T> entities);
         Task RemoveAsync(Guid id);
         Task RemoveAsync(Expression<Func<T, bool>> filter);
         Task RemoveManyAsync(List<Guid> id);

@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Constants;
+using Project.Core.Authentication;
 using Project.ForumService.Commands;
 using Project.ForumService.Dtos.AnswersDtos;
 using Project.ForumService.Queries;
@@ -18,32 +20,32 @@ namespace Project.ForumService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetAnswerByID(Guid PostID)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
             return await mediator.Send(new GetAnswerQuery(PostID, userId));
         }
         [HttpPost]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerDtos createAnswerDtos)
         {
             return await mediator.Send(new CreateAnswerCommands(createAnswerDtos));
         }
         [HttpPut]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> UpdateAnswer([FromBody] UpdateAnswerDtos updateAnswerDtos)
         {
             return await mediator.Send(new UpdateAnswerCommands(updateAnswerDtos));
         }
         [HttpDelete]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.User })]
         public async Task<IActionResult> DeleteAnswerByID(Guid AnswerID)
         {
             return await mediator.Send(new DeleteAnswerCommands(AnswerID));
         }
         [HttpPut]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User })]
         public async Task<IActionResult> LikeAnswer(Guid AnswerID)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;

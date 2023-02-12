@@ -13,14 +13,16 @@ namespace Project.ForumService.Handlers.PostHandlers
     public class CreateAnswerHandler : IRequestHandler<CreateAnswerCommands, ObjectResult>
     {
         private readonly IMongoDBRepository<Answer> repository;
+        private readonly IMongoDBRepository<Hashtag> hashtagrepository;
         private readonly IMapper mapper;
         private readonly ILogger<CreateAnswerHandler> logger;
 
-        public CreateAnswerHandler(IMongoDBRepository<Answer> repository, IMapper mapper, ILogger<CreateAnswerHandler> logger)
+        public CreateAnswerHandler(IMongoDBRepository<Answer> repository, IMapper mapper, ILogger<CreateAnswerHandler> logger, IMongoDBRepository<Hashtag> hashtagrepository)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
+            this.hashtagrepository = hashtagrepository;
         }
 
         public async Task<ObjectResult> Handle(CreateAnswerCommands request, CancellationToken cancellationToken)
@@ -30,6 +32,16 @@ namespace Project.ForumService.Handlers.PostHandlers
                 Answer answer = mapper.Map<Answer>(request.CreateAnswerDtos);
                 answer.CreatedAt = DateTime.Now;
                 answer.UpdatedAt = DateTime.Now;
+                var hashtags = new List<Hashtag>();
+                foreach (Guid tag in answer.Tags)
+                {
+                    hashtags.Add(await hashtagrepository.GetAsync(tag));
+                }
+                foreach (Hashtag tag in hashtags)
+                {
+                    tag.Count = ++tag.Count;
+                }
+                await hashtagrepository.UpdateManyAsync(hashtags);
                 await repository.CreateAsync(answer);
                 return ApiResponse.Created("Create Answer Succes");
             }

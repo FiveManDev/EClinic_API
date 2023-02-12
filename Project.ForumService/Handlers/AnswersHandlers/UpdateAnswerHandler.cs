@@ -29,7 +29,7 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                     return ApiResponse.NotFound("Answer not found");
                 }
                 answer.Content = request.UpdateAnswerDtos.Content;
-                answer.Tag = request.UpdateAnswerDtos.Tag;
+                answer.Tags = request.UpdateAnswerDtos.Tags;
                 answer.UpdatedAt = DateTime.Now;
                 await repository.UpdateAsync(answer);
                 return ApiResponse.OK("Update Answer Success.");

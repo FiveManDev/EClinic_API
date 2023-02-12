@@ -4,6 +4,6 @@
     {
         public Guid AnswerID { get; set; }
         public string Content { get; set; }
-        public List<string> Tag { get; set; }
+        public List<Guid> Tags { get; set; }
     }
 }

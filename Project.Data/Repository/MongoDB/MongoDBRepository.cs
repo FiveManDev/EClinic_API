@@ -55,6 +55,18 @@ namespace Project.Data.Repository.MongoDB
             FilterDefinition<T> filter = filterBuilder.Eq(existingEntity => existingEntity.Id, entity.Id);
             await dbCollection.ReplaceOneAsync(filter, entity);
         }
+        public async Task UpdateManyAsync(List<T> entities)
+        {
+            if (entities == null || !entities.Any())
+            {
+                throw new ArgumentNullException(nameof(entities));
+            }
+            foreach(var entity in entities)
+            {
+                FilterDefinition<T> filter = filterBuilder.Eq(existingEntity => existingEntity.Id, entity.Id);
+                await dbCollection.ReplaceOneAsync(filter, entity);
+            }
+        }
         public async Task RemoveAsync(Guid id)
         {
             FilterDefinition<T> filter = filterBuilder.Eq(entity => entity.Id, id);

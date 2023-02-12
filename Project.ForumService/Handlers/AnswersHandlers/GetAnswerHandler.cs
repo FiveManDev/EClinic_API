@@ -8,6 +8,7 @@ using Project.Data.Repository.MongoDB;
 using Project.ForumService.Commands;
 using Project.ForumService.Data;
 using Project.ForumService.Dtos.AnswersDtos;
+using Project.ForumService.Dtos.HashtagDtos;
 using Project.ForumService.Dtos.PostsDtos;
 using Project.ForumService.Queries;
 
@@ -16,12 +17,14 @@ namespace Project.ForumService.Handlers.AnswersHandlers
     public class GetAnswerHandler : IRequestHandler<GetAnswerQuery, ObjectResult>
     {
         private readonly IMongoDBRepository<Answer> repository;
+        private readonly IMongoDBRepository<Hashtag> hashTagRepository;
         private readonly IMapper mapper;
         private readonly ILogger<GetAnswerHandler> logger;
 
-        public GetAnswerHandler(IMongoDBRepository<Answer> repository, IMapper mapper, ILogger<GetAnswerHandler> logger)
+        public GetAnswerHandler(IMongoDBRepository<Answer> repository, IMongoDBRepository<Hashtag> hashTagRepository, IMapper mapper, ILogger<GetAnswerHandler> logger)
         {
             this.repository = repository;
+            this.hashTagRepository = hashTagRepository;
             this.mapper = mapper;
             this.logger = logger;
         }
@@ -41,7 +44,6 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                 {
                     answerDtos.IsLike = answer.LikeUserIds.Contains(userID);
                 }
-
                 return ApiResponse.OK(answerDtos);
             }
             catch (Exception ex)

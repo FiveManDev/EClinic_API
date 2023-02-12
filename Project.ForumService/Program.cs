@@ -20,7 +20,8 @@ var mongoDbSettings = builder.Configuration.GetSection("EClinicDB:DatabaseName")
 builder.Services.AddMongoDB(serviceSettings, mongoDbSettings)
     .AddMongoDBRepository<Post>(collectionNames[0])
     .AddMongoDBRepository<Answer>(collectionNames[1])
-    .AddMongoDBRepository<Comment>(collectionNames[2]);
+    .AddMongoDBRepository<Comment>(collectionNames[2])
+    .AddMongoDBRepository<Hashtag>(collectionNames[3]);
 builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
 builder.Services.AddMyMediatR();

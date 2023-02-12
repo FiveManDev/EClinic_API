@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.ForumService.Dtos.AnswersDtos;
 using Project.ForumService.Dtos.CommentsDtos;
+using Project.ForumService.Dtos.HashtagDtos;
 using Project.ForumService.Dtos.PostsDtos;
 
 namespace Project.ForumService.Commands
@@ -11,6 +12,7 @@ namespace Project.ForumService.Commands
     public record UpdatePostCommands(UpdatePostDtos updatePostDtos) : IRequest<ObjectResult>;
     public record DeletePostCommands(Guid PostID) : IRequest<ObjectResult>;
     public record LikePostCommands(Guid PostID, string UserID) : IRequest<ObjectResult>;
+    public record AcceptPostCommands(Guid PostID) : IRequest<ObjectResult>;
     #endregion
     #region AnswerCommands
     public record CreateAnswerCommands(CreateAnswerDtos CreateAnswerDtos) : IRequest<ObjectResult>;
@@ -27,5 +29,10 @@ namespace Project.ForumService.Commands
     public record DeleteReplyCommentCommands(Guid ParentCommentID, Guid CommentID) : IRequest<ObjectResult>;
     public record LikeCommentCommands(Guid CommentID, string UserID) : IRequest<ObjectResult>;
     public record LikeReplyCommentCommands(Guid ParentCommentID, Guid CommentID, string UserID) : IRequest<ObjectResult>;
+    #endregion
+    #region HashtagCommands
+    public record CreateHashtagCommands(string HashtagName) : IRequest<ObjectResult>;
+    public record UpdateHashtagCommands(UpdateHashtagDtos UpdateHashtagDtos) : IRequest<ObjectResult>;
+    public record DeleteHashtagCommands(Guid HashtagID) : IRequest<ObjectResult>;
     #endregion
 }
