@@ -64,8 +64,7 @@ namespace Project.IdentityService.Controllers
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ChangeStatus(Guid UserID)
         {
-            return Ok();
-            //return await mediator.Send(new ChangeStatusCommand(UserID));
+            return await mediator.Send(new ChangeStatusCommand(UserID));
         }
 
     }

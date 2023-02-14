@@ -11,8 +11,6 @@ services:
       - "80"
       - "1111:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ~/.aspnet/https:/https:ro
   project.apigateways:
     environment:
@@ -24,6 +22,4 @@ services:
       - "80"
       - "8888:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ~/.aspnet/https:/https:ro

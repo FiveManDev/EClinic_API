@@ -5,6 +5,7 @@ using Project.IdentityService.Dtos;
 namespace Project.IdentityService.Commands
 {
     public record SignInCommand(SignInDtos SignInDtos) : IRequest<ObjectResult>;
+    public record SignInWithGoogleCommand(string GoogleAccessToken) : IRequest<ObjectResult>;
     public record SignUpCommand(SignUpDtos SignUpDtos) : IRequest<ObjectResult>;
     public record ProvideAccountCommand(Guid ProfileID, string Role) : IRequest<ObjectResult>;
     public record RefreshTokenCommand(string RefreshToken) : IRequest<ObjectResult>;

@@ -22,6 +22,11 @@ namespace Project.IdentityService.Controllers
         {
             return await mediator.Send(new SignInCommand(signInDtos));
         }
+        [HttpPost]
+        public async Task<IActionResult> SignInWithGoogle([FromBody] string GoogleAccessToken)
+        {
+            return await mediator.Send(new SignInWithGoogleCommand(GoogleAccessToken));
+        }
         [HttpGet]
         public async Task<IActionResult> RefreshToken([FromHeader] string RefreshToken)
         {

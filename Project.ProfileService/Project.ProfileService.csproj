@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Consumer\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Dtos\DoctorProfile\" />
     <Folder Include="Handlers\" />
     <Folder Include="Repository\" />
   </ItemGroup>
