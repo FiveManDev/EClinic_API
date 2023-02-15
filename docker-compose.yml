@@ -6,7 +6,7 @@ services:
     container_name: sqlserver
     networks:
       eclinic:
-        ipv4_address: 172.20.0.8
+        ipv4_address: 172.20.0.1
     ports:
      - "1444:1433"
     environment:
@@ -17,15 +17,15 @@ services:
     container_name: mongodb
     networks:
       eclinic:
-        ipv4_address: 172.20.0.9
+        ipv4_address: 172.20.0.2
     ports:
-     - "27017:27017"
+     - "27018:27017"
   redis:
     image: "redis:latest"
     container_name: redis
     networks:
       eclinic:
-        ipv4_address: 172.20.0.11
+        ipv4_address: 172.20.0.3
     ports:
      - "6379:6379"
   rabbitmq:
@@ -33,7 +33,7 @@ services:
     container_name: rabbitmq
     networks:
       eclinic:
-        ipv4_address: 172.20.0.10
+        ipv4_address: 172.20.0.4
     hostname: rabbitmq
     ports:
       - "5672:5672"
@@ -48,7 +48,7 @@ services:
       dockerfile: Project.IdentityService/Dockerfile
     networks:
       eclinic:
-        ipv4_address: 172.20.0.12
+        ipv4_address: 172.20.0.5
   project.apigateways:
     image: ${DOCKER_REGISTRY-}projectapigateways
     build:
@@ -63,7 +63,25 @@ services:
       dockerfile: Project.ProfileService/Dockerfile
     networks:
       eclinic:
-        ipv4_address: 172.20.0.14
+        ipv4_address: 172.20.0.6
+
+  project.forumservice:
+    image: ${DOCKER_REGISTRY-}projectforumservice
+    build:
+      context: .
+      dockerfile: Project.ForumService/Dockerfile
+
+  project.notificationservice:
+    image: ${DOCKER_REGISTRY-}projectnotificationservice
+    build:
+      context: .
+      dockerfile: Project.NotificationService/Dockerfile
+
+  project.testservice:
+    image: ${DOCKER_REGISTRY-}projecttestservice
+    build:
+      context: .
+      dockerfile: Project.TestService/Dockerfile
 
 networks:
   eclinic:
@@ -71,4 +89,7 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/24
+
+
+
 
