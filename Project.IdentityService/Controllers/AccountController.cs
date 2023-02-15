@@ -26,7 +26,7 @@ namespace Project.IdentityService.Controllers
             return await mediator.Send(new SignUpCommand(signUpDtos));
         }
         [HttpPost]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ProvideDoctorAccount([FromBody] Guid ProfileID)
         {
             return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDUser));
