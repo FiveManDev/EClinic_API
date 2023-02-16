@@ -1,10 +1,21 @@
 ﻿using Grpc.Core;
+using MediatR;
 using Project.ProfileService.Protos;
+using Project.ProfileService.Repository.ProfileRepository;
 
 namespace Project.ProfileService.Service
 {
     public class ProfileDataService : Protos.ProfileService.ProfileServiceBase
     {
+        private readonly IMediator mediator;
+        private readonly ILogger<ProfileDataService> logger;
+        private readonly IProfileRepository profileRepository;
+        public ProfileDataService(IMediator mediator, ILogger<ProfileDataService> logger)
+        {
+            this.mediator = mediator;
+            this.logger = logger;
+        }
+
         public override Task<ProfileResponse> CreateProfile(ProfileCreateRequest request, ServerCallContext context)
         {
             Console.WriteLine(request.LastName);

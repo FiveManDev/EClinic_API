@@ -61,7 +61,7 @@ namespace Project.IdentityService.Handlers.Account
                 var response = await client.CreateProfileAsync(new ProfileCreateRequest
                 {
                     UserID = result.UserID.ToString(),
-                    Email = request.SignUpDtos.Email,
+                    Email = request.SignUpDtos.Email.ToLower(),
                     FirstName = request.SignUpDtos.FirstName,
                     LastName = request.SignUpDtos.LastName,
                     Gender = request.SignUpDtos.Gender,

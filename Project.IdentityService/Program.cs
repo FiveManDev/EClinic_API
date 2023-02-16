@@ -18,8 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"))
 );
-
-builder.Logging.AddLogger(builder.Configuration);
 builder.Services.AddMyMapper();
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";

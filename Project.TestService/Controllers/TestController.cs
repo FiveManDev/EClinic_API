@@ -12,31 +12,31 @@ namespace Project.TestService.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        //    private readonly IAmazonS3Bucket bucket;
+           private readonly IAmazonS3Bucket bucket;
 
-        //    public TestController(IAmazonS3Bucket bucket)
-        //    {
-        //        this.bucket = bucket;
-        //    }
+           public TestController(IAmazonS3Bucket bucket)
+           {
+               this.bucket = bucket;
+           }
 
-        //    [HttpPost]
-        //    public async Task<IActionResult> Upload( IFormFile file)
-        //    {
-        //        var x = await bucket.UploadFileAsync(file, FileType.Image);
-        //        return Ok(x);
-        //    }
-        //    [HttpGet]
-        //    public async Task<IActionResult> GetUrl(string  key)
-        //    {
-        //        var x = await bucket.GetFileAsync(key);
-        //        return Ok(x);
-        //    }
-        //    [HttpDelete]
-        //    public async Task<IActionResult> DeleteFile(string key)
-        //    {
-        //        var x = await bucket.DeleteFileAsync(key);
-        //        return Ok(x);
-        //    }
+           [HttpPost]
+           public async Task<IActionResult> Upload( IFormFile file)
+           {
+               var x = await bucket.UploadFileAsync(file, FileType.Image);
+               return Ok(x);
+           }
+           [HttpGet]
+           public async Task<IActionResult> GetUrl(string  key)
+           {
+               var x = await bucket.GetFileAsync(key);
+               return Ok(x);
+           }
+           [HttpDelete]
+           public async Task<IActionResult> DeleteFile(string key)
+           {
+               var x = await bucket.DeleteFileAsync(key);
+               return Ok(x);
+           }
         [HttpGet]
         public IActionResult PaswordGenerate(string password)
         {
