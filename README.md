@@ -1,8 +1,8 @@
-<!-- <div align="center">
-  <a href="https://github.com/hoangkhang12789/NHK_MP3/blob/main/assets/image/avataSmall.jpg">
+<div align="center">
+  <a href="https://github.com/FiveManDev/EClinic_API/blob/main/Images/logo.svg">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
-</div> -->
+</div>
 
 # Running ASP.NET Core with Docker for EClinic API
 This guide will show you how to run an EClinic API built with ASP.NET Core using Docker.
