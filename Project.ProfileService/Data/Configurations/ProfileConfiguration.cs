@@ -13,7 +13,7 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(p => p.UserID).IsRequired();
             builder.Property(p => p.FirstName).IsRequired();
             builder.Property(p => p.LastName).IsRequired();
-            builder.Property(p => p.Avatar).IsRequired();
+            builder.Property(p => p.Avatar);
             builder.Property(p => p.Gender).IsRequired();
             builder.Property(p => p.DateOfBirth);
             builder.Property(p => p.Address);

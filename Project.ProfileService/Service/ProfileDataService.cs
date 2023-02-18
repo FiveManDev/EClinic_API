@@ -10,10 +10,12 @@ namespace Project.ProfileService.Service
         private readonly IMediator mediator;
         private readonly ILogger<ProfileDataService> logger;
         private readonly IProfileRepository profileRepository;
-        public ProfileDataService(IMediator mediator, ILogger<ProfileDataService> logger)
+
+        public ProfileDataService(IMediator mediator, ILogger<ProfileDataService> logger, IProfileRepository profileRepository)
         {
             this.mediator = mediator;
             this.logger = logger;
+            this.profileRepository = profileRepository;
         }
 
         public override Task<ProfileResponse> CreateProfile(ProfileCreateRequest request, ServerCallContext context)
@@ -25,35 +27,50 @@ namespace Project.ProfileService.Service
             });
             return result;
         }
-        public override Task<ProfileResponse> CheckEmail(CheckEmailRequest request, ServerCallContext context)
+        public override async Task<ProfileResponse> CheckEmail(CheckEmailRequest request, ServerCallContext context)
         {
-            Console.WriteLine(request.Email);
-            var result = Task.FromResult(new ProfileResponse
+            var result = await profileRepository.GetAsync(x => x.Email == request.Email);
+            var res = new ProfileResponse();
+            if (result == null)
             {
-                IsSuccess = true,
-                UserID = Guid.NewGuid().ToString()
-            }); 
-            return result;
+                res.IsSuccess = true;
+                return res;
+            }
+            res.IsSuccess = false;
+            res.UserID = result.UserID.ToString();
+            return res;
         }
-        public override Task<CheckProfileResponse> CheckProfile(CheckProfileRequest request, ServerCallContext context)
+        public override async Task<CheckProfileResponse> CheckProfile(CheckProfileRequest request, ServerCallContext context)
         {
-            Console.WriteLine(request.ProfileID);
-            var result = Task.FromResult(new CheckProfileResponse
+            var result = await profileRepository.GetAsync(Guid.Parse(request.ProfileID));
+            var res = new CheckProfileResponse();
+            if (result == null)
             {
-                IsSuccess = true,
-                Email = "Test@gmail.com"
-            });
-            return result;
+                res.IsSuccess = false;
+                return res;
+            }
+            res.IsSuccess = true;
+            res.Email = result.Email;
+            return res;
         }
-        public override Task<UpdateProfileResponse> UpdateProfile(ProfileUpdateRequest request, ServerCallContext context)
+        public override async Task<UpdateProfileResponse> UpdateProfile(ProfileUpdateRequest request, ServerCallContext context)
         {
-            Console.WriteLine(request.UserID);
-            Console.WriteLine(request.ProfileID);
-            var result = Task.FromResult(new UpdateProfileResponse
+            var profile = await profileRepository.GetAsync(Guid.Parse(request.ProfileID));
+            var res = new UpdateProfileResponse();
+            if (profile == null)
             {
-                IsSuccess = true,
-            });
-            return result;
+                res.IsSuccess = false;
+                return res;
+            }
+            profile.UserID = Guid.Parse(request.UserID);
+            var result = await profileRepository.UpdateAsync(profile);
+            if (!result)
+            {
+                res.IsSuccess = false;
+                return res;
+            }
+            res.IsSuccess = true;
+            return res;
         }
     }
 }

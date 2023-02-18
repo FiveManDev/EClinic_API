@@ -6,7 +6,7 @@ services:
     container_name: sqlserver
     networks:
       eclinic:
-        ipv4_address: 172.20.0.1 
+        ipv4_address: 172.20.0.32
     ports:
      - "1444:1433"
     environment:

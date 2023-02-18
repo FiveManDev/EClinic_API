@@ -1,6 +1,6 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Project.Core.Authentication;
+using Project.Core.AWS;
 using Project.Core.Cors;
 using Project.Core.Filters;
 using Project.Core.Mapper;
@@ -21,7 +21,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"))
 );
-builder.Services.AddMyMapper();
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);
@@ -35,6 +34,7 @@ builder.Services.AddScoped(typeof(NotFoundIdFilter<IProfileRepository, Project.P
 builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
 builder.Services.AddMyMediatR();
+builder.Services.AddAWSS3Bucket(builder.Configuration);
 builder.Services.AddMyMapper();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

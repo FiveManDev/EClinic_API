@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Consumer\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Repository\" />
+    <Folder Include="Handlers\DoctorProfileHandlers\" />
+    <Folder Include="Handlers\AdminProfileHandlers\" />
+    <Folder Include="Handlers\SupporterProfileHandlers\" />
   </ItemGroup>
 
   <ItemGroup>
