@@ -11,15 +11,18 @@ This guide will show you how to run an EClinic API built with ASP.NET Core using
 * cmd
 ```sh
 dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p Eclinic123
+  ```
+* cmd
+```sh
 dotnet dev-certs https --trust
   ```
-### 3. AWS Local Configuration profile
+### 2. AWS Local Configuration profile
 * Download AWS CLI here: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
  ```sh
 aws configure --profile "eclinic"
   ```
 * This is just for our identification. With that, you will be prompted to enter the access id and the secret.
-### 4. Run Docker Compose
+### 3. Run Docker Compose
 * Build docker compose.
  ```sh
 docker compose build
@@ -32,14 +35,14 @@ docker compose up
  ```sh
 docker compose up -d
   ```
-### 5 Install dotnet ef tool
+### 4 Install dotnet ef tool
 * cmd
 ```sh
 dotnet tool install --global dotnet-ef --version 6.*
   ```
-### 6 Instal sqlcmd command
+### 5 Instal sqlcmd command
 * In windows when you install sql server you will have sqlcmd command
-### 7 Run file bat
+### 6 Run file bat
 * In the `bash` folder double click on the file `EClinic.bat` or open a terminal there and run the command.
  ```sh
  .\EClinic.bat
@@ -51,6 +54,9 @@ dotnet tool install --global dotnet-ef --version 6.*
 * shell
 ```sh
 sudo dotnet dev-certs https -ep .aspnet/https/aspnetapp.pfx -p Eclinic123
+  ```
+* shell
+```sh
 dotnet dev-certs https --trust
   ```
 ### 2. Run Docker Compose
