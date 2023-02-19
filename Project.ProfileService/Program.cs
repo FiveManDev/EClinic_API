@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
+using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.Core.AWS;
 using Project.Core.Cors;
 using Project.Core.Filters;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
+using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
+using Project.ProfileService.Consumer;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Repository.DoctorProfileRepository;
 using Project.ProfileService.Repository.HealthProfileRepository;
@@ -17,10 +20,13 @@ using Project.ProfileService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"))
 );
+builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
+{
+    config.AddReceiveEndpoint<DeleteProfileConsumer>(ExchangeConstants.ProfileService, context);
+});
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);

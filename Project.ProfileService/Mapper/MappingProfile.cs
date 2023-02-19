@@ -1,6 +1,8 @@
 ﻿using Project.ProfileService.Data;
 using Project.ProfileService.Dtos.DoctorProfile;
+using Project.ProfileService.Dtos.Profile;
 using Project.ProfileService.Dtos.UserProfile;
+using System.Diagnostics;
 
 namespace Project.ProfileService.Mapper
 {
@@ -52,6 +54,8 @@ namespace Project.ProfileService.Mapper
                     opt => opt.MapFrom(src => src.DoctorProfile.Quality)
                 )
                 .ReverseMap();
+            CreateMap<Profile, SimpleProfileDtos>()               
+               .ReverseMap();
         }
     }
 }

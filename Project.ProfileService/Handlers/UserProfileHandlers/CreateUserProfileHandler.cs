@@ -50,13 +50,17 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                     profile.Avatar = null;
                 }
                 var result = await profileRepository.CreateEntityAsync(profile);
+                if (result == null)
+                {
+                    throw new Exception("Create Profile Error");
+                }
                 var health = new HealthProfile
                 {
                     ProfileID = result.ProfileID,
                     BloodType = request.CreateUserProfileDtos.BloodType,
                     Height = request.CreateUserProfileDtos.Height,
                     Weight = request.CreateUserProfileDtos.Weight,
-                    RelationshipID = Data.Configurations.Data.MyRelationshipID
+                    RelationshipID = Data.Configurations.ConstantsData.MyRelationshipID
                 };
                 var healthResult = await healthProfileRepository.CreateAsync(health);
                 if (!healthResult)

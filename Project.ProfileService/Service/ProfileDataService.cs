@@ -1,31 +1,51 @@
 ﻿using Grpc.Core;
-using MediatR;
+using Project.ProfileService.Data;
+using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Protos;
+using Project.ProfileService.Repository.HealthProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
 namespace Project.ProfileService.Service
 {
     public class ProfileDataService : Protos.ProfileService.ProfileServiceBase
     {
-        private readonly IMediator mediator;
-        private readonly ILogger<ProfileDataService> logger;
         private readonly IProfileRepository profileRepository;
+        private readonly IHealthProfileRepository healthProfileRepository;
 
-        public ProfileDataService(IMediator mediator, ILogger<ProfileDataService> logger, IProfileRepository profileRepository)
+        public ProfileDataService(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository)
         {
-            this.mediator = mediator;
-            this.logger = logger;
             this.profileRepository = profileRepository;
+            this.healthProfileRepository = healthProfileRepository;
         }
 
-        public override Task<ProfileResponse> CreateProfile(ProfileCreateRequest request, ServerCallContext context)
+        public override async Task<ProfileResponse> CreateProfile(ProfileCreateRequest request, ServerCallContext context)
         {
-            Console.WriteLine(request.LastName);
-            var result = Task.FromResult(new ProfileResponse
+            var profile = new Profile
             {
-                IsSuccess = true
-            });
-            return result;
+                UserID = Guid.Parse(request.UserID),
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                DateOfBirth = request.DateOfBirth.ToDateTime(),
+                Gender = request.Gender,
+                Email = request.Email
+            };
+            var result = await profileRepository.CreateEntityAsync(profile);
+            var res = new ProfileResponse();
+            if (result == null)
+            {
+                res.IsSuccess = false;
+                return res;
+            }
+            var health = new HealthProfile { ProfileID = result.ProfileID, RelationshipID = ConstantsData.MyRelationshipID };
+            var healthResult = await healthProfileRepository.CreateAsync(health);
+            if (!healthResult)
+            {
+                await profileRepository.DeleteAsync(profile);
+                res.IsSuccess = false;
+                return res;
+            }
+            res.IsSuccess = true;
+            return res;
         }
         public override async Task<ProfileResponse> CheckEmail(CheckEmailRequest request, ServerCallContext context)
         {

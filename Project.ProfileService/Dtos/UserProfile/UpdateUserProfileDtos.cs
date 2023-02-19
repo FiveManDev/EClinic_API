@@ -1,8 +1,10 @@
-﻿namespace Project.ProfileService.Dtos.UserProfile
+﻿using Project.ProfileService.Data;
+
+namespace Project.ProfileService.Dtos.UserProfile
 {
-    public class CreateUserProfileDtos
+    public class UpdateUserProfileDtos
     {
-        public Guid UserID { get; set; }
+        public Guid ProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IFormFile Avatar { get; set; }
@@ -14,5 +16,6 @@
         public string BloodType { get; set; }
         public float Height { get; set; }
         public float Weight { get; set; }
+        public Guid RelationshipID { get; set; }
     }
 }

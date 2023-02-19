@@ -29,13 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Handlers\DoctorProfileHandlers\" />
-    <Folder Include="Handlers\AdminProfileHandlers\" />
-    <Folder Include="Handlers\SupporterProfileHandlers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Protobuf Include="Protos\profile.proto" GrpcServices="Server" />
   </ItemGroup>
 

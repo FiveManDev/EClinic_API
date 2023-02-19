@@ -15,7 +15,7 @@ namespace Project.ProfileService.Data.Configurations
                    .HasForeignKey(hp => hp.RelationshipID)
                    .HasConstraintName("PK_Relationship_One_To_Many_HealthProfiles")
                    .OnDelete(DeleteBehavior.Cascade);
-            builder.HasData(new Relationship { RelationshipID = Data.MyRelationshipID, RelationshipName = Data.MyRelationshipName });
+            builder.HasData(new Relationship { RelationshipID = ConstantsData.MyRelationshipID, RelationshipName = ConstantsData.MyRelationshipName });
             builder.ToTable("Relationships");
         }
     }

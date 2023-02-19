@@ -5,6 +5,7 @@
         Image,
         Video,
         Docs,
+        Default,
         OtherFile
     }
 }

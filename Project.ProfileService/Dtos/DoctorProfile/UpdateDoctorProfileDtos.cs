@@ -1,8 +1,8 @@
-﻿namespace Project.ProfileService.Dtos.UserProfile
+﻿namespace Project.ProfileService.Dtos.DoctorProfile
 {
-    public class CreateUserProfileDtos
+    public class UpdateDoctorProfileDtos
     {
-        public Guid UserID { get; set; }
+        public Guid ProfileID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IFormFile Avatar { get; set; }
@@ -11,8 +11,9 @@
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string BloodType { get; set; }
-        public float Height { get; set; }
-        public float Weight { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime WorkStart { get; set; }
+        public Guid SpecializationID { get; set; }
     }
 }

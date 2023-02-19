@@ -28,7 +28,7 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetAllCommentQuery(PostID, userId));
         }
         [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
+        //[CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> CreateComment([FromBody] CreateCommentDtos createCommentDtos)
         {
             return await mediator.Send(new CreateCommentCommands(createCommentDtos));

@@ -22,7 +22,7 @@ builder.Services.AddMongoDB(serviceSettings, mongoDbSettings)
     .AddMongoDBRepository<Answer>(collectionNames[1])
     .AddMongoDBRepository<Comment>(collectionNames[2])
     .AddMongoDBRepository<Hashtag>(collectionNames[3]);
-builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
+//builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
 builder.Services.AddMyMediatR();
 builder.Services.AddMyMapper();

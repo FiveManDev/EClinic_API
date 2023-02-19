@@ -18,6 +18,12 @@ namespace Project.Data.Extensions
             services.AddSingleton(serviceProvider =>
             {
                 var mongoClient = new MongoClient(connectionURI);
+                var databaseExists = mongoClient.ListDatabaseNames().ToList().Contains(databaseName);
+
+                if (!databaseExists)
+                {
+                    mongoClient.GetDatabase(databaseName);
+                }
                 return mongoClient.GetDatabase(databaseName);
             });
 
@@ -30,6 +36,12 @@ namespace Project.Data.Extensions
             services.AddSingleton<IMongoDBRepository<T>>(serviceProvider =>
             {
                 var database = serviceProvider.GetService<IMongoDatabase>();
+                var collectionExists = database.ListCollectionNames().ToList().Contains(collectionName);
+
+                if (!collectionExists)
+                {
+                    database.CreateCollection(collectionName);
+                }
                 return new MongoDBRepository<T>(database, collectionName);
             });
 

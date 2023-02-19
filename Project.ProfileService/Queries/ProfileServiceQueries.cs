@@ -1,6 +1,8 @@
-﻿namespace Project.ProfileService.Queries
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Project.ProfileService.Dtos.UserProfile;
+
+namespace Project.ProfileService.Queries
 {
-    public class ProfileServiceQueries
-    {
-    }
+    public record GetSimpleProfileQuery(Guid ProfileID) : IRequest<ObjectResult>;
 }
