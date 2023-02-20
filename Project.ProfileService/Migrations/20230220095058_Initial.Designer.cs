@@ -12,7 +12,7 @@ using Project.ProfileService.Data.Configurations;
 namespace Project.ProfileService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230219135653_Initial")]
+    [Migration("20230220095058_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,6 @@ namespace Project.ProfileService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BloodType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Height")

@@ -55,7 +55,6 @@ namespace Project.ProfileService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BloodType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Height")

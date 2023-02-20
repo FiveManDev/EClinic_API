@@ -11,9 +11,9 @@ namespace Project.IdentityService.Data.Configurations
         {
             builder.HasKey(p => p.ProfileID);
             builder.Property(p => p.ProfileID).IsRequired();
-            builder.Property(p => p.BloodType).IsRequired();
-            builder.Property(p => p.Height).IsRequired();
-            builder.Property(p => p.Weight).IsRequired();
+            builder.Property(p => p.BloodType);
+            builder.Property(p => p.Height);
+            builder.Property(p => p.Weight);
             builder.Property(p => p.RelationshipID).IsRequired();
             builder.HasOne(p => p.Profile)
                    .WithOne(pp => pp.HealthProfile)

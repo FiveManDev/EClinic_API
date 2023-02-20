@@ -15,7 +15,7 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(p => p.LastName).IsRequired();
             builder.Property(p => p.Avatar);
             builder.Property(p => p.Gender).IsRequired();
-            builder.Property(p => p.DateOfBirth);
+            builder.Property(p => p.DateOfBirth).IsRequired();
             builder.Property(p => p.Address);
             builder.Property(p => p.Email).IsRequired();
             builder.Property(p => p.Phone);

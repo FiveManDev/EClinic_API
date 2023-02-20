@@ -87,7 +87,7 @@ namespace Project.ProfileService.Migrations
                 columns: table => new
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BloodType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BloodType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Height = table.Column<float>(type: "real", nullable: false),
                     Weight = table.Column<float>(type: "real", nullable: false),
                     RelationshipID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
