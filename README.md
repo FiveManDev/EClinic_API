@@ -59,7 +59,13 @@ sudo dotnet dev-certs https -ep .aspnet/https/aspnetapp.pfx -p Eclinic123
 ```sh
 dotnet dev-certs https --trust
   ```
-### 2. Run Docker Compose
+### 2. AWS Local Configuration profile
+* Download AWS CLI here: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+ ```sh
+aws configure --profile "eclinic"
+  ```
+* This is just for our identification. With that, you will be prompted to enter the access id and the secret.
+### 3. Run Docker Compose
 * Build docker compose.
  ```sh
 docker compose build
@@ -72,18 +78,18 @@ docker compose up
  ```sh
 docker compose up -d
   ```
-### 3. AWS Local Configuration profile
-* Download AWS CLI here: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
- ```sh
-aws configure --profile "eclinic"
-  ```
-* This is just for our identification. With that, you will be prompted to enter the access id and the secret.
+
 ### 4 Install dotnet ef tool
 * shell
 ```sh
 dotnet tool install --global dotnet-ef
   ```
 ### 5 Instal sqlcmd command
+* For mac
+ ```
+ brew install sqlcmd
+  ```
+* For Linux
  ```
  sudo apt-get install mssql-tools
   ```
