@@ -20,14 +20,12 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
         private readonly IProfileRepository profileRepository;
         private readonly IMapper mapper;
         private readonly ILogger<GetSimpleProfileHandler> logger;
-        private readonly IBus bus;
 
-        public GetSimpleProfileHandler(IProfileRepository profileRepository, IMapper mapper, ILogger<GetSimpleProfileHandler> logger, IBus bus)
+        public GetSimpleProfileHandler(IProfileRepository profileRepository, IMapper mapper, ILogger<GetSimpleProfileHandler> logger)
         {
             this.profileRepository = profileRepository;
             this.mapper = mapper;
             this.logger = logger;
-            this.bus = bus;
         }
 
         public async Task<ObjectResult> Handle(GetSimpleProfileQuery request, CancellationToken cancellationToken)
@@ -40,7 +38,6 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
                 var sampleProfile = mapper.Map<SimpleProfileDtos>(profile);
-                await bus.SendMessage<DeleteProfileEvents>(new DeleteProfileEvents { UserID = request.ProfileID }, ExchangeConstants.IdentityService);
                 return ApiResponse.OK<SimpleProfileDtos>(sampleProfile);
                 
             }

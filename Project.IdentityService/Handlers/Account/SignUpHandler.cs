@@ -28,7 +28,9 @@ namespace Project.IdentityService.Handlers.Account
         {
             this.userRepository = userRepository;
             this.configuration = configuration;
-            channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"));
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new ProfileService.ProfileServiceClient(channel);
             this.logger = logger;
         }
