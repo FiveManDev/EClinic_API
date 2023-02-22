@@ -1,12 +1,50 @@
 {
   "Routes": [
-    //Identity Service Start
     {
       "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "172.20.0.12",
+          "Host": "172.20.0.5",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.7",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.8",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.9",
           "Port": 443
         }
       ],
@@ -14,7 +52,6 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DangerousAcceptAnyServerCertificateValidator": true
     }
-    //Identity Service End
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:8888"
