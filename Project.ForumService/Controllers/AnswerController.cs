@@ -27,25 +27,25 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetAnswerQuery(PostID, userId));
         }
         [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]
         public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerDtos createAnswerDtos)
         {
             return await mediator.Send(new CreateAnswerCommands(createAnswerDtos));
         }
         [HttpPut]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]
         public async Task<IActionResult> UpdateAnswer([FromBody] UpdateAnswerDtos updateAnswerDtos)
         {
             return await mediator.Send(new UpdateAnswerCommands(updateAnswerDtos));
         }
         [HttpDelete]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor })]
         public async Task<IActionResult> DeleteAnswerByID(Guid AnswerID)
         {
             return await mediator.Send(new DeleteAnswerCommands(AnswerID));
         }
         [HttpPut]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> LikeAnswer(Guid AnswerID)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
