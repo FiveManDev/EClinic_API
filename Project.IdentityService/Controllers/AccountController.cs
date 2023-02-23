@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
+using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Dtos;
+using Project.IdentityService.Queries;
 
 namespace Project.IdentityService.Controllers
 {
@@ -18,6 +20,12 @@ namespace Project.IdentityService.Controllers
         public AccountController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUsers([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchUserDtos searchUserDtos)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize= PageSize,PageNumber = PageNumber };
+            return await mediator.Send(new GetAllUserQuery(paginationRequestHeader, searchUserDtos, Response));
         }
 
         [HttpPost]
