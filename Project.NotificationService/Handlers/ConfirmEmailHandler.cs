@@ -9,23 +9,23 @@ using Project.NotificationService.Service;
 
 namespace Project.NotificationService.Handlers
 {
-    public class VerifyEmailHandler : IRequestHandler<VerifyEmailCommand, ObjectResult>
+    public class ConfirmEmailHandler : IRequestHandler<ConfirmEmailCommand, ObjectResult>
     {
-        private readonly ILogger<VerifyEmailHandler> logger;
+        private readonly ILogger<ConfirmEmailHandler> logger;
         private readonly IMailService mailService;
 
-        public VerifyEmailHandler(ILogger<VerifyEmailHandler> logger, IMailService mailService)
+        public ConfirmEmailHandler(ILogger<ConfirmEmailHandler> logger, IMailService mailService)
         {
             this.logger = logger;
             this.mailService = mailService;
         }
 
-        public async Task<ObjectResult> Handle(VerifyEmailCommand request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var code = RandomText.RandomByNumberOfCharacters(6, RandomType.Number);
-                mailService.VerifyEmail(request.email, code);
+                mailService.ConfirmEmail(request.email, code);
                 await Task.Delay(0);
                 return ApiResponse.OK<string>(code);
             }

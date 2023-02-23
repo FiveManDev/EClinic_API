@@ -20,5 +20,10 @@ namespace Project.NotificationService.Controllers
         {
             return await mediator.Send(new VerifyEmailCommand(email));
         }
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string email)
+        {
+            return await mediator.Send(new ConfirmEmailCommand(email));
+        }
     }
 }

@@ -1,9 +1,11 @@
 using Project.Core.Authentication;
+using Project.Core.Caching;
 using Project.Core.Cors;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
+using Project.NotificationService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);
-//builder.Services.AddRedisCache(builder.Configuration);
+builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
+builder.Services.AddTransient<IMailService,MailService>();
 builder.Services.AddMyMediatR();
-builder.Services.AddMyMapper();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
 
