@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
@@ -25,9 +26,40 @@ namespace Project.ProfileService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetSimpleProfile(Guid ProfileID)
+        [Authorize]
+        public async Task<IActionResult> GetUserProfilesByID(Guid UserID)
         {
-            return await mediator.Send(new GetSimpleProfileQuery(ProfileID));
+            return await mediator.Send(new GetUserProfilesByIDQuery(UserID));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetDoctorProfileByID(Guid UserID)
+        {
+            return await mediator.Send(new GetDoctorProfileByIDQuery(UserID));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetSupporterProfileByID(Guid UserID)
+        {
+            return await mediator.Send(new GetSupporterProfileByIDQuery(UserID));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAdminProfileByID(Guid UserID)
+        {
+            return await mediator.Send(new GetProfileByIDQuery(UserID));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetExpertProfileByID(Guid UserID)
+        {
+            return await mediator.Send(new GetProfileByIDQuery(UserID));
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetSimpleProfile(Guid UserID)
+        {
+            return await mediator.Send(new GetSimpleProfileQuery(UserID));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User })]

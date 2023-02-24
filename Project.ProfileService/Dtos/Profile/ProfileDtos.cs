@@ -1,8 +1,6 @@
-﻿using Project.ProfileService.Data;
-
-namespace Project.ProfileService.Dtos.SupporterProfile
+﻿namespace Project.ProfileService.Dtos.Profile
 {
-    public class SupporterProfileDtos
+    public class ProfileDtos
     {
         public Guid ProfileID { get; set; }
         public Guid UserID { get; set; }
@@ -14,7 +12,5 @@ namespace Project.ProfileService.Dtos.SupporterProfile
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public DateTime WorkStart { get; set; }
-        public string Description { get; set; }
     }
 }

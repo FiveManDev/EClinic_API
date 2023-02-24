@@ -4,12 +4,12 @@ using Project.Common.Paging;
 
 namespace Project.ProfileService.Queries
 {
-    public record GetSimpleProfileQuery(Guid ProfileID) : IRequest<ObjectResult>;
+    public record GetSimpleProfileQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetProfilesQuery(PaginationRequestHeader PaginationRequestHeader) : IRequest<ObjectResult>;
-    public record GetUserProfileQuery(Guid ProfileID) : IRequest<ObjectResult>;
-
-    public record GetDoctorProfileQuery(Guid ProfileID) : IRequest<ObjectResult>;
-    public record GetSupporterProfileQuery(Guid ProfileID) : IRequest<ObjectResult>;
-    public record GetProfileQuery(Guid ProfileID) : IRequest<ObjectResult>;
+    public record GetUserProfilesByIDQuery(Guid UserID) : IRequest<ObjectResult>;
+    public record GetDoctorProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
+    public record GetSupporterProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
+    public record GetProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
+    public record GetAllRelationshipQuery() : IRequest<ObjectResult>;
 
 }

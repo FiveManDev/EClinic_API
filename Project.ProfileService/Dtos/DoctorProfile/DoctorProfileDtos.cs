@@ -8,6 +8,7 @@ namespace Project.ProfileService.Dtos.DoctorProfile
         public Guid UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Avatar { get; set; }
         public bool Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
