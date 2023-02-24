@@ -24,7 +24,7 @@ namespace Project.IdentityService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchUserDtos searchUserDtos)
         {
-            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize= PageSize,PageNumber = PageNumber };
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetAllUserQuery(paginationRequestHeader, searchUserDtos, Response));
         }
 
@@ -60,6 +60,11 @@ namespace Project.IdentityService.Controllers
         {
             return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDExpert));
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+        {
+            return await mediator.Send(new ResetPasswordCommand(resetPasswordDTO));
         }
         [HttpPut]
         [Authorize]

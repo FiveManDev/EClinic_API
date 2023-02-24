@@ -14,6 +14,8 @@ namespace Project.IdentityService.Mapper
                     opt => opt.MapFrom(src => src.Role.RoleName)
                 )
                 .ReverseMap();
+            CreateMap<Role, RoleDtos>()
+                .ReverseMap();
         }
     }
 }

@@ -27,7 +27,7 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "DownstreamPathTemplate": "/api/v1/forum/{controller}/{Action}",
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -35,7 +35,7 @@
           "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "UpstreamPathTemplate": "/api/v1/forum/{controller}/{Action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DangerousAcceptAnyServerCertificateValidator": true
     },

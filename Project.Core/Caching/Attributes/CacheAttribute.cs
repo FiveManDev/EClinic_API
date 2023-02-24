@@ -25,7 +25,7 @@ namespace Project.Core.Caching.Attributes
             {
                 context.Result = new ObjectResult("Response")
                 {
-                    StatusCode = StatusCodes.Status201Created,
+                    StatusCode = StatusCodes.Status200OK,
                     Value = cacheResponse
                 }; ;
                 return;
