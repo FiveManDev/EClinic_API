@@ -21,7 +21,7 @@ namespace Project.ForumService.Controllers
         }
 
         [HttpGet]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
+        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetAllPost()
         {
             return await mediator.Send(new GetAllPostQuery());

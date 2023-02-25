@@ -33,7 +33,11 @@ namespace Project.ForumService.Handlers.PostHandlers
                 post.CreatedAt = DateTime.Now;
                 post.UpdatedAt = DateTime.Now;
                 post.IsActive = false;
-                post.Image = await bucket.UploadManyFileAsync(request.createPostDtos.Images, FileType.Image);
+                if(request.createPostDtos.Images!=null)
+                {
+                    post.Image = await bucket.UploadManyFileAsync(request.createPostDtos.Images, FileType.Image);
+                }
+
                 await repository.CreateAsync(post);
                 return ApiResponse.Created("Create Answer Succes");
 

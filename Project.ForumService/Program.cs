@@ -10,7 +10,6 @@ using Project.ForumService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Logging.AddLogger(builder.Configuration);
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);
@@ -22,7 +21,7 @@ builder.Services.AddMongoDB(serviceSettings, mongoDbSettings)
     .AddMongoDBRepository<Answer>(collectionNames[1])
     .AddMongoDBRepository<Comment>(collectionNames[2])
     .AddMongoDBRepository<Hashtag>(collectionNames[3]);
-//builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
+builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
 builder.Services.AddMyMediatR();
 builder.Services.AddMyMapper();
