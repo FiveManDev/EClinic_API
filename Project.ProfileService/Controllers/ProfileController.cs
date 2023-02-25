@@ -56,7 +56,7 @@ namespace Project.ProfileService.Controllers
             return await mediator.Send(new GetProfileByIDQuery(UserID));
         }
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetSimpleProfile(Guid UserID)
         {
             return await mediator.Send(new GetSimpleProfileQuery(UserID));

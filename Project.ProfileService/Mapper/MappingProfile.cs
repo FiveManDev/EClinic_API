@@ -70,6 +70,10 @@ namespace Project.ProfileService.Mapper
                 )
                 .ReverseMap();
             CreateMap<Profile, SimpleProfileDtos>()
+                .ForMember(
+                    des => des.AvatarKey,
+                    opt => opt.MapFrom(src => src.Avatar)
+                )
                .ReverseMap();
             CreateMap<Profile, ProfileDtos>()
              .ReverseMap();

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
+using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.ForumService.Commands;
 using Project.ForumService.Dtos.PostsDtos;
@@ -19,7 +20,12 @@ namespace Project.ForumService.Controllers
         {
             this.mediator = mediator;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetPosts([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string searchText)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostsQuery(paginationRequestHeader, searchText, Response));
+        }
         [HttpGet]
         //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetAllPost()

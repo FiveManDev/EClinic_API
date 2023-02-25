@@ -8,7 +8,7 @@ namespace Project.ForumService.Data
         [BsonId]
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Content { get; set; }
-        public Guid AuthorID { get; set; }
+        public Author Author { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<Guid> LikeUserIds { get; set; } = new List<Guid>();

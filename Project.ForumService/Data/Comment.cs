@@ -7,7 +7,7 @@ namespace Project.ForumService.Data
         public Guid Id { get; set; }
         public Guid PostId { get; set; }
         public string Content { get; set; }
-        public Guid AuthorID { get; set; }
+        public Author Author { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<Guid> LikeUserIds { get; set; } = new List<Guid>();

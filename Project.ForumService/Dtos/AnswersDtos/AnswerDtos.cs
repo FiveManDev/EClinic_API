@@ -10,7 +10,7 @@ namespace Project.ForumService.Dtos.AnswersDtos
         public List<Guid> Tags { get; set; }
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
-        public Guid AuthorID { get; set; }
+        public Author Author { get; set; }
         public int Likes { get; set; }
         public bool IsLike { get; set; }
     }

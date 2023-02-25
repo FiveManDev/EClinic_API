@@ -7,7 +7,7 @@ namespace Project.ForumService.Dtos.CommentsDtos
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
-        public Guid AuthorID { get; set; }
+        public Author Author { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         [JsonIgnore]

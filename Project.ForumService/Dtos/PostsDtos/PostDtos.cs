@@ -1,4 +1,6 @@
-﻿namespace Project.ForumService.Dtos.PostsDtos
+﻿using Project.ForumService.Data;
+
+namespace Project.ForumService.Dtos.PostsDtos
 {
     public class PostDtos
     {
@@ -6,7 +8,7 @@
         public string Title { get; set; }
         public string Content { get; set; }
         public List<string> Image { get; set; }
-        public Guid AuthorID { get; set; }
+        public Author Author { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int Likes { get; set; }
