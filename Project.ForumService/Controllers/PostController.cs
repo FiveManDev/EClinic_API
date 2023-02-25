@@ -34,7 +34,7 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetPostQuery(PostID, userId));
         }
         [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]
+        //[CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]
         public async Task<IActionResult> CreatePost([FromForm] CreatePostDtos createPostDtos)
         {
             return await mediator.Send(new CreatePostCommands(createPostDtos));
