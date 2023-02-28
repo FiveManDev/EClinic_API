@@ -14,6 +14,7 @@ using Project.IdentityService.Data;
 using Project.IdentityService.Data.Configurations;
 using Project.IdentityService.Repository.RoleRepository;
 using Project.IdentityService.Repository.UserRepository;
+using Project.IdentityService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -32,7 +33,7 @@ builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped(typeof(NotFoundIdFilter<IUserRepository, User>));
-
+builder.Services.AddGrpc();
 builder.Configuration.SetTokenOptions();
 builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 builder.Services.AddControllers();
@@ -53,4 +54,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors(CorsName);
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<UserDataService>();
+});
 app.Run();

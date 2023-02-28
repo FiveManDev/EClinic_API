@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using Grpc.Net.Client;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Response;
 using Project.Core.AWS;
@@ -7,6 +10,7 @@ using Project.Core.Logger;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Data;
 using Project.ProfileService.Handlers.UserProfileHandlers;
+using Project.ProfileService.Protos;
 using Project.ProfileService.Repository.EmployeeProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -18,13 +22,18 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
         private readonly IEmployeeProfilesRepository employeeProfilesRepository;
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<CreateUserProfileHandler> logger;
+        private readonly UserService.UserServiceClient client;
 
-        public CreateEmployeeProfileProfileDtos(IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateUserProfileHandler> logger)
+        public CreateEmployeeProfileProfileDtos(IConfiguration configuration,IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateUserProfileHandler> logger)
         {
             this.profileRepository = profileRepository;
             this.employeeProfilesRepository = employeeProfilesRepository;
             this.s3Bucket = s3Bucket;
             this.logger = logger;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new UserService.UserServiceClient(channel);
         }
 
         public async Task<ObjectResult> Handle(CreateEmployeeProfileCommands request, CancellationToken cancellationToken)
@@ -50,6 +59,12 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                 {
                     profile.Avatar = null;
                 }
+                var userRes = await client.CreateUserAsync(new CreateUserRequest { Email = profile.Email, Role = RoleConstants.Doctor });
+                if (!userRes.IsSuccess)
+                {
+                    return ApiResponse.InternalServerError();
+                }
+                profile.UserID = Guid.Parse(userRes.UserID);
                 var result = await profileRepository.CreateEntityAsync(profile);
                 if (result == null)
                 {

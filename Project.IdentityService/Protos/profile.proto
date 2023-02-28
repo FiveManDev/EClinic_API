@@ -1,16 +1,19 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 option csharp_namespace = "Project.IdentityService.Protos";
-package profile;
 
 service ProfileService  {
-  rpc CreateProfile (ProfileCreateRequest) returns (ProfileResponse);
-  rpc CheckEmail (CheckEmailRequest) returns (ProfileResponse);
-  rpc CheckProfile (CheckProfileRequest) returns (CheckProfileResponse);
-  rpc UpdateProfile (ProfileUpdateRequest) returns (UpdateProfileResponse);
+  rpc EmailIsExist (CheckEmailRequest) returns (EmailExistResponse);
+  rpc CreateProfile (CreateProfileRequest) returns (CreateProfileResponse);
 }
-
-message ProfileCreateRequest  {
+message CheckEmailRequest  {
+  string Email = 1;
+}
+message EmailExistResponse  {
+  bool IsExist = 1;
+  string UserID = 2;
+}
+message CreateProfileRequest  {
   string UserID= 1;
   string FirstName = 2;
   string LastName = 3;
@@ -18,25 +21,6 @@ message ProfileCreateRequest  {
   bool Gender = 5;
   string Email = 6;
 }
-message ProfileUpdateRequest  {
-  string UserID = 1;
-  string ProfileID = 2;
-
-}
-message CheckEmailRequest  {
-  string Email = 1;
-}
-message CheckProfileRequest  {
-  string ProfileID = 1;
-}
-message ProfileResponse  {
-  bool isSuccess = 1;
-  string UserID = 2;
-}
-message CheckProfileResponse  {
-  bool isSuccess = 1;
-  string Email = 2;
-}
-message UpdateProfileResponse  {
-  bool isSuccess = 1;
+message CreateProfileResponse  {
+  bool IsSuccess = 1;
 }

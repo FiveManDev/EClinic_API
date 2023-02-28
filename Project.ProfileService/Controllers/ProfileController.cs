@@ -63,7 +63,8 @@ namespace Project.ProfileService.Controllers
         [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> CreateUserProfile([FromForm] CreateUserProfileDtos createUserProfileDtos)
         {
-            return await mediator.Send(new CreateUserProfileCommands(createUserProfileDtos));
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new CreateUserProfileCommands(createUserProfileDtos, userId));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
@@ -75,19 +76,19 @@ namespace Project.ProfileService.Controllers
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> CreateSupporterProfile([FromForm] CreateEmployeeProfileDtos createSupporterProfileDtos)
         {
-            return await mediator.Send(new CreateEmployeeProfileCommands(createSupporterProfileDtos));
+            return await mediator.Send(new CreateEmployeeProfileCommands(createSupporterProfileDtos, RoleConstants.Supporter));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> CreateAdminProfile([FromForm] CreateEmployeeProfileDtos createEmployeeProfileDtos)
         {
-            return await mediator.Send(new CreateEmployeeProfileCommands(createEmployeeProfileDtos));
+            return await mediator.Send(new CreateEmployeeProfileCommands(createEmployeeProfileDtos, RoleConstants.Admin));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> CreateExpertProfile([FromForm] CreateEmployeeProfileDtos createEmployeeProfileDtos)
         {
-            return await mediator.Send(new CreateEmployeeProfileCommands(createEmployeeProfileDtos));
+            return await mediator.Send(new CreateEmployeeProfileCommands(createEmployeeProfileDtos, RoleConstants.Expert));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User })]

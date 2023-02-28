@@ -32,7 +32,7 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
             {
                 var profile = new Profile
                 {
-                    UserID = Guid.Empty,
+                    UserID = Guid.Parse(request.UserID),
                     Address = request.CreateUserProfileDtos.Address,
                     DateOfBirth = request.CreateUserProfileDtos.DateOfBirth,
                     FirstName = request.CreateUserProfileDtos.FirstName,

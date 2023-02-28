@@ -22,9 +22,7 @@ namespace Project.IdentityService.Handlers.Authentication
         private readonly IUserRepository userRepository;
         private readonly IRoleRepository roleRepository;
         private readonly ILogger<SignInHandler> logger;
-        private readonly GrpcChannel channel;
         private readonly ProfileService.ProfileServiceClient profileClient;
-        private readonly IConfiguration configuration;
 
 
         public SignInWithGoogleHandler(IConfiguration configuration, IUserRepository userRepository, IRoleRepository roleRepository, ILogger<SignInHandler> logger)
@@ -32,10 +30,9 @@ namespace Project.IdentityService.Handlers.Authentication
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
             this.logger = logger;
-            this.configuration = configuration;
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             profileClient = new ProfileService.ProfileServiceClient(channel);
         }
 
@@ -47,8 +44,8 @@ namespace Project.IdentityService.Handlers.Authentication
                 client.BaseAddress = new Uri($"https://www.googleapis.com/oauth2/v1/userinfo?{request.GoogleAccessToken}");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.GoogleAccessToken);
                 var result = await client.GetFromJsonAsync<GoogleUser>(client.BaseAddress);
-                var checkEmail = await profileClient.CheckEmailAsync(new CheckEmailRequest { Email = result.Email });
-                if (!checkEmail.IsSuccess)
+                var checkEmail = await profileClient.EmailIsExistAsync(new CheckEmailRequest { Email = result.Email });
+                if (checkEmail.IsExist)
                 {
                     var userID = Guid.Parse(checkEmail.UserID);
                     var user = await userRepository.GetAsync(userID);
@@ -64,7 +61,7 @@ namespace Project.IdentityService.Handlers.Authentication
                 {
                     return ApiResponse.InternalServerError();
                 }
-                var response = await profileClient.CreateProfileAsync(new ProfileCreateRequest
+                var response = await profileClient.CreateProfileAsync(new CreateProfileRequest
                 {
                     UserID = res.UserID.ToString(),
                     Email = result.Email,

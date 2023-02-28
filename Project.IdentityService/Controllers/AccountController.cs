@@ -35,30 +35,30 @@ namespace Project.IdentityService.Controllers
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideDoctorAccount([FromBody] Guid ProfileID)
+        public async Task<IActionResult> ProvideDoctorAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDUser));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDDoctor)));
 
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideSupporterAccount([FromBody] Guid ProfileID)
+        public async Task<IActionResult> ProvideSupporterAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDSupporter));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDSupporter)));
 
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideAdminAccount([FromBody] Guid ProfileID)
+        public async Task<IActionResult> ProvideAdminAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDAdmin));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDAdmin)));
 
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideExpertAccount([FromBody] Guid ProfileID)
+        public async Task<IActionResult> ProvideExpertAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(ProfileID, RoleConstants.IDExpert));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDExpert)));
 
         }
         [HttpPost]

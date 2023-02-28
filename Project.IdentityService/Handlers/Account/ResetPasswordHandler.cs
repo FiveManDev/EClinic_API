@@ -5,26 +5,21 @@ using Project.Common.Response;
 using Project.Common.Security;
 using Project.Core.Logger;
 using Project.IdentityService.Commands;
-using Project.IdentityService.Dtos;
 using Project.IdentityService.Protos;
 using Project.IdentityService.Repository.UserRepository;
-using System.Reflection;
 
 namespace Project.IdentityService.Handlers.Account
 {
     public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, ObjectResult>
     {
         private readonly IUserRepository userRepository;
-        private readonly GrpcChannel channel;
         private readonly ProfileService.ProfileServiceClient client;
-        private readonly IConfiguration configuration;
         private readonly ILogger<ResetPasswordHandler> logger;
 
         public ResetPasswordHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<ResetPasswordHandler> logger)
         {
             this.userRepository = userRepository;
-            this.configuration = configuration;
-            channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"));
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"));
             client = new ProfileService.ProfileServiceClient(channel);
             this.logger = logger;
         }
@@ -33,8 +28,8 @@ namespace Project.IdentityService.Handlers.Account
         {
             try
             {
-                var resultCheckMail = await client.CheckEmailAsync(new CheckEmailRequest { Email = request.ResetPasswordDTO.Email });
-                if (!resultCheckMail.IsSuccess)
+                var resultCheckMail = await client.EmailIsExistAsync(new CheckEmailRequest { Email = request.ResetPasswordDTO.Email });
+                if (!resultCheckMail.IsExist)
                 {
                     return ApiResponse.NotFound("Account not found");
                 }
