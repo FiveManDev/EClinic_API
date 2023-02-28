@@ -31,7 +31,7 @@ namespace Project.ProfileService.Repository.ProfileRepository
             return result;
         }
 
-        public async Task<Profile> GetSupporterProfileAsync(Guid UserID)
+        public async Task<Profile> GetEmployeeProfileAsync(Guid UserID)
         {
             var result = await context.Profiles.Include(x => x.SupporterProfile).SingleOrDefaultAsync(x => x.UserID == UserID);
             return result;

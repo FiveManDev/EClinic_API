@@ -36,7 +36,7 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
                 var profileDtos = mapper.Map<ProfileDtos>(profiles);
-                //profileDtos.Avatar = await s3Bucket.GetUrl(profileDtos.Avatar);
+                profileDtos.Avatar = await s3Bucket.GetUrl(profileDtos.Avatar);
                 return ApiResponse.OK<ProfileDtos>(profileDtos);
             }
             catch (Exception ex)

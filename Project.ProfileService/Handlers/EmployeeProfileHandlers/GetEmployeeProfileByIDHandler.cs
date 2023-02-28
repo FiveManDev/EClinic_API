@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
+using Project.ProfileService.Dtos.EmployeeProfile;
+using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -28,14 +30,14 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
         {
             try
             {
-                var supporterProfiles = await repository.GetSupporterProfileAsync(request.UserID);
+                var supporterProfiles = await repository.GetEmployeeProfileAsync(request.UserID);
                 if (supporterProfiles == null)
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
-                var supporteProfileDtos = mapper.Map<CreateEmployeeProfileProfileDtos>(supporterProfiles);
-                //supporteProfileDtos.Avatar = await s3Bucket.GetUrl(supporteProfileDtos.Avatar);
-                return ApiResponse.OK<CreateEmployeeProfileProfileDtos>(supporteProfileDtos);
+                var supporteProfileDtos = mapper.Map<EmployeeProfileDtos>(supporterProfiles);
+                supporteProfileDtos.Avatar = await s3Bucket.GetUrl(supporteProfileDtos.Avatar);
+                return ApiResponse.OK<EmployeeProfileDtos>(supporteProfileDtos);
             }
             catch (Exception ex)
             {

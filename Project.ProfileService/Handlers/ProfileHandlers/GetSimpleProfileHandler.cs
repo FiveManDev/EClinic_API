@@ -6,6 +6,7 @@ using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Dtos.Profile;
+using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 using Profile = Project.ProfileService.Data.Profile;
@@ -32,24 +33,29 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
             try
             {
                 var profiles = await profileRepository.GetProfilesAsync(request.UserID);
+                var key = "";
                 var profile = new Profile();
                 if (profiles == null)
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
-                if(profiles.Count == 1)
+                if (profiles.Count == 1)
                 {
                     profile = profiles[0];
-                    //profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
+                    key = profile.Avatar;
+                    profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                 }
                 else
                 {
+
                     profile = profiles.SingleOrDefault(x => x.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID);
-                    //profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
+                    key = profile.Avatar;
+                    profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                 }
                 var sampleProfile = mapper.Map<SimpleProfileDtos>(profile);
+                sampleProfile.AvatarKey = key;
                 return ApiResponse.OK<SimpleProfileDtos>(sampleProfile);
-                
+
             }
             catch (Exception ex)
             {

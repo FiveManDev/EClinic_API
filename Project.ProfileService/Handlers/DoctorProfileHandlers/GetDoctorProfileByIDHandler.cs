@@ -5,6 +5,7 @@ using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Dtos.DoctorProfile;
+using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -35,7 +36,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
                 var doctorProfileDtos = mapper.Map<DoctorProfileDtos>(doctorProfiles);
-                //doctorProfileDtos.Avatar = await s3Bucket.GetUrl(doctorProfileDtos.Avatar);
+                doctorProfileDtos.Avatar = await s3Bucket.GetUrl(doctorProfileDtos.Avatar);
                 return ApiResponse.OK<DoctorProfileDtos>(doctorProfileDtos);
             }
             catch (Exception ex)

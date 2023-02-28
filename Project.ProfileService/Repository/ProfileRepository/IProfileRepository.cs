@@ -7,7 +7,7 @@ namespace Project.ProfileService.Repository.ProfileRepository
     {
         Task<List<Profile>> GetProfilesAsync(Guid UserID);
         Task<Profile> GetDoctorProfileAsync(Guid UserID);
-        Task<Profile> GetSupporterProfileAsync(Guid UserID);
+        Task<Profile> GetEmployeeProfileAsync(Guid UserID);
         Task<Profile> GetProfileAsync(Guid UserID);
     }
 }

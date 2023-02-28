@@ -5,6 +5,7 @@ using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Dtos.UserProfile;
+using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 using Project.ProfileService.Repository.RelationshipRepository;
@@ -40,7 +41,7 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 var userProfileDtos = mapper.Map<List<UserProfileDtos>>(userProfiles);
                 foreach (var profile in userProfileDtos)
                 {
-                    //profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
+                    profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                     var relationship = await relationshipRepository.GetAsync(profile.RelationshipID);
                     profile.RelationshipName = relationship.RelationshipName;
                 }
