@@ -12,7 +12,7 @@
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public SupporterProfile SupporterProfile { get; set; }
+        public EmployeeProfile SupporterProfile { get; set; }
         public DoctorProfile DoctorProfile { get; set; }
         public HealthProfile HealthProfile { get; set; }
     }

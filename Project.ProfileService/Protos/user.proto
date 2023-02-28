@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "Project.ProfileService.Protos";
+service UserService  {
+  rpc CreateUser (ProfileCreateRequest) returns (ProfileUpdateRequest);
+}
+message ProfileCreateRequest  {
+  string UserID= 1;
+  string FirstName = 2;
+  string LastName = 3;
+  google.protobuf.Timestamp DateOfBirth = 4;
+  bool Gender = 5;
+  string Email = 6;
+}
+message ProfileUpdateRequest  {
+  string UserID = 1;
+  string ProfileID = 2;

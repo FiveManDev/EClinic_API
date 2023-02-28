@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.ProfileService.Queries;
 
@@ -16,6 +17,7 @@ namespace Project.ProfileService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
+        //[Authorize]
         public async Task<IActionResult> GetAllRelationship()
         {
             return await mediator.Send(new GetAllRelationshipQuery());

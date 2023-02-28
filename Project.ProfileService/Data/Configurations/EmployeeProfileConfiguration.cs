@@ -5,9 +5,9 @@ using System.Reflection.Emit;
 
 namespace Project.IdentityService.Data.Configurations
 {
-    public class SupporterProfileConfiguration : IEntityTypeConfiguration<SupporterProfile>
+    public class EmployeeProfileConfiguration : IEntityTypeConfiguration<EmployeeProfile>
     {
-        public void Configure(EntityTypeBuilder<SupporterProfile> builder)
+        public void Configure(EntityTypeBuilder<EmployeeProfile> builder)
         {
             builder.HasKey(p => p.ProfileID);
             builder.Property(p => p.ProfileID).IsRequired();
@@ -15,10 +15,10 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(p => p.Description).IsRequired();
             builder.HasOne(p => p.Profile)
                   .WithOne(sp => sp.SupporterProfile)
-                  .HasForeignKey<SupporterProfile>(p => p.ProfileID)
+                  .HasForeignKey<EmployeeProfile>(p => p.ProfileID)
                   .HasConstraintName("PK_Profile_One_To_One_SupporterProfile")
                   .OnDelete(DeleteBehavior.Cascade);
-            builder.ToTable("SupporterProfiles");
+            builder.ToTable("EmployeeProfiles");
         }
     }
 }

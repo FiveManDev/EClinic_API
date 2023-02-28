@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.NotificationService
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceInformationService", "ServiceInformationService", "{9EBE2188-4A75-4132-94F3-1E404B9F2099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.ServiceInformationService", "Project.ServiceInformationService\Project.ServiceInformationService.csproj", "{2DDEB9B1-D7E5-43C5-925C-0CA7B7B60DD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.ServiceInformationService", "Project.ServiceInformationService\Project.ServiceInformationService.csproj", "{2DDEB9B1-D7E5-43C5-925C-0CA7B7B60DD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

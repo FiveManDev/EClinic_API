@@ -1,15 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Dtos.DoctorProfile;
+using Project.ProfileService.Dtos.EmployeeProfile;
 using Project.ProfileService.Dtos.Profile;
-using Project.ProfileService.Dtos.SupporterProfile;
 using Project.ProfileService.Dtos.UserProfile;
-using Project.ProfileService.Handlers.ProfileHandlers;
 using Project.ProfileService.Queries;
 
 namespace Project.ProfileService.Controllers
@@ -39,9 +37,9 @@ namespace Project.ProfileService.Controllers
         }
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetSupporterProfileByID(Guid UserID)
+        public async Task<IActionResult> GetEmployeeProfileByID(Guid UserID)
         {
-            return await mediator.Send(new GetSupporterProfileByIDQuery(UserID));
+            return await mediator.Send(new GetEmployeeProfileByIDQuery(UserID));
         }
         [HttpGet]
         [Authorize]
@@ -75,21 +73,21 @@ namespace Project.ProfileService.Controllers
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> CreateSupporterProfile([FromForm] CreateSupporterProfileDtos createSupporterProfileDtos)
+        public async Task<IActionResult> CreateSupporterProfile([FromForm] CreateEmployeeProfileDtos createSupporterProfileDtos)
         {
-            return await mediator.Send(new CreateSupporterProfileCommands(createSupporterProfileDtos));
+            return await mediator.Send(new CreateEmployeeProfileCommands(createSupporterProfileDtos));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> CreateAdminProfile([FromForm] CreateProfileDtos createProfileDtos)
+        public async Task<IActionResult> CreateAdminProfile([FromForm] CreateEmployeeProfileDtos createEmployeeProfileDtos)
         {
-            return await mediator.Send(new CreateProfileCommands(createProfileDtos));
+            return await mediator.Send(new CreateEmployeeProfileCommands(createEmployeeProfileDtos));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> CreateExpertProfile([FromForm] CreateProfileDtos createProfileDtos)
+        public async Task<IActionResult> CreateExpertProfile([FromForm] CreateEmployeeProfileDtos createEmployeeProfileDtos)
         {
-            return await mediator.Send(new CreateProfileCommands(createProfileDtos));
+            return await mediator.Send(new CreateEmployeeProfileCommands(createEmployeeProfileDtos));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
@@ -105,39 +103,39 @@ namespace Project.ProfileService.Controllers
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> UpdateSupporterProfile([FromForm] UpdateSupporterProfileDtos updateSupporterProfileDtos)
+        public async Task<IActionResult> UpdateSupporterProfile([FromForm] UpdateEmployeeProfileDtos updateSupporterProfileDtos)
         {
-            return await mediator.Send(new UpdateSupporterProfileCommands(updateSupporterProfileDtos));
+            return await mediator.Send(new UpdateEmployeeProfileCommands(updateSupporterProfileDtos));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> UpdateAdminProfile([FromForm] UpdateProfileDtos updateProfileDtos)
+        public async Task<IActionResult> UpdateAdminProfile([FromForm] UpdateEmployeeProfileDtos updateEmployeeProfileDtos)
         {
-            return await mediator.Send(new UpdateProfileCommands(updateProfileDtos));
+            return await mediator.Send(new UpdateEmployeeProfileCommands(updateEmployeeProfileDtos));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> UpdateExpertProfile([FromForm] UpdateProfileDtos updateProfileDtos)
+        public async Task<IActionResult> UpdateExpertProfile([FromForm] UpdateEmployeeProfileDtos updateEmployeeProfileDtos)
         {
-            return await mediator.Send(new UpdateProfileCommands(updateProfileDtos));
+            return await mediator.Send(new UpdateEmployeeProfileCommands(updateEmployeeProfileDtos));
         }
         [HttpDelete]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> DeleteUserProfile(Guid ProfileID)
         {
-            return await mediator.Send(new DeleteUserProfileCommands(ProfileID));
+            return await mediator.Send(new DeleteProfileCommands(ProfileID));
         }
         [HttpDelete]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> DeleteDoctorProfile(Guid ProfileID)
         {
-            return await mediator.Send(new DeleteDoctorProfileCommands(ProfileID));
+            return await mediator.Send(new DeleteProfileCommands(ProfileID));
         }
         [HttpDelete]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> DeleteSupporterProfile(Guid ProfileID)
         {
-            return await mediator.Send(new DeleteSupporterProfileCommands(ProfileID));
+            return await mediator.Send(new DeleteProfileCommands(ProfileID));
         }
         [HttpDelete]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]

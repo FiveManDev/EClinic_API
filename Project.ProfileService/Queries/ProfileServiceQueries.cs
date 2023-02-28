@@ -8,7 +8,7 @@ namespace Project.ProfileService.Queries
     public record GetProfilesQuery(PaginationRequestHeader PaginationRequestHeader) : IRequest<ObjectResult>;
     public record GetUserProfilesByIDQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetDoctorProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
-    public record GetSupporterProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
+    public record GetEmployeeProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetAllRelationshipQuery() : IRequest<ObjectResult>;
 

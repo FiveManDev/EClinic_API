@@ -27,13 +27,11 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetPostsQuery(paginationRequestHeader, searchText, Response));
         }
         [HttpGet]
-        //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetAllPost()
         {
             return await mediator.Send(new GetAllPostQuery());
         }
         [HttpGet]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetPostByID(Guid PostID)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;

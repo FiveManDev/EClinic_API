@@ -1,8 +1,8 @@
 ﻿using Project.ProfileService.Data;
 using Project.ProfileService.Dtos.DoctorProfile;
+using Project.ProfileService.Dtos.EmployeeProfile;
 using Project.ProfileService.Dtos.Profile;
 using Project.ProfileService.Dtos.Relationship;
-using Project.ProfileService.Dtos.SupporterProfile;
 using Project.ProfileService.Dtos.UserProfile;
 
 namespace Project.ProfileService.Mapper
@@ -55,7 +55,7 @@ namespace Project.ProfileService.Mapper
                     opt => opt.MapFrom(src => src.DoctorProfile.Quality)
                 )
                 .ReverseMap();
-            CreateMap<Profile, SupporterProfileDtos>()
+            CreateMap<Profile, EmployeeProfileDtos>()
                 .ForMember(
                     des => des.Description,
                     opt => opt.MapFrom(src => src.DoctorProfile.Description)

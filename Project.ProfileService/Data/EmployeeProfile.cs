@@ -1,6 +1,6 @@
 ﻿namespace Project.ProfileService.Data
 {
-    public class SupporterProfile
+    public class EmployeeProfile
     {
         public Guid ProfileID { get; set; }
         public DateTime WorkStart { get; set; }

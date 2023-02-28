@@ -5,33 +5,36 @@ using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Commands;
+using Project.ProfileService.Repository.EmployeeProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
-namespace Project.ProfileService.Handlers.ProfileHandlers
+namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
 {
-    public class UpdateProfileHandler : IRequestHandler<UpdateProfileCommands, ObjectResult>
+    public class UpdateEmployeeProfileHandler : IRequestHandler<UpdateEmployeeProfileCommands, ObjectResult>
     {
         private readonly IProfileRepository profileRepository;
-        private readonly ILogger<UpdateProfileHandler> logger;
+        private readonly IEmployeeProfilesRepository employeeProfilesRepository;
+        private readonly ILogger<UpdateEmployeeProfileHandler> logger;
         private readonly IAmazonS3Bucket s3Bucket;
 
-        public UpdateProfileHandler(IProfileRepository profileRepository, ILogger<UpdateProfileHandler> logger, IAmazonS3Bucket s3Bucket)
+        public UpdateEmployeeProfileHandler(IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, ILogger<UpdateEmployeeProfileHandler> logger, IAmazonS3Bucket s3Bucket)
         {
             this.profileRepository = profileRepository;
+            this.employeeProfilesRepository = employeeProfilesRepository;
             this.logger = logger;
             this.s3Bucket = s3Bucket;
         }
 
-        public async Task<ObjectResult> Handle(UpdateProfileCommands request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(UpdateEmployeeProfileCommands request, CancellationToken cancellationToken)
         {
             try
             {
-                var profile = await profileRepository.GetAsync(request.UpdateProfileDtos.ProfileID);
+                var profile = await profileRepository.GetAsync(request.UpdateEmployeeProfileDtos.ProfileID);
                 if (profile == null)
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
-                var profileDtos = request.UpdateProfileDtos;
+                var profileDtos = request.UpdateEmployeeProfileDtos;
                 profile.FirstName = profileDtos.FirstName;
                 profile.LastName = profileDtos.LastName;
                 profile.Email = profileDtos.Email;
@@ -42,6 +45,18 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
                 if (profileDtos.Avatar != null)
                 {
                     profile.Avatar = await s3Bucket.UploadFileAsync(profileDtos.Avatar, FileType.Image);
+                }
+                var supporteProfile = await employeeProfilesRepository.GetAsync(profile.ProfileID);
+                if (supporteProfile == null)
+                {
+                    return ApiResponse.NotFound("Profile Not Found.");
+                }
+                supporteProfile.WorkStart = profileDtos.WorkStart;
+                supporteProfile.Description = profileDtos.Description;
+                var updateSupporteResult = await employeeProfilesRepository.UpdateAsync(supporteProfile);
+                if (!updateSupporteResult)
+                {
+                    throw new Exception("Update Doctor Profile Error");
                 }
                 var updateProfileResult = await profileRepository.UpdateAsync(profile);
                 if (!updateProfileResult)

@@ -6,7 +6,6 @@ using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Data.Configurations;
-using Project.ProfileService.Handlers.SupporterProfileHandlers;
 using Project.ProfileService.Repository.HealthProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -16,10 +15,10 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
     {
         private readonly IProfileRepository profileRepository;
         private readonly IHealthProfileRepository healthProfileRepository;
-        private readonly ILogger<DeleteSupporterProfileHandler> logger;
+        private readonly ILogger<UpdateUserProfileHandler> logger;
         private readonly IAmazonS3Bucket s3Bucket;
 
-        public UpdateUserProfileHandler(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository, ILogger<DeleteSupporterProfileHandler> logger, IAmazonS3Bucket s3Bucket)
+        public UpdateUserProfileHandler(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository, ILogger<UpdateUserProfileHandler> logger, IAmazonS3Bucket s3Bucket)
         {
             this.profileRepository = profileRepository;
             this.healthProfileRepository = healthProfileRepository;

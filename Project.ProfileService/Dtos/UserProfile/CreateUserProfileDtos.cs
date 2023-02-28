@@ -14,5 +14,6 @@
         public string BloodType { get; set; }
         public float Height { get; set; }
         public float Weight { get; set; }
+        public Guid RelationshipID { get; set; }
     }
 }

@@ -60,12 +60,13 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                     BloodType = request.CreateUserProfileDtos.BloodType,
                     Height = request.CreateUserProfileDtos.Height,
                     Weight = request.CreateUserProfileDtos.Weight,
-                    RelationshipID = Data.Configurations.ConstantsData.MyRelationshipID
+                    RelationshipID = request.CreateUserProfileDtos.RelationshipID
                 };
                 var healthResult = await healthProfileRepository.CreateAsync(health);
                 if (!healthResult)
                 {
                     await profileRepository.DeleteAsync(profile);
+                    throw new Exception("Create Health Profile Error.");
                 }
                 return ApiResponse.Created("CreateSuccess");
             }

@@ -64,7 +64,7 @@ namespace Project.ProfileService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SupporterProfiles",
+                name: "EmployeeProfiles",
                 columns: table => new
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -73,7 +73,7 @@ namespace Project.ProfileService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SupporterProfiles", x => x.ProfileID);
+                    table.PrimaryKey("PK_EmployeeProfiles", x => x.ProfileID);
                     table.ForeignKey(
                         name: "PK_Profile_One_To_One_SupporterProfile",
                         column: x => x.ProfileID,
@@ -126,16 +126,16 @@ namespace Project.ProfileService.Migrations
                 name: "DoctorProfiles");
 
             migrationBuilder.DropTable(
+                name: "EmployeeProfiles");
+
+            migrationBuilder.DropTable(
                 name: "HealthProfiles");
 
             migrationBuilder.DropTable(
-                name: "SupporterProfiles");
+                name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "Relationships");
-
-            migrationBuilder.DropTable(
-                name: "Profiles");
         }
     }
 }

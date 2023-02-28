@@ -4,22 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
-using Project.ProfileService.Dtos.DoctorProfile;
-using Project.ProfileService.Dtos.SupporterProfile;
-using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 
-namespace Project.ProfileService.Handlers.SupporterProfileHandlers
+namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
 {
-    public class GetSupporterProfileByIDHandler : IRequestHandler<GetSupporterProfileByIDQuery, ObjectResult>
+    public class GetEmployeeProfileByIDHandler : IRequestHandler<GetEmployeeProfileByIDQuery, ObjectResult>
     {
-        private readonly ILogger<GetSupporterProfileByIDHandler> logger;
+        private readonly ILogger<GetEmployeeProfileByIDHandler> logger;
         private readonly IProfileRepository repository;
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly IMapper mapper;
 
-        public GetSupporterProfileByIDHandler(ILogger<GetSupporterProfileByIDHandler> logger, IProfileRepository repository, IAmazonS3Bucket s3Bucket, IMapper mapper)
+        public GetEmployeeProfileByIDHandler(ILogger<GetEmployeeProfileByIDHandler> logger, IProfileRepository repository, IAmazonS3Bucket s3Bucket, IMapper mapper)
         {
             this.logger = logger;
             this.repository = repository;
@@ -27,7 +24,7 @@ namespace Project.ProfileService.Handlers.SupporterProfileHandlers
             this.mapper = mapper;
         }
 
-        public async Task<ObjectResult> Handle(GetSupporterProfileByIDQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetEmployeeProfileByIDQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -36,9 +33,9 @@ namespace Project.ProfileService.Handlers.SupporterProfileHandlers
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
-                var supporteProfileDtos = mapper.Map<SupporterProfileDtos>(supporterProfiles);
+                var supporteProfileDtos = mapper.Map<CreateEmployeeProfileProfileDtos>(supporterProfiles);
                 //supporteProfileDtos.Avatar = await s3Bucket.GetUrl(supporteProfileDtos.Avatar);
-                return ApiResponse.OK<SupporterProfileDtos>(supporteProfileDtos);
+                return ApiResponse.OK<CreateEmployeeProfileProfileDtos>(supporteProfileDtos);
             }
             catch (Exception ex)
             {

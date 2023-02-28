@@ -11,7 +11,7 @@ using Project.ProfileService.Repository.DoctorProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 namespace Project.ProfileService.Handlers.DoctorProfileHandlers
 {
-    public class CreateDoctorProfileHandler:IRequestHandler<CreateDoctorProfileCommands, ObjectResult>
+    public class CreateDoctorProfileHandler : IRequestHandler<CreateDoctorProfileCommands, ObjectResult>
     {
         private readonly IProfileRepository profileRepository;
         private readonly IDoctorProfileRepository doctorProfileRepository;
@@ -58,7 +58,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     ProfileID = result.ProfileID,
                     Description = request.CreateDoctorProfileDtos.Description,
-                    SpecializationID= request.CreateDoctorProfileDtos.SpecializationID,
+                    SpecializationID = request.CreateDoctorProfileDtos.SpecializationID,
                     Title = request.CreateDoctorProfileDtos.Title,
                     Quality = 5,
                     WorkStart = request.CreateDoctorProfileDtos.WorkStart
@@ -67,6 +67,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 if (!doctorResult)
                 {
                     await profileRepository.DeleteAsync(profile);
+                    throw new Exception("Create Doctor Profile Error.");
                 }
                 return ApiResponse.Created("Create Success");
             }

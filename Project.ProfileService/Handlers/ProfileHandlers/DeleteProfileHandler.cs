@@ -1,5 +1,4 @@
-﻿using Amazon.S3.Model;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Core.AWS;

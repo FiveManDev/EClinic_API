@@ -1,6 +1,6 @@
-﻿namespace Project.ProfileService.Dtos.SupporterProfile
+﻿namespace Project.ProfileService.Dtos.EmployeeProfile
 {
-    public class UpdateSupporterProfileDtos
+    public class UpdateEmployeeProfileDtos
     {
         public Guid ProfileID { get; set; }
         public string FirstName { get; set; }

@@ -12,7 +12,7 @@ using Project.ProfileService.Data.Configurations;
 namespace Project.ProfileService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230220095058_Initial")]
+    [Migration("20230228091012_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,23 @@ namespace Project.ProfileService.Migrations
                     b.HasKey("ProfileID");
 
                     b.ToTable("DoctorProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("Project.ProfileService.Data.EmployeeProfile", b =>
+                {
+                    b.Property<Guid>("ProfileID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("WorkStart")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ProfileID");
+
+                    b.ToTable("EmployeeProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.HealthProfile", b =>
@@ -140,23 +157,6 @@ namespace Project.ProfileService.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Project.ProfileService.Data.SupporterProfile", b =>
-                {
-                    b.Property<Guid>("ProfileID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("WorkStart")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ProfileID");
-
-                    b.ToTable("SupporterProfiles", (string)null);
-                });
-
             modelBuilder.Entity("Project.ProfileService.Data.DoctorProfile", b =>
                 {
                     b.HasOne("Project.ProfileService.Data.Profile", "Profile")
@@ -165,6 +165,18 @@ namespace Project.ProfileService.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PK_Profile_One_To_One_DoctorProfile");
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Project.ProfileService.Data.EmployeeProfile", b =>
+                {
+                    b.HasOne("Project.ProfileService.Data.Profile", "Profile")
+                        .WithOne("SupporterProfile")
+                        .HasForeignKey("Project.ProfileService.Data.EmployeeProfile", "ProfileID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("PK_Profile_One_To_One_SupporterProfile");
 
                     b.Navigation("Profile");
                 });
@@ -188,18 +200,6 @@ namespace Project.ProfileService.Migrations
                     b.Navigation("Profile");
 
                     b.Navigation("Relationship");
-                });
-
-            modelBuilder.Entity("Project.ProfileService.Data.SupporterProfile", b =>
-                {
-                    b.HasOne("Project.ProfileService.Data.Profile", "Profile")
-                        .WithOne("SupporterProfile")
-                        .HasForeignKey("Project.ProfileService.Data.SupporterProfile", "ProfileID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("PK_Profile_One_To_One_SupporterProfile");
-
-                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.Profile", b =>
