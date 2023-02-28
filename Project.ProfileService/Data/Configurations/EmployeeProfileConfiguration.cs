@@ -14,9 +14,9 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(p => p.WorkStart).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.HasOne(p => p.Profile)
-                  .WithOne(sp => sp.SupporterProfile)
+                  .WithOne(sp => sp.EmployeeProfile)
                   .HasForeignKey<EmployeeProfile>(p => p.ProfileID)
-                  .HasConstraintName("PK_Profile_One_To_One_SupporterProfile")
+                  .HasConstraintName("PK_Profile_One_To_One_EmployeeProfile")
                   .OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("EmployeeProfiles");
         }

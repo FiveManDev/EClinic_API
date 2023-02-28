@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
+using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Dtos.DoctorProfile;
 using Project.ProfileService.Dtos.EmployeeProfile;
-using Project.ProfileService.Dtos.Profile;
 using Project.ProfileService.Dtos.UserProfile;
 using Project.ProfileService.Queries;
 
@@ -22,6 +22,36 @@ namespace Project.ProfileService.Controllers
         public ProfileController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetUserProfileQuery(paginationRequestHeader, SearchText, Response));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetDoctorProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetDoctorProfileQuery(paginationRequestHeader, SearchText, Response));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAdminrProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetEmployeeProfileQuery(paginationRequestHeader, SearchText, Response, RoleConstants.Admin));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSupporterProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetEmployeeProfileQuery(paginationRequestHeader, SearchText, Response, RoleConstants.Supporter));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetExpertProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetEmployeeProfileQuery(paginationRequestHeader, SearchText, Response, RoleConstants.Expert));
         }
         [HttpGet]
         [Authorize]

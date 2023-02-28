@@ -75,6 +75,24 @@ namespace Project.ProfileService.Mapper
                     opt => opt.MapFrom(src => src.Avatar)
                 )
                .ReverseMap();
+            CreateMap<Profile, GetUserProfileDtos>()
+               .ReverseMap();
+            CreateMap<Profile, GetDoctorProfileDtos>()
+                .ForMember(
+                    des => des.Title,
+                    opt => opt.MapFrom(src => src.DoctorProfile.Title)
+                )
+                 .ForMember(
+                    des => des.WorkStart,
+                    opt => opt.MapFrom(src => src.DoctorProfile.WorkStart)
+                )
+               .ReverseMap();
+            CreateMap<Profile, GetEmployeeProfileDtos>()
+                .ForMember(
+                   des => des.WorkStart,
+                   opt => opt.MapFrom(src => src.DoctorProfile.WorkStart)
+               )
+              .ReverseMap();
             CreateMap<Profile, ProfileDtos>()
              .ReverseMap();
             CreateMap<Relationship, RelationshipDtos>()

@@ -3,6 +3,7 @@ using MediatR;
 using Project.Core.Logger;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Protos;
+using Project.IdentityService.Queries;
 
 namespace Project.IdentityService.Service
 {
@@ -37,6 +38,22 @@ namespace Project.IdentityService.Service
                 logger.WriteLogError(ex.Message);
                 var res = new CreateUserResponse();
                 return res;
+            }
+        }
+
+        public override async Task<GetAllUserWithRoleResponse> GetAllUserWithRole(GetAllUserWithRoleRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var UserIDs = await mediator.Send(new GetAllUserWithRoleQuery(request.Role)); 
+                List<string> listID = UserIDs.Select(s => s.ToString()).ToList();
+                GetAllUserWithRoleResponse getAllUser = new GetAllUserWithRoleResponse();
+                getAllUser.UserIDs.AddRange(listID);
+                return getAllUser;
+            }
+            catch
+            {
+                return new GetAllUserWithRoleResponse();
             }
         }
     }

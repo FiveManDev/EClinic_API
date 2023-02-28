@@ -9,6 +9,7 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
+
   <ItemGroup>
     <None Remove="Protos\profile.proto" />
     <None Remove="Protos\user.proto" />
