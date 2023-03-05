@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Project.ForumService.Queries;
+using Project.ProfileService.Queries;
 
-namespace Project.ForumService.Controllers
+namespace Project.ProfileService.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]/[Action]")]
     [ApiController]

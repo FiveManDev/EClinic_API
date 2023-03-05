@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
-using Project.ForumService.Queries;
+using Project.ProfileService.Queries;
 
-namespace Project.ForumService.Handlers.OtherHandlers
+namespace Project.ProfileService.Handlers.OtherHandlers
 {
     public class GetBloodTypesHandler : IRequestHandler<GetBloodTypesQuery, ObjectResult>
     {

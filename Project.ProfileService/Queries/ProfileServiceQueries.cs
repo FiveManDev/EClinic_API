@@ -13,5 +13,6 @@ namespace Project.ProfileService.Queries
     public record GetUserProfileQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetDoctorProfileQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetEmployeeProfileQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText, HttpResponse Response,string Role) : IRequest<ObjectResult>;
+    public record GetBloodTypesQuery() : IRequest<ObjectResult>;
 
 }
