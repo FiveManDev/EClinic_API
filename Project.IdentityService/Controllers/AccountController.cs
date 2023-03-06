@@ -37,28 +37,28 @@ namespace Project.IdentityService.Controllers
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ProvideDoctorAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDDoctor)));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDDoctor));
 
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ProvideSupporterAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDSupporter)));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDSupporter));
 
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ProvideAdminAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDAdmin)));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDAdmin));
 
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> ProvideExpertAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
         {
-            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, Guid.Parse(RoleConstants.IDExpert)));
+            return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDExpert));
 
         }
         [HttpPost]

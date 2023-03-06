@@ -33,9 +33,13 @@ namespace Project.IdentityService.Handlers.Account
                 var checkEmail = await client.EmailIsExistAsync(new CheckEmailRequest { Email = request.ProviderAccountReqDtos.Email });
                 if (!checkEmail.IsExist)
                 {
-                    return ApiResponse.BadRequest("Profile not found");
+                    return ApiResponse.NotFound("Profile not found");
                 }
-                var user = await userRepository.GetAsync(request.ProviderAccountReqDtos.UserID);
+                var user = await userRepository.GetAsync(Guid.Parse(checkEmail.UserID));
+                if (!string.Equals(user.RoleID, request.RoleID))
+                {
+                    return ApiResponse.BadRequest("Role not true.");
+                }
                 var passwordGeneration = RandomText.RandomByNumberOfCharacters(15, RandomType.String);
                 var pass = Cryptography.EncryptPassword(passwordGeneration);
                 user.PasswordSalt = pass.Salt;

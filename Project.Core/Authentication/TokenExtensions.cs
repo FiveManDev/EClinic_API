@@ -58,7 +58,7 @@ namespace Project.Core.Authentication
                 new Claim("UserID",tokenInformation.UserID.ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jWTOptions.SecretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("!mdQ1%3Tdx8T3C61LB%ewG"));
 
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -103,7 +103,7 @@ namespace Project.Core.Authentication
                 ValidAudience = jWTOptions.ValidAudience,
                 ValidIssuer = jWTOptions.ValidIssuer,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jWTOptions.SecretKey)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("!mdQ1%3Tdx8T3C61LB%ewG")),
                 ClockSkew = TimeSpan.Zero
             };
             try

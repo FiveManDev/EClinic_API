@@ -44,7 +44,7 @@ namespace Project.IdentityService.Handlers.Account
                     return ApiResponse.BadRequest("Password and confirm password are not the same");
                 }
                 var checkEmail = await client.EmailIsExistAsync(new CheckEmailRequest { Email = request.SignUpDtos.Email });
-                if (!checkEmail.IsExist)
+                if (checkEmail.IsExist)
                 {
                     return ApiResponse.BadRequest("Email is exist");
                 }

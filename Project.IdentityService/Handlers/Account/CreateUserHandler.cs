@@ -30,25 +30,25 @@ namespace Project.IdentityService.Handlers.Account
                 switch (request.Role)
                 {
                     case RoleConstants.Admin:
-                        role = RoleConstants.Admin;
+                        role = RoleConstants.IDAdmin;
                         break;
                     case RoleConstants.Supporter:
-                        role = RoleConstants.Supporter;
+                        role = RoleConstants.IDSupporter;
                         break;
                     case RoleConstants.Doctor:
-                        role = RoleConstants.Doctor;
+                        role = RoleConstants.IDDoctor;
                         break;
                     case RoleConstants.Expert:
-                        role = RoleConstants.Expert;
+                        role = RoleConstants.IDExpert;
                         break;
                     case RoleConstants.User:
-                        role = RoleConstants.User;
+                        role = RoleConstants.IDUser;
                         break;
                 }
                 var userNameGeneration = role.ToLower() + request.Email.Substring(0, request.Email.IndexOf('@'));
                 var passwordGeneration = RandomText.RandomByNumberOfCharacters(15, RandomType.String);
                 var pass = Cryptography.EncryptPassword(passwordGeneration);
-                var user = new User { UserName = userNameGeneration, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = request.Role };
+                var user = new User { UserName = userNameGeneration, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = role };
                 var result = await userRepository.CreateEntityAsync(user);
                 if (result == null)
                 {

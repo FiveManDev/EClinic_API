@@ -30,7 +30,7 @@ namespace Project.IdentityService.Service
                     return res;
                 }
                 res.IsSuccess = true;
-                res.UserID = res.ToString();
+                res.UserID = result.ToString();
                 return res;
             }
             catch (Exception ex)

@@ -42,7 +42,7 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 profile.DateOfBirth = profileDtos.DateOfBirth;
                 profile.Gender = profileDtos.Gender;
                 profile.Address = profileDtos.Address;
-                profile.Phone = profile.Phone;
+                profile.Phone = profileDtos.Phone;
                 if (profileDtos.Avatar != null)
                 {
                     profile.Avatar = await s3Bucket.UploadFileAsync(profileDtos.Avatar, FileType.Image);

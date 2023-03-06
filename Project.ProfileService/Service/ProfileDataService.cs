@@ -23,7 +23,7 @@ namespace Project.ProfileService.Service
             {
                 var result = await profileRepository.GetAsync(x => x.Email == request.Email);
                 var res = new EmailExistResponse();
-                if (result == null)
+                if (result != null)
                 {
                     res.IsExist = true;
                     res.UserID = result.UserID.ToString();
