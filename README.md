@@ -42,7 +42,9 @@ dotnet tool install --global dotnet-ef --version 6.*
   ```
 ### 5 Instal sqlcmd command
 * In windows when you install sql server you will have sqlcmd command
-### 6 Run file bat
+### 6 Instal MongoDB Shell
+* Download MongoDB Shell here: https://downloads.mongodb.com/compass/mongosh-1.8.0-x64.msi
+### 7 Run file bat
 * In the `bash` folder double click on the file `EClinic.bat` or open a terminal there and run the command.
  ```sh
  .\EClinic.bat
@@ -99,7 +101,9 @@ dotnet tool install --global dotnet-ef
   ```
  sudo ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd
   ```
-### 6 Run file bat
+### 6 Instal MongoDB Shell
+* Download MongoDB Shell here: https://www.mongodb.com/try/download/shell
+### 7 Run file bat
 * In `bash` folder open terminal and run command.
  ```sh
  sh EClinic.sh
