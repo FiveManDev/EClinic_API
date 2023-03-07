@@ -28,9 +28,14 @@ namespace Project.ForumService.Handlers.PostHandlers
                 {
                     return ApiResponse.NotFound("Post not found.");
                 }
-                result.IsActive = true;
+                result.IsActive = !result.IsActive;
                 await repository.UpdateAsync(result);
-                return ApiResponse.OK("Accept Post success. ");
+                if(result.IsActive)
+                {
+                    return ApiResponse.OK("Accept Post success. ");
+                }
+                return ApiResponse.OK("Reject Post success. ");
+
             }
             catch (Exception ex)
             {

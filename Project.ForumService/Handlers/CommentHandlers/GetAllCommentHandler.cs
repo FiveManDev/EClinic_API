@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
-using Project.ForumService.Commands;
 using Project.ForumService.Data;
 using Project.ForumService.Dtos.CommentsDtos;
 using Project.ForumService.Dtos.Model;
-using Project.ForumService.Dtos.PostsDtos;
 using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.CommentHandlers

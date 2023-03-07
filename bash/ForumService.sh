@@ -1,0 +1,1 @@
+mongosh "mongodb://localhost:27018/ForumService" --eval "db.createCollection('Post'); db.createCollection('Answer'); db.createCollection('Comment');db.createCollection('Hashtag')"

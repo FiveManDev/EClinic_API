@@ -13,5 +13,6 @@ namespace Project.ForumService.Dtos.PostsDtos
         public DateTime UpdatedAt { get; set; }
         public int Likes { get; set; }
         public bool IsLike { get; set; }
+        public bool IsActive { get; set; }
     }
 }

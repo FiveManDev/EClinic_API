@@ -64,7 +64,7 @@ namespace Project.ForumService.Controllers
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin })]
-        public async Task<IActionResult> AcceptPost(Guid PostID)
+        public async Task<IActionResult> ChangeActivePost(Guid PostID)
         {
             return await mediator.Send(new AcceptPostCommands(PostID));
         }

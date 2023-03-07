@@ -35,8 +35,12 @@ namespace Project.ForumService.Handlers.PostHandlers
                 post.Title = request.updatePostDtos.Title;
                 post.Content = request.updatePostDtos.Content;
                 post.UpdatedAt = DateTime.Now;
-                var x = await bucket.UploadManyFileAsync(request.updatePostDtos.Images, FileType.Image);
-                post.Image.AddRange(x);
+                if(request.updatePostDtos.Images != null)
+                {
+                    var x = await bucket.UploadManyFileAsync(request.updatePostDtos.Images, FileType.Image);
+                    post.Image.AddRange(x);
+                }
+               
                 await repository.UpdateAsync(post);
                 return ApiResponse.OK("Update Post Success.");
             }

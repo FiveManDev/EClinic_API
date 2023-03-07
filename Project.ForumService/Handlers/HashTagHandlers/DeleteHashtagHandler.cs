@@ -31,11 +31,14 @@ namespace Project.ForumService.Handlers.HashTagHandlers
                     return ApiResponse.NotFound("Hashtag not found.");
                 }
                 var answers = await answerRepository.GetAllAsync(x => x.Tags.Contains(request.HashtagID));
-                foreach (Answer answer in answers)
+                if(answers.Count > 0)
                 {
-                    answer.Tags.Remove(request.HashtagID);
+                    foreach (Answer answer in answers)
+                    {
+                        answer.Tags.Remove(request.HashtagID);
+                    }
+                    await answerRepository.UpdateManyAsync(answers);
                 }
-                await answerRepository.UpdateManyAsync(answers);
                 await repository.RemoveAsync(request.HashtagID);
                 return ApiResponse.OK("Delete success.");
             }
