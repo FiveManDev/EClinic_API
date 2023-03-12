@@ -7,6 +7,5 @@ namespace Project.ForumService.Dtos.PostsDtos
         public string Title { get; set; }
         public string Content { get; set; }
         public List<IFormFile> Images { get; set; }
-        public Author Author { get; set; }
     }
 }

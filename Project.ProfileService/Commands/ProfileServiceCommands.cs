@@ -12,6 +12,7 @@ namespace Project.ProfileService.Commands
     public record UpdateDoctorProfileCommands(UpdateDoctorProfileDtos UpdateDoctorProfileDtos) : IRequest<ObjectResult>;
     public record UpdateEmployeeProfileCommands(UpdateEmployeeProfileDtos UpdateEmployeeProfileDtos) : IRequest<ObjectResult>;
     public record UpdateUserProfileCommands(UpdateUserProfileDtos UpdateUserProfileDtos) : IRequest<ObjectResult>;
+    public record DeleteUserProfileCommands(Guid ProfileID) : IRequest<ObjectResult>;
     public record DeleteProfileCommands(Guid ProfileID) : IRequest<ObjectResult>;
 
 }

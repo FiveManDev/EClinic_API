@@ -13,6 +13,6 @@ namespace Project.ForumService.Dtos.CommentsDtos
         [JsonIgnore]
         public List<Guid> LikeUserIds { get; set; }
         public int Likes { get; set; } = 0;
-        public bool IsLike { get; set; }
+        public bool IsLike { get; set; } = false;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Project.Core.RabbitMQ;
 using Project.ProfileService.Events;
 
 namespace Project.ProfileService.Consumer
@@ -17,7 +18,7 @@ namespace Project.ProfileService.Consumer
             var result = context.Message.IsSuccess;
             if (!result)
             {
-                await bus.Send(new DeleteProfileEvents { UserID = context.Message.UserID });
+                await bus.SendMessage(new DeleteProfileEvents { UserID = context.Message.UserID });
             }
         }
     }

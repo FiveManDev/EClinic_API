@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using AutoMapper;
+using Grpc.Core;
 using Project.ProfileService.Data;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Protos;
@@ -42,7 +43,7 @@ namespace Project.ProfileService.Service
         {
             try
             {
-                var profile = new Profile
+                var profile = new Data.Profile
                 {
                     UserID = Guid.Parse(request.UserID),
                     FirstName = request.FirstName,
@@ -73,6 +74,43 @@ namespace Project.ProfileService.Service
             {
                 var res = new CreateProfileResponse();
                 res.IsSuccess = false;
+                return res;
+            }
+        }
+
+        public override async Task<GetProfileResponse> GetProfile(GetProfileRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var profiles = await  profileRepository.GetProfilesAsync(Guid.Parse(request.UserID));
+                var res = new GetProfileResponse();
+                if (profiles == null)
+                {
+                    return res;
+                }
+                if (profiles.Count >1)
+                {
+                    foreach (var profile in profiles)
+                    {
+                        if(profile.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID)
+                        {
+                            res.UserID = profile.UserID.ToString(); ;
+                            res.Avatar = profile.Avatar;
+                            res.FirstName = profile.FirstName;
+                            res.LastName = profile.LastName;  
+                            return res;
+                        }
+                    }
+                }
+                res.UserID = profiles[0].UserID.ToString(); ;
+                res.Avatar = profiles[0].Avatar;
+                res.FirstName = profiles[0].FirstName;
+                res.LastName = profiles[0].LastName;
+                return res;
+            }
+            catch
+            {
+                var res = new GetProfileResponse();
                 return res;
             }
         }

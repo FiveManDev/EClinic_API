@@ -1,11 +1,15 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Data.Configurations;
+using Project.ProfileService.Events;
 using Project.ProfileService.Repository.HealthProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -17,13 +21,15 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
         private readonly IHealthProfileRepository healthProfileRepository;
         private readonly ILogger<UpdateUserProfileHandler> logger;
         private readonly IAmazonS3Bucket s3Bucket;
+        private readonly IBus bus;
 
-        public UpdateUserProfileHandler(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository, ILogger<UpdateUserProfileHandler> logger, IAmazonS3Bucket s3Bucket)
+        public UpdateUserProfileHandler(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository, ILogger<UpdateUserProfileHandler> logger, IAmazonS3Bucket s3Bucket, IBus bus)
         {
             this.profileRepository = profileRepository;
             this.healthProfileRepository = healthProfileRepository;
             this.logger = logger;
             this.s3Bucket = s3Bucket;
+            this.bus = bus;
         }
 
         public async Task<ObjectResult> Handle(UpdateUserProfileCommands request, CancellationToken cancellationToken)
@@ -55,6 +61,16 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 if (healthProfile.RelationshipID != ConstantsData.MyRelationshipID)
                 {
                     healthProfile.RelationshipID = profileDtos.RelationshipID;
+                }
+                if(healthProfile.RelationshipID == ConstantsData.MyRelationshipID)
+                {
+                    await bus.SendMessageWithExchangeName<UpdateProfileEvents>(new UpdateProfileEvents
+                    {
+                        UserID = profile.UserID,
+                        Avatar = profile.Avatar,
+                        FirstName = profile.FirstName,
+                        LastName = profile.LastName
+                    }, ExchangeConstants.ForumService);
                 }
                 healthProfile.Height = profileDtos.Height;
                 healthProfile.Weight = profileDtos.Weight;

@@ -6,6 +6,5 @@ namespace Project.ForumService.Dtos.CommentsDtos
     {
         public Guid ParentCommentID { get; set; }
         public string Content { get; set; }
-        public Author Author { get; set; }
     }
 }

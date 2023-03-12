@@ -20,17 +20,17 @@ namespace Project.ForumService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetAnswerByID(Guid PostID)
         {
-            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;
             return await mediator.Send(new GetAnswerQuery(PostID, userId));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]
         public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerDtos createAnswerDtos)
         {
-            return await mediator.Send(new CreateAnswerCommands(createAnswerDtos));
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new CreateAnswerCommands(createAnswerDtos, userId));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]

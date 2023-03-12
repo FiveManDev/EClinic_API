@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
-using Project.ForumService.Commands;
 using Project.ForumService.Data;
-using Project.ForumService.Dtos.Model;
 using Project.ForumService.Dtos.PostsDtos;
 using Project.ForumService.Queries;
 
@@ -38,19 +35,20 @@ namespace Project.ForumService.Handlers.PostHandlers
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
+                if (!post.IsActive)
+                {
+                    return ApiResponse.NotFound("Post Not Found.");
+                }
                 PostDtos postDtos = mapper.Map<PostDtos>(post);
-                if (string.IsNullOrEmpty(postDtos.Author.Avatar))
+
+                postDtos.Author.Avatar = await bucket.GetFileAsync(postDtos.Author.Avatar);
+                if(!string.IsNullOrEmpty(request.UserID))
                 {
-                    postDtos.Author.Avatar = await bucket.GetFileAsync(ConstantsData.DefaultAvatarKey);
-                }
-                else
-                {
-                    postDtos.Author.Avatar = await bucket.GetFileAsync(postDtos.Author.Avatar);
-                }
-                var userID = Guid.Parse(request.UserID);
-                if(post.LikeUserIds.Count>0)
-                {
-                    postDtos.IsLike = post.LikeUserIds.Contains(userID);
+                    var userID = Guid.Parse(request.UserID);
+                    if (post.LikeUserIds.Count > 0)
+                    {
+                        postDtos.IsLike = post.LikeUserIds.Contains(userID);
+                    }
                 }
                 if (post.Image.Count > 0)
                 {

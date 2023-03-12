@@ -2,13 +2,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Newtonsoft.Json;
+using Project.Common.Paging;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
-using Project.ForumService.Commands;
 using Project.ForumService.Data;
-using Project.ForumService.Dtos.Model;
 using Project.ForumService.Dtos.PostsDtos;
 using Project.ForumService.Queries;
 
@@ -37,6 +37,16 @@ namespace Project.ForumService.Handlers.PostHandlers
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
+                posts = posts.Where(x => x.IsActive == true)
+                    .OrderBy(x => x.CreatedAt)
+                    .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
+                    .Take(request.PaginationRequestHeader.PageSize).ToList();
+                PaginationResponseHeader header = new PaginationResponseHeader();
+                header.TotalCount = posts.Count;
+                header.PageIndex = request.PaginationRequestHeader.PageNumber;
+                header.PageSize = request.PaginationRequestHeader.PageSize;
+
+                request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 List<PostDtos> postDtos = mapper.Map<List<PostDtos>>(posts);
                 foreach (PostDtos post in postDtos)
                 {
@@ -45,14 +55,8 @@ namespace Project.ForumService.Handlers.PostHandlers
                         var images = await bucket.GetManyFileAsync(post.Image);
                         post.Image = images;
                     }
-                    if (string.IsNullOrEmpty(post.Author.Avatar))
-                    {
-                        post.Author.Avatar = await bucket.GetFileAsync(ConstantsData.DefaultAvatarKey);
-                    }
-                    else
-                    {
-                        post.Author.Avatar = await bucket.GetFileAsync(post.Author.Avatar);
-                    }
+                    post.Author.Avatar = await bucket.GetFileAsync(post.Author.Avatar);
+
                 }
                 return ApiResponse.OK<List<PostDtos>>(postDtos);
             }

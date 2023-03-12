@@ -71,18 +71,6 @@ namespace Project.ProfileService.Controllers
         {
             return await mediator.Send(new GetEmployeeProfileByIDQuery(UserID));
         }
-        //[HttpGet]
-        //[Authorize]
-        //public async Task<IActionResult> GetAdminProfileByID(Guid UserID)
-        //{
-        //    return await mediator.Send(new GetProfileByIDQuery(UserID));
-        //}
-        //[HttpGet]
-        //[Authorize]
-        //public async Task<IActionResult> GetExpertProfileByID(Guid UserID)
-        //{
-        //    return await mediator.Send(new GetProfileByIDQuery(UserID));
-        //}
         [HttpGet]
         //[Authorize]
         public async Task<IActionResult> GetSimpleProfile(Guid UserID)
@@ -154,7 +142,7 @@ namespace Project.ProfileService.Controllers
         [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
         public async Task<IActionResult> DeleteUserProfile(Guid ProfileID)
         {
-            return await mediator.Send(new DeleteProfileCommands(ProfileID));
+            return await mediator.Send(new DeleteUserProfileCommands(ProfileID));
         }
         [HttpDelete]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]

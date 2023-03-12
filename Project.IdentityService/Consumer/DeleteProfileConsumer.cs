@@ -23,14 +23,14 @@ namespace Project.IdentityService.Consumer
             var user = await userRepository.GetAsync(UserID);
             if (user == null)
             {
-                await bus.SendMessage<DeleteProfileResultEvents>(new DeleteProfileResultEvents { IsSuccess= false,UserID = UserID }, ExchangeConstants.ProfileService);
+                await bus.SendMessageWithExchangeName<DeleteProfileResultEvents>(new DeleteProfileResultEvents { IsSuccess= false,UserID = UserID }, ExchangeConstants.ProfileService);
             }
             var result = await userRepository.DeleteAsync(user);
             if (!result)
             {
-                await bus.SendMessage<DeleteProfileResultEvents>(new DeleteProfileResultEvents { IsSuccess = false, UserID = UserID }, ExchangeConstants.ProfileService);
+                await bus.SendMessageWithExchangeName<DeleteProfileResultEvents>(new DeleteProfileResultEvents { IsSuccess = false, UserID = UserID }, ExchangeConstants.ProfileService);
             }
-            await bus.SendMessage<DeleteProfileResultEvents>(new DeleteProfileResultEvents { IsSuccess = true }, ExchangeConstants.ProfileService);
+            await bus.SendMessageWithExchangeName<DeleteProfileResultEvents>(new DeleteProfileResultEvents { IsSuccess = true }, ExchangeConstants.ProfileService);
         }
     }
 }

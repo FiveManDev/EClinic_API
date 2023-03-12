@@ -88,5 +88,10 @@ namespace Project.ProfileService.Repository.ProfileRepository
             return new PaginationModel<List<Profile>> { PaginationData = profiles, PaginationResponseHeader = paginationResponseHeader };
         }
 
+        public async Task<Profile> GetUserProfileByIDAsync(Guid ProfileID)
+        {
+            var result = await context.Profiles.Include(x => x.HealthProfile).SingleOrDefaultAsync(x => x.ProfileID == ProfileID);
+            return result;
+        }
     }
 }

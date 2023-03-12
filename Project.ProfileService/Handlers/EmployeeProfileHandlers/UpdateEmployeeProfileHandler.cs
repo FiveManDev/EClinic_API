@@ -1,10 +1,14 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Response;
 using Project.Core.AWS;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 using Project.ProfileService.Commands;
+using Project.ProfileService.Events;
 using Project.ProfileService.Repository.EmployeeProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -16,13 +20,15 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
         private readonly IEmployeeProfilesRepository employeeProfilesRepository;
         private readonly ILogger<UpdateEmployeeProfileHandler> logger;
         private readonly IAmazonS3Bucket s3Bucket;
+        private readonly IBus bus;
 
-        public UpdateEmployeeProfileHandler(IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, ILogger<UpdateEmployeeProfileHandler> logger, IAmazonS3Bucket s3Bucket)
+        public UpdateEmployeeProfileHandler(IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, ILogger<UpdateEmployeeProfileHandler> logger, IAmazonS3Bucket s3Bucket, IBus bus)
         {
             this.profileRepository = profileRepository;
             this.employeeProfilesRepository = employeeProfilesRepository;
             this.logger = logger;
             this.s3Bucket = s3Bucket;
+            this.bus = bus;
         }
 
         public async Task<ObjectResult> Handle(UpdateEmployeeProfileCommands request, CancellationToken cancellationToken)
@@ -63,6 +69,13 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                 {
                     throw new Exception("Update Profile Error");
                 }
+                await bus.SendMessageWithExchangeName<UpdateProfileEvents>(new UpdateProfileEvents
+                {
+                    UserID = profile.UserID,
+                    Avatar = profile.Avatar,
+                    FirstName = profile.FirstName,
+                    LastName = profile.LastName
+                }, ExchangeConstants.ForumService);
                 return ApiResponse.OK("Update Profile Success");
             }
             catch (Exception ex)

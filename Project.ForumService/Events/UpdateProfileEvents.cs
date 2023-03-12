@@ -1,6 +1,6 @@
-﻿namespace Project.ProfileService.Dtos.Profile
+﻿namespace Project.ForumService.Events
 {
-    public class SimpleProfileDtos
+    public class UpdateProfileEvents
     {
         public Guid UserID { get; set; }
         public string FirstName { get; set; }

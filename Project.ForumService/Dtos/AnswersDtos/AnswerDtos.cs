@@ -7,7 +7,7 @@ namespace Project.ForumService.Dtos.AnswersDtos
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
-        public List<Guid> Tags { get; set; }
+        public List<HashtagsDtos> HashTags { get; set; }
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
         public Author Author { get; set; }

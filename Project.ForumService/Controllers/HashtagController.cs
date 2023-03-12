@@ -20,7 +20,7 @@ namespace Project.ForumService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.Supporter, RoleConstants.Supporter })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.Supporter, RoleConstants.User })]
         public async Task<IActionResult> GetAllHashtag()
         {
             return await mediator.Send(new GetAllHashtagQuery());

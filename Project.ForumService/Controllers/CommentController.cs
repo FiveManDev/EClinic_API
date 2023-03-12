@@ -21,23 +21,24 @@ namespace Project.ForumService.Controllers
         }
 
         [HttpGet]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> GetAllComment(Guid PostID)
         {
-            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;
             return await mediator.Send(new GetAllCommentQuery(PostID, userId));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> CreateComment([FromBody] CreateCommentDtos createCommentDtos)
         {
-            return await mediator.Send(new CreateCommentCommands(createCommentDtos));
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new CreateCommentCommands(createCommentDtos, userId));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]
         public async Task<IActionResult> CreateReplyComment([FromBody] CreateReplyCommentDtos createReplyCommentDtos)
         {
-            return await mediator.Send(new CreateReplyCommentCommands(createReplyCommentDtos));
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new CreateReplyCommentCommands(createReplyCommentDtos, userId));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]

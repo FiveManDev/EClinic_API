@@ -1,17 +1,25 @@
+using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.Core.AWS;
 using Project.Core.Cors;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
+using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
 using Project.Data.Extensions;
+using Project.ForumService.Consumer;
 using Project.ForumService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
+builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
+{
+    config.AddReceiveEndpoint<DeleteProfileConsumer>(ExchangeConstants.ForumService, context);
+    config.AddReceiveEndpoint<UpdateProfileConsumer>(ExchangeConstants.ForumService, context);
+});
 builder.Services.AddMyCors(CorsName);
 var collectionNames = builder.Configuration.GetSection("EClinicDB:CollectionNames").Get<List<string>>();
 var serviceSettings = builder.Configuration.GetSection("EClinicDB:ConnectionURI").Get<string>();

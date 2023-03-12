@@ -27,21 +27,23 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetPostsQuery(paginationRequestHeader, searchText, Response));
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPost()
+        public async Task<IActionResult> GetAllPost([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
-            return await mediator.Send(new GetAllPostQuery());
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetAllPostQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
         public async Task<IActionResult> GetPostByID(Guid PostID)
         {
-            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;
             return await mediator.Send(new GetPostQuery(PostID, userId));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]
         public async Task<IActionResult> CreatePost([FromForm] CreatePostDtos createPostDtos)
         {
-            return await mediator.Send(new CreatePostCommands(createPostDtos));
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new CreatePostCommands(createPostDtos, userId));
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]

@@ -7,6 +7,7 @@ using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
 using Project.ForumService.Dtos.AnswersDtos;
+using Project.ForumService.Dtos.HashtagDtos;
 using Project.ForumService.Dtos.Model;
 using Project.ForumService.Queries;
 
@@ -39,19 +40,20 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                     return ApiResponse.NotFound("Answer Not Found.");
                 }
                 AnswerDtos answerDtos = mapper.Map<AnswerDtos>(answer);
-                var userID = Guid.Parse(request.UserID);
-                if (answer.LikeUserIds.Count > 0)
+                var Tags = await hashTagRepository.GetAllAsync();
+                var TagIDs = Tags.Select(x => x.Id).ToList();
+                var HashTags = Tags.Where(t => TagIDs.Contains(t.Id)).ToList();
+                answerDtos.HashTags = mapper.Map<List<HashtagsDtos>>(HashTags);
+                answerDtos.IsLike = false;
+                if (!string.IsNullOrEmpty(request.UserID))
                 {
-                    answerDtos.IsLike = answer.LikeUserIds.Contains(userID);
+                    var userID = Guid.Parse(request.UserID);
+                    if (answer.LikeUserIds.Count > 0)
+                    {
+                        answerDtos.IsLike = answer.LikeUserIds.Contains(userID);
+                    }
                 }
-                if (string.IsNullOrEmpty(answerDtos.Author.Avatar))
-                {
-                    answerDtos.Author.Avatar = await bucket.GetFileAsync(ConstantsData.DefaultAvatarKey);
-                }
-                else
-                {
-                    answerDtos.Author.Avatar = await bucket.GetFileAsync(answerDtos.Author.Avatar);
-                }
+                answerDtos.Author.Avatar = await bucket.GetFileAsync(answerDtos.Author.Avatar);
                 return ApiResponse.OK(answerDtos);
             }
             catch (Exception ex)

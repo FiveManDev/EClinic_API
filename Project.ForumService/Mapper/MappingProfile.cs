@@ -2,6 +2,7 @@
 using Project.ForumService.Data;
 using Project.ForumService.Dtos.AnswersDtos;
 using Project.ForumService.Dtos.CommentsDtos;
+using Project.ForumService.Dtos.HashtagDtos;
 using Project.ForumService.Dtos.PostsDtos;
 using System.Linq;
 using System.Linq.Expressions;
@@ -54,6 +55,12 @@ namespace Project.ForumService.Mapper
             CreateMap<ReplyComment, CreateCommentDtos>()
                .ReverseMap();
             CreateMap<ReplyComment, CreateReplyCommentDtos>()
+               .ReverseMap();
+            CreateMap<Hashtag, HashtagsDtos>()
+                .ForMember(
+                  des => des.HashtagID,
+                  opt => opt.MapFrom(src => src.Id)
+              )
                .ReverseMap();
         }
     }

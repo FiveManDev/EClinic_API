@@ -7,6 +7,7 @@ namespace Project.ProfileService.Repository.ProfileRepository
     public interface IProfileRepository : IMSSQLRepository<Profile>
     {
         Task<List<Profile>> GetProfilesAsync(Guid UserID);
+        Task<Profile> GetUserProfileByIDAsync(Guid ProfileID);
         Task<Profile> GetDoctorProfileAsync(Guid UserID);
         Task<Profile> GetEmployeeProfileAsync(Guid UserID);
         Task<Profile> GetProfileAsync(Guid UserID);

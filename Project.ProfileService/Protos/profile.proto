@@ -5,6 +5,7 @@ option csharp_namespace = "Project.ProfileService.Protos";
 service ProfileService  {
   rpc EmailIsExist (CheckEmailRequest) returns (EmailExistResponse);
   rpc CreateProfile (CreateProfileRequest) returns (CreateProfileResponse);
+  rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
 }
 message CheckEmailRequest  {
   string Email = 1;
@@ -23,4 +24,13 @@ message CreateProfileRequest  {
 }
 message CreateProfileResponse  {
   bool IsSuccess = 1;
+}
+message GetProfileRequest  {
+  string UserID = 1;
+}
+message GetProfileResponse  {
+  string UserID = 1;
+  string FirstName = 2;
+  string LastName = 3;
+  string Avatar = 4;
 }

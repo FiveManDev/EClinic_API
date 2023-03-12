@@ -11,6 +11,7 @@ using Project.Core.Swagger;
 using Project.Core.Versioning;
 using Project.ProfileService.Consumer;
 using Project.ProfileService.Data.Configurations;
+using Project.ProfileService.Events;
 using Project.ProfileService.Repository.DoctorProfileRepository;
 using Project.ProfileService.Repository.EmployeeProfileRepository;
 using Project.ProfileService.Repository.HealthProfileRepository;
@@ -26,6 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
     config.AddReceiveEndpoint<DeleteProfileResultConsumer>(ExchangeConstants.ProfileService, context);
+    config.AddReceiveEndpoint<UpdateProfileResultConsumer>(ExchangeConstants.ProfileService, context);
 });
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";

@@ -53,7 +53,6 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
                     profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                 }
                 var sampleProfile = mapper.Map<SimpleProfileDtos>(profile);
-                sampleProfile.AvatarKey = key;
                 return ApiResponse.OK<SimpleProfileDtos>(sampleProfile);
 
             }
