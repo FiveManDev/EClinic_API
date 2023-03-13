@@ -11,6 +11,7 @@ namespace Project.Core.Cors
                 options.AddPolicy(CorsName, builder => builder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
+                    .WithExposedHeaders("X-Pagination")
                     .SetIsOriginAllowed(origin => true)
                     .AllowCredentials());
             });

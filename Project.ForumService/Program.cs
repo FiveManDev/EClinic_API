@@ -17,7 +17,7 @@ builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
-    //config.AddReceiveEndpoint<DeleteProfileConsumer>(ExchangeConstants.ForumService, context);
+    config.AddReceiveEndpoint<DeleteProfileConsumer>(ExchangeConstants.ForumService + "Delete", context);
     config.AddReceiveEndpoint<UpdateProfileConsumer>(ExchangeConstants.ForumService, context);
 });
 builder.Services.AddMyCors(CorsName);
