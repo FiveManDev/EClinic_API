@@ -26,7 +26,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 );
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
-    config.AddReceiveEndpoint<DeleteProfileResultConsumer>(ExchangeConstants.ProfileService, context);
+    //config.AddReceiveEndpoint<DeleteProfileResultConsumer>(ExchangeConstants.ProfileService, context);
     config.AddReceiveEndpoint<UpdateProfileResultConsumer>(ExchangeConstants.ProfileService, context);
 });
 builder.Services.AddMyVersioning();
