@@ -53,7 +53,7 @@ namespace Project.ForumService.Handlers.PostHandlers
                 if (post.Image.Count > 0)
                 {
                     var images = await bucket.GetManyFileAsync(post.Image);
-                    post.Image = images;
+                    postDtos.Image = images;
                 }
                 return ApiResponse.OK(postDtos);
             }
