@@ -37,12 +37,14 @@ namespace Project.ForumService.Handlers.PostHandlers
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
-                posts = posts.Where(x => x.IsActive == true)
+                posts = posts.Where(x => x.IsActive == true).ToList();
+                PaginationResponseHeader header = new PaginationResponseHeader();
+                header.TotalCount = posts.Count;
+                posts = posts
                     .OrderBy(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
-                PaginationResponseHeader header = new PaginationResponseHeader();
-                header.TotalCount = posts.Count;
+               
                 header.PageIndex = request.PaginationRequestHeader.PageNumber;
                 header.PageSize = request.PaginationRequestHeader.PageSize;
 
