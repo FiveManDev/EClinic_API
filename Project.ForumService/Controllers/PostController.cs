@@ -33,6 +33,28 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetAllPostQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
+        public async Task<IActionResult> GetPostNotActive([FromHeader] int PageNumber, [FromHeader] int PageSize)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostNotActiveQuery(paginationRequestHeader, Response));
+        }
+        [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]
+        public async Task<IActionResult> GetPostOfUser([FromHeader] int PageNumber, [FromHeader] int PageSize)
+        {
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostOfUserQuery(paginationRequestHeader, Response, userId));
+        }
+        [HttpGet]
+        //[CustomAuthorize(Authorities = new[] { RoleConstants.Doctor, RoleConstants.Admin, RoleConstants.Supporter })]
+        public async Task<IActionResult> GetPostNoAnswer([FromHeader] int PageNumber, [FromHeader] int PageSize)
+        {
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostNoAnswerQuery(paginationRequestHeader, Response));
+        }
+        [HttpGet]
         public async Task<IActionResult> GetPostByID(Guid PostID)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;

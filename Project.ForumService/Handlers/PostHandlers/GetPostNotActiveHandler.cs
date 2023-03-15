@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
@@ -14,37 +13,36 @@ using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.PostHandlers
 {
-    public class GetAllPostHandler : IRequestHandler<GetAllPostQuery, ObjectResult>
+    public class GetPostNotActiveHandler : IRequestHandler<GetPostNotActiveQuery, ObjectResult>
     {
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
-        private readonly ILogger<GetAllPostHandler> logger;
+        private readonly ILogger<GetPostNotActiveHandler> logger;
         private readonly IAmazonS3Bucket bucket;
-        public GetAllPostHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetAllPostHandler> logger, IAmazonS3Bucket bucket)
+
+        public GetPostNotActiveHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetPostNotActiveHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
             this.bucket = bucket;
         }
-
-        public async Task<ObjectResult> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetPostNotActiveQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var posts = await repository.GetAllAsync();
+                var posts = await repository.GetAllAsync(x => x.IsActive == false);
                 if (posts == null)
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
-                posts = posts.Where(x => x.IsActive == true).ToList();
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = posts.Count;
                 posts = posts
                     .OrderBy(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
-               
+
                 header.PageIndex = request.PaginationRequestHeader.PageNumber;
                 header.PageSize = request.PaginationRequestHeader.PageSize;
 

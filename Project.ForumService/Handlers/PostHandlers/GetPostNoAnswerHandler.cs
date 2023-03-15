@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using Amazon.Runtime.Internal;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
@@ -14,37 +14,41 @@ using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.PostHandlers
 {
-    public class GetAllPostHandler : IRequestHandler<GetAllPostQuery, ObjectResult>
+    public class GetPostNoAnswerHandler : IRequestHandler<GetPostNoAnswerQuery, ObjectResult>
     {
         private readonly IMongoDBRepository<Post> repository;
+        private readonly IMongoDBRepository<Answer> answerRepository;
         private readonly IMapper mapper;
-        private readonly ILogger<GetAllPostHandler> logger;
+        private readonly ILogger<GetPostNoAnswerHandler> logger;
         private readonly IAmazonS3Bucket bucket;
-        public GetAllPostHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetAllPostHandler> logger, IAmazonS3Bucket bucket)
+
+        public GetPostNoAnswerHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMapper mapper, ILogger<GetPostNoAnswerHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
+            this.answerRepository = answerRepository;
             this.mapper = mapper;
             this.logger = logger;
             this.bucket = bucket;
         }
 
-        public async Task<ObjectResult> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetPostNoAnswerQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var posts = await repository.GetAllAsync();
+                var answer = await answerRepository.GetAllAsync();
+                var ListAnswer = answer.Select(x=>x.PostID).ToList();
+                var posts = await repository.GetAllAsync(x => !ListAnswer.Contains(x.Id));
                 if (posts == null)
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
-                posts = posts.Where(x => x.IsActive == true).ToList();
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = posts.Count;
                 posts = posts
                     .OrderBy(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
-               
+
                 header.PageIndex = request.PaginationRequestHeader.PageNumber;
                 header.PageSize = request.PaginationRequestHeader.PageSize;
 

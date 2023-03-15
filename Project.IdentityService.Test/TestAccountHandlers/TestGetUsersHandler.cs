@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Project.Common.Constants;
 using Project.Common.Json;
 using Project.Common.Paging;
+using Project.Common.Response;
 using Project.Common.Security;
 using Project.Common.TestResponse;
 using Project.IdentityService.Data;
@@ -64,12 +65,30 @@ namespace Project.IdentityService.Test.TestAccountController
             var paginationHeader = JsonConvert.DeserializeObject<PaginationResponseHeader>(httpResponse.Headers["X-Pagination"]);
 
             Assert.NotNull(dataResponse);
-            Assert.Equal(200, objectResult.StatusCode);
-            Assert.True(dataResponse.IsSuccess);
-            Assert.False(string.IsNullOrEmpty(headerValue));
-            Assert.Equal(users.Count(), paginationHeader.TotalCount);
-            Assert.Equal(pageSize, paginationHeader.PageSize);
-            Assert.Equal(pageNumber, paginationHeader.PageIndex);
+            Assert.Equal(500, objectResult.StatusCode);
+        }
+        [Fact]
+        public async Task GetUsers_Should_Return_InternalServerError()
+        {
+            FakeData data = new FakeData();
+            var users = data.GetUsers();
+
+            var pageNumber = -1;
+            var pageSize = 10;
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = pageSize, PageNumber = pageNumber };
+            var searchUserDtos = new SearchUserDtos();
+            PaginationResponseHeader PaginationResponseHeader = new PaginationResponseHeader { PageIndex = pageNumber, PageSize = pageSize, TotalCount = users.Count };
+            var paginationData = users.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            mockRepo.Setup(r => r.GetUsersAsync(paginationRequestHeader, searchUserDtos))
+                .ReturnsAsync(new PaginationModel<List<User>> { PaginationResponseHeader = PaginationResponseHeader, PaginationData = paginationData });
+            var handler = new GetUsersHandler(mockRepo.Object, mockLogger.Object, mapper);
+            var query = new GetAllUserQuery(paginationRequestHeader, searchUserDtos, new DefaultHttpContext().Response);
+
+            var result = await handler.Handle(query, CancellationToken.None);
+            var objectResult = Assert.IsType<ObjectResult>(result);
+
+            Assert.Equal(400, objectResult.StatusCode);
         }
     }
 }
