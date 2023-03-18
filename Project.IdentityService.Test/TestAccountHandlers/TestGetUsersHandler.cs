@@ -4,11 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
-using Project.Common.Constants;
 using Project.Common.Json;
 using Project.Common.Paging;
-using Project.Common.Response;
-using Project.Common.Security;
 using Project.Common.TestResponse;
 using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
@@ -20,7 +17,7 @@ using Project.IdentityService.Test.Mocks;
 using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
-namespace Project.IdentityService.Test.TestAccountController
+namespace Project.IdentityService.Test.TestAccountHandler
 {
     [ExcludeFromCodeCoverage]
     public class TestGetUsersHandler
@@ -65,7 +62,7 @@ namespace Project.IdentityService.Test.TestAccountController
             var paginationHeader = JsonConvert.DeserializeObject<PaginationResponseHeader>(httpResponse.Headers["X-Pagination"]);
 
             Assert.NotNull(dataResponse);
-            Assert.Equal(500, objectResult.StatusCode);
+            Assert.Equal(200, objectResult.StatusCode);
         }
         [Fact]
         public async Task GetUsers_Should_Return_InternalServerError()
@@ -81,14 +78,14 @@ namespace Project.IdentityService.Test.TestAccountController
             var paginationData = users.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             mockRepo.Setup(r => r.GetUsersAsync(paginationRequestHeader, searchUserDtos))
-                .ReturnsAsync(new PaginationModel<List<User>> { PaginationResponseHeader = PaginationResponseHeader, PaginationData = paginationData });
+                .ThrowsAsync(new Exception("Test exception"));
             var handler = new GetUsersHandler(mockRepo.Object, mockLogger.Object, mapper);
             var query = new GetAllUserQuery(paginationRequestHeader, searchUserDtos, new DefaultHttpContext().Response);
 
             var result = await handler.Handle(query, CancellationToken.None);
             var objectResult = Assert.IsType<ObjectResult>(result);
 
-            Assert.Equal(400, objectResult.StatusCode);
+            Assert.Equal(500, objectResult.StatusCode);
         }
     }
 }

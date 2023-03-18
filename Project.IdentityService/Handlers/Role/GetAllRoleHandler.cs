@@ -11,11 +11,11 @@ namespace Project.IdentityService.Handlers.Roles
 {
     public class GetAllRoleHandler : IRequestHandler<GetAllRoleQuery, ObjectResult>
     {
-        private readonly ILogger<GetAllRoleQuery> logger;
+        private readonly ILogger<GetAllRoleHandler> logger;
         private readonly IRoleRepository roleRepository;
         private readonly IMapper mapper;
 
-        public GetAllRoleHandler(ILogger<GetAllRoleQuery> logger, IRoleRepository roleRepository, IMapper mapper)
+        public GetAllRoleHandler(ILogger<GetAllRoleHandler> logger, IRoleRepository roleRepository, IMapper mapper)
         {
             this.logger = logger;
             this.roleRepository = roleRepository;
