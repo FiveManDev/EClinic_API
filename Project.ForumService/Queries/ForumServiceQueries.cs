@@ -14,4 +14,5 @@ namespace Project.ForumService.Queries
     public record GetAllCommentQuery(Guid PostID, string UserID) : IRequest<ObjectResult>;
     public record GetAllHashtagQuery() : IRequest<ObjectResult>;
     public record GetPostsQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText,HttpResponse Response) : IRequest<ObjectResult>;
+    public record GetPostsOfHashTagQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText,HttpResponse Response) : IRequest<ObjectResult>;
 }

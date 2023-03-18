@@ -6,6 +6,7 @@ namespace Project.ProfileService.Queries
 {
     public record GetSimpleProfileQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetUserProfilesByIDQuery(Guid UserID) : IRequest<ObjectResult>;
+    public record GetUserMainProfilesByIDQuery(string UserID) : IRequest<ObjectResult>;
     public record GetDoctorProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetEmployeeProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;
     public record GetProfileByIDQuery(Guid UserID) : IRequest<ObjectResult>;

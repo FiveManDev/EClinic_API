@@ -41,9 +41,11 @@ namespace Project.ProfileService.Repository.ProfileRepository
 
         public async Task<PaginationModel<List<Profile>>> GetUserProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText)
         {
+            if (searchText == null) { searchText = ""; }
+            searchText = searchText.ToLower();
             var profiles = await context.Profiles.Include(x => x.HealthProfile).Where(u => UserIDs.Contains(u.UserID) && u.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID)
                 .ToListAsync();
-            profiles = profiles.Where(x => x.FirstName.Contains(searchText) || x.LastName.Contains(searchText) || x.Email.Contains(searchText))
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText.ToLower()))
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
                 .ToList();
             var paginationResponseHeader = new PaginationResponseHeader
@@ -55,11 +57,13 @@ namespace Project.ProfileService.Repository.ProfileRepository
             return new PaginationModel<List<Profile>> { PaginationData = profiles, PaginationResponseHeader = paginationResponseHeader };
         }
 
-        public async  Task<PaginationModel<List<Profile>>> GetDoctorProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText)
+        public async Task<PaginationModel<List<Profile>>> GetDoctorProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText)
         {
+            if (searchText == null) { searchText = ""; }
+            searchText = searchText.ToLower();
             var profiles = await context.Profiles.Include(x => x.DoctorProfile).Where(u => UserIDs.Contains(u.UserID))
                 .ToListAsync();
-            profiles = profiles.Where(x => x.FirstName.Contains(searchText) || x.LastName.Contains(searchText) || x.Email.Contains(searchText) || x.DoctorProfile.Title.Contains(searchText))
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText) || x.DoctorProfile.Title.ToLower().Contains(searchText))
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
                 .ToList();
             var paginationResponseHeader = new PaginationResponseHeader
@@ -73,10 +77,12 @@ namespace Project.ProfileService.Repository.ProfileRepository
 
         public async Task<PaginationModel<List<Profile>>> GetEmployeeProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText)
         {
+            if (searchText == null) { searchText = ""; }
+            searchText = searchText.ToLower();
             var profiles = await context.Profiles.Include(x => x.EmployeeProfile)
                   .Where(u => UserIDs.Contains(u.UserID))
                  .ToListAsync();
-            profiles = profiles.Where(x => x.FirstName.Contains(searchText) || x.LastName.Contains(searchText) || x.Email.Contains(searchText))
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText) || x.LastName.ToLower().Contains(searchText) || x.Email.ToLower().Contains(searchText))
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
                 .ToList();
             var paginationResponseHeader = new PaginationResponseHeader

@@ -47,11 +47,11 @@ VALUES ('003a894b-36a8-4471-b906-dc627a6ce9c2','99b8a1ab-1302-4443-9ef7-95fae52b
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('1d3b82bb-e1c0-4100-a61b-1cba0bfa117a','22849f83-a5b4-49eb-93ed-e2d942254521',N'Doctor',N'Test',N'',1,'01/01/2001','0369123789','doctortest@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('2b2cfaab-0e88-462c-b2be-4af928157c4d','8edf474e-0fcb-49fc-9c9e-4e902c7472f2',N'Tuan',N'Le Anh',N'Image/doctor1.jpg',1,'01/01/1975','0369323245','leanhtuan@gmail.com',N'Viet Nam');
+VALUES ('2b2cfaab-0e88-462c-b2be-4af928157c4d','8edf474e-0fcb-49fc-9c9e-4e902c7472f2',N'Tuan',N'Le Anh',N'Image/doctor1.png',1,'01/01/1975','0369323245','leanhtuan@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('9d7601de-a1b3-474a-92d2-6eeac50ad010','b514b384-ed9c-4d68-90ae-4f437bdee6b9',N'Bich Dao',N'Nguyen Thi',N'Image/doctor2.jpg',1,'01/01/1975','0369456785','nguybichdaoenthi@gmail.com',N'Ca Mau');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('475699ab-1582-429a-a675-7596c2b93c80','f8f4c1f6-b620-42e6-9da9-54438bbd13c5',N'Nam',N'Tran Quang',N'Image/doctor3.jpg',1,'01/01/1975','0369456784','tranquangnam@gmail.com',N'Kien Giang');
+VALUES ('475699ab-1582-429a-a675-7596c2b93c80','f8f4c1f6-b620-42e6-9da9-54438bbd13c5',N'Nam',N'Tran Quang',N'Image/doctor3.png',1,'01/01/1975','0369456784','tranquangnam@gmail.com',N'Kien Giang');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('596cd928-d30c-43b2-8313-78f5a72e42eb','5145193c-51dc-4fed-8aa9-8adc068b9c69',N'Quy Quyen',N'Dao Bui',N'Image/doctor4.jpg',1,'01/01/1975','0369456783','daobuiquyquyen@gmail.com',N'Can Tho');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
@@ -122,11 +122,11 @@ INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOf
 VALUES ('488de21c-8552-468e-b293-cbbfea3ba55b','25fec2c5-87c1-4ec4-9014-9515e5d8863b',N'Trong',N'Ly Hung',N'',1,'01/01/2001','0369127531','hungtrong123@gmail.com',N'Bac Lieu');
 
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('6946f661-40d9-45e7-8527-5045522dd8c5','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Hieu',N'Do Trong',N'Image/user19.png',1,'01/01/2001','0369975330','tronghieu@gmail.com',N'Viet Nam');
+VALUES ('6946f661-40d9-45e7-8527-5045522dd8c5','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Hieu',N'Do Trong',N'Image/user19.png',1,'01/01/1980','0369975330','tronghieu@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('9132f03d-c300-4725-b35a-7e364631eb7c','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Anh',N'Nhat Tinh',N'Image/user20.png',1,'01/01/2001','0369915930','tinhanh@gmail.com',N'Viet Nam');
+VALUES ('9132f03d-c300-4725-b35a-7e364631eb7c','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Anh',N'Nhat Tinh',N'Image/user20.png',1,'01/01/1982','0369915930','tinhanh@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('d88c45d5-382a-4a86-977c-8092c14e83f9','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Khai',N'Le Quang',N'',1,'01/01/2001','0369925830','quangkhai@gmail.com',N'Viet Nam');
+VALUES ('d88c45d5-382a-4a86-977c-8092c14e83f9','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Ha',N'Le Dieu',N'',1,'01/01/1960','0369925830','ledieuha@gmail.com',N'Viet Nam');
 
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('350af705-bd31-40ab-8b0f-3a064d4e3df9','abac9d62-375e-42e9-898d-648864d34985',N'My Anh',N'Le Thi',N'Image/user11.png',0,'01/01/2001','0369411131','myanh123@gmail.com',N'Viet Nam');
@@ -236,79 +236,79 @@ VALUES ('73070972-e93b-4dd2-9d6d-c7022759052e','01/01/2001',N'Tư vấn viên ư
 GO
 
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('e1d2bbb8-d3ac-4806-bc85-41a2630433e9','AB',170,70,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('e1d2bbb8-d3ac-4806-bc85-41a2630433e9','AB-',170,70,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('6946f661-40d9-45e7-8527-5045522dd8c5','AB',160,50,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
+VALUES ('6946f661-40d9-45e7-8527-5045522dd8c5','AB+',160,50,'6a213e3d-6121-490e-87fc-747ba820491e');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('9132f03d-c300-4725-b35a-7e364631eb7c','A',155,55,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
+VALUES ('9132f03d-c300-4725-b35a-7e364631eb7c','A-',155,55,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('d88c45d5-382a-4a86-977c-8092c14e83f9','B',165,50,'7cb6ef5f-648a-477a-9172-5172ff4f7868');
+VALUES ('d88c45d5-382a-4a86-977c-8092c14e83f9','B-',165,50,'7cb6ef5f-648a-477a-9172-5172ff4f7868');
 
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('45a9d235-0845-42e8-854b-ca62ac06ba0e','A',170,75,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('45a9d235-0845-42e8-854b-ca62ac06ba0e','A-',170,75,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('bbb518fe-c93d-4845-ab2b-db4bb8aa964f','A',175,65,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('bbb518fe-c93d-4845-ab2b-db4bb8aa964f','A+',175,65,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('77942dd9-ad18-49f2-8d4a-f0d7ecd616fd','B',170,75,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('77942dd9-ad18-49f2-8d4a-f0d7ecd616fd','B-',170,75,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('245cd364-da20-4cc9-b97c-f659a4c73f8a','B',168,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('245cd364-da20-4cc9-b97c-f659a4c73f8a','B-',168,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('9b5a9fab-8f64-449e-bd5d-ff9bba314431','AB',170,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('9b5a9fab-8f64-449e-bd5d-ff9bba314431','AB+',170,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('35c78e79-f9ff-4d18-87a1-70a206e6fddb','AB',170,75,'84251a89-a458-46f8-ba28-83df593ed2a9');
+VALUES ('35c78e79-f9ff-4d18-87a1-70a206e6fddb','AB-',170,75,'84251a89-a458-46f8-ba28-83df593ed2a9');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('e09510d0-98a0-47f9-a332-73cb75742b0b','O',175,65,'6a213e3d-6121-490e-87fc-747ba820491e');
+VALUES ('e09510d0-98a0-47f9-a332-73cb75742b0b','O+',175,65,'6a213e3d-6121-490e-87fc-747ba820491e');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('874e674c-7cc1-4551-8a58-75f2378f9aa7','O',170,75,'7cb6ef5f-648a-477a-9172-5172ff4f7868');
+VALUES ('874e674c-7cc1-4551-8a58-75f2378f9aa7','O-',170,75,'7cb6ef5f-648a-477a-9172-5172ff4f7868');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('293d15fa-12e0-4408-b194-8312375bcaaa','A',168,55,'ebfd7919-7210-4c54-bb76-fa37dcc191a3');
+VALUES ('293d15fa-12e0-4408-b194-8312375bcaaa','A-',168,55,'ebfd7919-7210-4c54-bb76-fa37dcc191a3');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('e07f41eb-00b0-4dc3-8c08-98c02956d4e7','A',170,60,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
+VALUES ('e07f41eb-00b0-4dc3-8c08-98c02956d4e7','A+',170,60,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('d67add11-294e-464d-8809-a9ae3194109a','B',170,75,'6a213e3d-6121-490e-87fc-747ba820491e');
+VALUES ('d67add11-294e-464d-8809-a9ae3194109a','B+',170,75,'6a213e3d-6121-490e-87fc-747ba820491e');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('2ad38fef-416b-401d-8885-b719cdabc0fa','B',175,65,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
+VALUES ('2ad38fef-416b-401d-8885-b719cdabc0fa','B-',175,65,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('488de21c-8552-468e-b293-cbbfea3ba55b','AB',170,75,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
+VALUES ('488de21c-8552-468e-b293-cbbfea3ba55b','AB-',170,75,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
 
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('350af705-bd31-40ab-8b0f-3a064d4e3df9','A',165,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('350af705-bd31-40ab-8b0f-3a064d4e3df9','A+',165,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('ac9c04ad-885e-4c73-b035-3e53b5e34284','A',160,47,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('ac9c04ad-885e-4c73-b035-3e53b5e34284','A-',160,47,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('295c36f4-54d7-4183-b6b1-450054047200','A',162,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('295c36f4-54d7-4183-b6b1-450054047200','A+',162,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('cd3e7605-81ac-4a97-9ca3-58ed958fb4b6','B',168,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('cd3e7605-81ac-4a97-9ca3-58ed958fb4b6','B-',168,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('ca44f559-803f-4daf-b024-9c870c62318e','B',157,62,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('ca44f559-803f-4daf-b024-9c870c62318e','B-',157,62,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('6ac68c37-0ae3-478f-9c22-9cf22fa3db1c','B',170,51,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('6ac68c37-0ae3-478f-9c22-9cf22fa3db1c','B+',170,51,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('9ad897ac-89d2-4ef0-be64-a7d58dfd5f8d','AB',169,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('9ad897ac-89d2-4ef0-be64-a7d58dfd5f8d','AB+',169,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('f2427dc3-481e-4e31-8f81-d06526bdaf58','AB',163,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('f2427dc3-481e-4e31-8f81-d06526bdaf58','AB-',163,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('1e7028e1-356c-429b-b5e1-1b6b130d5871','A',165,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('1e7028e1-356c-429b-b5e1-1b6b130d5871','A+',165,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('9a910220-9883-4b23-b0e2-1ecab6c46275','A',160,47,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('9a910220-9883-4b23-b0e2-1ecab6c46275','A-',160,47,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('81a9cc52-7b67-4a61-8bcc-3782be771fce','A',162,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('81a9cc52-7b67-4a61-8bcc-3782be771fce','A+',162,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('57d380f2-9ce4-4d07-9100-37b0dc0e32af','B',168,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('57d380f2-9ce4-4d07-9100-37b0dc0e32af','B-',168,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('0231f164-2680-42f5-84fb-5f07428eaddd','B',157,62,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('0231f164-2680-42f5-84fb-5f07428eaddd','B+',157,62,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('f3575ab5-1d36-426c-888c-6415324c3f0d','B',170,51,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('f3575ab5-1d36-426c-888c-6415324c3f0d','B-',170,51,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('4b6f23f7-a4e2-47d8-a933-83d52ba8d9b7','AB',169,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('4b6f23f7-a4e2-47d8-a933-83d52ba8d9b7','AB+',169,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('bde3df23-94a5-4d12-8342-07307ceca903','AB',163,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('bde3df23-94a5-4d12-8342-07307ceca903','AB-',163,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','AB',159,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','AB-',159,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
-VALUES ('2590134e-c741-405e-ba2a-2be38a27d8bc','AB',155,49,'13accb41-1cad-4171-85aa-f3d76464c3dc');
+VALUES ('2590134e-c741-405e-ba2a-2be38a27d8bc','AB+',155,49,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
 
 

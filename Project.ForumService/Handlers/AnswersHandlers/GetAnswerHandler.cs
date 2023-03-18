@@ -41,7 +41,7 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                 }
                 AnswerDtos answerDtos = mapper.Map<AnswerDtos>(answer);
                 var Tags = await hashTagRepository.GetAllAsync();
-                var TagIDs = Tags.Select(x => x.Id).ToList();
+                var TagIDs = answer.Tags;
                 var HashTags = Tags.Where(t => TagIDs.Contains(t.Id)).ToList();
                 answerDtos.HashTags = mapper.Map<List<HashtagsDtos>>(HashTags);
                 answerDtos.IsLike = false;

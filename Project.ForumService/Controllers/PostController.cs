@@ -21,7 +21,13 @@ namespace Project.ForumService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetPosts([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string searchText)
+        public async Task<IActionResult> SearchPostOfHashTag([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string searchText)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostsOfHashTagQuery(paginationRequestHeader, searchText, Response));
+        }
+        [HttpGet]
+        public async Task<IActionResult> SearchPost([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string searchText)
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetPostsQuery(paginationRequestHeader, searchText, Response));

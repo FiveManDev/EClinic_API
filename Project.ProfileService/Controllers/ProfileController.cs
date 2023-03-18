@@ -55,6 +55,13 @@ namespace Project.ProfileService.Controllers
         }
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> GetUserMainProfilesByID()
+        {
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new GetUserMainProfilesByIDQuery(userId));
+        }
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUserProfilesByID(Guid UserID)
         {
             return await mediator.Send(new GetUserProfilesByIDQuery(UserID));

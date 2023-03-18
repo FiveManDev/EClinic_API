@@ -37,7 +37,6 @@ namespace Project.ForumService.Handlers.PostHandlers
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
-                posts = posts.Where(x => x.IsActive == true).ToList();
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = posts.Count;
                 posts = posts
