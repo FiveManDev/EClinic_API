@@ -41,8 +41,8 @@ namespace Project.ForumService.Handlers.PostHandlers
                 {
                     return ApiResponse.NotFound("Post Not Found.");
                 }
-                if (request.SearchPostDtos.SearchText != null)
-                {
+                //if (request.SearchPostDtos.SearchText != null)
+                //{
                     var answer = await answerRepository.GetAllAsync(x => x.Content.ToLower().Contains(searchText.ToLower()));
                     if (answer != null)
                     {
@@ -54,9 +54,15 @@ namespace Project.ForumService.Handlers.PostHandlers
                         var ListPostIDInPost = posts.Select(x => x.Id).ToList();
                         var ListPostIDNotInPost = ListPostIDInAnswer.Except(ListPostIDInPost).ToList();
                         var listAnswerPost = await postRepository.GetAllAsync(x => ListPostIDNotInPost.Contains(x.Id));
-                        posts.AddRange(listAnswerPost);
+                        if(request.SearchPostDtos.Tags != null)
+                        {
+                            var listAnswerPostx = await postRepository.GetAllAsync(x => ListPostIDInAnswer.Contains(x.Id));
+                            posts = listAnswerPostx;
+                        }
+                        
+                        //posts.AddRange(listAnswerPost);
                     }
-                }
+                //}
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = posts.Count;
                 posts = posts
