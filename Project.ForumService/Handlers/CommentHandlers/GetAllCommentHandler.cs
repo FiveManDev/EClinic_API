@@ -48,12 +48,17 @@ namespace Project.ForumService.Handlers.CommentHandlers
                     {
                         Guid userID = Guid.Parse(request.UserID);
                         comment.IsLike = comment.LikeUserIds.Contains(userID);
-                        foreach (ReplyCommentDtos replyCommentDtos in comment.ReplyCommentDtos)
+                        
+                    }
+                    foreach (ReplyCommentDtos replyCommentDtos in comment.ReplyCommentDtos)
+                    {
+                        if (!string.IsNullOrEmpty(request.UserID))
                         {
+                            Guid userID = Guid.Parse(request.UserID);
                             replyCommentDtos.IsLike = replyCommentDtos.LikeUserIds.Contains(userID);
-                            replyCommentDtos.Author.Avatar = await bucket.GetFileAsync(replyCommentDtos.Author.Avatar);
-
                         }
+                        replyCommentDtos.Author.Avatar = await bucket.GetFileAsync(replyCommentDtos.Author.Avatar);
+
                     }
 
                 }
