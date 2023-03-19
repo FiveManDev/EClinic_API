@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
+using Project.ForumService.Dtos.HashtagDtos;
 using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.HashTagHandlers
@@ -11,11 +13,13 @@ namespace Project.ForumService.Handlers.HashTagHandlers
     {
         private readonly IMongoDBRepository<Hashtag> repository;
         private readonly ILogger<GetAllHashTagHandler> logger;
+        private readonly IMapper mapper;
 
-        public GetAllHashTagHandler(IMongoDBRepository<Hashtag> repository, ILogger<GetAllHashTagHandler> logger)
+        public GetAllHashTagHandler(IMongoDBRepository<Hashtag> repository, ILogger<GetAllHashTagHandler> logger, IMapper mapper)
         {
             this.repository = repository;
             this.logger = logger;
+            this.mapper = mapper;
         }
 
         public async Task<ObjectResult> Handle(GetAllHashtagQuery request, CancellationToken cancellationToken)
@@ -23,7 +27,8 @@ namespace Project.ForumService.Handlers.HashTagHandlers
             try
             {
                 var hashtags = await repository.GetAllAsync();
-                return ApiResponse.OK<List<Hashtag>>(hashtags);
+                List<HashtagsDtos> tagDtos = mapper.Map<List<HashtagsDtos>>(hashtags);
+                return ApiResponse.OK<List<HashtagsDtos>>(tagDtos);
             }
             catch (Exception ex)
             {

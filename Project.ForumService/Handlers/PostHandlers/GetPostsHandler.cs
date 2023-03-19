@@ -8,7 +8,6 @@ using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
-using Project.ForumService.Dtos.Model;
 using Project.ForumService.Dtos.PostsDtos;
 using Project.ForumService.Queries;
 
@@ -61,7 +60,7 @@ namespace Project.ForumService.Handlers.PostHandlers
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = posts.Count;
                 posts = posts
-                    .OrderBy(x => x.CreatedAt)
+                    .OrderByDescending(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
 
