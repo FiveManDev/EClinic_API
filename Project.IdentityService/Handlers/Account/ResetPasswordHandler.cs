@@ -19,7 +19,9 @@ namespace Project.IdentityService.Handlers.Account
         public ResetPasswordHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<ResetPasswordHandler> logger)
         {
             this.userRepository = userRepository;
-            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"));
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new ProfileService.ProfileServiceClient(channel);
             this.logger = logger;
         }
