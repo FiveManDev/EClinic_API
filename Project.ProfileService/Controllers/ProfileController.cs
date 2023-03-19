@@ -24,6 +24,14 @@ namespace Project.ProfileService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> SearchFamlyProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new SearchFamilyProfileQuery(paginationRequestHeader, SearchText, Response, userId));
+        }
+        [HttpGet]
         public async Task<IActionResult> GetUserProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };

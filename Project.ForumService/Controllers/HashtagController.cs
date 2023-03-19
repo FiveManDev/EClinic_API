@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
+using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.ForumService.Commands;
 using Project.ForumService.Dtos.HashtagDtos;
@@ -18,6 +19,12 @@ namespace Project.ForumService.Controllers
         public HashtagController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetTagSortByCount([FromHeader] int PageNumber, [FromHeader] int PageSize)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetTagSortByCountQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.Supporter, RoleConstants.User })]
