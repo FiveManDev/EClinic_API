@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Project.CommunicateService.Commands;
 
 namespace Project.CommunicateService.Controllers
 {
@@ -7,6 +9,16 @@ namespace Project.CommunicateService.Controllers
     [ApiVersion("1")]
     public class RoomsController : ControllerBase
     {
-        
+        private readonly IMediator mediator;
+
+        public RoomsController(IMediator mediator)
+        {
+            this.mediator = mediator;
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateRoom(Guid RoomTypeID)
+        {
+            return await mediator.Send(new CreateRoomCommand(RoomTypeID));
+        }
     }
 }

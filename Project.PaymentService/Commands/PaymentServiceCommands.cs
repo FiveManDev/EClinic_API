@@ -1,0 +1,3 @@
+﻿namespace Project.PaymentService.Commands
+{
+}

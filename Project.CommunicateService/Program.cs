@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project.CommunicateService.Data.Configurations;
+using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.CommunicateService.Repository.RoomTypeRepositories;
@@ -32,6 +33,7 @@ builder.Services.AddMyMediatR();
 builder.Services.AddAWSS3Bucket(builder.Configuration);
 builder.Services.AddMyMapper();
 builder.Services.AddMySwagger();
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,11 +44,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors(CorsName);
-app.UseEndpoints(endpoints =>
-{
-    //endpoints.Map<ProfileDataService>();
+app.UseEndpoints(endpoints => {
+    endpoints.MapHub<MessageHub>("/message");
 });
 app.MapControllers();
 

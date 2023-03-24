@@ -1,0 +1,4 @@
+﻿namespace Project.PaymentService.Queries
+{
+
+}
