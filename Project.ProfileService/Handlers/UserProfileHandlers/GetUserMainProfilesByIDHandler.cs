@@ -2,15 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Dtos.UserProfile;
-using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 using Project.ProfileService.Repository.RelationshipRepository;
-using System.Reflection.Metadata;
 
 namespace Project.ProfileService.Handlers.UserProfileHandlers
 {
@@ -18,15 +15,13 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
     {
         private readonly ILogger<GetUserMainProfilesByIDHandler> logger;
         private readonly IProfileRepository repository;
-        private readonly IAmazonS3Bucket s3Bucket;
         private readonly IMapper mapper;
         private readonly IRelationshipRepository relationshipRepository;
 
-        public GetUserMainProfilesByIDHandler(ILogger<GetUserMainProfilesByIDHandler> logger, IProfileRepository repository, IAmazonS3Bucket s3Bucket, IMapper mapper, IRelationshipRepository relationshipRepository)
+        public GetUserMainProfilesByIDHandler(ILogger<GetUserMainProfilesByIDHandler> logger, IProfileRepository repository, IMapper mapper, IRelationshipRepository relationshipRepository)
         {
             this.logger = logger;
             this.repository = repository;
-            this.s3Bucket = s3Bucket;
             this.mapper = mapper;
             this.relationshipRepository = relationshipRepository;
         }
@@ -43,7 +38,6 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 }
                 var mainProfile = userProfiles.SingleOrDefault(x => x.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID);
                 var userProfileDtos = mapper.Map<UserProfileDtos>(mainProfile);
-                userProfileDtos.Avatar = await s3Bucket.GetUrl(userProfileDtos.Avatar);
                 var relationship = await relationshipRepository.GetAsync(userProfileDtos.RelationshipID);
                 userProfileDtos.RelationshipName = relationship.RelationshipName;
 

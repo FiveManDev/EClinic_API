@@ -2,13 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
 using Project.ForumService.Dtos.AnswersDtos;
 using Project.ForumService.Dtos.HashtagDtos;
-using Project.ForumService.Dtos.Model;
 using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.AnswersHandlers
@@ -18,15 +16,13 @@ namespace Project.ForumService.Handlers.AnswersHandlers
         private readonly IMongoDBRepository<Answer> repository;
         private readonly IMongoDBRepository<Hashtag> hashTagRepository;
         private readonly IMapper mapper;
-        private readonly IAmazonS3Bucket bucket;
         private readonly ILogger<GetAnswerHandler> logger;
 
-        public GetAnswerHandler(IMongoDBRepository<Answer> repository, IMongoDBRepository<Hashtag> hashTagRepository, IMapper mapper, IAmazonS3Bucket bucket, ILogger<GetAnswerHandler> logger)
+        public GetAnswerHandler(IMongoDBRepository<Answer> repository, IMongoDBRepository<Hashtag> hashTagRepository, IMapper mapper, ILogger<GetAnswerHandler> logger)
         {
             this.repository = repository;
             this.hashTagRepository = hashTagRepository;
             this.mapper = mapper;
-            this.bucket = bucket;
             this.logger = logger;
         }
 
@@ -53,7 +49,6 @@ namespace Project.ForumService.Handlers.AnswersHandlers
                         answerDtos.IsLike = answer.LikeUserIds.Contains(userID);
                     }
                 }
-                answerDtos.Author.Avatar = await bucket.GetFileAsync(answerDtos.Author.Avatar);
                 return ApiResponse.OK(answerDtos);
             }
             catch (Exception ex)

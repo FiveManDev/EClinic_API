@@ -5,7 +5,6 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
@@ -19,13 +18,11 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
         private readonly ILogger<GetAllPostHandler> logger;
-        private readonly IAmazonS3Bucket bucket;
-        public GetAllPostHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetAllPostHandler> logger, IAmazonS3Bucket bucket)
+        public GetAllPostHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetAllPostHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
-            this.bucket = bucket;
         }
 
         public async Task<ObjectResult> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
@@ -49,16 +46,6 @@ namespace Project.ForumService.Handlers.PostHandlers
 
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 List<PostDtos> postDtos = mapper.Map<List<PostDtos>>(posts);
-                foreach (PostDtos post in postDtos)
-                {
-                    if (post.Image.Count > 0)
-                    {
-                        var images = await bucket.GetManyFileAsync(post.Image);
-                        post.Image = images;
-                    }
-                    post.Author.Avatar = await bucket.GetFileAsync(post.Author.Avatar);
-
-                }
                 return ApiResponse.OK<List<PostDtos>>(postDtos);
             }
             catch (Exception ex)

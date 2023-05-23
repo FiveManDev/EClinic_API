@@ -1,11 +1,9 @@
-﻿using Amazon.Runtime.Internal;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
@@ -20,15 +18,13 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Answer> answerRepository;
         private readonly IMapper mapper;
         private readonly ILogger<GetPostNoAnswerHandler> logger;
-        private readonly IAmazonS3Bucket bucket;
 
-        public GetPostNoAnswerHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMapper mapper, ILogger<GetPostNoAnswerHandler> logger, IAmazonS3Bucket bucket)
+        public GetPostNoAnswerHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMapper mapper, ILogger<GetPostNoAnswerHandler> logger)
         {
             this.repository = repository;
             this.answerRepository = answerRepository;
             this.mapper = mapper;
             this.logger = logger;
-            this.bucket = bucket;
         }
 
         public async Task<ObjectResult> Handle(GetPostNoAnswerQuery request, CancellationToken cancellationToken)
@@ -54,16 +50,6 @@ namespace Project.ForumService.Handlers.PostHandlers
 
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 List<PostDtos> postDtos = mapper.Map<List<PostDtos>>(posts);
-                foreach (PostDtos post in postDtos)
-                {
-                    if (post.Image.Count > 0)
-                    {
-                        var images = await bucket.GetManyFileAsync(post.Image);
-                        post.Image = images;
-                    }
-                    post.Author.Avatar = await bucket.GetFileAsync(post.Author.Avatar);
-
-                }
                 return ApiResponse.OK<List<PostDtos>>(postDtos);
             }
             catch (Exception ex)

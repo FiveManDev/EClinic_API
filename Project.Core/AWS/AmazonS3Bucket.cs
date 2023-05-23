@@ -75,7 +75,7 @@ namespace Project.Core.AWS
                 {
                     BucketName = bucket,
                     Key = Key,
-                    Expires = DateTime.UtcNow.AddDays(1)
+                    Expires = DateTime.UtcNow.AddYears(1)
                 };
 
                 string url = s3Client.GetPreSignedURL(expiryUrlRequest);
@@ -106,7 +106,7 @@ namespace Project.Core.AWS
                     {
                         BucketName = bucket,
                         Key = Key,
-                        Expires = DateTime.UtcNow.AddDays(1)
+                        Expires = DateTime.UtcNow.AddYears(1)
                     };
 
                     string url = s3Client.GetPreSignedURL(expiryUrlRequest);
@@ -148,7 +148,8 @@ namespace Project.Core.AWS
                 {
                     throw new Exception("File uploaded failed");
                 }
-                return key;
+                var url = await GetFileAsync(key);
+                return url;
             }
             catch (Exception ex)
             {
@@ -188,8 +189,8 @@ namespace Project.Core.AWS
                     }
                     Keys.Add(key);
                 }
-
-                return Keys;
+                var urls = await GetManyFileAsync(Keys);
+                return urls;
             }
             catch (Exception ex)
             {

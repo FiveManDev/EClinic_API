@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
@@ -18,16 +17,14 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Post> postRepository;
         private readonly IMongoDBRepository<Answer> answerRepository;
         private readonly IMongoDBRepository<Hashtag> hashtagRepository;
-        private readonly IAmazonS3Bucket s3Bucket;
         private readonly IMapper mapper;
         private readonly ILogger<GetPostsOfHashTagHandler> logger;
 
-        public GetPostsOfHashTagHandler(IMongoDBRepository<Post> postRepository, IMongoDBRepository<Answer> answerRepository, IMongoDBRepository<Hashtag> hashtagRepository, IAmazonS3Bucket s3Bucket, IMapper mapper, ILogger<GetPostsOfHashTagHandler> logger)
+        public GetPostsOfHashTagHandler(IMongoDBRepository<Post> postRepository, IMongoDBRepository<Answer> answerRepository, IMongoDBRepository<Hashtag> hashtagRepository, IMapper mapper, ILogger<GetPostsOfHashTagHandler> logger)
         {
             this.postRepository = postRepository;
             this.answerRepository = answerRepository;
             this.hashtagRepository = hashtagRepository;
-            this.s3Bucket = s3Bucket;
             this.mapper = mapper;
             this.logger = logger;
         }
@@ -67,15 +64,6 @@ namespace Project.ForumService.Handlers.PostHandlers
 
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 List<PostDtos> postDtos = mapper.Map<List<PostDtos>>(posts);
-                foreach (PostDtos post in postDtos)
-                {
-                    if (post.Image.Count > 0)
-                    {
-                        var images = await s3Bucket.GetManyFileAsync(post.Image);
-                        post.Image = images;
-                    }
-                    post.Author.Avatar = await s3Bucket.GetFileAsync(post.Author.Avatar);
-                }
                 return ApiResponse.OK<List<PostDtos>>(postDtos);
             }
             catch (Exception ex)

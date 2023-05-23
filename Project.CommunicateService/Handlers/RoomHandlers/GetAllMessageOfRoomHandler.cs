@@ -18,14 +18,12 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
     {
         private readonly IRoomRepository roomRepository;
         private readonly IMapper mapper;
-        private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<GetAllMessageOfRoomHandler> logger;
 
-        public GetAllMessageOfRoomHandler(IRoomRepository roomRepository, IMapper mapper, IAmazonS3Bucket s3Bucket, ILogger<GetAllMessageOfRoomHandler> logger)
+        public GetAllMessageOfRoomHandler(IRoomRepository roomRepository, IMapper mapper, ILogger<GetAllMessageOfRoomHandler> logger)
         {
             this.roomRepository = roomRepository;
             this.mapper = mapper;
-            this.s3Bucket = s3Bucket;
             this.logger = logger;
         }
 
@@ -53,7 +51,6 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 {
                     if (chatMessage.Type == MessageType.Image)
                     {
-                        chatMessage.Content = await s3Bucket.GetFileAsync(chatMessage.Content);
                         chatMessage.IsImage = true;
                     }
                     if(chatMessage.UserID == UserID)

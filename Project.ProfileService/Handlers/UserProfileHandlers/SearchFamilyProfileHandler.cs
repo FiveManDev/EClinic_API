@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
-using Grpc.Net.Client;
-using MassTransit.Initializers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Project.Common.Constants;
 using Project.Common.Paging;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Dtos.UserProfile;
-using Project.ProfileService.Helpers;
-using Project.ProfileService.Protos;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 using Project.ProfileService.Repository.RelationshipRepository;
@@ -23,15 +17,13 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
         private readonly IProfileRepository profileRepository;
         private readonly IRelationshipRepository relationshipRepository;
         private readonly ILogger<SearchFamilyProfileHandler> logger;
-        private readonly IAmazonS3Bucket bucket;
         private readonly IMapper mapper;
 
-        public SearchFamilyProfileHandler(IProfileRepository profileRepository, IRelationshipRepository relationshipRepository, ILogger<SearchFamilyProfileHandler> logger, IAmazonS3Bucket bucket, IMapper mapper)
+        public SearchFamilyProfileHandler(IProfileRepository profileRepository, IRelationshipRepository relationshipRepository, ILogger<SearchFamilyProfileHandler> logger, IMapper mapper)
         {
             this.profileRepository = profileRepository;
             this.relationshipRepository = relationshipRepository;
             this.logger = logger;
-            this.bucket = bucket;
             this.mapper = mapper;
         }
 
@@ -57,7 +49,6 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 {
                     var relationship = await relationshipRepository.GetAsync(pro.RelationshipID);
                     pro.RelationshipName = relationship.RelationshipName;
-                    pro.Avatar = await bucket.GetUrl(pro.Avatar);
                 }
                 return ApiResponse.OK<List<UserProfileDtos>>(profileDtos);
             }

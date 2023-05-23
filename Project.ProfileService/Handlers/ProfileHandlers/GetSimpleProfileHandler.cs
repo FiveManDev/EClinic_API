@@ -2,11 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Dtos.Profile;
-using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 using Profile = Project.ProfileService.Data.Profile;
@@ -18,14 +16,12 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
         private readonly IProfileRepository profileRepository;
         private readonly IMapper mapper;
         private readonly ILogger<GetSimpleProfileHandler> logger;
-        private readonly IAmazonS3Bucket s3Bucket;
 
-        public GetSimpleProfileHandler(IProfileRepository profileRepository, IMapper mapper, ILogger<GetSimpleProfileHandler> logger, IAmazonS3Bucket s3Bucket)
+        public GetSimpleProfileHandler(IProfileRepository profileRepository, IMapper mapper, ILogger<GetSimpleProfileHandler> logger)
         {
             this.profileRepository = profileRepository;
             this.mapper = mapper;
             this.logger = logger;
-            this.s3Bucket = s3Bucket;
         }
 
         public async Task<ObjectResult> Handle(GetSimpleProfileQuery request, CancellationToken cancellationToken)
@@ -33,7 +29,6 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
             try
             {
                 var profiles = await profileRepository.GetProfilesAsync(request.UserID);
-                var key = "";
                 var profile = new Profile();
                 if (profiles == null)
                 {
@@ -42,15 +37,10 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
                 if (profiles.Count == 1)
                 {
                     profile = profiles[0];
-                    key = profile.Avatar;
-                    profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                 }
                 else
                 {
-
                     profile = profiles.SingleOrDefault(x => x.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID);
-                    key = profile.Avatar;
-                    profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                 }
                 var sampleProfile = mapper.Map<SimpleProfileDtos>(profile);
                 return ApiResponse.OK<SimpleProfileDtos>(sampleProfile);

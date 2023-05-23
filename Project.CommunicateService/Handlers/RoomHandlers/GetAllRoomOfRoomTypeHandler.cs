@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.CommunicateService.Queries;
 using Project.CommunicateService.Repository.RoomRepositories;
-using Project.Core.AWS;
 using Project.Core.Logger;
 
 namespace Project.CommunicateService.Handlers.RoomHandlers
@@ -13,14 +12,12 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
     {
         private readonly IRoomRepository roomRepository;
         private readonly IMapper mapper;
-        private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<GetAllMessageOfRoomHandler> logger;
 
-        public GetAllRoomOfRoomTypeHandler(IRoomRepository roomRepository, IMapper mapper, IAmazonS3Bucket s3Bucket, ILogger<GetAllMessageOfRoomHandler> logger)
+        public GetAllRoomOfRoomTypeHandler(IRoomRepository roomRepository, IMapper mapper, ILogger<GetAllMessageOfRoomHandler> logger)
         {
             this.roomRepository = roomRepository;
             this.mapper = mapper;
-            this.s3Bucket = s3Bucket;
             this.logger = logger;
         }
 

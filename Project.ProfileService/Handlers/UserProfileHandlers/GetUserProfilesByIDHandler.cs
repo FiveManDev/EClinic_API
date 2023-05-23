@@ -16,15 +16,13 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
     {
         private readonly ILogger<GetUserProfilesByIDHandler> logger;
         private readonly IProfileRepository repository;
-        private readonly IAmazonS3Bucket s3Bucket;
         private readonly IMapper mapper;
         private readonly IRelationshipRepository relationshipRepository;
 
-        public GetUserProfilesByIDHandler(ILogger<GetUserProfilesByIDHandler> logger, IProfileRepository repository, IAmazonS3Bucket s3Bucket, IMapper mapper, IRelationshipRepository relationshipRepository)
+        public GetUserProfilesByIDHandler(ILogger<GetUserProfilesByIDHandler> logger, IProfileRepository repository, IMapper mapper, IRelationshipRepository relationshipRepository)
         {
             this.logger = logger;
             this.repository = repository;
-            this.s3Bucket = s3Bucket;
             this.mapper = mapper;
             this.relationshipRepository = relationshipRepository;
         }
@@ -41,7 +39,6 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 var userProfileDtos = mapper.Map<List<UserProfileDtos>>(userProfiles);
                 foreach (var profile in userProfileDtos)
                 {
-                    profile.Avatar = await s3Bucket.GetUrl(profile.Avatar);
                     var relationship = await relationshipRepository.GetAsync(profile.RelationshipID);
                     profile.RelationshipName = relationship.RelationshipName;
                 }

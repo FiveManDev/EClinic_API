@@ -16,14 +16,12 @@ namespace Project.ForumService.Handlers.PostHandlers
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
         private readonly ILogger<GetCommentHandler> logger;
-        private readonly IAmazonS3Bucket bucket;
 
-        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetCommentHandler> logger, IAmazonS3Bucket bucket)
+        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetCommentHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
-            this.bucket = bucket;
         }
 
         public async Task<ObjectResult> Handle(GetPostQuery request, CancellationToken cancellationToken)
@@ -40,8 +38,6 @@ namespace Project.ForumService.Handlers.PostHandlers
                     return ApiResponse.NotFound("Post Not Found.");
                 }
                 PostDtos postDtos = mapper.Map<PostDtos>(post);
-
-                postDtos.Author.Avatar = await bucket.GetFileAsync(postDtos.Author.Avatar);
                 if(!string.IsNullOrEmpty(request.UserID))
                 {
                     var userID = Guid.Parse(request.UserID);
@@ -49,11 +45,6 @@ namespace Project.ForumService.Handlers.PostHandlers
                     {
                         postDtos.IsLike = post.LikeUserIds.Contains(userID);
                     }
-                }
-                if (post.Image.Count > 0)
-                {
-                    var images = await bucket.GetManyFileAsync(post.Image);
-                    postDtos.Image = images;
                 }
                 return ApiResponse.OK(postDtos);
             }

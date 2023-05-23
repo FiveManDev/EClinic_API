@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
@@ -16,14 +15,12 @@ namespace Project.ForumService.Handlers.CommentHandlers
         private readonly IMongoDBRepository<Comment> repository;
         private readonly IMapper mapper;
         private readonly ILogger<GetAllCommentHandler> logger;
-        private readonly IAmazonS3Bucket bucket;
 
-        public GetAllCommentHandler(IMongoDBRepository<Comment> repository, IMapper mapper, ILogger<GetAllCommentHandler> logger, IAmazonS3Bucket bucket)
+        public GetAllCommentHandler(IMongoDBRepository<Comment> repository, IMapper mapper, ILogger<GetAllCommentHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.logger = logger;
-            this.bucket = bucket;
         }
 
         public async Task<ObjectResult> Handle(GetAllCommentQuery request, CancellationToken cancellationToken)
@@ -41,8 +38,6 @@ namespace Project.ForumService.Handlers.CommentHandlers
                 foreach (CommentDtos comment in commentDtos)
                 {
 
-                    comment.Author.Avatar = await bucket.GetFileAsync(comment.Author.Avatar);
-
                     comment.IsLike = false;
                     if (!string.IsNullOrEmpty(request.UserID))
                     {
@@ -57,8 +52,6 @@ namespace Project.ForumService.Handlers.CommentHandlers
                             Guid userID = Guid.Parse(request.UserID);
                             replyCommentDtos.IsLike = replyCommentDtos.LikeUserIds.Contains(userID);
                         }
-                        replyCommentDtos.Author.Avatar = await bucket.GetFileAsync(replyCommentDtos.Author.Avatar);
-
                     }
 
                 }
