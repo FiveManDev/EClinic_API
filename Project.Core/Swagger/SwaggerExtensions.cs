@@ -53,10 +53,7 @@ namespace Project.Core.Swagger
             {
                 options.PreSerializeFilters.Add((swagger, req) =>
                 {
-                    var servers = new List<OpenApiServer>();
-                    servers.Add(new OpenApiServer { Url = $"http://{req.Host}" });
-                    servers.Add(new OpenApiServer { Url = $"https://{req.Host}" });
-                    swagger.Servers = servers;
+                    swagger.Servers = new List<OpenApiServer>() { new OpenApiServer() { Url = $"https://{req.Host}" } };
                 });
             });
 

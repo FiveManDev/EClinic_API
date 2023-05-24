@@ -19,7 +19,7 @@
     "UserID": "22849f83-a5b4-49eb-93ed-e2d942254521",
     "FirstName": "Doctor",
     "LastName": "Test",
-    "Avatar": "Default/default.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
   },
   "LikeUserIds": []
 },{
@@ -43,7 +43,7 @@
     "UserID": "22849f83-a5b4-49eb-93ed-e2d942254521",
     "FirstName": "Doctor",
     "LastName": "Test",
-    "Avatar": "Default/default.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
   },
   "LikeUserIds": []
 },{
@@ -67,7 +67,7 @@
     "UserID": "22849f83-a5b4-49eb-93ed-e2d942254521",
     "FirstName": "Doctor",
     "LastName": "Test",
-    "Avatar": "Default/default.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
   },
   "LikeUserIds": []
 },{
@@ -91,7 +91,7 @@
     "UserID": "8edf474e-0fcb-49fc-9c9e-4e902c7472f2",
     "FirstName": "Tuan",
     "LastName": "Le Anh",
-    "Avatar": "Image/doctor1.jpg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor1.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468622&Signature=oVtN5ZlwfvIY76qC6rkRMgHLw34%3D"
   },
   "LikeUserIds": []
 },{
@@ -115,7 +115,7 @@
     "UserID": "b514b384-ed9c-4d68-90ae-4f437bdee6b9",
     "FirstName": "Bich Dao",
     "LastName": "Nguyen Thi",
-    "Avatar": "Image/doctor2.jpg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor2.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468644&Signature=YcLb%2F55HhPA3DtfX0ibxsz1vBu0%3D"
   },
   "LikeUserIds": []
 },{
@@ -139,7 +139,7 @@
     "UserID": "b514b384-ed9c-4d68-90ae-4f437bdee6b9",
     "FirstName": "Bich Dao",
     "LastName": "Nguyen Thi",
-    "Avatar": "Image/doctor2.jpg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor2.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468644&Signature=YcLb%2F55HhPA3DtfX0ibxsz1vBu0%3D"
   },
   "LikeUserIds": []
 },{
@@ -163,7 +163,7 @@
     "UserID": "5145193c-51dc-4fed-8aa9-8adc068b9c69",
     "FirstName": "Quy Quyen",
     "LastName": "Dao Bui",
-    "Avatar": "Image/doctor4.jpg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor4.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468858&Signature=KSJh2WSpY00Y02r%2BdMPld5p0e0E%3D"
   },
   "LikeUserIds": []
 },{
@@ -187,7 +187,7 @@
     "UserID": "5145193c-51dc-4fed-8aa9-8adc068b9c69",
     "FirstName": "Quy Quyen",
     "LastName": "Dao Bui",
-    "Avatar": "Image/doctor4.jpg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor4.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468858&Signature=KSJh2WSpY00Y02r%2BdMPld5p0e0E%3D"
   },
   "LikeUserIds": []
 },{
@@ -211,7 +211,7 @@
     "UserID": "5145193c-51dc-4fed-8aa9-8adc068b9c69",
     "FirstName": "Quy Quyen",
     "LastName": "Dao Bui",
-    "Avatar": "Image/doctor4.jpg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor4.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468858&Signature=KSJh2WSpY00Y02r%2BdMPld5p0e0E%3D"
   },
   "LikeUserIds": []
 },{
@@ -235,7 +235,7 @@
     "UserID": "5a504858-ec5d-4a7b-9c07-9302e6964bd9",
     "FirstName": "Hang",
     "LastName": "Trinh Thi",
-    "Avatar": "Image/Doctor5.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Doctor5.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468877&Signature=tF0udp%2BnqKyGhIg9Stht16wzko0%3D"
   },
   "LikeUserIds": []
 },{
@@ -259,7 +259,7 @@
     "UserID": "5a504858-ec5d-4a7b-9c07-9302e6964bd9",
     "FirstName": "Hang",
     "LastName": "Trinh Thi",
-    "Avatar": "Image/Doctor5.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Doctor5.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468877&Signature=tF0udp%2BnqKyGhIg9Stht16wzko0%3D"
   },
   "LikeUserIds": []
 },{
@@ -283,7 +283,7 @@
     "UserID": "5a504858-ec5d-4a7b-9c07-9302e6964bd9",
     "FirstName": "Hang",
     "LastName": "Trinh Thi",
-    "Avatar": "Image/Doctor5.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Doctor5.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468877&Signature=tF0udp%2BnqKyGhIg9Stht16wzko0%3D"
   },
   "LikeUserIds": []
 },{
@@ -307,7 +307,7 @@
     "UserID": "b0ed6e7d-5824-49ee-a025-8de3b677a5fc",
     "FirstName": "Van Khanh",
     "LastName": "Nguyen Hong",
-    "Avatar": "Image/doctor6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469353&Signature=U2ahD2xZkuKuy6ySpE9wdLHn%2FJM%3D"
   },
   "LikeUserIds": []
 },{
@@ -331,7 +331,7 @@
     "UserID": "b0ed6e7d-5824-49ee-a025-8de3b677a5fc",
     "FirstName": "Van Khanh",
     "LastName": "Nguyen Hong",
-    "Avatar": "Image/doctor6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469353&Signature=U2ahD2xZkuKuy6ySpE9wdLHn%2FJM%3D"
   },
   "LikeUserIds": []
 },{
@@ -355,7 +355,7 @@
     "UserID": "b0ed6e7d-5824-49ee-a025-8de3b677a5fc",
     "FirstName": "Van Khanh",
     "LastName": "Nguyen Hong",
-    "Avatar": "Image/doctor6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469353&Signature=U2ahD2xZkuKuy6ySpE9wdLHn%2FJM%3D"
   },
   "LikeUserIds": []
 },{
@@ -379,7 +379,7 @@
     "UserID": "b0ed6e7d-5824-49ee-a025-8de3b677a5fc",
     "FirstName": "Van Khanh",
     "LastName": "Nguyen Hong",
-    "Avatar": "Image/doctor6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469353&Signature=U2ahD2xZkuKuy6ySpE9wdLHn%2FJM%3D"
   },
   "LikeUserIds": []
 },{
@@ -403,7 +403,7 @@
     "UserID": "a156cf24-3cbb-43d7-a76b-d09c842deeda",
     "FirstName": "Bach Tuyet",
     "LastName": "Phan Thi",
-    "Avatar": "Image/doctor8.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor8.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469640&Signature=UKwnrT1f1vY%2BKZIfJl3J6djsj8E%3D"
   },
   "LikeUserIds": []
 },{
@@ -427,7 +427,7 @@
     "UserID": "a156cf24-3cbb-43d7-a76b-d09c842deeda",
     "FirstName": "Bach Tuyet",
     "LastName": "Phan Thi",
-    "Avatar": "Image/doctor8.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor8.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469640&Signature=UKwnrT1f1vY%2BKZIfJl3J6djsj8E%3D"
   },
   "LikeUserIds": []
 },{
@@ -451,7 +451,7 @@
     "UserID": "a156cf24-3cbb-43d7-a76b-d09c842deeda",
     "FirstName": "Bach Tuyet",
     "LastName": "Phan Thi",
-    "Avatar": "Image/doctor8.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor8.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469640&Signature=UKwnrT1f1vY%2BKZIfJl3J6djsj8E%3D"
   },
   "LikeUserIds": []
 },{
@@ -475,31 +475,7 @@
     "UserID": "a156cf24-3cbb-43d7-a76b-d09c842deeda",
     "FirstName": "Bach Tuyet",
     "LastName": "Phan Thi",
-    "Avatar": "Image/doctor8.png"
-  },
-  "LikeUserIds": []
-},{
-  "_id": "146d9999-0575-4d37-a3ed-0a0632b78ad5",
-  "PostID": "6c45ada8-4056-4a04-a712-f4259aef8284",
-  "Content": "<p>Joint pain can be a symptom of many different diseases, including arthritis and osteoarthritis. To relieve joint pain, you should reduce your activity intensity and avoid activities that put stress on your joints, apply heat or cold to relieve pain, and take pain relievers as prescribed by your doctor. If these measures do not help relieve joint pain, you should consult your doctor for advice and correct treatment.</p>",
-  "Tags": [
-    "9bbeb064-06b6-4afc-8224-451ff1833f20"
-  ],
-  "CreatedAt": {
-    "$date": {
-      "$numberLong": "1679138510793"
-    }
-  },
-  "UpdatedAt": {
-    "$date": {
-      "$numberLong": "1679138510793"
-    }
-  },
-  "Author": {
-    "UserID": "a156cf24-3cbb-43d7-a76b-d09c842deeda",
-    "FirstName": "Bach Tuyet",
-    "LastName": "Phan Thi",
-    "Avatar": "Image/doctor8.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor8.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469640&Signature=UKwnrT1f1vY%2BKZIfJl3J6djsj8E%3D"
   },
   "LikeUserIds": []
 },{
@@ -523,7 +499,7 @@
     "UserID": "a156cf24-3cbb-43d7-a76b-d09c842deeda",
     "FirstName": "Bach Tuyet",
     "LastName": "Phan Thi",
-    "Avatar": "Image/doctor8.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor8.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469640&Signature=UKwnrT1f1vY%2BKZIfJl3J6djsj8E%3D"
   },
   "LikeUserIds": []
 }]

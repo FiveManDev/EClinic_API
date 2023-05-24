@@ -6,7 +6,7 @@
     "UserID": "63da4fe0-de4d-4c8e-b8c8-ec3202c20038",
     "FirstName": "User",
     "LastName": "Test",
-    "Avatar": "Default/default.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
   },
   "CreatedAt": {
     "$date": {
@@ -31,7 +31,7 @@
         "UserID": "22849f83-a5b4-49eb-93ed-e2d942254521",
         "FirstName": "Doctor",
         "LastName": "Test",
-        "Avatar": "Default/default.jpeg"
+        "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
       },
       "CreatedAt": {
         "$date": {
@@ -57,7 +57,7 @@
     "UserID": "63da4fe0-de4d-4c8e-b8c8-ec3202c20038",
     "FirstName": "User",
     "LastName": "Test",
-    "Avatar": "Default/default.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
   },
   "CreatedAt": {
     "$date": {
@@ -79,7 +79,7 @@
     "UserID": "63da4fe0-de4d-4c8e-b8c8-ec3202c20038",
     "FirstName": "User",
     "LastName": "Test",
-    "Avatar": "Default/default.jpeg"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D"
   },
   "CreatedAt": {
     "$date": {
@@ -101,7 +101,7 @@
     "UserID": "42ce372a-7078-4a4c-93a3-c5000d58bff1",
     "FirstName": "Bao",
     "LastName": "Nguyen Hoang",
-    "Avatar": "Image/user6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716472957&Signature=hX7KWjakTSng5Kish6oGCFuMc%2Fc%3D"
   },
   "CreatedAt": {
     "$date": {
@@ -123,7 +123,7 @@
     "UserID": "42ce372a-7078-4a4c-93a3-c5000d58bff1",
     "FirstName": "Bao",
     "LastName": "Nguyen Hoang",
-    "Avatar": "Image/user6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716472957&Signature=hX7KWjakTSng5Kish6oGCFuMc%2Fc%3D"
   },
   "CreatedAt": {
     "$date": {
@@ -147,7 +147,7 @@
     "UserID": "42ce372a-7078-4a4c-93a3-c5000d58bff1",
     "FirstName": "Bao",
     "LastName": "Nguyen Hoang",
-    "Avatar": "Image/user6.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716472957&Signature=hX7KWjakTSng5Kish6oGCFuMc%2Fc%3D"
   },
   "CreatedAt": {
     "$date": {
@@ -169,7 +169,7 @@
     "UserID": "3480d242-8d09-43e8-910d-adbd9cb84012",
     "FirstName": "Dat",
     "LastName": "Dao Phuoc",
-    "Avatar": "Image/user15.png"
+    "Avatar": "https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user15.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716473327&Signature=Q0jDQOxg3RLhHfV27Lg%2FxI2gw9s%3D"
   },
   "CreatedAt": {
     "$date": {
