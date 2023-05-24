@@ -1,7 +1,6 @@
 ﻿using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Response;
@@ -82,7 +81,7 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                     await profileRepository.DeleteAsync(profile);
                     throw new Exception("Create Error.");
                 }
-                return ApiResponse.Created("Create Success");
+                return ApiResponse.Created<Guid>(supporter.ProfileID);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using AutoMapper;
+using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -87,7 +88,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                     await profileRepository.DeleteAsync(profile);
                     throw new Exception("Create Doctor Profile Error.");
                 }
-                return ApiResponse.Created("Create Success");
+                return ApiResponse.Created<Guid>(doctor.ProfileID);
             }
             catch (Exception ex)
             {
