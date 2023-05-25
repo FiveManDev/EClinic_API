@@ -42,7 +42,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         {
             try
             {
-                var profile = new Profile
+                var profile = new Data.Profile
                 {
                     UserID = Guid.Empty,
                     Address = request.CreateDoctorProfileDtos.Address,
