@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.BlogService.Dtos.BlogDtos;
 using Project.Common.Paging;
 
 namespace Project.BlogService.Queries
@@ -13,7 +14,7 @@ namespace Project.BlogService.Queries
     public record GetAnswerQuery(Guid PostID, string UserID) : IRequest<ObjectResult>;
     public record GetAllCommentQuery(Guid PostID, string UserID) : IRequest<ObjectResult>;
     public record GetAllHashtagQuery() : IRequest<ObjectResult>;
-    //public record GetPostsQuery(PaginationRequestHeader PaginationRequestHeader, SearchPostDtos SearchPostDtos, HttpResponse Response) : IRequest<ObjectResult>;
+    public record GetBlogsQuery(PaginationRequestHeader PaginationRequestHeader, SearchBlogDtos SearchBlogDtos, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetPostsOfHashTagQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetPostsSortByLikeQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetTagSortByCountQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;

@@ -57,4 +57,11 @@ public class BlogController : ControllerBase
         return await mediator.Send(new DeleteBlogCommands(BlogID));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> SearchBlog([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchBlogDtos SearchBlogDtos)
+    {
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new GetBlogsQuery(paginationRequestHeader, SearchBlogDtos, Response));
+    }
+
 }

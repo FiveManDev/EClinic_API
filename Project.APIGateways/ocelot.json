@@ -51,7 +51,20 @@
       "UpstreamPathTemplate": "/api/v1/notification/{controller}/{Action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DangerousAcceptAnyServerCertificateValidator": true
-    }
+    },
+    {
+        "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+        "DownstreamScheme": "https",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "172.20.0.11",
+            "Port": 443
+          }
+        ],
+        "UpstreamPathTemplate": "/api/v1/blog/{controller}/{Action}",
+        "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+        "DangerousAcceptAnyServerCertificateValidator": true
+      }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:8888"
