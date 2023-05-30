@@ -94,6 +94,15 @@ services:
       eclinic:
         ipv4_address: 172.20.0.10
 
+  project.blogservice:
+    image: ${DOCKER_REGISTRY-}projectblogservice
+    build:
+      context: .
+      dockerfile: Project.BlogsService/Dockerfile
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.11
+
 networks:
   eclinic:
     driver: bridge
