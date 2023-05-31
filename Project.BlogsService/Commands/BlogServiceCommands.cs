@@ -10,6 +10,7 @@ namespace Project.BlogService.Commands
     public record CreateBlogCommands(CreateBlogDtos createBlogDtos, string UserId) : IRequest<ObjectResult>;
     public record UpdateBlogCommands(UpdateBlogDtos updateBlogDtos) : IRequest<ObjectResult>;
     public record DeleteBlogCommands(Guid BlogID) : IRequest<ObjectResult>;
+    public record UploadImageCommands(IFormFile image) : IRequest<ObjectResult>;
     #endregion
     #region HashtagCommands
     public record CreateHashtagCommands(string HashtagName) : IRequest<ObjectResult>;

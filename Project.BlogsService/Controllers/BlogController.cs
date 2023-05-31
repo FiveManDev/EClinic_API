@@ -7,6 +7,7 @@ using Project.BlogService.Queries;
 using Project.Common.Constants;
 using Project.Common.Paging;
 using Project.Core.Authentication;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.BlogService.Controllers;
 
@@ -28,6 +29,13 @@ public class BlogController : ControllerBase
     {
         string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
         return await mediator.Send(new CreateBlogCommands(createBlogDtos, userId));
+    }
+
+    [HttpPost]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> UploadImage([Required] IFormFile image)
+    {
+        return await mediator.Send(new UploadImageCommands(image));
     }
 
     [HttpPut]
