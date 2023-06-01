@@ -1,10 +1,11 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Constants;
 using Project.Common.Paging;
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Dtos.ChatMessageDtos;
 using Project.CommunicateService.Queries;
+using Project.Core.Authentication;
 
 namespace Project.CommunicateService.Controllers
 {
@@ -20,7 +21,7 @@ namespace Project.CommunicateService.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        [Authorize]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Doctor, RoleConstants.User })]
         public async Task<IActionResult> GetALlMessageOfRoom([FromHeader] int PageNumber, [FromHeader] int PageSize, Guid RoomID)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
@@ -28,14 +29,14 @@ namespace Project.CommunicateService.Controllers
             return await mediator.Send(new GetAllMessageOfRoomQuery(paginationRequestHeader, Response, RoomID, userId));
         }
         [HttpPost]
-        [Authorize]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Doctor, RoleConstants.User })]
         public async Task<IActionResult> CreateMessage(CreateMessageDtos createMessageDtos)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
             return await mediator.Send(new CreateMessageCommand(userId, createMessageDtos));
         }
         [HttpPost]
-        [Authorize]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Doctor, RoleConstants.User })]
         public async Task<IActionResult> CreateMessageFile([FromForm] CreateMessageFileDtos createMessageFileDtos)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;

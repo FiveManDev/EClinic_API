@@ -16,22 +16,22 @@ namespace Project.CommunicateService.Repository.RoomRepositories
 
         public async Task<List<Room>> GetAllRoom()
         {
-            return await context.Rooms.Include(x => x.ChatMessages).Include(x => x.VideoCalls).ToListAsync();
+            return await context.Rooms.Include(x => x.ChatMessages).Include(x => x.RoomType).ToListAsync();
         }
 
         public async Task<List<Room>> GetAllRoom(Expression<Func<Room, bool>> filters)
         {
-            return await context.Rooms.Include(x => x.ChatMessages).Include(x => x.VideoCalls).Where(filters).ToListAsync();
+            return await context.Rooms.Include(x => x.ChatMessages).Include(x => x.RoomType).Where(filters).ToListAsync();
         }
 
         public async Task<Room> GetRoom(Guid RoomID)
         {
-            return await context.Rooms.Include(x => x.ChatMessages).Include(x => x.VideoCalls).SingleOrDefaultAsync(x => x.RoomID == RoomID);
+            return await context.Rooms.Include(x => x.ChatMessages).SingleOrDefaultAsync(x => x.RoomID == RoomID);
         }
 
         public async Task<Room> GetRoom(Expression<Func<Room, bool>> filter)
         {
-            return await context.Rooms.Include(x => x.ChatMessages).Include(x => x.VideoCalls).SingleOrDefaultAsync(filter);
+            return await context.Rooms.Include(x => x.ChatMessages).SingleOrDefaultAsync(filter);
         }
     }
 }

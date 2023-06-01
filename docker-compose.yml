@@ -103,12 +103,32 @@ services:
       eclinic:
         ipv4_address: 172.20.0.11
 
+  project.communicateservice:
+    image: ${DOCKER_REGISTRY-}projectcommunicateservice
+    build:
+      context: .
+      dockerfile: Project.CommunicateService/Dockerfile
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.14
+
+  project.paymentservice:
+    image: ${DOCKER_REGISTRY-}projectpaymentservice
+    build:
+      context: .
+      dockerfile: Project.PaymentService/Dockerfile
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.15
+
 networks:
   eclinic:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.0.0/24
+
+
 
 
 

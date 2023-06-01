@@ -3,13 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Paging;
 using Project.Common.Response;
-using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
 using Project.CommunicateService.Dtos.ChatMessageDtos;
-using Project.CommunicateService.Dtos.VideoCallDtos;
 using Project.CommunicateService.Queries;
 using Project.CommunicateService.Repository.RoomRepositories;
-using Project.Core.AWS;
 using Project.Core.Logger;
 
 namespace Project.CommunicateService.Handlers.RoomHandlers
@@ -41,12 +38,10 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = ChatMessages.Count;
                 ChatMessages = ChatMessages
-                    .OrderBy(x => x.CreatedAt)
+                    .OrderByDescending(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
-                var VideoCall = Room.VideoCalls;
-                var ChatMessageDtos = mapper.Map<List<ChatMessageDtos>>(ChatMessages);
-                var VideoCallDtos = mapper.Map<List<VideoCallDtos>>(VideoCall);
+                var ChatMessageDtos = mapper.Map<List<ChatMessageDto>>(ChatMessages);
                 foreach (var chatMessage in ChatMessageDtos)
                 {
                     if (chatMessage.Type == MessageType.Image)
@@ -58,7 +53,8 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                         chatMessage.IsMyChat = true;
                     }
                 }
-                return ApiResponse.OK<List<ChatMessageDtos>>(ChatMessageDtos);
+                ChatMessageDtos = ChatMessageDtos.OrderBy(x => x.CreatedAt).ToList();
+                return ApiResponse.OK<List<ChatMessageDto>>(ChatMessageDtos);
             }
             catch (Exception ex)
             {

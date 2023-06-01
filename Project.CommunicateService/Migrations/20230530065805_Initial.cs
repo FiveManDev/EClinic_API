@@ -63,31 +63,15 @@ namespace Project.CommunicateService.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "VideoCalls",
-                columns: table => new
-                {
-                    VideoCallID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoomID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VideoCalls", x => x.VideoCallID);
-                    table.ForeignKey(
-                        name: "PK_ChatRoom_One_To_One_VideoCall",
-                        column: x => x.RoomID,
-                        principalTable: "Rooms",
-                        principalColumn: "RoomID",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.InsertData(
+                table: "RoomTypes",
+                columns: new[] { "RoomTypeID", "RoomTypeName" },
+                values: new object[] { new Guid("0ddb55c3-b551-4e04-b827-07ea8d777130"), "Supporter" });
 
             migrationBuilder.InsertData(
                 table: "RoomTypes",
                 columns: new[] { "RoomTypeID", "RoomTypeName" },
-                values: new object[] { new Guid("13accb41-1cad-4171-85aa-f3d76464c3dc"), "Doctor" });
+                values: new object[] { new Guid("bde8645f-2760-4729-ac4f-1c5b5ffedc2a"), "Doctor" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_RoomID",
@@ -98,20 +82,12 @@ namespace Project.CommunicateService.Migrations
                 name: "IX_Rooms_RoomTypeID",
                 table: "Rooms",
                 column: "RoomTypeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VideoCalls_RoomID",
-                table: "VideoCalls",
-                column: "RoomID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "ChatMessages");
-
-            migrationBuilder.DropTable(
-                name: "VideoCalls");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

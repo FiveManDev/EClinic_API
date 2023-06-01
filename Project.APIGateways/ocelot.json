@@ -64,7 +64,33 @@
         "UpstreamPathTemplate": "/api/v1/blog/{controller}/{Action}",
         "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
         "DangerousAcceptAnyServerCertificateValidator": true
-      }
+      },
+    {
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.14",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/communication/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.15",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/payment/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:8888"

@@ -4,7 +4,6 @@ using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.CommunicateService.Repository.RoomTypeRepositories;
-using Project.CommunicateService.Repository.VideoCallRepositories;
 using Project.Core.Authentication;
 using Project.Core.AWS;
 using Project.Core.Cors;
@@ -22,7 +21,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 );
 builder.Services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-builder.Services.AddScoped<IVideoCallRepository, VideoCallRepository>();
 builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
 
 builder.Services.AddMyVersioning();

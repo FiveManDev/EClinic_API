@@ -3,7 +3,7 @@ using Project.CommunicateService.Data;
 
 namespace Project.CommunicateService.Dtos.ChatMessageDtos
 {
-    public class ChatMessageDtos
+    public class ChatMessageDto
     {
         public Guid ChatMessageID { get; set; }
         [JsonIgnore]
