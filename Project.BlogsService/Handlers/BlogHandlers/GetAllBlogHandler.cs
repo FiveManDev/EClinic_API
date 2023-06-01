@@ -31,7 +31,7 @@ namespace Project.BlogService.Handlers.BlogHandlers
         {
             try
             {
-                var blogs = await repository.GetAllAsync();
+                var blogs = await repository.GetAllAsync(blog => blog.IsActive);
                 if (blogs == null)
                 {
                     return ApiResponse.NotFound("Blogs Not Found.");

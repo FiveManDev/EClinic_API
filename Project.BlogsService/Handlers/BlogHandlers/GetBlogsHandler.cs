@@ -33,7 +33,7 @@ namespace Project.BlogService.Handlers.PostHandlers
             {
                 var searchText = request.SearchBlogDtos.SearchText;
                 if (searchText == null) { searchText = ""; }
-                var blogs = await blogRepository.GetAllAsync(x => x.Title.ToLower().Contains(searchText.ToLower()) || x.Content.ToLower().Contains(searchText.ToLower()));
+                var blogs = await blogRepository.GetAllAsync(x => x.IsActive && (x.Title.ToLower().Contains(searchText.ToLower()) || x.Content.ToLower().Contains(searchText.ToLower())));
                 if (blogs == null)
                 {
                     return ApiResponse.NotFound("Blog Not Found.");
