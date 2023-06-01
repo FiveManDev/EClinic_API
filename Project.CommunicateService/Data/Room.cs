@@ -8,6 +8,5 @@
         public Guid RoomTypeID { get; set; }
         public RoomType RoomType { get; set; }
         public ICollection<ChatMessage> ChatMessages { get; set; }
-        public ICollection<VideoCall> VideoCalls { get; set; }
     }
 }

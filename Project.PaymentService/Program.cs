@@ -1,4 +1,5 @@
 using Project.Core.Authentication;
+using Project.Core.AWS;
 using Project.Core.Caching;
 using Project.Core.Cors;
 using Project.Core.Mapper;
@@ -6,6 +7,8 @@ using Project.Core.MediatR;
 using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
+using Project.PaymentService.MomoPayment;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
@@ -23,6 +26,7 @@ builder.Services.AddMyMediatR();
 builder.Services.AddMyMapper();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
+builder.Services.AddTransient<IMomoPayment, MomoPayment>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

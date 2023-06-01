@@ -32,6 +32,13 @@ namespace Project.ProfileService.Repository.ProfileRepository
             var result = await context.Profiles.Include(x => x.HealthProfile).Where(x => x.UserID == UserID).ToListAsync();
             return result;
         }
+        public async Task<List<Profile>> GetManyProfilesAsync(List<Guid> UserIDs)
+        {
+            var result = await context.Profiles.Include(x => x.HealthProfile)
+                                               .Where(x => UserIDs.Contains(x.UserID))
+                                               .ToListAsync();
+            return result;
+        }
 
         public async Task<Profile> GetEmployeeProfileAsync(Guid UserID)
         {

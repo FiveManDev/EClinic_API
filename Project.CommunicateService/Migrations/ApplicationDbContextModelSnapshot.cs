@@ -93,36 +93,14 @@ namespace Project.CommunicateService.Migrations
                     b.HasData(
                         new
                         {
-                            RoomTypeID = new Guid("13accb41-1cad-4171-85aa-f3d76464c3dc"),
+                            RoomTypeID = new Guid("bde8645f-2760-4729-ac4f-1c5b5ffedc2a"),
                             RoomTypeName = "Doctor"
+                        },
+                        new
+                        {
+                            RoomTypeID = new Guid("0ddb55c3-b551-4e04-b827-07ea8d777130"),
+                            RoomTypeName = "Supporter"
                         });
-                });
-
-            modelBuilder.Entity("Project.CommunicateService.Data.VideoCall", b =>
-                {
-                    b.Property<Guid>("VideoCallID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("RoomID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("VideoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("VideoCallID");
-
-                    b.HasIndex("RoomID");
-
-                    b.ToTable("VideoCalls", (string)null);
                 });
 
             modelBuilder.Entity("Project.CommunicateService.Data.ChatMessage", b =>
@@ -149,23 +127,9 @@ namespace Project.CommunicateService.Migrations
                     b.Navigation("RoomType");
                 });
 
-            modelBuilder.Entity("Project.CommunicateService.Data.VideoCall", b =>
-                {
-                    b.HasOne("Project.CommunicateService.Data.Room", "Room")
-                        .WithMany("VideoCalls")
-                        .HasForeignKey("RoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("PK_ChatRoom_One_To_One_VideoCall");
-
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("Project.CommunicateService.Data.Room", b =>
                 {
                     b.Navigation("ChatMessages");
-
-                    b.Navigation("VideoCalls");
                 });
 
             modelBuilder.Entity("Project.CommunicateService.Data.RoomType", b =>

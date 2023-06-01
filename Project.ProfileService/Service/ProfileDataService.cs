@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Amazon.S3.Model;
+using AutoMapper;
 using Grpc.Core;
 using Project.ProfileService.Data;
 using Project.ProfileService.Data.Configurations;
@@ -111,6 +112,51 @@ namespace Project.ProfileService.Service
             catch
             {
                 var res = new GetProfileResponse();
+                return res;
+            }
+        }
+        public override async Task<GetAllProfileResponse> GetAllProfile(GetAllProfileRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var UserIDs = request.UserIDs.Select(Guid.Parse).ToList();
+                var profiles = await profileRepository.GetManyProfilesAsync(UserIDs);
+                var res = new GetAllProfileResponse();
+                if (profiles == null)
+                {
+                    return res;
+                }
+                profiles.RemoveAll(profile =>
+                {
+                    if (profile.HealthProfile == null)
+                    {
+                        return false;
+                    }
+                    if (profile.HealthProfile.RelationshipID != ConstantsData.MyRelationshipID)
+                    {
+                        return true;
+                    }
+                    return false;
+                });
+                profiles = profiles.OrderBy(profile => UserIDs.IndexOf(profile.UserID)).ToList();
+                GetAllProfileResponse getAllProfileResponse = new GetAllProfileResponse();
+                List<GetAllProfile> allProfiles = new List<GetAllProfile>();
+                foreach (var profile in profiles)
+                {
+                    allProfiles.Add(new GetAllProfile
+                    {
+                        UserID = profile.UserID.ToString(),
+                        Avatar =profile.Avatar,
+                        FirstName = profile.FirstName,
+                        LastName = profile.LastName
+                    });
+                }
+                getAllProfileResponse.Profiles.AddRange(allProfiles);
+                return getAllProfileResponse;
+            }
+            catch
+            {
+                var res = new GetAllProfileResponse();
                 return res;
             }
         }

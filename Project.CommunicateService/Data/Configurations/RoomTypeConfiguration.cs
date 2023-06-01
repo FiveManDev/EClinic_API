@@ -15,7 +15,10 @@ namespace Project.CommunicateService.Data.Configurations
                 .HasForeignKey(c => c.RoomTypeID)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("PK_RoomType_Many_To_One_Room");
-            builder.HasData(new RoomType { RoomTypeID = ConstantsData.DoctorRoomTypeID, RoomTypeName = ConstantsData.DoctorRoomTypeName });
+            builder.HasData(
+                            new RoomType { RoomTypeID = ConstantsData.DoctorRoomTypeID, RoomTypeName = ConstantsData.DoctorRoomTypeName },
+                            new RoomType { RoomTypeID = ConstantsData.SupporterRoomTypeID, RoomTypeName = ConstantsData.SupporterRoomTypeName }
+                            );
             builder.ToTable("RoomTypes");
         }
     }

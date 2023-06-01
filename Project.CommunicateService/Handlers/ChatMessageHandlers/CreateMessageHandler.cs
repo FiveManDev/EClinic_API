@@ -1,9 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Project.Common.Response;
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
+using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
+using Project.CommunicateService.Repository.RoomRepositories;
 using Project.Core.Logger;
 
 namespace Project.CommunicateService.Handlers.ChatMessageHandlers
@@ -12,17 +15,25 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
     {
         private readonly IChatMessageRepository repository;
         private readonly ILogger<CreateMessageHandler> logger;
-
-        public CreateMessageHandler(IChatMessageRepository repository, ILogger<CreateMessageHandler> logger)
+        private readonly IRoomRepository roomRepository;
+        private readonly IHubContext<MessageHub> hubContext;
+        public CreateMessageHandler(IChatMessageRepository repository, ILogger<CreateMessageHandler> logger, IHubContext<MessageHub> hubContext, IRoomRepository roomRepository)
         {
             this.repository = repository;
+            this.roomRepository = roomRepository;
             this.logger = logger;
+            this.hubContext = hubContext;
         }
 
         public async Task<ObjectResult> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var Room = await roomRepository.GetAsync(request.CreateMassageDtos.RoomID);
+                if (Room.IsClosed)
+                {
+                    return ApiResponse.BadRequest("Room is close");
+                }
                 var UserID = Guid.Parse(request.UserID);
                 var ChatMessage = new ChatMessage
                 {
@@ -37,9 +48,10 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                 {
                     throw new Exception("Create chat message error.");
                 }
+                await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", MessageType.Text.ToString(), UserID, ChatMessage.Content);
                 return ApiResponse.Created("Create Success");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
