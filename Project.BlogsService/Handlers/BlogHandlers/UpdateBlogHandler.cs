@@ -70,8 +70,14 @@ public class UpdateBlogHandler : IRequestHandler<UpdateBlogCommands, ObjectResul
             {
                 hashTag.Count++;
             });
-            await hashtagRepository.UpdateManyAsync(subtractHashtags);
-            await hashtagRepository.UpdateManyAsync(addHashtags);
+            if (subtractHashtags.Count > 0)
+            {
+                await hashtagRepository.UpdateManyAsync(subtractHashtags);
+            }
+            if (addHashtags.Count > 0)
+            {
+                await hashtagRepository.UpdateManyAsync(addHashtags);
+            }
 
             return ApiResponse.OK("Update Blog Success.");
         }

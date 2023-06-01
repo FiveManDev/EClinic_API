@@ -40,9 +40,16 @@ public class BlogController : ControllerBase
 
     [HttpPut]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    public async Task<IActionResult> UpdatePost([FromForm] UpdateBlogDtos updateBlogDtos)
+    public async Task<IActionResult> UpdateBlog([FromForm] UpdateBlogDtos updateBlogDtos)
     {
         return await mediator.Send(new UpdateBlogCommands(updateBlogDtos));
+    }
+
+    [HttpDelete]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> DeleteBlogByID(Guid BlogID)
+    {
+        return await mediator.Send(new DeleteBlogCommands(BlogID));
     }
 
     [HttpGet]
@@ -58,18 +65,34 @@ public class BlogController : ControllerBase
         return await mediator.Send(new GetAllBlogQuery(paginationRequestHeader, Response));
     }
 
-    [HttpDelete]
-    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    public async Task<IActionResult> DeleteBlogByID(Guid BlogID)
-    {
-        return await mediator.Send(new DeleteBlogCommands(BlogID));
-    }
-
     [HttpGet]
     public async Task<IActionResult> SearchBlog([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchBlogDtos SearchBlogDtos)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
         return await mediator.Send(new GetBlogsQuery(paginationRequestHeader, SearchBlogDtos, Response));
+    }
+
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> GetBlogByIDForAd(Guid BlogID)
+    {
+        return await mediator.Send(new GetBlogForAdQuery(BlogID));
+    }
+
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> GetAllBlogForAd([FromHeader] int PageNumber, [FromHeader] int PageSize)
+    {
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new GetAllBlogForAdQuery(paginationRequestHeader, Response));
+    }
+
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> SearchBlogForAd([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchBlogDtos SearchBlogDtos)
+    {
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new GetBlogsForAdQuery(paginationRequestHeader, SearchBlogDtos, Response));
     }
 
 }
