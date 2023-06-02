@@ -71,7 +71,11 @@ namespace Project.BlogService.Handlers.BlogHandlers
                 {
                     hashTag.Count++;
                 });
-                await hashtagRepository.UpdateManyAsync(haveHashtags);
+
+                if (haveHashtags.Count > 0)
+                {
+                    await hashtagRepository.UpdateManyAsync(haveHashtags);
+                }
 
                 return ApiResponse.OK("Create Success.");
 
