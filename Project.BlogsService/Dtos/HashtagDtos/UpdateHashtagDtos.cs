@@ -2,6 +2,6 @@
 
 public class UpdateHashtagDtos
 {
-    public Guid HashtagID { get; set; }
+    public Guid Id { get; set; }
     public string HashtagName { get; set; }
 }

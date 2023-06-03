@@ -18,7 +18,7 @@ public class MappingProfile : Profile
 
         CreateMap<Hashtag, HashtagsDtos>()
             .ForMember(
-              des => des.HashtagID,
+              des => des.Id,
               opt => opt.MapFrom(src => src.Id)
           )
            .ReverseMap();

@@ -23,7 +23,7 @@ public class UpdateHashtagHandler : IRequestHandler<UpdateHashtagCommands, Objec
     {
         try
         {
-            var hashtag = await repository.GetAsync(request.UpdateHashtagDtos.HashtagID);
+            var hashtag = await repository.GetAsync(request.UpdateHashtagDtos.Id);
             if (hashtag == null)
             {
                 return ApiResponse.NotFound("Hashtag not found.");
