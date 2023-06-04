@@ -6,6 +6,6 @@ public class Specialization
     public string SpecializationName { get; set; }
 
     // Foreign Key
-    public ICollection<MedicalPackage> MedicalPackages { get; set; }
+    public ICollection<Service> Services { get; set; }
 
 }

@@ -103,6 +103,15 @@ services:
       eclinic:
         ipv4_address: 172.20.0.11
 
+  project.serviceinformationservice:
+    image: ${DOCKER_REGISTRY-}projectserviceinformationservice
+    build:
+      context: .
+      dockerfile: Project.ServiceInformationService/Dockerfile
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.12
+
   project.communicateservice:
     image: ${DOCKER_REGISTRY-}projectcommunicateservice
     build:
@@ -127,9 +136,3 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/24
-
-
-
-
-
-

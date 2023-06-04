@@ -1,17 +1,17 @@
-﻿namespace Project.ServiceInformationService.Data;
+﻿using Project.Data.Model;
 
-public class Service
+namespace Project.ServiceInformationService.Data;
+
+public class Service : BaseEntity
 {
     public Guid ServiceID { get; set; }
     public string ServiceName { get; set; }
-    public string Title { get; set; }
-    public string Image { get; set; }
-    public float Price { get; set; }
-    public int TotalOrder { get; set; }
-    public float EstimatedTime { get; set; }
-    public string Description { get; set; }
-
+    public double Price { get; set; }   
+    public int EstimatedTime { get; set; }
+    public bool IsActive { get; set; }
     // Foreign Key
-    public ICollection<ServiceItem> ServiceItems { get; set; }
+    public Guid SpecializationID { get; set; }
+    public Specialization Specialization { get; set; }
+    public ICollection<ServicePackageItem> ServicePackageItems { get; set; }
 
 }

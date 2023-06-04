@@ -9,16 +9,16 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Specialization> Specializations { get; set; }
-    public DbSet<MedicalPackage> MedicalPackages { get; set; }
     public DbSet<Service> Services { get; set; }
-    public DbSet<ServiceItem> ServiceItems { get; set; }
+    public DbSet<ServicePackage> ServicePackages { get; set; }
+    public DbSet<ServicePackageItem> ServicePackageItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new SpecializationConfiguration());
-        modelBuilder.ApplyConfiguration(new MedicalPackageConfiguration());
         modelBuilder.ApplyConfiguration(new ServiceConfiguration());
-        modelBuilder.ApplyConfiguration(new ServiceItemConfiguration());
+        modelBuilder.ApplyConfiguration(new ServicePackageConfiguration());
+        modelBuilder.ApplyConfiguration(new ServicePackageItemConfiguration());
 
     }
 }

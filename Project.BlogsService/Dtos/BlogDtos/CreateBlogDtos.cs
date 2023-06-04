@@ -1,7 +1,4 @@
-﻿using Project.BlogService.Data;
-using System.Text.Json.Serialization;
-
-namespace Project.BlogService.Dtos.BlogsDtos;
+﻿namespace Project.BlogService.Dtos.BlogsDtos;
 
 public class CreateBlogDtos
 {
