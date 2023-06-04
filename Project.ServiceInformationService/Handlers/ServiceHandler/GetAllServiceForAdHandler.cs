@@ -11,24 +11,24 @@ using Project.ServiceInformationService.Repository.ServiceRepository;
 
 namespace Project.ServiceInformationService.Handlers.ServiceHandler;
 
-public class GetAllServiceHandler : IRequestHandler<GetAllServiceQuery, ObjectResult>
+public class GetAllServiceForAdHandler : IRequestHandler<GetAllServiceForAdQuery, ObjectResult>
 {
     private readonly IServiceRepository repository;
     private readonly IMapper mapper;
-    private readonly ILogger<GetAllServiceHandler> logger;
+    private readonly ILogger<GetAllServiceForAdHandler> logger;
 
-    public GetAllServiceHandler(IServiceRepository repository, IMapper mapper, ILogger<GetAllServiceHandler> logger)
+    public GetAllServiceForAdHandler(IServiceRepository repository, IMapper mapper, ILogger<GetAllServiceForAdHandler> logger)
     {
         this.repository = repository;
         this.mapper = mapper;
         this.logger = logger;
     }
 
-    public async Task<ObjectResult> Handle(GetAllServiceQuery request, CancellationToken cancellationToken)
+    public async Task<ObjectResult> Handle(GetAllServiceForAdQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var services = await repository.GetAllServiceAsync(x => x.IsActive);
+            var services = await repository.GetAllServiceAsync(x => true);
             if (services == null)
             {
                 return ApiResponse.NotFound("Service Not Found.");

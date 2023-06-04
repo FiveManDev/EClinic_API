@@ -4,7 +4,7 @@ using Project.Common.Constants;
 using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.ServiceInformationService.Commands;
-using Project.ServiceInformationService.Dtos.ServiceDTO;
+using Project.ServiceInformationService.Dtos.ServiceDTOs;
 using Project.ServiceInformationService.Queries;
 
 namespace Project.ServiceInformationService.Controllers;
@@ -28,20 +28,39 @@ public class ServiceController : ControllerBase
         return await mediator.Send(new CreateServiceCommand(createServiceDTO));
     }
 
-    //[HttpPut]
-    //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    //public async Task<IActionResult> UpdateSpecialization([FromForm] UpdateSpecializationDTO updateSpecializationDTO)
-    //{
-    //    return await mediator.Send(new UpdateSpecializationCommand(updateSpecializationDTO));
-    //}
+    [HttpPut]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> UpdateSerivce([FromForm] UpdateServiceDTO updateSerivceDTO)
+    {
+        return await mediator.Send(new UpdateServiceCommand(updateSerivceDTO));
+    }
 
-    //[HttpDelete]
-    //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    //public async Task<IActionResult> DeleteSpecialization([FromForm] DeleteSpecializationDTO deleteSpecializationDTO)
-    //{
-    //    return await mediator.Send(new DeleteSpecializationCommand(deleteSpecializationDTO));
-    //}
+    [HttpPut]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> ToggleActiveService(Guid serviceID, bool flag)
+    {
+        return await mediator.Send(new ToggleActiveServiceCommand(serviceID, flag));
+    }
 
+    [HttpDelete]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> DeleteService(Guid deleteServiceID)
+    {
+        return await mediator.Send(new DeleteServiceCommand(deleteServiceID));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetServiceByID(Guid serviceID)
+    {
+        return await mediator.Send(new GetServiceByIDQuery(serviceID));
+    }
+
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> GetServiceByIDForAd(Guid serviceID)
+    {
+        return await mediator.Send(new GetServiceByIDForAdQuery(serviceID));
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetAllService([FromHeader] int PageNumber, [FromHeader] int PageSize)
@@ -58,12 +77,19 @@ public class ServiceController : ControllerBase
         return await mediator.Send(new GetAllServiceForAdQuery(paginationRequestHeader, Response));
     }
 
-    //[HttpGet]
-    //[CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    //public async Task<IActionResult> SearchSpecialization([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchSpecializationDTO searchSpecializationDTO)
-    //{
-    //    PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-    //    return await mediator.Send(new SearchSpecializationQuery(paginationRequestHeader, searchSpecializationDTO, Response));
-    //}
+    [HttpGet]
+    public async Task<IActionResult> SearchService([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchServiceDTO searchServiceDTO)
+    {
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new SearchServiceQuery(paginationRequestHeader, searchServiceDTO, Response));
+    }
+
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> SearchServiceForAd([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchServiceDTO searchServiceDTO)
+    {
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new SearchServiceForAdQuery(paginationRequestHeader, searchServiceDTO, Response));
+    }
 
 }

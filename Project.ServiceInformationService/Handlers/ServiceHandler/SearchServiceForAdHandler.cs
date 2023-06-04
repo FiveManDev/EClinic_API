@@ -11,24 +11,27 @@ using Project.ServiceInformationService.Repository.ServiceRepository;
 
 namespace Project.ServiceInformationService.Handlers.ServiceHandler;
 
-public class GetAllServiceHandler : IRequestHandler<GetAllServiceQuery, ObjectResult>
+public class SearchServiceForAdHandler : IRequestHandler<SearchServiceForAdQuery, ObjectResult>
 {
     private readonly IServiceRepository repository;
     private readonly IMapper mapper;
-    private readonly ILogger<GetAllServiceHandler> logger;
+    private readonly ILogger<SearchServiceForAdHandler> logger;
 
-    public GetAllServiceHandler(IServiceRepository repository, IMapper mapper, ILogger<GetAllServiceHandler> logger)
+    public SearchServiceForAdHandler(IServiceRepository repository, IMapper mapper, ILogger<SearchServiceForAdHandler> logger)
     {
         this.repository = repository;
         this.mapper = mapper;
         this.logger = logger;
     }
 
-    public async Task<ObjectResult> Handle(GetAllServiceQuery request, CancellationToken cancellationToken)
+    public async Task<ObjectResult> Handle(SearchServiceForAdQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var services = await repository.GetAllServiceAsync(x => x.IsActive);
+            var searchText = request.searchServiceDTO.SearchText?.Trim().ToLower() ?? "";
+            var specializationID = request.searchServiceDTO.SpecializationID;
+           
+            var services = await repository.GetAllServiceAsync(x => x.ServiceName.ToLower().Contains(searchText) && (specializationID.Equals(Guid.Empty) || x.SpecializationID.Equals(specializationID)));
             if (services == null)
             {
                 return ApiResponse.NotFound("Service Not Found.");

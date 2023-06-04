@@ -4,7 +4,7 @@ using Project.Common.Constants;
 using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.ServiceInformationService.Commands;
-using Project.ServiceInformationService.Dtos.SpecializationDTO;
+using Project.ServiceInformationService.Dtos.SpecializationDTOs;
 using Project.ServiceInformationService.Queries;
 
 namespace Project.ServiceInformationService.Controllers;
@@ -42,6 +42,12 @@ public class SpecializationController : ControllerBase
         return await mediator.Send(new DeleteSpecializationCommand(deleteSpecializationDTO));
     }
 
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
+    public async Task<IActionResult> GetSpecializationByID(Guid specializationID)
+    {
+        return await mediator.Send(new GetSpecializationByIDQuery(specializationID));
+    }
 
     [HttpGet]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]

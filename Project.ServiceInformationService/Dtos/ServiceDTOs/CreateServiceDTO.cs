@@ -1,4 +1,4 @@
-﻿namespace Project.ServiceInformationService.Dtos.ServiceDTO;
+﻿namespace Project.ServiceInformationService.Dtos.ServiceDTOs;
 
 public class CreateServiceDTO
 {

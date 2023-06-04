@@ -1,6 +1,6 @@
 ﻿using Project.ServiceInformationService.Data;
-using Project.ServiceInformationService.Dtos.ServiceDTO;
-using Project.ServiceInformationService.Dtos.SpecializationDTO;
+using Project.ServiceInformationService.Dtos.ServiceDTOs;
+using Project.ServiceInformationService.Dtos.SpecializationDTOs;
 
 namespace Project.ServiceInformationService.Mapper
 {
@@ -19,14 +19,14 @@ namespace Project.ServiceInformationService.Mapper
                 .ReverseMap();
             #endregion
             #region Service
-            //CreateMap<Specialization, SpecializationDTO>()
-            //    .ReverseMap();
+            CreateMap<Service, ServiceDTO>()
+                .ReverseMap();
 
             CreateMap<Service, CreateServiceDTO>()
                 .ReverseMap();
 
-            //CreateMap<Specialization, UpdateSpecializationDTO>()
-            //    .ReverseMap();
+            CreateMap<Service, UpdateServiceDTO>()
+                .ReverseMap();
             #endregion
 
         }

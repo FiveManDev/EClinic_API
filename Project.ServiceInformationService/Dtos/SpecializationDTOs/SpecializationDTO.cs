@@ -1,4 +1,4 @@
-﻿namespace Project.ServiceInformationService.Dtos.SpecializationDTO;
+﻿namespace Project.ServiceInformationService.Dtos.SpecializationDTOs;
 
 public class SpecializationDTO
 {

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
 using Project.Core.Logger;
-using Project.ServiceInformationService.Dtos.SpecializationDTO;
+using Project.ServiceInformationService.Dtos.SpecializationDTOs;
 using Project.ServiceInformationService.Queries;
 using Project.ServiceInformationService.Repository.SpecializationRepository;
 
