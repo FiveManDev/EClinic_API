@@ -23,16 +23,16 @@ public class ServiceController : ControllerBase
 
     [HttpPost]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    public async Task<IActionResult> CreateSerivce([FromForm] CreateServiceDTO createServiceDTO)
+    public async Task<IActionResult> CreateService([FromForm] CreateServiceDTO createServiceDTO)
     {
         return await mediator.Send(new CreateServiceCommand(createServiceDTO));
     }
 
     [HttpPut]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
-    public async Task<IActionResult> UpdateSerivce([FromForm] UpdateServiceDTO updateSerivceDTO)
+    public async Task<IActionResult> UpdateService([FromForm] UpdateServiceDTO updateServiceDTO)
     {
-        return await mediator.Send(new UpdateServiceCommand(updateSerivceDTO));
+        return await mediator.Send(new UpdateServiceCommand(updateServiceDTO));
     }
 
     [HttpPut]
