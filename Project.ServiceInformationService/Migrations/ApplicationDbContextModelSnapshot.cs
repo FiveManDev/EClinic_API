@@ -160,7 +160,7 @@ namespace Project.ServiceInformationService.Migrations
 
                     b.HasOne("Project.ServiceInformationService.Data.ServicePackage", "ServicePackage")
                         .WithMany("ServicePackageItems")
-                        .HasForeignKey("ServiceID")
+                        .HasForeignKey("ServicePackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PK_ServicePackage_One_To_Many_ServicePackageItem");

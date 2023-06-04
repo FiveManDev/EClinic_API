@@ -12,7 +12,7 @@ using Project.ServiceInformationService.Data.Configurations;
 namespace Project.ServiceInformationService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230604014835_InitialDb")]
+    [Migration("20230604151707_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,7 +162,7 @@ namespace Project.ServiceInformationService.Migrations
 
                     b.HasOne("Project.ServiceInformationService.Data.ServicePackage", "ServicePackage")
                         .WithMany("ServicePackageItems")
-                        .HasForeignKey("ServiceID")
+                        .HasForeignKey("ServicePackageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("PK_ServicePackage_One_To_Many_ServicePackageItem");

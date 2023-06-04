@@ -85,7 +85,7 @@ namespace Project.ServiceInformationService.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "PK_ServicePackage_One_To_Many_ServicePackageItem",
-                        column: x => x.ServiceID,
+                        column: x => x.ServicePackageID,
                         principalTable: "ServicePackage",
                         principalColumn: "ServicePackageID",
                         onDelete: ReferentialAction.Cascade);

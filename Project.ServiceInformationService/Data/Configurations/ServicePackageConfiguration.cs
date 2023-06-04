@@ -23,7 +23,7 @@ public class ServicePackageConfiguration : IEntityTypeConfiguration<ServicePacka
         // Relationship
         builder.HasMany(x => x.ServicePackageItems)
                .WithOne(servicePackageItem => servicePackageItem.ServicePackage)
-               .HasForeignKey(servicePackageItem => servicePackageItem.ServiceID)
+               .HasForeignKey(servicePackageItem => servicePackageItem.ServicePackageID)
                .HasConstraintName("PK_ServicePackage_One_To_Many_ServicePackageItem")
                .OnDelete(DeleteBehavior.Cascade);
 
