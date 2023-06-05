@@ -1,13 +1,16 @@
+using Microsoft.EntityFrameworkCore;
 using Project.Core.Authentication;
-using Project.Core.AWS;
 using Project.Core.Caching;
 using Project.Core.Cors;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
-using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
+using Project.PaymentService.Data.Configurations;
 using Project.PaymentService.MomoPayment;
+using Project.PaymentService.Repository.PaymentRepositories;
+using Project.PaymentService.Repository.RefundRepositories;
+using Project.PaymentService.VNPayPayment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 //    config.AddReceiveEndpoint<DeleteProfileResultConsumer>(ExchangeConstants.ProfileService + "Delete", context);
 //    config.AddReceiveEndpoint<UpdateProfileResultConsumer>(ExchangeConstants.ProfileService, context);
 //});
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"))
+);
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IRefundRepository, RefundRepository>();
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);
@@ -27,6 +35,7 @@ builder.Services.AddMyMapper();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
 builder.Services.AddTransient<IMomoPayment, MomoPayment>();
+builder.Services.AddTransient<IVNPayPayment, VNPayPayment>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
