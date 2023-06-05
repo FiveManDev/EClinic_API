@@ -5,6 +5,50 @@ namespace Project.PaymentService.MomoPayment.MomoPaymentConfiguration
 {
     public class MoMoSecurity
     {
+        public string getHash(string json, string publicKeyXML)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(json);
+            string result = null;
+            using (var rsa = new RSACryptoServiceProvider(4096))
+            {
+                try
+                {
+                    rsa.FromXmlString(publicKeyXML);
+                    var encryptedData = rsa.Encrypt(data, false);
+                    var base64Encrypted = Convert.ToBase64String(encryptedData);
+                    result = base64Encrypted;
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+
+            }
+            return result;
+        }
+
+        public string RSAHash(string json, string publicKey)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(json);
+            string result = null;
+            using (var rsa = new RSACryptoServiceProvider(2048))
+            {
+                try
+                {
+                    rsa.FromXmlString(publicKey);
+                    var encryptedData = rsa.Encrypt(data, false);
+                    var base64Encrypted = Convert.ToBase64String(encryptedData);
+                    result = base64Encrypted;
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+
+            }
+            return result;
+
+        }
         public string signSHA256(string message, string key)
         {
             byte[] keyByte = Encoding.UTF8.GetBytes(key);

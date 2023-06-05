@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
 using Project.CommunicateService.Data;
@@ -41,6 +42,8 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                     .OrderByDescending(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
+                header.PageIndex = request.PaginationRequestHeader.PageNumber;
+                header.PageSize = request.PaginationRequestHeader.PageSize;
                 var ChatMessageDtos = mapper.Map<List<ChatMessageDto>>(ChatMessages);
                 foreach (var chatMessage in ChatMessageDtos)
                 {
@@ -53,6 +56,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                         chatMessage.IsMyChat = true;
                     }
                 }
+                request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 ChatMessageDtos = ChatMessageDtos.OrderBy(x => x.CreatedAt).ToList();
                 return ApiResponse.OK<List<ChatMessageDto>>(ChatMessageDtos);
             }
