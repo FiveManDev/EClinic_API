@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Project.Common.Paging;
 using Project.Common.Response;
 using Project.Core.Logger;
 using Project.ServiceInformationService.Dtos.ServiceDTOs;
@@ -28,7 +26,7 @@ public class GetServiceByIDForAdHandler : IRequestHandler<GetServiceByIDForAdQue
     {
         try
         {
-            var service = await repository.GetAsync(request.serviceID);
+            var service = await repository.GetServiceAsync(x => x.ServiceID.Equals(request.serviceID));
             if (service == null)
             {
                 return ApiResponse.NotFound("Service Not Found.");

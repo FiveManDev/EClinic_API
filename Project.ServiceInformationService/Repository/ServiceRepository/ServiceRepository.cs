@@ -19,4 +19,10 @@ public class ServiceRepository : MSSQLRepository<ApplicationDbContext, Service>,
         var result = await context.Services.Include(x => x.Specialization).Where(filters).ToListAsync();
         return result;
     }
+
+    public async Task<Service> GetServiceAsync(Expression<Func<Service, bool>> filters)
+    {
+        var result = await context.Services.Include(x => x.Specialization).FirstOrDefaultAsync(filters);
+        return result;
+    }
 }

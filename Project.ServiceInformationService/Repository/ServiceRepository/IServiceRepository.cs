@@ -7,4 +7,6 @@ namespace Project.ServiceInformationService.Repository.ServiceRepository;
 public interface IServiceRepository : IMSSQLRepository<Service>
 {
     Task<List<Service>> GetAllServiceAsync(Expression<Func<Service, bool>> filters);
+    Task<Service> GetServiceAsync(Expression<Func<Service, bool>> filters);
+
 }

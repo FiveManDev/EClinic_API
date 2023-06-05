@@ -28,7 +28,7 @@ public class GetServiceByIDHandler : IRequestHandler<GetServiceByIDQuery, Object
     {
         try
         {
-            var service = await repository.GetAsync(x => x.IsActive && x.ServiceID.Equals(request.serviceID));
+            var service = await repository.GetServiceAsync(x => x.IsActive && x.ServiceID.Equals(request.serviceID));
             if (service == null)
             {
                 return ApiResponse.NotFound("Service Not Found.");
