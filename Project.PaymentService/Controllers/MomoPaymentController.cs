@@ -20,7 +20,7 @@ namespace Project.PaymentService.Controllers
         [HttpGet]
         public async Task<IActionResult> PaymentRequest(Guid BookingID)
         {
-            return Ok(await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.Momo, BookingID)));
+            return await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.Momo, BookingID));
         }
         [HttpGet]
         public async Task<IActionResult> PaymentReturnURl()

@@ -23,24 +23,30 @@ namespace Project.PaymentService.Controllers
         public async Task<IActionResult> GetAllPaymentTransaction([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-            return Ok(await mediator.Send(new GetAllPaymentQuery(paginationRequestHeader, Response)));
+            return await mediator.Send(new GetAllPaymentQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
         public async Task<IActionResult> GetAllRefundTransaction([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-            return Ok(await mediator.Send(new GetAllRefundQuery(paginationRequestHeader, Response)));
+            return await mediator.Send(new GetAllRefundQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
-        public async Task<IActionResult> GetTransactionQuery(TransactionQueryModel query)
+        public async Task<IActionResult> GetTransactionQuery(DateTime StartTime, DateTime EndTime, TimeType timeType)
         {
-            return Ok(await mediator.Send(new GetTransactionQuery(query)));
+            TransactionQueryModel query = new TransactionQueryModel
+            {
+                StartTime = StartTime,
+                TimeType = timeType,
+                EndTime = EndTime
+            };
+            return await mediator.Send(new GetTransactionQuery(query));
         }
         [HttpPost]
         public async Task<IActionResult> RefundTransaction(RefundModel RefundModel)
         {
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-            return Ok(await mediator.Send(new CreateRefundCommand(RefundModel, ipAddress)));
+            return await mediator.Send(new CreateRefundCommand(RefundModel, ipAddress));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Project.PaymentService.Mapper
             CreateMap<Payment, PaymentDtos>()
                 .ForPath(
                     des => des.IsRefund,
-                    opt => opt.MapFrom(src => src.Refund == null ? true : false)
+                    opt => opt.MapFrom(src => src.Refund == null ? false : true)
                 )
                 .ReverseMap();
             CreateMap<Refund, RefundDtos>()

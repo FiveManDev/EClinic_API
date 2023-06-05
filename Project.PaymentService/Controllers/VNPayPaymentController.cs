@@ -21,7 +21,7 @@ namespace Project.PaymentService.Controllers
         public async Task<IActionResult> PaymentRequest(Guid BookingID)
         {
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-            return Ok(await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.Momo, BookingID, ipAddress)));
+            return await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.Momo, BookingID, ipAddress));
         }
         [HttpGet]
         public async Task<IActionResult> PaymentReturnURl()
