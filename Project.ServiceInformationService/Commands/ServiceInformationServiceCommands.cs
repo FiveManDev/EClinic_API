@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.ServiceInformationService.Dtos.ServiceDTOs;
+using Project.ServiceInformationService.Dtos.ServicePackageDTOs;
 using Project.ServiceInformationService.Dtos.SpecializationDTOs;
 
 namespace Project.ServiceInformationService.Commands
@@ -15,5 +16,12 @@ namespace Project.ServiceInformationService.Commands
     public record UpdateServiceCommand(UpdateServiceDTO updateServiceDTO) : IRequest<ObjectResult>;
     public record DeleteServiceCommand(Guid deleteServiceID) : IRequest<ObjectResult>;
     public record ToggleActiveServiceCommand(Guid serviceID, bool flag) : IRequest<ObjectResult>;
+    #endregion
+    #region ServicePackage
+    public record CreateServicePackageCommand(CreateServicePackageDTO createServicePackageDTO) : IRequest<ObjectResult>;
+    public record UpdateServicePackageCommand(UpdateServicePackageDTO updateServicePackageDTO) : IRequest<ObjectResult>;
+    public record DeleteServicePackageCommand(Guid deleteServicePackageID) : IRequest<ObjectResult>;
+    public record ToggleActiveServicePackageCommand(Guid servicePackageID, bool flag) : IRequest<ObjectResult>;
+    public record IncreaseOrderCommand(Guid servicePackageID) : IRequest<ObjectResult>;
     #endregion
 }

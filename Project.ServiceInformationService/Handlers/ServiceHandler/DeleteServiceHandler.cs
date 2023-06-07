@@ -8,7 +8,7 @@ using Project.ServiceInformationService.Data;
 using Project.ServiceInformationService.Repository.ServiceRepository;
 using Project.ServiceInformationService.Repository.SpecializationRepository;
 
-namespace Project.ServiceInformationService.Handlers.SpecializationHandler;
+namespace Project.ServiceInformationService.Handlers.ServiceHandler;
 
 public class DeleteServiceHandler : IRequestHandler<DeleteServiceCommand, ObjectResult>
 {

@@ -19,7 +19,6 @@ namespace Project.ServiceInformationService.Migrations
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Discount = table.Column<double>(type: "float", nullable: false),
-                    PriceDiscount = table.Column<double>(type: "float", nullable: false),
                     TotalOrder = table.Column<int>(type: "int", nullable: false),
                     EstimatedTime = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),

@@ -12,7 +12,7 @@ using Project.ServiceInformationService.Data.Configurations;
 namespace Project.ServiceInformationService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230604151707_InitialDb")]
+    [Migration("20230607165634_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,9 +88,6 @@ namespace Project.ServiceInformationService.Migrations
                         .HasColumnType("bit");
 
                     b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PriceDiscount")
                         .HasColumnType("float");
 
                     b.Property<string>("ServicePackageName")

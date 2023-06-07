@@ -88,9 +88,6 @@ namespace Project.ServiceInformationService.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<double>("PriceDiscount")
-                        .HasColumnType("float");
-
                     b.Property<string>("ServicePackageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

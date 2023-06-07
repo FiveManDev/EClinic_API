@@ -8,7 +8,7 @@ using Project.ServiceInformationService.Data;
 using Project.ServiceInformationService.Repository.ServiceRepository;
 using Project.ServiceInformationService.Repository.SpecializationRepository;
 
-namespace Project.ServiceInformationService.Handlers.SpecializationHandler;
+namespace Project.ServiceInformationService.Handlers.ServiceHandler;
 
 public class CreateServiceHandler : IRequestHandler<CreateServiceCommand, ObjectResult>
 {
@@ -32,7 +32,7 @@ public class CreateServiceHandler : IRequestHandler<CreateServiceCommand, Object
             if (request.createServiceDTO.ServiceName == null
                 || request.createServiceDTO.ServiceName.Trim().Count() == 0)
             {
-                return ApiResponse.BadRequest("Create Specialization Error: Service Name must be not null!");
+                return ApiResponse.BadRequest("Create Service Error: Service Name must be not null!");
             }
 
             var existSpecialization = await specializationRepository.AnyAsync(request.createServiceDTO.SpecializationID);

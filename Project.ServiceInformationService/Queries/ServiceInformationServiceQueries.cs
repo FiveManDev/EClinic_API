@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Paging;
 using Project.ServiceInformationService.Dtos.ServiceDTOs;
+using Project.ServiceInformationService.Dtos.ServicePackageDTOs;
 using Project.ServiceInformationService.Dtos.SpecializationDTOs;
 
 namespace Project.ServiceInformationService.Queries
@@ -18,5 +19,15 @@ namespace Project.ServiceInformationService.Queries
     public record GetAllServiceForAdQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record SearchServiceQuery(PaginationRequestHeader PaginationRequestHeader, SearchServiceDTO searchServiceDTO, HttpResponse Response) : IRequest<ObjectResult>;
     public record SearchServiceForAdQuery(PaginationRequestHeader PaginationRequestHeader, SearchServiceDTO searchServiceDTO, HttpResponse Response) : IRequest<ObjectResult>;
+    #endregion
+    #region Service Package
+    public record GetServicePackageByIDQuery(Guid servicePackageID) : IRequest<ObjectResult>;
+    public record GetServicePackageByIDForAdQuery(Guid servicePackageID) : IRequest<ObjectResult>;
+
+    public record GetAllServicePackageQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
+    public record GetAllServicePackageForAdQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
+    public record SearchServicePackageQuery(PaginationRequestHeader PaginationRequestHeader, SearchServicePackageDTO searchServicePackageDTO, HttpResponse Response) : IRequest<ObjectResult>;
+    public record SearchServicePackageForAdQuery(PaginationRequestHeader PaginationRequestHeader, SearchServicePackageDTO searchServicePackageDTO, HttpResponse Response) : IRequest<ObjectResult>;
+
     #endregion
 }

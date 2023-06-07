@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Project.Core.Authentication;
+using Project.Core.AWS;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
 using Project.ServiceInformationService.Data.Configurations;
+using Project.ServiceInformationService.Repository.ServicePackageItemRepository;
+using Project.ServiceInformationService.Repository.ServicePackageRepository;
 using Project.ServiceInformationService.Repository.ServiceRepository;
 using Project.ServiceInformationService.Repository.SpecializationRepository;
 
@@ -24,9 +27,11 @@ builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 
 builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IServicePackageRepository, ServicePackageRepository>();
+builder.Services.AddScoped<IServicePackageItemRepository, ServicePackageItemRepository>();
 // Add auto mapper
 builder.Services.AddMyMapper();
-
+builder.Services.AddAWSS3Bucket(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddMyMediatR();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

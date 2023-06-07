@@ -14,7 +14,6 @@ public class ServicePackageConfiguration : IEntityTypeConfiguration<ServicePacka
         builder.Property(x => x.Image).IsRequired();
         builder.Property(x => x.Price).IsRequired();
         builder.Property(x => x.Discount).IsRequired();
-        builder.Property(x => x.PriceDiscount).IsRequired();
         builder.Property(x => x.TotalOrder).IsRequired();
         builder.Property(x => x.EstimatedTime).IsRequired();
         builder.Property(x => x.IsActive).IsRequired();
