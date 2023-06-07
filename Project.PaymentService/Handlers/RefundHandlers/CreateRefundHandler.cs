@@ -73,7 +73,8 @@ namespace Project.PaymentService.Handlers.RefundHandlers
                             Message = $"Refund for {payment.BookingID}",
                             TransactionID = payment.TransactionID,
                             UserID = payment.UserID,
-                            TransactionDate = payment.PaymentTime
+                            TransactionDate = payment.PaymentTime,
+                            OrderID = payment.OrderID
                         };
                         result = await vNPayPayment.PaymentRefund(vNPayRefundModel, request.ipAddress);
                         break;

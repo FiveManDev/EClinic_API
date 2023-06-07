@@ -32,6 +32,9 @@ namespace Project.PaymentService.Migrations
                     b.Property<Guid>("BookingID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("OrderID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("PaymentAmount")
                         .HasColumnType("float");
 

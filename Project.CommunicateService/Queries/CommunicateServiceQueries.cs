@@ -9,5 +9,6 @@ namespace Project.CommunicateService.Queries
     public record GetAllRoomOfSupporterQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID) : IRequest<ObjectResult>;
     public record GetAllRoomOfDoctorQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID) : IRequest<ObjectResult>;
     public record GetAllNewRoomQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
+    public record SearchRoomQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID, string SearchText) : IRequest<ObjectResult>;
     public record GetAllRoomTypeQuery() : IRequest<ObjectResult>;
 }
