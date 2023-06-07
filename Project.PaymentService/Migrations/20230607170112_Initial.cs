@@ -15,7 +15,7 @@ namespace Project.PaymentService.Migrations
                 {
                     PaymentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     TransactionID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderID = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PaymentAmount = table.Column<double>(type: "float", nullable: false),
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     BookingID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),

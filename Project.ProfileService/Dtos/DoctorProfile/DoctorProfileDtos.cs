@@ -1,6 +1,4 @@
-﻿using Project.ProfileService.Data;
-
-namespace Project.ProfileService.Dtos.DoctorProfile
+﻿namespace Project.ProfileService.Dtos.DoctorProfile
 {
     public class DoctorProfileDtos
     {
@@ -17,7 +15,7 @@ namespace Project.ProfileService.Dtos.DoctorProfile
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime WorkStart { get; set; }
+        public float Price { get; set; }
         public Guid SpecializationID { get; set; }
-        public float Quality { get; set; }
     }
 }

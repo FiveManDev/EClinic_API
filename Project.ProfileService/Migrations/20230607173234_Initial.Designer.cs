@@ -12,14 +12,14 @@ using Project.ProfileService.Data.Configurations;
 namespace Project.ProfileService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230228091012_Initial")]
+    [Migration("20230607173234_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -33,7 +33,10 @@ namespace Project.ProfileService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Quality")
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Price")
                         .HasColumnType("real");
 
                     b.Property<Guid>("SpecializationID")
@@ -59,6 +62,9 @@ namespace Project.ProfileService.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
@@ -172,11 +178,11 @@ namespace Project.ProfileService.Migrations
             modelBuilder.Entity("Project.ProfileService.Data.EmployeeProfile", b =>
                 {
                     b.HasOne("Project.ProfileService.Data.Profile", "Profile")
-                        .WithOne("SupporterProfile")
+                        .WithOne("EmployeeProfile")
                         .HasForeignKey("Project.ProfileService.Data.EmployeeProfile", "ProfileID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("PK_Profile_One_To_One_SupporterProfile");
+                        .HasConstraintName("PK_Profile_One_To_One_EmployeeProfile");
 
                     b.Navigation("Profile");
                 });
@@ -206,9 +212,9 @@ namespace Project.ProfileService.Migrations
                 {
                     b.Navigation("DoctorProfile");
 
-                    b.Navigation("HealthProfile");
+                    b.Navigation("EmployeeProfile");
 
-                    b.Navigation("SupporterProfile");
+                    b.Navigation("HealthProfile");
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.Relationship", b =>

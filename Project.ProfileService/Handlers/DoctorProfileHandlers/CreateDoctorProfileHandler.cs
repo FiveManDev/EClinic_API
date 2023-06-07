@@ -79,7 +79,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                     Description = request.CreateDoctorProfileDtos.Description,
                     SpecializationID = request.CreateDoctorProfileDtos.SpecializationID,
                     Title = request.CreateDoctorProfileDtos.Title,
-                    Quality = 5,
+                    Price = request.CreateDoctorProfileDtos.Price,
                     WorkStart = request.CreateDoctorProfileDtos.WorkStart
                 };
                 var doctorResult = await doctorProfileRepository.CreateAsync(doctor);

@@ -51,8 +51,8 @@ namespace Project.ProfileService.Mapper
                     opt => opt.MapFrom(src => src.DoctorProfile.SpecializationID)
                 )
                 .ForMember(
-                    des => des.Quality,
-                    opt => opt.MapFrom(src => src.DoctorProfile.Quality)
+                    des => des.Price,
+                    opt => opt.MapFrom(src => src.DoctorProfile.Price)
                 )
                 .ReverseMap();
             CreateMap<Profile, EmployeeProfileDtos>()
@@ -82,6 +82,12 @@ namespace Project.ProfileService.Mapper
                     des => des.WorkStart,
                     opt => opt.MapFrom(src => src.DoctorProfile.WorkStart)
                 )
+                  .ForMember(
+                    des => des.Price,
+                    opt => opt.MapFrom(src => src.DoctorProfile.Price)
+                )
+                  
+                
                .ReverseMap();
             CreateMap<Profile, GetEmployeeProfileDtos>()
                 .ForMember(

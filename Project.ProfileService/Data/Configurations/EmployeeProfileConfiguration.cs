@@ -11,6 +11,7 @@ namespace Project.IdentityService.Data.Configurations
         {
             builder.HasKey(p => p.ProfileID);
             builder.Property(p => p.ProfileID).IsRequired();
+            builder.Property(p => p.IsActive).IsRequired();
             builder.Property(p => p.WorkStart).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.HasOne(p => p.Profile)

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
 
 namespace Project.IdentityService.Commands

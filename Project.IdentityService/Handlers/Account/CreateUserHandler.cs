@@ -48,7 +48,7 @@ namespace Project.IdentityService.Handlers.Account
                 var userNameGeneration = role.ToLower() + request.Email.Substring(0, request.Email.IndexOf('@'));
                 var passwordGeneration = RandomText.RandomByNumberOfCharacters(15, RandomType.String);
                 var pass = Cryptography.EncryptPassword(passwordGeneration);
-                var user = new User { UserName = userNameGeneration, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = role };
+                var user = new User { UserName = userNameGeneration, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = role, Enabled = false };
                 var result = await userRepository.CreateEntityAsync(user);
                 if (result == null)
                 {

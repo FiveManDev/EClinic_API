@@ -13,6 +13,7 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Title { get; set; }
+        public float Price { get; set; }
         public DateTime WorkStart { get; set; }
     }
 }

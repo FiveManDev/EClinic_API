@@ -33,6 +33,7 @@ namespace Project.PaymentService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("OrderID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("PaymentAmount")

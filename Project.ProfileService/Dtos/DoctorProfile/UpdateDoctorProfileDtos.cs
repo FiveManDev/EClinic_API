@@ -14,6 +14,8 @@
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime WorkStart { get; set; }
+        public float Price { get; set; }
+        public bool IsActive { get; set; }
         public Guid SpecializationID { get; set; }
     }
 }

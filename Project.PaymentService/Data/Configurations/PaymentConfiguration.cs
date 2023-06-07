@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Project.Common.Constants;
-using System.Reflection.Emit;
 
 namespace Project.PaymentService.Data.Configurations
 {
@@ -12,6 +10,7 @@ namespace Project.PaymentService.Data.Configurations
             builder.HasKey(payment => payment.PaymentID);
             builder.Property(payment => payment.PaymentID).HasDefaultValueSql("NEWID()").IsRequired();
             builder.Property(payment => payment.TransactionID).IsRequired();
+            builder.Property(payment => payment.OrderID).IsRequired();
             builder.Property(payment => payment.PaymentAmount).IsRequired();
             builder.Property(payment => payment.UserID).IsRequired();
             builder.Property(payment => payment.BookingID).IsRequired();

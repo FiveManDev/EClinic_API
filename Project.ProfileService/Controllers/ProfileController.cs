@@ -44,7 +44,7 @@ namespace Project.ProfileService.Controllers
             return await mediator.Send(new GetDoctorProfileQuery(paginationRequestHeader, SearchText, Response));
         }
         [HttpGet]
-        public async Task<IActionResult> GetAdminrProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
+        public async Task<IActionResult> GetAdminProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetEmployeeProfileQuery(paginationRequestHeader, SearchText, Response, RoleConstants.Admin));

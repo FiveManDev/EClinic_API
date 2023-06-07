@@ -46,11 +46,12 @@ namespace Project.ProfileService.Migrations
                 columns: table => new
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WorkStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SpecializationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quality = table.Column<float>(type: "real", nullable: false)
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    SpecializationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,6 +69,7 @@ namespace Project.ProfileService.Migrations
                 columns: table => new
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     WorkStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -75,7 +77,7 @@ namespace Project.ProfileService.Migrations
                 {
                     table.PrimaryKey("PK_EmployeeProfiles", x => x.ProfileID);
                     table.ForeignKey(
-                        name: "PK_Profile_One_To_One_SupporterProfile",
+                        name: "PK_Profile_One_To_One_EmployeeProfile",
                         column: x => x.ProfileID,
                         principalTable: "Profiles",
                         principalColumn: "ProfileID",

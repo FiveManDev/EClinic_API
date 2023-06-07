@@ -46,6 +46,7 @@ namespace Project.IdentityService.Handlers.Account
                 var pass = Cryptography.EncryptPassword(passwordGeneration);
                 user.PasswordSalt = pass.Salt;
                 user.PasswordHash = pass.Hash;
+                user.Enabled = true;
                 var result = await userRepository.UpdateAsync(user);
                 if (!result)
                 {

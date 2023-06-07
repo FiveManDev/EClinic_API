@@ -12,7 +12,7 @@ using Project.PaymentService.Data.Configurations;
 namespace Project.PaymentService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230607153526_Initial")]
+    [Migration("20230607170112_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,7 @@ namespace Project.PaymentService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("OrderID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("PaymentAmount")
