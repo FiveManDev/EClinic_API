@@ -17,7 +17,9 @@ public class ServicePackageRepository : MSSQLRepository<ApplicationDbContext, Se
     public async Task<List<ServicePackage>> GetAllServicePackageAsync(Expression<Func<ServicePackage, bool>> filters)
     {
         var result = await context.ServicePackages.Include(x => x.ServicePackageItems)
-                                .ThenInclude(item => item.Service).Where(filters).ToListAsync();
+                                .ThenInclude(servicePackageItem => servicePackageItem.Service)
+                                .ThenInclude(service => service.Specialization)
+                                .Where(filters).ToListAsync();
 
         return result;
     }
@@ -25,7 +27,9 @@ public class ServicePackageRepository : MSSQLRepository<ApplicationDbContext, Se
     public async Task<ServicePackage> GetServicePackageAsync(Expression<Func<ServicePackage, bool>> filters)
     {
         var result = await context.ServicePackages.Include(x => x.ServicePackageItems)
-                                .ThenInclude(item => item.Service).FirstOrDefaultAsync(filters);
+                                .ThenInclude(servicePackageItem => servicePackageItem.Service)
+                                .ThenInclude(service => service.Specialization)
+                                .FirstOrDefaultAsync(filters);
 
         return result;
     }

@@ -18,16 +18,14 @@ public class CreateServicePackageHandler : IRequestHandler<CreateServicePackageC
     private readonly ILogger<CreateServicePackageHandler> logger;
     private readonly IServicePackageRepository repository;
     private readonly IServicePackageItemRepository servicePackageItemRepository;
-    private readonly IServiceRepository serviceRepository;
     private readonly IMapper mapper;
     private readonly IAmazonS3Bucket bucket;
 
-    public CreateServicePackageHandler(ILogger<CreateServicePackageHandler> logger, IServicePackageRepository repository, IServicePackageItemRepository servicePackageItemRepository, IServiceRepository serviceRepository, IMapper mapper, IAmazonS3Bucket bucket)
+    public CreateServicePackageHandler(ILogger<CreateServicePackageHandler> logger, IServicePackageRepository repository, IServicePackageItemRepository servicePackageItemRepository, IMapper mapper, IAmazonS3Bucket bucket)
     {
         this.logger = logger;
         this.repository = repository;
         this.servicePackageItemRepository = servicePackageItemRepository;
-        this.serviceRepository = serviceRepository;
         this.mapper = mapper;
         this.bucket = bucket;
     }
@@ -56,16 +54,9 @@ public class CreateServicePackageHandler : IRequestHandler<CreateServicePackageC
 
             foreach (var item in request.createServicePackageDTO.ServiceItemIds)
             {
-                var service = await serviceRepository.GetAsync(item);
-                if (service != null)
-                {
-                    await servicePackageItemRepository.CreateAsync(
-                        new ServicePackageItem { ServicePackageID = servicePackage.ServicePackageID, ServiceID = item});
-                    servicePackage.Price += service.Price;
-                }
+                await servicePackageItemRepository.CreateAsync(
+                    new ServicePackageItem { ServicePackageID = servicePackage.ServicePackageID, ServiceID = item});
             };
-
-            await repository.UpdateAsync(servicePackage);
 
             return ApiResponse.OK("Create Success.");
         }

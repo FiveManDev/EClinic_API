@@ -17,17 +17,15 @@ public class UpdateServicePackageHandler : IRequestHandler<UpdateServicePackageC
 {
     private readonly ILogger<UpdateServicePackageHandler> logger;
     private readonly IServicePackageRepository repository;
-    private readonly IServiceRepository serviceRepository;
     private readonly IServicePackageItemRepository servicePackageItemRepository;
     private readonly IMapper mapper;
     private readonly IAmazonS3Bucket bucket;
 
     public UpdateServicePackageHandler(ILogger<UpdateServicePackageHandler> logger, IServicePackageRepository repository, 
-        IServiceRepository serviceRepository, IServicePackageItemRepository servicePackageItemRepository, IMapper mapper, IAmazonS3Bucket bucket)
+                            IServicePackageItemRepository servicePackageItemRepository, IMapper mapper, IAmazonS3Bucket bucket)
     {
         this.logger = logger;
         this.repository = repository;
-        this.serviceRepository = serviceRepository;
         this.servicePackageItemRepository = servicePackageItemRepository;
         this.mapper = mapper;
         this.bucket = bucket;
@@ -67,16 +65,9 @@ public class UpdateServicePackageHandler : IRequestHandler<UpdateServicePackageC
 
             foreach (var item in request.updateServicePackageDTO.ServiceItemIds)
             {
-                var service = await serviceRepository.GetAsync(item);
-                if (service != null)
-                {
-                    await servicePackageItemRepository.CreateAsync(
-                        new ServicePackageItem { ServicePackageID = servicePackage.ServicePackageID, ServiceID = item });
-                    servicePackage.Price += service.Price;
-                }
+                await servicePackageItemRepository.CreateAsync(
+                    new ServicePackageItem { ServicePackageID = servicePackage.ServicePackageID, ServiceID = item });
             };
-
-            await repository.UpdateAsync(servicePackage);
 
             return ApiResponse.OK("Update Success.");
         }

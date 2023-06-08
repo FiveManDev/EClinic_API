@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Project.Common.Paging;
 using Project.Common.Response;
 using Project.Core.Logger;
+using Project.ServiceInformationService.Dtos.ServiceDTOs;
 using Project.ServiceInformationService.Dtos.ServicePackageDTOs;
 using Project.ServiceInformationService.Queries;
 using Project.ServiceInformationService.Repository.ServicePackageRepository;
@@ -45,6 +46,11 @@ public class GetAllServicePackageHandler : IRequestHandler<GetAllServicePackageQ
 
             request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
             List<ServicePackageDTO> servicePackageDTOs = mapper.Map<List<ServicePackageDTO>>(servicePackages);
+            for (int i = 0; i < servicePackages.Count; i++)
+            {
+                List<ServiceDTO> services = mapper.Map<List<ServiceDTO>>(servicePackages[i].ServicePackageItems.Select(item => item.Service).ToList());
+                servicePackageDTOs[i].ServiceItems = services;
+            }
             return ApiResponse.OK<List<ServicePackageDTO>>(servicePackageDTOs);
         }
         catch (Exception ex)

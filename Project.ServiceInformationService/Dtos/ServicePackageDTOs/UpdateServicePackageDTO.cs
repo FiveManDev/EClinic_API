@@ -6,6 +6,7 @@ public class UpdateServicePackageDTO
     public string ServicePackageName { get; set; }
     public string Description { get; set; }
     public IFormFile Image { get; set; }
+    public double Price { get; set; }
     public double Discount { get; set; }
     public int EstimatedTime { get; set; }
     public bool IsActive { get; set; }
