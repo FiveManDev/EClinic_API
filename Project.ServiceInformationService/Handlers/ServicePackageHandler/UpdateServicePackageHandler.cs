@@ -57,6 +57,8 @@ public class UpdateServicePackageHandler : IRequestHandler<UpdateServicePackageC
                 servicePackage.Image = imageUrl;
             }
 
+            await repository.UpdateAsync(servicePackage);
+
             var servicePackageItems = await servicePackageItemRepository.GetAllAsync(x => x.ServicePackageID.Equals(servicePackage.ServicePackageID));
             if (servicePackageItems is not null)
             {
