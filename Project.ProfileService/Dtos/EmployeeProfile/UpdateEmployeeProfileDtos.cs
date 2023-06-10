@@ -12,6 +12,9 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime WorkStart { get; set; }
+        public DateTime? WorkEnd { get; set; } = null;
+        public bool IsActive { get; set; }
         public string Description { get; set; }
+        public bool EnabledAccount { get; set; }
     }
 }

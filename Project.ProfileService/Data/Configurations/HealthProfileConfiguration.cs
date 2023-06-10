@@ -20,7 +20,7 @@ namespace Project.IdentityService.Data.Configurations
                    .HasForeignKey<HealthProfile>(p => p.ProfileID)
                    .HasConstraintName("PK_Profile_One_To_One_HealthProfile")
                    .OnDelete(DeleteBehavior.Cascade);
-            builder.ToTable("HealthProfiles");
+            builder.ToTable("PatientProfiles");
         }
     }
 }

@@ -11,11 +11,14 @@ namespace Project.IdentityService.Data.Configurations
         {
             builder.HasKey(p => p.ProfileID);
             builder.Property(p => p.ProfileID).IsRequired();
+            builder.Property(p => p.IsActive).IsRequired();
             builder.Property(p => p.Title).IsRequired();
+            builder.Property(p => p.Content).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.WorkStart).IsRequired();
+            builder.Property(p => p.WorkEnd);
+            builder.Property(p => p.Price).IsRequired();
             builder.Property(p => p.SpecializationID).IsRequired();
-            builder.Property(p => p.Quality).IsRequired();
             builder.HasOne(p => p.Profile)
                   .WithOne(dp => dp.DoctorProfile)
                   .HasForeignKey<DoctorProfile>(p => p.ProfileID)

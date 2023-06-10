@@ -50,6 +50,14 @@ namespace Project.CommunicateService.Controllers
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetAllRoomQuery(paginationRequestHeader, Response, userId));
         }
+        [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Doctor, RoleConstants.User })]
+        public async Task<IActionResult> SearchRoom([FromHeader] int PageNumber, [FromHeader] int PageSize, string SearchText)
+        {
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new SearchRoomQuery(paginationRequestHeader, Response, userId, SearchText));
+        }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]
         public async Task<IActionResult> CreateRoom(Guid RoomTypeID)

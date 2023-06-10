@@ -33,13 +33,20 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
         {
             try
             {
-                var booking = await client.GetBookingAsync(new GetBookingRequest { BookingID = request.BookingID.ToString() });
+                //var booking = await client.GetBookingAsync(new GetBookingRequest { BookingID = request.BookingID.ToString() });
+                //PaymentModel paymentModel = new PaymentModel
+                //{
+                //    BookingID = Guid.Parse(booking.BookingID),
+                //    UserID = Guid.Parse(booking.UserID),
+                //    Amount = booking.Amount,
+                //    Message = booking.Message
+                //};
                 PaymentModel paymentModel = new PaymentModel
                 {
-                    BookingID = Guid.Parse(booking.BookingID),
-                    UserID = Guid.Parse(booking.UserID),
-                    Amount = booking.Amount,
-                    Message = booking.Message
+                    BookingID = Guid.Parse("63da4fe0-de4d-4c8e-b8c8-ec3202c20038"),
+                    UserID = Guid.Parse("63da4fe0-de4d-4c8e-b8c8-ec3202c20038"),
+                    Amount = 10000,
+                    Message = "Test"
                 };
                 string url = "";
                 switch (request.PaymentService)

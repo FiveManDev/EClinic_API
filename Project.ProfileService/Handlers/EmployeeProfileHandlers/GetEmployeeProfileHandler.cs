@@ -10,7 +10,7 @@ using Project.ProfileService.Protos;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 
-namespace Project.ProfileService.Handlers.UserProfileHandlers
+namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
 {
     public class GetEmployeeProfileHandler : IRequestHandler<GetEmployeeProfileQuery, ObjectResult>
     {
@@ -33,11 +33,19 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
             try
             {
                 var res = await client.GetAllUserWithRoleAsync(new GetAllUserWithRoleRequest { Role = request.Role });
-                var ListUserID = res.UserIDs.ToList();
-                List<Guid> listID = ListUserID.Select(s => Guid.Parse(s)).ToList();
+                if(res==null)
+                {
+                    throw new Exception("Get User Error");
+                }
+                var ListUser = res.User.ToList();
+                List<Guid> listID = ListUser.Select(s => Guid.Parse(s.UserID)).ToList();
                 var pagination = await profileRepository.GetEmployeeProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetEmployeeProfileDtos>>(pagination.PaginationData);
+                for (var i = 0; i < profileDtos.Count; i++)
+                {
+                    profileDtos[i].EnabledAccount = ListUser[i].Enabled;
+                }
                 return ApiResponse.OK<List<GetEmployeeProfileDtos>>(profileDtos);
             }
             catch (Exception ex)

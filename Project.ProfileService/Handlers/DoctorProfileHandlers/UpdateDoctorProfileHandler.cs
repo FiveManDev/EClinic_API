@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Grpc.Net.Client;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
@@ -9,6 +10,7 @@ using Project.Core.Logger;
 using Project.Core.RabbitMQ;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Events;
+using Project.ProfileService.Protos;
 using Project.ProfileService.Repository.DoctorProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -21,14 +23,18 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<UpdateDoctorProfileHandler> logger;
         private readonly IBus bus;
-
-        public UpdateDoctorProfileHandler(IProfileRepository profileRepository, IDoctorProfileRepository doctorProfileRepository, IAmazonS3Bucket s3Bucket, ILogger<UpdateDoctorProfileHandler> logger, IBus bus)
+        private readonly UserService.UserServiceClient client;
+        public UpdateDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, IDoctorProfileRepository doctorProfileRepository, IAmazonS3Bucket s3Bucket, ILogger<UpdateDoctorProfileHandler> logger, IBus bus)
         {
             this.profileRepository = profileRepository;
             this.doctorProfileRepository = doctorProfileRepository;
             this.s3Bucket = s3Bucket;
             this.logger = logger;
             this.bus = bus;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new UserService.UserServiceClient(channel);
         }
 
         public async Task<ObjectResult> Handle(UpdateDoctorProfileCommands request, CancellationToken cancellationToken)
@@ -58,8 +64,11 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
                 doctorProfile.WorkStart = profileDtos.WorkStart;
+                doctorProfile.WorkEnd = profileDtos.WorkEnd;
+                doctorProfile.Content = profileDtos.Content;
                 doctorProfile.Description = profileDtos.Description;
                 doctorProfile.Title = profileDtos.Title;
+                doctorProfile.IsActive = profileDtos.IsActive;
                 doctorProfile.SpecializationID = profileDtos.SpecializationID;
                 var updateDoctorResult = await doctorProfileRepository.UpdateAsync(doctorProfile);
                 if (!updateDoctorResult)
@@ -70,6 +79,11 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 if (!updateProfileResult)
                 {
                     throw new Exception("Update Profile Error");
+                }
+                var userRes = await client.UpdateUserAsync(new UpdateUserRequest { UserID = profile.UserID.ToString(), Enabled = profileDtos.EnabledAccount });
+                if (!userRes.IsSuccess)
+                {
+                    return ApiResponse.InternalServerError();
                 }
                 await bus.SendMessageWithExchangeName<UpdateProfileEvents>(new UpdateProfileEvents
                 {

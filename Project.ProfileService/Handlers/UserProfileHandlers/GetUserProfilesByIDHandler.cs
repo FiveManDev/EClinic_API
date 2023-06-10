@@ -2,10 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
-using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Dtos.UserProfile;
-using Project.ProfileService.Helpers;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 using Project.ProfileService.Repository.RelationshipRepository;

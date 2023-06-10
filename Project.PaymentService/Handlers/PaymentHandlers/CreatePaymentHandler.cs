@@ -58,7 +58,8 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                     PaymentService = request.PaymentService,
                     PaymentTime = paymentResult.PaymentTime,
                     TransactionID = paymentResult.TransactionID,
-                    UserID = paymentResult.UserID
+                    UserID = paymentResult.UserID,
+                    OrderID = paymentResult.OrderID
                 };
                 var result = await paymentRepository.CreateAsync(payment);
                 if (!result)

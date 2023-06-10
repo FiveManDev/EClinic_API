@@ -52,14 +52,15 @@ namespace Project.ProfileService.Repository.ProfileRepository
             searchText = searchText.ToLower();
             var profiles = await context.Profiles.Include(x => x.HealthProfile).Where(u => UserIDs.Contains(u.UserID) && u.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID)
                 .ToListAsync();
-            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText.ToLower()))
-                .Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText.ToLower())).ToList();
+            var count = profiles.Count();
+            profiles = profiles.Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
                 .ToList();
             var paginationResponseHeader = new PaginationResponseHeader
             {
                 PageSize = pagination.PageSize,
                 PageIndex = pagination.PageNumber,
-                TotalCount = profiles.Count()
+                TotalCount = count
             };
             return new PaginationModel<List<Profile>> { PaginationData = profiles, PaginationResponseHeader = paginationResponseHeader };
         }
@@ -68,16 +69,17 @@ namespace Project.ProfileService.Repository.ProfileRepository
         {
             if (searchText == null) { searchText = ""; }
             searchText = searchText.ToLower();
-            var profiles = await context.Profiles.Include(x => x.DoctorProfile).Where(u => UserIDs.Contains(u.UserID))
+            var profiles = await context.Profiles.Include(x => x.DoctorProfile).Where(u => UserIDs.Contains(u.UserID) && u.DoctorProfile.IsActive)
                 .ToListAsync();
-            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText) || x.DoctorProfile.Title.ToLower().Contains(searchText))
-                .Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText) || x.DoctorProfile.Title.ToLower().Contains(searchText)).ToList();
+            var count = profiles.Count();
+            profiles = profiles.Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
                 .ToList();
             var paginationResponseHeader = new PaginationResponseHeader
             {
                 PageSize = pagination.PageSize,
                 PageIndex = pagination.PageNumber,
-                TotalCount = profiles.Count()
+                TotalCount = count
             };
             return new PaginationModel<List<Profile>> { PaginationData = profiles, PaginationResponseHeader = paginationResponseHeader };
         }
@@ -89,8 +91,9 @@ namespace Project.ProfileService.Repository.ProfileRepository
             var profiles = await context.Profiles.Include(x => x.EmployeeProfile)
                   .Where(u => UserIDs.Contains(u.UserID))
                  .ToListAsync();
-            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText) || x.LastName.ToLower().Contains(searchText) || x.Email.ToLower().Contains(searchText))
-                .Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText) || x.LastName.ToLower().Contains(searchText) || x.Email.ToLower().Contains(searchText)).ToList();
+            var count = profiles.Count();
+            profiles = profiles.Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
                 .ToList();
             var paginationResponseHeader = new PaginationResponseHeader
             {

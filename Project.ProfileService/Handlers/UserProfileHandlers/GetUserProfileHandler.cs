@@ -34,8 +34,12 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
             try
             {
                 var res = await client.GetAllUserWithRoleAsync(new GetAllUserWithRoleRequest { Role = RoleConstants.User });
-                var ListUserID = res.UserIDs.ToList();
-                List<Guid> listID = ListUserID.Select(s => Guid.Parse(s)).ToList();
+                if (res == null)
+                {
+                    throw new Exception("Get User Error");
+                }
+                var ListUser = res.User.ToList();
+                List<Guid> listID = ListUser.Select(s => Guid.Parse(s.UserID)).ToList();
                 var pagination = await profileRepository.GetUserProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetUserProfileDtos>>(pagination.PaginationData);

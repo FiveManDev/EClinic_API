@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Response;
 using Project.Core.Logger;
 using Project.ProfileService.Dtos.DoctorProfile;
+using Project.ProfileService.Protos;
 using Project.ProfileService.Queries;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -14,12 +16,17 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         private readonly ILogger<GetDoctorProfileByIDHandler> logger;
         private readonly IProfileRepository repository;
         private readonly IMapper mapper;
+        private readonly UserService.UserServiceClient client;
 
-        public GetDoctorProfileByIDHandler(ILogger<GetDoctorProfileByIDHandler> logger, IProfileRepository repository, IMapper mapper)
+        public GetDoctorProfileByIDHandler(IConfiguration configuration, ILogger<GetDoctorProfileByIDHandler> logger, IProfileRepository repository, IMapper mapper)
         {
             this.logger = logger;
             this.repository = repository;
             this.mapper = mapper;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new UserService.UserServiceClient(channel);
         }
 
         public async Task<ObjectResult> Handle(GetDoctorProfileByIDQuery request, CancellationToken cancellationToken)
@@ -31,7 +38,13 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
+                var userRes = await client.GetUserAsync(new GetUserRequest { UserID = doctorProfiles.UserID.ToString() });
+                if (userRes == null)
+                {
+                    return ApiResponse.InternalServerError();
+                }
                 var doctorProfileDtos = mapper.Map<DoctorProfileDtos>(doctorProfiles);
+                doctorProfileDtos.EnabledAccount = userRes.Enabled;
                 return ApiResponse.OK<DoctorProfileDtos>(doctorProfileDtos);
             }
             catch (Exception ex)

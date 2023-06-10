@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Grpc.Net.Client;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
@@ -9,6 +10,7 @@ using Project.Core.Logger;
 using Project.Core.RabbitMQ;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Events;
+using Project.ProfileService.Protos;
 using Project.ProfileService.Repository.EmployeeProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -21,14 +23,19 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
         private readonly ILogger<UpdateEmployeeProfileHandler> logger;
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly IBus bus;
+        private readonly UserService.UserServiceClient client;
 
-        public UpdateEmployeeProfileHandler(IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, ILogger<UpdateEmployeeProfileHandler> logger, IAmazonS3Bucket s3Bucket, IBus bus)
+        public UpdateEmployeeProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, ILogger<UpdateEmployeeProfileHandler> logger, IAmazonS3Bucket s3Bucket, IBus bus)
         {
             this.profileRepository = profileRepository;
             this.employeeProfilesRepository = employeeProfilesRepository;
             this.logger = logger;
             this.s3Bucket = s3Bucket;
             this.bus = bus;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new UserService.UserServiceClient(channel);
         }
 
         public async Task<ObjectResult> Handle(UpdateEmployeeProfileCommands request, CancellationToken cancellationToken)
@@ -58,6 +65,7 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
                 supporteProfile.WorkStart = profileDtos.WorkStart;
+                supporteProfile.WorkEnd = profileDtos.WorkEnd;
                 supporteProfile.Description = profileDtos.Description;
                 var updateSupporteResult = await employeeProfilesRepository.UpdateAsync(supporteProfile);
                 if (!updateSupporteResult)
@@ -68,6 +76,11 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                 if (!updateProfileResult)
                 {
                     throw new Exception("Update Profile Error");
+                }
+                var userRes = await client.UpdateUserAsync(new UpdateUserRequest { UserID = profile.UserID.ToString(), Enabled = profileDtos.EnabledAccount });
+                if (!userRes.IsSuccess)
+                {
+                    return ApiResponse.InternalServerError();
                 }
                 await bus.SendMessageWithExchangeName<UpdateProfileEvents>(new UpdateProfileEvents
                 {

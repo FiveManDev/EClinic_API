@@ -10,9 +10,9 @@ namespace Project.PaymentService.Controllers
     [ApiVersion("1")]
     public class VNPayPaymentController : ControllerBase
     {
-        private readonly Mediator mediator;
+        private readonly IMediator mediator;
 
-        public VNPayPaymentController(Mediator mediator)
+        public VNPayPaymentController(IMediator mediator)
         {
             this.mediator = mediator;
         }
@@ -21,7 +21,7 @@ namespace Project.PaymentService.Controllers
         public async Task<IActionResult> PaymentRequest(Guid BookingID)
         {
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-            return await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.Momo, BookingID, ipAddress));
+            return await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.VNPay, BookingID, ipAddress));
         }
         [HttpGet]
         public async Task<IActionResult> PaymentReturnURl()

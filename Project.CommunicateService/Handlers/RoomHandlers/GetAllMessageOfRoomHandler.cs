@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -6,6 +7,8 @@ using Project.Common.Paging;
 using Project.Common.Response;
 using Project.CommunicateService.Data;
 using Project.CommunicateService.Dtos.ChatMessageDtos;
+using Project.CommunicateService.Dtos.RoomDtos;
+using Project.CommunicateService.Protos;
 using Project.CommunicateService.Queries;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.Core.Logger;
@@ -16,13 +19,18 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
     {
         private readonly IRoomRepository roomRepository;
         private readonly IMapper mapper;
+        private readonly ProfileService.ProfileServiceClient client;
         private readonly ILogger<GetAllMessageOfRoomHandler> logger;
 
-        public GetAllMessageOfRoomHandler(IRoomRepository roomRepository, IMapper mapper, ILogger<GetAllMessageOfRoomHandler> logger)
+        public GetAllMessageOfRoomHandler(IConfiguration configuration, IRoomRepository roomRepository, IMapper mapper, ILogger<GetAllMessageOfRoomHandler> logger)
         {
             this.roomRepository = roomRepository;
             this.mapper = mapper;
             this.logger = logger;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new ProfileService.ProfileServiceClient(channel);
         }
 
         public async Task<ObjectResult> Handle(GetAllMessageOfRoomQuery request, CancellationToken cancellationToken)
@@ -51,14 +59,37 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                     {
                         chatMessage.IsImage = true;
                     }
-                    if(chatMessage.UserID == UserID)
+                    if (chatMessage.UserID == UserID)
                     {
                         chatMessage.IsMyChat = true;
                     }
                 }
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 ChatMessageDtos = ChatMessageDtos.OrderBy(x => x.CreatedAt).ToList();
-                return ApiResponse.OK<List<ChatMessageDto>>(ChatMessageDtos);
+                var ListUserID = new List<Guid>();
+                ListUserID.Add(ChatMessageDtos.FirstOrDefault(x => x.IsMyChat).UserID);
+                ListUserID.Add(ChatMessageDtos.FirstOrDefault(x => x.IsMyChat == false).UserID);
+                GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
+                getAllProfileRequest.UserIDs.AddRange(ListUserID.ConvertAll(g => g.ToString()));
+                var response = await client.GetAllProfileAsync(getAllProfileRequest);
+                if (response is null)
+                {
+                    return ApiResponse.NotFound("Get Profile Error");
+                }
+                var profiles = response.Profiles;
+                ChatResponseDtos chatResponseDtos = new ChatResponseDtos();
+                chatResponseDtos.Message = ChatMessageDtos;
+                chatResponseDtos.MyProfile = new Author();
+                chatResponseDtos.MyProfile.UserID = Guid.Parse(profiles[0].UserID);
+                chatResponseDtos.MyProfile.FirstName = profiles[0].FirstName;
+                chatResponseDtos.MyProfile.LastName = profiles[0].LastName;
+                chatResponseDtos.MyProfile.Avatar = profiles[0].Avatar;
+                chatResponseDtos.OtherProfile = new Author();
+                chatResponseDtos.OtherProfile.UserID = Guid.Parse(profiles[1].UserID);
+                chatResponseDtos.OtherProfile.FirstName = profiles[1].FirstName;
+                chatResponseDtos.OtherProfile.LastName = profiles[1].LastName;
+                chatResponseDtos.OtherProfile.Avatar = profiles[1].Avatar;
+                return ApiResponse.OK<ChatResponseDtos>(chatResponseDtos);
             }
             catch (Exception ex)
             {

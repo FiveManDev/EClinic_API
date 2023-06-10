@@ -1,13 +1,10 @@
-﻿using Project.Core.Logger;
+﻿using Newtonsoft.Json;
+using Project.Core.Logger;
 using Project.PaymentService.Model;
-using Project.PaymentService.VNPayPayment.VNPayPaymentConfiguration;
-using Project.PaymentService.VNPayPayment.VNPayPaymentModel;
-
-using System.Net;
-using Newtonsoft.Json;
 using Project.PaymentService.MomoPayment.MomoPaymentConfiguration;
 using Project.PaymentService.MomoPayment.MomoPaymentModel;
-using MongoDB.Bson;
+using Project.PaymentService.VNPayPayment.VNPayPaymentConfiguration;
+using Project.PaymentService.VNPayPayment.VNPayPaymentModel;
 
 namespace Project.PaymentService.VNPayPayment
 {
@@ -41,6 +38,12 @@ namespace Project.PaymentService.VNPayPayment
                 string vnp_ResponseCode = pay.GetResponseData("vnp_ResponseCode");
                 string vnp_OrderInfo = pay.GetResponseData("vnp_OrderInfo");
                 string vnp_SecureHash = query["vnp_SecureHash"];
+                double amount = double.Parse(query["vnp_Amount"]) / 100;
+                string payDate = query["vnp_PayDate"];
+                string dateFormat = "yyyyMMddHHmmss";
+
+                DateTime dateTime;
+                DateTime.TryParseExact(payDate, dateFormat, null, System.Globalization.DateTimeStyles.None, out dateTime);
                 string[] parts = vnp_OrderInfo.Split('|');
                 string message = "";
                 string bookingId = "";
@@ -63,8 +66,8 @@ namespace Project.PaymentService.VNPayPayment
                         result.OrderID = orderId.ToString();
                         result.UserID = Guid.Parse(userId);
                         result.BookingID = Guid.Parse(bookingId);
-                        //result.Amount = momoResponse.Amount;
-                        //result.PaymentTime = momoResponse.ResponseTime;
+                        result.Amount = amount;
+                        result.PaymentTime = dateTime;
                         return result;
 
                     }
@@ -93,9 +96,9 @@ namespace Project.PaymentService.VNPayPayment
                 var vnp_Command = "refund";
                 var vnp_TransactionType = "02";
                 var vnp_Amount = RefundModel.Amount.ToString() + "00";
-                var vnp_TxnRef = RefundModel.TransactionID;
+                var vnp_TxnRef = RefundModel.OrderID;
                 var vnp_OrderInfo = "Hoan tien giao dich:" + RefundModel.Message;
-                var vnp_TransactionNo = "";
+                var vnp_TransactionNo = RefundModel.TransactionID;
                 var vnp_TransactionDate = RefundModel.TransactionDate.ToString("yyyyMMddHHmmss");
                 var vnp_CreateDate = DateTime.Now.ToString("yyyyMMddHHmmss");
                 var vnp_CreateBy = RefundModel.UserID.ToString();
@@ -123,10 +126,16 @@ namespace Project.PaymentService.VNPayPayment
                 };
                 var httpResponse = await VNPayPaymentMethod.SendPaymentRequest(vnp_Api, rfData);
                 var data = JsonConvert.DeserializeObject<VNPayRefundResponse>(httpResponse);
-                RefundResult result = new RefundResult
+                RefundResult result = new RefundResult();
+                if (data.ResponseCode == "00")
                 {
+                    result.IsSuccess = true;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                }
 
-                };
                 return result;
             }
             catch (Exception ex)

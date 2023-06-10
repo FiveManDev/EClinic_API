@@ -46,11 +46,14 @@ namespace Project.ProfileService.Migrations
                 columns: table => new
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WorkStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SpecializationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quality = table.Column<float>(type: "real", nullable: false)
+                    WorkEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Price = table.Column<float>(type: "real", nullable: false),
+                    SpecializationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,13 +72,14 @@ namespace Project.ProfileService.Migrations
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WorkStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WorkEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EmployeeProfiles", x => x.ProfileID);
                     table.ForeignKey(
-                        name: "PK_Profile_One_To_One_SupporterProfile",
+                        name: "PK_Profile_One_To_One_EmployeeProfile",
                         column: x => x.ProfileID,
                         principalTable: "Profiles",
                         principalColumn: "ProfileID",
@@ -83,7 +87,7 @@ namespace Project.ProfileService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HealthProfiles",
+                name: "PatientProfiles",
                 columns: table => new
                 {
                     ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -94,7 +98,7 @@ namespace Project.ProfileService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HealthProfiles", x => x.ProfileID);
+                    table.PrimaryKey("PK_PatientProfiles", x => x.ProfileID);
                     table.ForeignKey(
                         name: "PK_Profile_One_To_One_HealthProfile",
                         column: x => x.ProfileID,
@@ -115,8 +119,8 @@ namespace Project.ProfileService.Migrations
                 values: new object[] { new Guid("13accb41-1cad-4171-85aa-f3d76464c3dc"), "Me" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HealthProfiles_RelationshipID",
-                table: "HealthProfiles",
+                name: "IX_PatientProfiles_RelationshipID",
+                table: "PatientProfiles",
                 column: "RelationshipID");
         }
 
@@ -129,7 +133,7 @@ namespace Project.ProfileService.Migrations
                 name: "EmployeeProfiles");
 
             migrationBuilder.DropTable(
-                name: "HealthProfiles");
+                name: "PatientProfiles");
 
             migrationBuilder.DropTable(
                 name: "Profiles");
