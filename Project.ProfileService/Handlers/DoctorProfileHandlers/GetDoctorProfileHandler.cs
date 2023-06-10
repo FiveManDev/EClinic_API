@@ -34,11 +34,19 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
             try
             {
                 var res = await client.GetAllUserWithRoleAsync(new GetAllUserWithRoleRequest { Role = RoleConstants.Doctor });
-                var ListUserID = res.UserIDs.ToList();
-                List<Guid> listID = ListUserID.Select(s => Guid.Parse(s)).ToList();
+                if (res == null)
+                {
+                    throw new Exception("Get User Error");
+                }
+                var ListUser = res.User.ToList();
+                List<Guid> listID = ListUser.Select(s => Guid.Parse(s.UserID)).ToList();
                 var pagination = await profileRepository.GetDoctorProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetDoctorProfileDtos>>(pagination.PaginationData);
+                for (var i = 0; i < profileDtos.Count; i++)
+                {
+                    profileDtos[i].EnabledAccount = ListUser[i].Enabled;
+                }
                 return ApiResponse.OK<List<GetDoctorProfileDtos>>(profileDtos);
             }
             catch(Exception ex)

@@ -69,7 +69,6 @@ namespace Project.ProfileService.Controllers
             return await mediator.Send(new GetUserMainProfilesByIDQuery(userId));
         }
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetUserProfilesByID(Guid UserID)
         {
             return await mediator.Send(new GetUserProfilesByIDQuery(UserID));
@@ -81,13 +80,12 @@ namespace Project.ProfileService.Controllers
             return await mediator.Send(new GetDoctorProfileByIDQuery(UserID));
         }
         [HttpGet]
-        [Authorize]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin,RoleConstants.Expert })]
         public async Task<IActionResult> GetEmployeeProfileByID(Guid UserID)
         {
             return await mediator.Send(new GetEmployeeProfileByIDQuery(UserID));
         }
         [HttpGet]
-        //[Authorize]
         public async Task<IActionResult> GetSimpleProfile(Guid UserID)
         {
             return await mediator.Send(new GetSimpleProfileQuery(UserID));

@@ -8,6 +8,7 @@ using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Data;
+using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Handlers.UserProfileHandlers;
 using Project.ProfileService.Protos;
 using Project.ProfileService.Repository.EmployeeProfileRepository;
@@ -56,9 +57,9 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                 }
                 else
                 {
-                    profile.Avatar = null;
+                    profile.Avatar = await s3Bucket.GetFileAsync(ConstantsData.DefaultAvatarKey);
                 }
-                var userRes = await client.CreateUserAsync(new CreateUserRequest { Email = profile.Email, Role = RoleConstants.Doctor });
+                var userRes = await client.CreateUserAsync(new CreateUserRequest { Email = profile.Email, Role = request.Role, Enabled = request.CreateEmployeeProfileDtos.EnabledAccount });
                 if (!userRes.IsSuccess)
                 {
                     return ApiResponse.InternalServerError();

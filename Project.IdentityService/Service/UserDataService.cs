@@ -22,9 +22,9 @@ namespace Project.IdentityService.Service
         {
             try
             {
-                var result = await mediator.Send(new CreateUserCommand(request.Email, request.Role));
+                var result = await mediator.Send(new CreateUserCommand(request.Email, request.Role, request.Enabled));
                 var res = new CreateUserResponse();
-                if(result == Guid.Empty)
+                if (result == Guid.Empty)
                 {
                     res.IsSuccess = false;
                     return res;
@@ -45,15 +45,54 @@ namespace Project.IdentityService.Service
         {
             try
             {
-                var UserIDs = await mediator.Send(new GetAllUserWithRoleQuery(request.Role)); 
-                List<string> listID = UserIDs.Select(s => s.ToString()).ToList();
+                var User = await mediator.Send(new GetAllUserWithRoleQuery(request.Role));
                 GetAllUserWithRoleResponse getAllUser = new GetAllUserWithRoleResponse();
-                getAllUser.UserIDs.AddRange(listID);
+                List<GetUserRoleResponse> GetUserWithRole = new List<GetUserRoleResponse>();
+                foreach (var item in User)
+                {
+                    GetUserWithRole.Add(new GetUserRoleResponse { UserID = item.UserID.ToString(), Enabled = item.Enabled });
+                }
+                getAllUser.User.AddRange(GetUserWithRole);
                 return getAllUser;
             }
             catch
             {
                 return new GetAllUserWithRoleResponse();
+            }
+        }
+
+        public override async Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var UserID = Guid.Parse(request.UserID);
+                var result = await mediator.Send(new GetUserEnabledQuery(UserID));
+                GetUserResponse getUser = new GetUserResponse { Enabled = result };
+                return getUser;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return null;
+            }
+        }
+
+        public override async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var userID = Guid.Parse(request.UserID);
+                var result = await mediator.Send(new UpdateUserCommand(userID, request.Enabled));
+                var res = new UpdateUserResponse();
+                if (!result) { throw new Exception("Update User Error"); }
+                res.IsSuccess = result;
+                return res;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                var res = new UpdateUserResponse();
+                return res;
             }
         }
     }

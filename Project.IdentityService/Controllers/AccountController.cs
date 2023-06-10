@@ -53,64 +53,6 @@ namespace Project.IdentityService.Controllers
             }
         }
         [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideDoctorAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
-        {
-            try
-            {
-                return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDDoctor));
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLogError(ex.Message);
-                return ApiResponse.InternalServerError();
-            }
-        }
-        [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideSupporterAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
-        {
-            try
-            {
-                return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDSupporter));
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLogError(ex.Message);
-                return ApiResponse.InternalServerError();
-            }
-        }
-        [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideAdminAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
-        {
-            try
-            {
-                return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDAdmin));
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLogError(ex.Message);
-                return ApiResponse.InternalServerError();
-            }
-        }
-        [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> ProvideExpertAccount([FromBody] ProviderAccountReqDtos providerAccountReqDtos)
-        {
-            try
-            {
-                return await mediator.Send(new ProvideAccountCommand(providerAccountReqDtos, RoleConstants.IDExpert));
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLogError(ex.Message);
-                return ApiResponse.InternalServerError();
-            }
-           
-
-        }
-        [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
         {
             try

@@ -1,13 +1,12 @@
-﻿using MassTransit.Initializers;
-using MediatR;
+﻿using MediatR;
 using Project.Common.Constants;
-using Project.IdentityService.Commands;
+using Project.IdentityService.Data;
 using Project.IdentityService.Queries;
 using Project.IdentityService.Repository.UserRepository;
 
 namespace Project.IdentityService.Handlers.Account
 {
-    public class GetAllUserWithRoleHandler : IRequestHandler<GetAllUserWithRoleQuery, List<Guid>>
+    public class GetAllUserWithRoleHandler : IRequestHandler<GetAllUserWithRoleQuery, List<User>>
     {
         private readonly IUserRepository userRepository;
         private readonly ILogger<GetAllUserWithRoleHandler> logger;
@@ -18,7 +17,7 @@ namespace Project.IdentityService.Handlers.Account
             this.logger = logger;
         }
 
-        public async Task<List<Guid>> Handle(GetAllUserWithRoleQuery request, CancellationToken cancellationToken)
+        public async Task<List<User>> Handle(GetAllUserWithRoleQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -42,11 +41,12 @@ namespace Project.IdentityService.Handlers.Account
                         break;
                 }
                 var user = await userRepository.GetAllAsync(x => string.Equals(x.RoleID, role));
-                return user.Select(x => x.UserID).ToList();
+               
+                return user;
             }
             catch
             {
-                return new List<Guid>();
+                return null;
             }
         }
     }

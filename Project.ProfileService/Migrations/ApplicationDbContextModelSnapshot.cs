@@ -27,6 +27,10 @@ namespace Project.ProfileService.Migrations
                     b.Property<Guid>("ProfileID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -43,6 +47,9 @@ namespace Project.ProfileService.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("WorkEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
@@ -61,8 +68,8 @@ namespace Project.ProfileService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("WorkEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
@@ -93,7 +100,7 @@ namespace Project.ProfileService.Migrations
 
                     b.HasIndex("RelationshipID");
 
-                    b.ToTable("HealthProfiles", (string)null);
+                    b.ToTable("PatientProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.Profile", b =>

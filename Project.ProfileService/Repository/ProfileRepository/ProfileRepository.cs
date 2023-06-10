@@ -89,7 +89,7 @@ namespace Project.ProfileService.Repository.ProfileRepository
             if (searchText == null) { searchText = ""; }
             searchText = searchText.ToLower();
             var profiles = await context.Profiles.Include(x => x.EmployeeProfile)
-                  .Where(u => UserIDs.Contains(u.UserID) && u.EmployeeProfile.IsActive)
+                  .Where(u => UserIDs.Contains(u.UserID))
                  .ToListAsync();
             profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText) || x.LastName.ToLower().Contains(searchText) || x.Email.ToLower().Contains(searchText)).ToList();
             var count = profiles.Count();

@@ -12,7 +12,7 @@ using Project.ProfileService.Data.Configurations;
 namespace Project.ProfileService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230607173234_Initial")]
+    [Migration("20230610182018_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,10 @@ namespace Project.ProfileService.Migrations
                 {
                     b.Property<Guid>("ProfileID")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -46,6 +50,9 @@ namespace Project.ProfileService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("WorkEnd")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
 
@@ -63,8 +70,8 @@ namespace Project.ProfileService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("WorkEnd")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("WorkStart")
                         .HasColumnType("datetime2");
@@ -95,7 +102,7 @@ namespace Project.ProfileService.Migrations
 
                     b.HasIndex("RelationshipID");
 
-                    b.ToTable("HealthProfiles", (string)null);
+                    b.ToTable("PatientProfiles", (string)null);
                 });
 
             modelBuilder.Entity("Project.ProfileService.Data.Profile", b =>

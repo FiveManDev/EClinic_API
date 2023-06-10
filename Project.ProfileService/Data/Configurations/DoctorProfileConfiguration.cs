@@ -13,8 +13,10 @@ namespace Project.IdentityService.Data.Configurations
             builder.Property(p => p.ProfileID).IsRequired();
             builder.Property(p => p.IsActive).IsRequired();
             builder.Property(p => p.Title).IsRequired();
+            builder.Property(p => p.Content).IsRequired();
             builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.WorkStart).IsRequired();
+            builder.Property(p => p.WorkEnd);
             builder.Property(p => p.Price).IsRequired();
             builder.Property(p => p.SpecializationID).IsRequired();
             builder.HasOne(p => p.Profile)

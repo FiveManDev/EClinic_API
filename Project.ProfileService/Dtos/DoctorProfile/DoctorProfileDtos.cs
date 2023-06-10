@@ -13,9 +13,14 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Title { get; set; }
+        public string Content { get; set; }
         public string Description { get; set; }
         public DateTime WorkStart { get; set; }
+        public DateTime? WorkEnd { get; set; } = null;
         public float Price { get; set; }
         public Guid SpecializationID { get; set; }
+        public bool EnabledAccount { get; set; }
+        public bool IsActive { get; set; }
+
     }
 }

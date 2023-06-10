@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Grpc.Net.Client;
+﻿using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Response;
@@ -14,7 +12,6 @@ using Project.ProfileService.Handlers.UserProfileHandlers;
 using Project.ProfileService.Protos;
 using Project.ProfileService.Repository.DoctorProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
-using System.Threading.Channels;
 
 namespace Project.ProfileService.Handlers.DoctorProfileHandlers
 {
@@ -61,7 +58,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     profile.Avatar = null;
                 }
-                var userRes = await client.CreateUserAsync(new CreateUserRequest { Email = profile.Email, Role = RoleConstants.Doctor });
+                var userRes = await client.CreateUserAsync(new CreateUserRequest { Email = profile.Email, Role = RoleConstants.Doctor, Enabled = request.CreateDoctorProfileDtos.EnabledAccount });
                 if (!userRes.IsSuccess)
                 {
                     return ApiResponse.InternalServerError();
@@ -72,7 +69,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     throw new Exception("Create Profile Error");
                 }
-                
+
                 var doctor = new DoctorProfile
                 {
                     ProfileID = result.ProfileID,
@@ -80,7 +77,9 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                     SpecializationID = request.CreateDoctorProfileDtos.SpecializationID,
                     Title = request.CreateDoctorProfileDtos.Title,
                     Price = request.CreateDoctorProfileDtos.Price,
-                    WorkStart = request.CreateDoctorProfileDtos.WorkStart
+                    WorkStart = request.CreateDoctorProfileDtos.WorkStart,
+                    Content = request.CreateDoctorProfileDtos.Content,
+                    IsActive = request.CreateDoctorProfileDtos.IsActive
                 };
                 var doctorResult = await doctorProfileRepository.CreateAsync(doctor);
                 if (!doctorResult)
