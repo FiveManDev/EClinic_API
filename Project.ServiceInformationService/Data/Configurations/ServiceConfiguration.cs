@@ -7,23 +7,23 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
 {
     public void Configure(EntityTypeBuilder<Service> builder)
     {
-        builder.HasKey(service => service.ServiceID);
-        builder.Property(service => service.ServiceID).HasDefaultValueSql("NEWID()").IsRequired();
-        builder.Property(service => service.ServiceName).IsRequired();
-        builder.Property(service => service.Title).IsRequired();
-        builder.Property(service => service.Image).IsRequired();
-        builder.Property(service => service.Price).IsRequired();
-        builder.Property(service => service.TotalOrder).IsRequired();
-        builder.Property(service => service.EstimatedTime).IsRequired();
-        builder.Property(service => service.Description).IsRequired();
+        builder.HasKey(x => x.ServiceID);
+        builder.Property(x => x.ServiceID).HasDefaultValueSql("NEWID()").IsRequired();
+        builder.Property(x => x.ServiceName).IsRequired();
+        builder.Property(x => x.Price).IsRequired();
+        builder.Property(x => x.EstimatedTime).IsRequired();
+        builder.Property(x => x.IsActive).IsRequired();
+        builder.Property(x => x.CreatedAt).IsRequired();
+        builder.Property(x => x.UpdatedAt).IsRequired();
+        builder.Property(x => x.SpecializationID).IsRequired();
         // Relationship
-        builder.HasMany(service => service.ServiceItems)
-               .WithOne(serviceItem => serviceItem.Service)
-               .HasForeignKey(serviceItem => serviceItem.ServiceID)
-               .HasConstraintName("PK_Service_One_To_Many_ServiceItems")
+        builder.HasMany(x => x.ServicePackageItems)
+               .WithOne(servicePackageItem => servicePackageItem.Service)
+               .HasForeignKey(servicePackageItem => servicePackageItem.ServiceID)
+               .HasConstraintName("PK_Service_One_To_Many_ServicePackageItem")
                .OnDelete(DeleteBehavior.Cascade);
 
-        builder.ToTable("Services");
+        builder.ToTable("Service");
 
     }
 }

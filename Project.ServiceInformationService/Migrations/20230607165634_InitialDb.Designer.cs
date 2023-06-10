@@ -12,48 +12,17 @@ using Project.ServiceInformationService.Data.Configurations;
 namespace Project.ServiceInformationService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230225145048_Initial")]
-    partial class Initial
+    [Migration("20230607165634_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Project.ServiceInformationService.Data.MedicalPackage", b =>
-                {
-                    b.Property<Guid>("PackageID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("EstimatedTime")
-                        .HasColumnType("real");
-
-                    b.Property<string>("PackageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("SpecializationID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PackageID");
-
-                    b.HasIndex("SpecializationID");
-
-                    b.ToTable("MedicalPackages", (string)null);
-                });
 
             modelBuilder.Entity("Project.ServiceInformationService.Data.Service", b =>
                 {
@@ -62,49 +31,93 @@ namespace Project.ServiceInformationService.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<float>("EstimatedTime")
-                        .HasColumnType("real");
+                    b.Property<int>("EstimatedTime")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<Guid>("SpecializationID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ServiceID");
+
+                    b.HasIndex("SpecializationID");
+
+                    b.ToTable("Service", (string)null);
+                });
+
+            modelBuilder.Entity("Project.ServiceInformationService.Data.ServicePackage", b =>
+                {
+                    b.Property<Guid>("ServicePackageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("EstimatedTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ServicePackageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalOrder")
                         .HasColumnType("int");
 
-                    b.HasKey("ServiceID");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("Services", (string)null);
+                    b.HasKey("ServicePackageID");
+
+                    b.ToTable("ServicePackage", (string)null);
                 });
 
-            modelBuilder.Entity("Project.ServiceInformationService.Data.ServiceItem", b =>
+            modelBuilder.Entity("Project.ServiceInformationService.Data.ServicePackageItem", b =>
                 {
+                    b.Property<Guid>("ServicePackageID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ServiceID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PackageID")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasKey("ServicePackageID", "ServiceID");
 
-                    b.HasKey("ServiceID", "PackageID");
+                    b.HasIndex("ServiceID");
 
-                    b.HasIndex("PackageID");
-
-                    b.ToTable("ServiceItems", (string)null);
+                    b.ToTable("ServicePackageItem", (string)null);
                 });
 
             modelBuilder.Entity("Project.ServiceInformationService.Data.Specialization", b =>
@@ -120,55 +133,55 @@ namespace Project.ServiceInformationService.Migrations
 
                     b.HasKey("SpecializationID");
 
-                    b.ToTable("Specializations", (string)null);
-                });
-
-            modelBuilder.Entity("Project.ServiceInformationService.Data.MedicalPackage", b =>
-                {
-                    b.HasOne("Project.ServiceInformationService.Data.Specialization", "Specialization")
-                        .WithMany("MedicalPackages")
-                        .HasForeignKey("SpecializationID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("PK_Specialization_One_To_Many_MedicalPackages");
-
-                    b.Navigation("Specialization");
-                });
-
-            modelBuilder.Entity("Project.ServiceInformationService.Data.ServiceItem", b =>
-                {
-                    b.HasOne("Project.ServiceInformationService.Data.MedicalPackage", "MedicalPackage")
-                        .WithMany("ServiceItems")
-                        .HasForeignKey("PackageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("PK_MedicalPackage_One_To_Many_ServiceItems");
-
-                    b.HasOne("Project.ServiceInformationService.Data.Service", "Service")
-                        .WithMany("ServiceItems")
-                        .HasForeignKey("ServiceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("PK_Service_One_To_Many_ServiceItems");
-
-                    b.Navigation("MedicalPackage");
-
-                    b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Project.ServiceInformationService.Data.MedicalPackage", b =>
-                {
-                    b.Navigation("ServiceItems");
+                    b.ToTable("Specialization", (string)null);
                 });
 
             modelBuilder.Entity("Project.ServiceInformationService.Data.Service", b =>
                 {
-                    b.Navigation("ServiceItems");
+                    b.HasOne("Project.ServiceInformationService.Data.Specialization", "Specialization")
+                        .WithMany("Services")
+                        .HasForeignKey("SpecializationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("PK_Specialization_One_To_Many_Service");
+
+                    b.Navigation("Specialization");
+                });
+
+            modelBuilder.Entity("Project.ServiceInformationService.Data.ServicePackageItem", b =>
+                {
+                    b.HasOne("Project.ServiceInformationService.Data.Service", "Service")
+                        .WithMany("ServicePackageItems")
+                        .HasForeignKey("ServiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("PK_Service_One_To_Many_ServicePackageItem");
+
+                    b.HasOne("Project.ServiceInformationService.Data.ServicePackage", "ServicePackage")
+                        .WithMany("ServicePackageItems")
+                        .HasForeignKey("ServicePackageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("PK_ServicePackage_One_To_Many_ServicePackageItem");
+
+                    b.Navigation("Service");
+
+                    b.Navigation("ServicePackage");
+                });
+
+            modelBuilder.Entity("Project.ServiceInformationService.Data.Service", b =>
+                {
+                    b.Navigation("ServicePackageItems");
+                });
+
+            modelBuilder.Entity("Project.ServiceInformationService.Data.ServicePackage", b =>
+                {
+                    b.Navigation("ServicePackageItems");
                 });
 
             modelBuilder.Entity("Project.ServiceInformationService.Data.Specialization", b =>
                 {
-                    b.Navigation("MedicalPackages");
+                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

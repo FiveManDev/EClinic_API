@@ -1,12 +1,12 @@
 ﻿namespace Project.ServiceInformationService.Data;
 
-public class ServiceItem
+public class ServicePackageItem
 {
+    public Guid ServicePackageID { get; set; }
     public Guid ServiceID { get; set; }
-    public Guid PackageID { get; set; }
 
     // Foreign Key
+    public ServicePackage ServicePackage { get; set; }
     public Service Service { get; set; }
-    public MedicalPackage MedicalPackage { get; set; }
 
 }
