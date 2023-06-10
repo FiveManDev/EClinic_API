@@ -115,7 +115,10 @@ namespace Project.ProfileService.Mapper
                     des => des.Price,
                     opt => opt.MapFrom(src => src.DoctorProfile.Price)
                 )
-
+                .ForMember(
+                    des => des.SpecializationID,
+                    opt => opt.MapFrom(src => src.DoctorProfile.SpecializationID)
+                )
 
                .ReverseMap();
             CreateMap<Profile, GetEmployeeProfileDtos>()

@@ -1,0 +1,23 @@
+syntax = "proto3";
+option csharp_namespace = "Project.ProfileService.Protos";
+
+service ServiceInformationService  {
+  rpc GetSpecialization (GetSpecializationRequest) returns (GetSpecializationResponse);
+  rpc GetAllSpecialization (GetAllSpecializationRequest) returns (GetAllSpecializationResponse);
+}
+message GetSpecializationRequest  {
+  string SpecializationID = 1;
+}
+message GetSpecializationResponse  {
+  string SpecializationName = 1;
+}
+message GetAllSpecializationRequest  {
+  repeated string SpecializationIDs = 1;
+}
+message GetAllSpecializationResponse  {
+  repeated GetSpecialization Specialization = 1;
+}
+message GetSpecialization {
+  string SpecializationID = 1;
+  string SpecializationName = 2;
+}

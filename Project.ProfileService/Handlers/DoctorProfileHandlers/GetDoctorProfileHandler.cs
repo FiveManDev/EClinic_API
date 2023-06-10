@@ -19,7 +19,8 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         private readonly ILogger<GetDoctorProfileHandler> logger;
         private readonly UserService.UserServiceClient client;
         private readonly IMapper mapper;
-        public GetDoctorProfileHandler(IConfiguration configuration,IProfileRepository profileRepository, ILogger<GetDoctorProfileHandler> logger, IMapper mapper)
+        private readonly ServiceInformationService.ServiceInformationServiceClient serviceClient;
+        public GetDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, ILogger<GetDoctorProfileHandler> logger, IMapper mapper)
         {
             this.profileRepository = profileRepository;
             this.logger = logger;
@@ -27,7 +28,9 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            GrpcChannel channel2 = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ServiceInformationServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new UserService.UserServiceClient(channel);
+            serviceClient = new ServiceInformationService.ServiceInformationServiceClient(channel2);
         }
         public async Task<ObjectResult> Handle(GetDoctorProfileQuery request, CancellationToken cancellationToken)
         {
@@ -43,13 +46,24 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 var pagination = await profileRepository.GetDoctorProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetDoctorProfileDtos>>(pagination.PaginationData);
+                var listSpecializationID = profileDtos.Select(s => s.SpecializationID.ToString()).ToList();
+                GetAllSpecializationRequest req = new GetAllSpecializationRequest();
+                req.SpecializationIDs.AddRange(listSpecializationID);
+                var serviceRes = await serviceClient.GetAllSpecializationAsync(req);
+                if (serviceRes == null)
+                {
+                    return ApiResponse.InternalServerError();
+                }
+                var ListService = serviceRes.Specialization.ToList();
                 for (var i = 0; i < profileDtos.Count; i++)
                 {
                     profileDtos[i].EnabledAccount = ListUser[i].Enabled;
+                    profileDtos[i].SpecializationName = ListService[i].SpecializationName;
+
                 }
                 return ApiResponse.OK<List<GetDoctorProfileDtos>>(profileDtos);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();

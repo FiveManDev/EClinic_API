@@ -17,6 +17,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         private readonly IProfileRepository repository;
         private readonly IMapper mapper;
         private readonly UserService.UserServiceClient client;
+        private readonly ServiceInformationService.ServiceInformationServiceClient serviceClient;
 
         public GetDoctorProfileByIDHandler(IConfiguration configuration, ILogger<GetDoctorProfileByIDHandler> logger, IProfileRepository repository, IMapper mapper)
         {
@@ -26,7 +27,9 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            GrpcChannel channel2 = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ServiceInformationServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new UserService.UserServiceClient(channel);
+            serviceClient = new ServiceInformationService.ServiceInformationServiceClient(channel2);
         }
 
         public async Task<ObjectResult> Handle(GetDoctorProfileByIDQuery request, CancellationToken cancellationToken)
@@ -43,8 +46,14 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     return ApiResponse.InternalServerError();
                 }
+                var serviceRes = await serviceClient.GetSpecializationAsync(new GetSpecializationRequest { SpecializationID = doctorProfiles.DoctorProfile.SpecializationID.ToString() });
+                if (serviceRes == null)
+                {
+                    return ApiResponse.InternalServerError();
+                }
                 var doctorProfileDtos = mapper.Map<DoctorProfileDtos>(doctorProfiles);
                 doctorProfileDtos.EnabledAccount = userRes.Enabled;
+                doctorProfileDtos.SpecializationName = serviceRes.SpecializationName;
                 return ApiResponse.OK<DoctorProfileDtos>(doctorProfileDtos);
             }
             catch (Exception ex)
