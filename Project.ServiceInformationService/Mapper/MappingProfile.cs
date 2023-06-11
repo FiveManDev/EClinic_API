@@ -20,13 +20,13 @@ namespace Project.ServiceInformationService.Mapper
                 .ReverseMap();
             #endregion
             #region Service
-            CreateMap<Service, ServiceDTO>()
+            CreateMap<Data.Service, ServiceDTO>()
                 .ReverseMap();
 
-            CreateMap<Service, CreateServiceDTO>()
+            CreateMap<Data.Service, CreateServiceDTO>()
                 .ReverseMap();
 
-            CreateMap<Service, UpdateServiceDTO>()
+            CreateMap<Data.Service, UpdateServiceDTO>()
                 .ReverseMap();
             #endregion
             #region Service Package

@@ -41,7 +41,7 @@ public class CreateServiceHandler : IRequestHandler<CreateServiceCommand, Object
                 return ApiResponse.BadRequest("Specialization ID is not exist.");
             }
 
-            Service service = mapper.Map<Service>(request.createServiceDTO);
+            Data.Service service = mapper.Map<Data.Service>(request.createServiceDTO);
             service.CreatedAt = DateTime.Now;
             service.UpdatedAt = DateTime.Now;
 

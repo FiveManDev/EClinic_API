@@ -1,5 +1,5 @@
 syntax = "proto3";
-option csharp_namespace = "Project.ProfileService.Protos";
+option csharp_namespace = "Project.ServiceInformationService.Protos";
 
 service ServiceInformationService  {
   rpc GetSpecialization (GetSpecializationRequest) returns (GetSpecializationResponse);

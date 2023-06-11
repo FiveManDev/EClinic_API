@@ -39,7 +39,7 @@ public class UpdateServiceHandler : IRequestHandler<UpdateServiceCommand, Object
                 return ApiResponse.BadRequest("Service not found!");
             }
 
-            service = mapper.Map<Service>(request.updateServiceDTO);
+            service = mapper.Map<Data.Service>(request.updateServiceDTO);
             service.UpdatedAt = DateTime.Now;
 
             await repository.UpdateAsync(service);

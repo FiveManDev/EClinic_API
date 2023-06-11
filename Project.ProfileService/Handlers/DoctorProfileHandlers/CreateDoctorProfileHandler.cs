@@ -22,6 +22,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<CreateUserProfileHandler> logger;
         private readonly UserService.UserServiceClient client;
+        private readonly ServiceInformationService.ServiceInformationServiceClient serviceClient;
 
         public CreateDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, IDoctorProfileRepository doctorProfileRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateUserProfileHandler> logger)
         {
@@ -32,13 +33,20 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            GrpcChannel channel2 = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ServiceInformationServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new UserService.UserServiceClient(channel);
+            serviceClient = new ServiceInformationService.ServiceInformationServiceClient(channel2);
         }
 
         public async Task<ObjectResult> Handle(CreateDoctorProfileCommands request, CancellationToken cancellationToken)
         {
             try
             {
+                var res = await serviceClient.CheckSpecializationAsync(new GetSpecializationRequest { SpecializationID = request.CreateDoctorProfileDtos.SpecializationID.ToString() });
+                if(res == null)
+                {
+                    return ApiResponse.NotFound("Specialization Not Found");
+                }
                 var profile = new Data.Profile
                 {
                     UserID = Guid.Empty,

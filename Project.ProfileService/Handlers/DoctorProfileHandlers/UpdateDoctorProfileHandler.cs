@@ -23,6 +23,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<UpdateDoctorProfileHandler> logger;
         private readonly IBus bus;
+        private readonly ServiceInformationService.ServiceInformationServiceClient serviceClient;
         private readonly UserService.UserServiceClient client;
         public UpdateDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, IDoctorProfileRepository doctorProfileRepository, IAmazonS3Bucket s3Bucket, ILogger<UpdateDoctorProfileHandler> logger, IBus bus)
         {
@@ -34,7 +35,9 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:IdentityServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            GrpcChannel channel2 = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ServiceInformationServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new UserService.UserServiceClient(channel);
+            serviceClient = new ServiceInformationService.ServiceInformationServiceClient(channel2);
         }
 
         public async Task<ObjectResult> Handle(UpdateDoctorProfileCommands request, CancellationToken cancellationToken)
@@ -45,6 +48,11 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 if (profile == null)
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
+                }
+                var res = await serviceClient.CheckSpecializationAsync(new GetSpecializationRequest { SpecializationID = request.UpdateDoctorProfileDtos.SpecializationID.ToString() });
+                if (res == null)
+                {
+                    return ApiResponse.NotFound("Specialization Not Found");
                 }
                 var profileDtos = request.UpdateDoctorProfileDtos;
                 profile.FirstName = profileDtos.FirstName;
