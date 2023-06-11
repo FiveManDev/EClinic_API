@@ -169,39 +169,39 @@ VALUES ('2590134e-c741-405e-ba2a-2be38a27d8bc','ca064e23-1ce0-4ca8-b045-ea8cf23b
 
 GO
 
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('1d3b82bb-e1c0-4100-a61b-1cba0bfa117a',N'BS Test',N'Account bác sĩ dùng để test.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('2b2cfaab-0e88-462c-b2be-4af928157c4d',N'ThS.BS',N'Thạc sĩ, Bác sĩ Lê Anh Tuấn tốt nghiệp Y khoa niên khóa 1989- 1995, hạng ưu, trường ĐHYD TPHCM - Thạc Sĩ Niệu khoa năm 2006 – Tu nghiệp Niệu khoa và Nam khoa – Vi phẫu tại Ấn Độ  và Thái Lan.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('9d7601de-a1b3-474a-92d2-6eeac50ad010',N'PGS.TS.BS',N'PGS.TS.BS. Nguyễn Thị Bích Đào là chuyên gia đầu ngành trong lĩnh vực Nội tiết - Đái tháo đường tại Việt Nam với nhiều năm kinh nghiệm trong điều trị và giảng dạy.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('475699ab-1582-429a-a675-7596c2b93c80',N'TS.BS',N'Tiến sĩ, Bác sĩ Trần Quang Nam hiện đang là Trưởng khoa Nội Tiết bệnh viện Đại học Y Dược TP. HCM, Phó Trưởng Bộ môn Nội tiết tại Đại học Y dược TP. HCM. Bác sĩ có nhiều năm kinh nghiệm trong việc chuyên khám và điều trị các bệnh như đái tháo đường, bệnh bướu cổ, bệnh nội tiết và các bệnh nội khoa.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('596cd928-d30c-43b2-8313-78f5a72e42eb',N'TS.BS',N'Tiến sĩ, Bác sĩ Đào Bùi Quý Quyền hiện là Trưởng khoa Nội thận - Tiết niệu, có hơn 20 năm kinh nghiệm khám và điều trị bệnh tại Bệnh Viện Chợ Rẫy.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('c26f5787-adb4-4f79-978e-9e1a55a48b8a',N'BS',N'Tốt nghiệp đại học loại Khá ở Khoa Y- Đại học quốc gia TP HCM. Học Sơ bộ Nội Tim mạch ở bệnh viện Chợ Rẫy. Làm Hồi sức tích cực 3 năm ở bệnh viện Thống Nhất. Hiện đang là bác sĩ khoa Nội tim mạch bệnh viện Xuyên Á.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('1d3b82bb-e1c0-4100-a61b-1cba0bfa117a','1',N'BS Test',N'',N'Account bác sĩ dùng để test.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('2b2cfaab-0e88-462c-b2be-4af928157c4d','1',N'ThS.BS',N'',N'Thạc sĩ, Bác sĩ Lê Anh Tuấn tốt nghiệp Y khoa niên khóa 1989- 1995, hạng ưu, trường ĐHYD TPHCM - Thạc Sĩ Niệu khoa năm 2006 – Tu nghiệp Niệu khoa và Nam khoa – Vi phẫu tại Ấn Độ  và Thái Lan.','01/01/2001','0b2f57b5-165a-4d67-bd3a-b3cde1dd6d14',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('9d7601de-a1b3-474a-92d2-6eeac50ad010','1',N'PGS.TS.BS',N'',N'PGS.TS.BS. Nguyễn Thị Bích Đào là chuyên gia đầu ngành trong lĩnh vực Nội tiết - Đái tháo đường tại Việt Nam với nhiều năm kinh nghiệm trong điều trị và giảng dạy.','01/01/2001','0faa39fa-6021-4eb7-982a-2bf40e0670d9',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('475699ab-1582-429a-a675-7596c2b93c80','1',N'TS.BS',N'',N'Tiến sĩ, Bác sĩ Trần Quang Nam hiện đang là Trưởng khoa Nội Tiết bệnh viện Đại học Y Dược TP. HCM, Phó Trưởng Bộ môn Nội tiết tại Đại học Y dược TP. HCM. Bác sĩ có nhiều năm kinh nghiệm trong việc chuyên khám và điều trị các bệnh như đái tháo đường, bệnh bướu cổ, bệnh nội tiết và các bệnh nội khoa.','01/01/2001','0faa39fa-6021-4eb7-982a-2bf40e0670d9',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('596cd928-d30c-43b2-8313-78f5a72e42eb','1',N'TS.BS',N'',N'Tiến sĩ, Bác sĩ Đào Bùi Quý Quyền hiện là Trưởng khoa Nội thận - Tiết niệu, có hơn 20 năm kinh nghiệm khám và điều trị bệnh tại Bệnh Viện Chợ Rẫy.','01/01/2001','57d380f2-9ce4-4d07-9100-37b0dc0e32af',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('c26f5787-adb4-4f79-978e-9e1a55a48b8a','1',N'BS',N'',N'Tốt nghiệp đại học loại Khá ở Khoa Y- Đại học quốc gia TP HCM. Học Sơ bộ Nội Tim mạch ở bệnh viện Chợ Rẫy. Làm Hồi sức tích cực 3 năm ở bệnh viện Thống Nhất. Hiện đang là bác sĩ khoa Nội tim mạch bệnh viện Xuyên Á.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',100000);
 
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('5e321cdc-e695-4683-a86b-ede613f37569',N'ThS.BS',N'Bác sĩ Nguyễn Hồng Vân Khánh là bác sĩ Nhi khoa giỏi tại Thành phố Hồ Chí Minh. Hiện Bác sĩ Vân Khánh đang công tác tại Bệnh viện Nhi Đồng 2. Bác sĩ Nguyễn Hồng Vân Khánh chuyên khám và điều trị các bệnh lý về tiêu hóa, gan mật, tư vấn dinh dưỡng cho nhi.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('ed545e96-3617-455e-a022-f3e6ec1b7ae6',N'ThS.BS',N'Thạc sĩ Bác sĩ CHẾ THỊ ÁNH TUYẾT -  hiện đang là trưởng khoa Nhi bệnh viện đa khoa Hoàn Mỹ Đà Lạt với trên 20 năm kinh nghiệm và hiện đang trực tiếp khám bệnh điều trị tại bệnh viện, cũng như là chủ cơ sở Phòng khám TUYẾT TRUNG tại 151 Phan Chu Trinh, P.9, TP. Đà Lạt.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('bc80e305-297b-4112-bc9b-f6125844b878',N'BS.CK1',N'Bác sĩ Chuyên khoa 1 Phan Thị Bạch Tuyết công tác trên 10 năm Bệnh Viện Nhi Đồng 2. - Đang làm tại khoa Sơ Sinh Bệnh Viện Nhi Đồng 2. Bác có nhiều kinh nghiệm tư vấn khám sơ sinh và Nhi tổng quát,các bệnh lý hô hấp,tiêu hoá,tư vấn dinh dưỡng... - Sau khi khám Bác sĩ sẽ tiếp tục theo dõi sức khỏe của bé thông qua việc gọi điện,nhắn tin hỏi thăm.Nhờ đó, bố mẹ luôn được tư vấn cách chăm sóc trẻ, cách xử lý kịp thời khi bé có các dấu hiệu bất thường.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('907266cc-baf8-4704-a52c-008c9fb20f3c',N'BS.CK1',N'Bác sĩ Chuyên khoa 1 Lê Trung Dung đã có hơn 20 năm kinh nghiệm trong khám và điều trị trong lĩnh vực Nhi khoa. Bác sĩ Trung Dung hiện tại công tác tại bệnh viện Nhi Đồng 2, từng công tác tại khoa hồi sức, khoa tiêu hoá, nội tổng hợp và điều trị ban ngày.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('27f31308-4cc0-4917-912f-01fbe8934529',N'BS.CK2',N'Bác sĩ Chuyên khoa II NGUYỄN DUY TOÀN là nguyên chủ nhiệm khoa Nhi bệnh viện 175 (đã nghỉ hưu), chuyên khoa Nhi với nhiều năm kinh nghiệm, từng đạt danh hiệu Thầy thuốc ưu tú và là Đại tá Bác sĩ Chuyên khoa II.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('75e8c74e-0847-4ed1-871c-03e537bef987',N'BS.CK1',N'BS.CK1 Phạm Minh Trường là chuyên gia thẩm mỹ nội khoa, đặc biệt trong lĩnh vực điều trị nám da, với hơn 11 năm kinh nghiệm. Bác sĩ Trường luôn là cái tên được rất nhiều đồng nghiệp trong giới nể trọng và là “bạn đồng hành” của những tên tuổi ngôi sao','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('1e7dc4c2-cee6-44c4-b24c-0a8f54e37d5d',N'TS.BS',N'Tiến sĩ - Bác sĩ Trần Ngọc Ánh đã có hơn 30 năm kinh nghiệm trong ngành Da liễu. Bác sĩ Ánh là Nguyên giảng viên Bộ môn Da liễu, Trường Đại học Y khoa Phạm Ngọc Thạch TP.HCM, Bệnh viện Da Liễu TP.HCM. Bác sĩ Trần Ngọc Ánh luôn học hỏi không ngừng để nâng cao tay nghề bằng việc thường xuyên tham gia cập nhật kiến thức mới qua các lớp học, hội nghị, hội thảo trong và ngoài nước.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('e84cad00-8b27-4077-8f12-0dd69a43ff79',N'BS',N'Là một bác sĩ giỏi, nổi tiếng và có chuyên môn cao trong việc điều trị các bệnh về da liễu ở cả người lớn và trẻ em. Bác sĩ luôn giữ tác phong chuyên nghiệp và thường xuyên cập nhật những kiến thức mới nhất về y khoa trong việc phát hiện triệu chứng, xác định bệnh, điều trị và tư vấn điều trị một cách hiệu quả nhất tính trạng mà bệnh nhân đang gặp phải. Ngoài ra bác sĩ bích ngọc cũng luôn đòi hỏi người bệnh phải kiên trì trong việc chữa trị, tránh bỏ dở giữa chừng mà bệnh thành mãn tính và lâu khỏi.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('bb8717c3-4868-4b1c-9200-15e1f7c29779',N'BS.CK1',N'BS Phước là Nguyên BS Bệnh viện Da Liễu TP Hồ Chí Minh với nhiều năm kinh nghiệm, tận tụy, tâm huyết với nghề. Hiện đang là Trưởng khoa Da Liễu Bệnh viện C Đà Nẵng. Chuyên điều trị các bệnh da liễu, điều trị mụn, sẹo rỗ, làm đẹp da bằng mỹ phẩm, laser, phi kim... Phòng khám tiên phong đi đầu trong việc ứng dụng các công nghệ mới nhất trong chăm sóc da với giá cả phù hợp.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
-INSERT INTO [DoctorProfiles] (ProfileID,Title,Description,WorkStart,SpecializationID,Quality)
-VALUES ('ed18c0f2-82bc-46f7-b675-16e71b7b6ee9',N'BS',N'6 năm kinh nghiệm trong lĩnh vực Da liễu. Khám và điều trị các vấn đề liên quan đến da và phần phụ của da (lông, tóc, móng).','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',5);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('5e321cdc-e695-4683-a86b-ede613f37569','1',N'ThS.BS',N'',N'Bác sĩ Nguyễn Hồng Vân Khánh là bác sĩ Nhi khoa giỏi tại Thành phố Hồ Chí Minh. Hiện Bác sĩ Vân Khánh đang công tác tại Bệnh viện Nhi Đồng 2. Bác sĩ Nguyễn Hồng Vân Khánh chuyên khám và điều trị các bệnh lý về tiêu hóa, gan mật, tư vấn dinh dưỡng cho nhi.','01/01/2001','af645b86-0d57-400d-ac87-9fa2a780408f',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('ed545e96-3617-455e-a022-f3e6ec1b7ae6','1',N'ThS.BS',N'',N'Thạc sĩ Bác sĩ CHẾ THỊ ÁNH TUYẾT -  hiện đang là trưởng khoa Nhi bệnh viện đa khoa Hoàn Mỹ Đà Lạt với trên 20 năm kinh nghiệm và hiện đang trực tiếp khám bệnh điều trị tại bệnh viện, cũng như là chủ cơ sở Phòng khám TUYẾT TRUNG tại 151 Phan Chu Trinh, P.9, TP. Đà Lạt.','01/01/2001','af645b86-0d57-400d-ac87-9fa2a780408f',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('bc80e305-297b-4112-bc9b-f6125844b878','1',N'BS.CK1',N'',N'Bác sĩ Chuyên khoa 1 Phan Thị Bạch Tuyết công tác trên 10 năm Bệnh Viện Nhi Đồng 2. - Đang làm tại khoa Sơ Sinh Bệnh Viện Nhi Đồng 2. Bác có nhiều kinh nghiệm tư vấn khám sơ sinh và Nhi tổng quát,các bệnh lý hô hấp,tiêu hoá,tư vấn dinh dưỡng... - Sau khi khám Bác sĩ sẽ tiếp tục theo dõi sức khỏe của bé thông qua việc gọi điện,nhắn tin hỏi thăm.Nhờ đó, bố mẹ luôn được tư vấn cách chăm sóc trẻ, cách xử lý kịp thời khi bé có các dấu hiệu bất thường.','01/01/2001','af645b86-0d57-400d-ac87-9fa2a780408f',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('907266cc-baf8-4704-a52c-008c9fb20f3c','1',N'BS.CK1',N'',N'Bác sĩ Chuyên khoa 1 Lê Trung Dung đã có hơn 20 năm kinh nghiệm trong khám và điều trị trong lĩnh vực Nhi khoa. Bác sĩ Trung Dung hiện tại công tác tại bệnh viện Nhi Đồng 2, từng công tác tại khoa hồi sức, khoa tiêu hoá, nội tổng hợp và điều trị ban ngày.','01/01/2001','af645b86-0d57-400d-ac87-9fa2a780408f',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('27f31308-4cc0-4917-912f-01fbe8934529','1',N'BS.CK2',N'',N'Bác sĩ Chuyên khoa II NGUYỄN DUY TOÀN là nguyên chủ nhiệm khoa Nhi bệnh viện 175 (đã nghỉ hưu), chuyên khoa Nhi với nhiều năm kinh nghiệm, từng đạt danh hiệu Thầy thuốc ưu tú và là Đại tá Bác sĩ Chuyên khoa II.','01/01/2001','af645b86-0d57-400d-ac87-9fa2a780408f',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('75e8c74e-0847-4ed1-871c-03e537bef987','1',N'BS.CK1',N'',N'BS.CK1 Phạm Minh Trường là chuyên gia thẩm mỹ nội khoa, đặc biệt trong lĩnh vực điều trị nám da, với hơn 11 năm kinh nghiệm. Bác sĩ Trường luôn là cái tên được rất nhiều đồng nghiệp trong giới nể trọng và là “bạn đồng hành” của những tên tuổi ngôi sao','01/01/2001','a1043784-0289-4511-a73b-38848cece653',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('1e7dc4c2-cee6-44c4-b24c-0a8f54e37d5d','1',N'TS.BS',N'',N'Tiến sĩ - Bác sĩ Trần Ngọc Ánh đã có hơn 30 năm kinh nghiệm trong ngành Da liễu. Bác sĩ Ánh là Nguyên giảng viên Bộ môn Da liễu, Trường Đại học Y khoa Phạm Ngọc Thạch TP.HCM, Bệnh viện Da Liễu TP.HCM. Bác sĩ Trần Ngọc Ánh luôn học hỏi không ngừng để nâng cao tay nghề bằng việc thường xuyên tham gia cập nhật kiến thức mới qua các lớp học, hội nghị, hội thảo trong và ngoài nước.','01/01/2001','e360722f-7405-4278-a4b2-17497036cef0',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('e84cad00-8b27-4077-8f12-0dd69a43ff79','1',N'BS',N'',N'Là một bác sĩ giỏi, nổi tiếng và có chuyên môn cao trong việc điều trị các bệnh về da liễu ở cả người lớn và trẻ em. Bác sĩ luôn giữ tác phong chuyên nghiệp và thường xuyên cập nhật những kiến thức mới nhất về y khoa trong việc phát hiện triệu chứng, xác định bệnh, điều trị và tư vấn điều trị một cách hiệu quả nhất tính trạng mà bệnh nhân đang gặp phải. Ngoài ra bác sĩ bích ngọc cũng luôn đòi hỏi người bệnh phải kiên trì trong việc chữa trị, tránh bỏ dở giữa chừng mà bệnh thành mãn tính và lâu khỏi.','01/01/2001','0faa39fa-6021-4eb7-982a-2bf40e0670d9',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('bb8717c3-4868-4b1c-9200-15e1f7c29779','1',N'BS.CK1',N'',N'BS Phước là Nguyên BS Bệnh viện Da Liễu TP Hồ Chí Minh với nhiều năm kinh nghiệm, tận tụy, tâm huyết với nghề. Hiện đang là Trưởng khoa Da Liễu Bệnh viện C Đà Nẵng. Chuyên điều trị các bệnh da liễu, điều trị mụn, sẹo rỗ, làm đẹp da bằng mỹ phẩm, laser, phi kim... Phòng khám tiên phong đi đầu trong việc ứng dụng các công nghệ mới nhất trong chăm sóc da với giá cả phù hợp.','01/01/2001','a1043784-0289-4511-a73b-38848cece653',100000);
+INSERT INTO [DoctorProfiles] (ProfileID,IsActive,Title,Content,Description,WorkStart,SpecializationID,Price)
+VALUES ('ed18c0f2-82bc-46f7-b675-16e71b7b6ee9','1',N'BS',N'',N'6 năm kinh nghiệm trong lĩnh vực Da liễu. Khám và điều trị các vấn đề liên quan đến da và phần phụ của da (lông, tóc, móng).','01/01/2001','a1043784-0289-4511-a73b-38848cece653',100000);
 
 GO
 
@@ -235,79 +235,79 @@ VALUES ('73070972-e93b-4dd2-9d6d-c7022759052e','01/01/2001',N'Tư vấn viên ư
 
 GO
 
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('e1d2bbb8-d3ac-4806-bc85-41a2630433e9','AB-',170,70,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('6946f661-40d9-45e7-8527-5045522dd8c5','AB+',160,50,'6a213e3d-6121-490e-87fc-747ba820491e');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('9132f03d-c300-4725-b35a-7e364631eb7c','A-',155,55,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('d88c45d5-382a-4a86-977c-8092c14e83f9','B-',165,50,'7cb6ef5f-648a-477a-9172-5172ff4f7868');
 
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('45a9d235-0845-42e8-854b-ca62ac06ba0e','A-',170,75,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('bbb518fe-c93d-4845-ab2b-db4bb8aa964f','A+',175,65,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('77942dd9-ad18-49f2-8d4a-f0d7ecd616fd','B-',170,75,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('245cd364-da20-4cc9-b97c-f659a4c73f8a','B-',168,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('9b5a9fab-8f64-449e-bd5d-ff9bba314431','AB+',170,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('35c78e79-f9ff-4d18-87a1-70a206e6fddb','AB-',170,75,'84251a89-a458-46f8-ba28-83df593ed2a9');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('e09510d0-98a0-47f9-a332-73cb75742b0b','O+',175,65,'6a213e3d-6121-490e-87fc-747ba820491e');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('874e674c-7cc1-4551-8a58-75f2378f9aa7','O-',170,75,'7cb6ef5f-648a-477a-9172-5172ff4f7868');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('293d15fa-12e0-4408-b194-8312375bcaaa','A-',168,55,'ebfd7919-7210-4c54-bb76-fa37dcc191a3');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('e07f41eb-00b0-4dc3-8c08-98c02956d4e7','A+',170,60,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('d67add11-294e-464d-8809-a9ae3194109a','B+',170,75,'6a213e3d-6121-490e-87fc-747ba820491e');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('2ad38fef-416b-401d-8885-b719cdabc0fa','B-',175,65,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('488de21c-8552-468e-b293-cbbfea3ba55b','AB-',170,75,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
 
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('350af705-bd31-40ab-8b0f-3a064d4e3df9','A+',165,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('ac9c04ad-885e-4c73-b035-3e53b5e34284','A-',160,47,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('295c36f4-54d7-4183-b6b1-450054047200','A+',162,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('cd3e7605-81ac-4a97-9ca3-58ed958fb4b6','B-',168,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('ca44f559-803f-4daf-b024-9c870c62318e','B-',157,62,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('6ac68c37-0ae3-478f-9c22-9cf22fa3db1c','B+',170,51,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('9ad897ac-89d2-4ef0-be64-a7d58dfd5f8d','AB+',169,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('f2427dc3-481e-4e31-8f81-d06526bdaf58','AB-',163,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('1e7028e1-356c-429b-b5e1-1b6b130d5871','A+',165,55,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('9a910220-9883-4b23-b0e2-1ecab6c46275','A-',160,47,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('81a9cc52-7b67-4a61-8bcc-3782be771fce','A+',162,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('57d380f2-9ce4-4d07-9100-37b0dc0e32af','B-',168,60,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('0231f164-2680-42f5-84fb-5f07428eaddd','B+',157,62,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('f3575ab5-1d36-426c-888c-6415324c3f0d','B-',170,51,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('4b6f23f7-a4e2-47d8-a933-83d52ba8d9b7','AB+',169,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('bde3df23-94a5-4d12-8342-07307ceca903','AB-',163,58,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','AB-',159,50,'13accb41-1cad-4171-85aa-f3d76464c3dc');
-INSERT INTO [HealthProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('2590134e-c741-405e-ba2a-2be38a27d8bc','AB+',155,49,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
 
