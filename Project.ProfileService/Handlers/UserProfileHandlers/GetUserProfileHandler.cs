@@ -43,6 +43,10 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 var pagination = await profileRepository.GetUserProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetUserProfileDtos>>(pagination.PaginationData);
+                for(var i = 0; i < profileDtos.Count(); i++)
+                {
+                    profileDtos[i].EnabledAccount = res.User[i].Enabled;
+                }
                 return ApiResponse.OK<List<GetUserProfileDtos>>(profileDtos);
             }
             catch (Exception ex)

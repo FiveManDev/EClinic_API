@@ -50,8 +50,8 @@ namespace Project.ProfileService.Mapper
                     des => des.Content,
                     opt => opt.MapFrom(src => src.DoctorProfile.Content)
                 )
-                .ForMember(
-                    des => des.SpecializationID,
+                .ForPath(
+                    des => des.Specialization.SpecializationID,
                     opt => opt.MapFrom(src => src.DoctorProfile.SpecializationID)
                 )
                 .ForMember(
@@ -115,8 +115,8 @@ namespace Project.ProfileService.Mapper
                     des => des.Price,
                     opt => opt.MapFrom(src => src.DoctorProfile.Price)
                 )
-                .ForMember(
-                    des => des.SpecializationID,
+                .ForPath(
+                    des => des.Specialization.SpecializationID,
                     opt => opt.MapFrom(src => src.DoctorProfile.SpecializationID)
                 )
 

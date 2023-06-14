@@ -67,7 +67,7 @@ namespace Project.IdentityService.Service
             {
                 var UserID = Guid.Parse(request.UserID);
                 var result = await mediator.Send(new GetUserEnabledQuery(UserID));
-                GetUserResponse getUser = new GetUserResponse { Enabled = result };
+                GetUserResponse getUser = new GetUserResponse { Enabled = Convert.ToBoolean(result) };
                 return getUser;
             }
             catch (Exception ex)

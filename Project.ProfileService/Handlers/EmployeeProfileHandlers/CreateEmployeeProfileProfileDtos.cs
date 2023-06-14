@@ -1,7 +1,6 @@
 ﻿using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Response;
 using Project.Core.AWS;

@@ -18,8 +18,7 @@
         public float Price { get; set; }
         public DateTime WorkStart { get; set; }
         public DateTime? WorkEnd { get; set; } = null;
-        public Guid SpecializationID { get; set; }
-        public string SpecializationName { get; set; }
+        public SpecializationDtos Specialization { get; set; }
         public bool EnabledAccount { get; set; }
         public bool IsActive { get; set; }
     }

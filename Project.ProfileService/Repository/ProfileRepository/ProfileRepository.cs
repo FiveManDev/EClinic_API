@@ -4,6 +4,7 @@ using Project.Common.Paging;
 using Project.Data.Repository.MSSQL;
 using Project.ProfileService.Data;
 using Project.ProfileService.Data.Configurations;
+using Project.ProfileService.Dtos.DoctorProfile;
 
 namespace Project.ProfileService.Repository.ProfileRepository
 {
@@ -69,7 +70,7 @@ namespace Project.ProfileService.Repository.ProfileRepository
         {
             if (searchText == null) { searchText = ""; }
             searchText = searchText.ToLower();
-            var profiles = await context.Profiles.Include(x => x.DoctorProfile).Where(u => UserIDs.Contains(u.UserID) && u.DoctorProfile.IsActive)
+            var profiles = await context.Profiles.Include(x => x.DoctorProfile).Where(u => UserIDs.Contains(u.UserID))
                 .ToListAsync();
             profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText) || x.DoctorProfile.Title.ToLower().Contains(searchText)).ToList();
             var count = profiles.Count();
@@ -108,6 +109,37 @@ namespace Project.ProfileService.Repository.ProfileRepository
         {
             var result = await context.Profiles.Include(x => x.HealthProfile).SingleOrDefaultAsync(x => x.ProfileID == ProfileID);
             return result;
+        }
+
+        public async Task<PaginationModel<List<Profile>>> SearchDoctorProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, SearchDoctorDtos searchDoctor)
+        {
+            if (searchDoctor.SearchText == null) { searchDoctor.SearchText = ""; }
+            var searchText = searchDoctor.SearchText.ToLower();
+            var profiles = await context.Profiles.Include(x => x.DoctorProfile).Where(u => UserIDs.Contains(u.UserID) && u.DoctorProfile.IsActive)
+                .ToListAsync();
+            if (searchDoctor.SpecializationID != null) {
+                profiles = profiles.Where(x=>x.DoctorProfile.SpecializationID == searchDoctor.SpecializationID).ToList();
+            }
+            if(searchDoctor.StartPrice!= 0)
+            {
+                profiles = profiles.Where(x => x.DoctorProfile.Price>= searchDoctor.StartPrice && x.DoctorProfile.Price <= searchDoctor.EndPrice).ToList();
+            }
+
+            profiles = profiles.Where(x => x.FirstName.ToLower().Contains(searchText.ToLower()) || x.LastName.ToLower().Contains(searchText.ToLower()) || x.Email.ToLower().Contains(searchText)
+            || x.DoctorProfile.Title.ToLower().Contains(searchText)
+            || x.DoctorProfile.Content.ToLower().Contains(searchText)
+            || x.DoctorProfile.Description.ToLower().Contains(searchText)
+            ).ToList();
+            var count = profiles.Count();
+            profiles = profiles.Skip((pagination.PageNumber - 1) * pagination.PageSize).Take(pagination.PageSize)
+                .ToList();
+            var paginationResponseHeader = new PaginationResponseHeader
+            {
+                PageSize = pagination.PageSize,
+                PageIndex = pagination.PageNumber,
+                TotalCount = count
+            };
+            return new PaginationModel<List<Profile>> { PaginationData = profiles, PaginationResponseHeader = paginationResponseHeader };
         }
     }
 }

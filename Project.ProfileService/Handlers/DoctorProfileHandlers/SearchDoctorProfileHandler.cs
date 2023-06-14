@@ -13,14 +13,15 @@ using Project.ProfileService.Repository.ProfileRepository;
 
 namespace Project.ProfileService.Handlers.DoctorProfileHandlers
 {
-    public class GetDoctorProfileHandler : IRequestHandler<GetDoctorProfileQuery, ObjectResult>
+    public class SearchDoctorProfileHandler : IRequestHandler<SearchDoctorProfileQuery, ObjectResult>
     {
         private readonly IProfileRepository profileRepository;
-        private readonly ILogger<GetDoctorProfileHandler> logger;
+        private readonly ILogger<SearchDoctorProfileHandler> logger;
         private readonly UserService.UserServiceClient client;
         private readonly IMapper mapper;
         private readonly ServiceInformationService.ServiceInformationServiceClient serviceClient;
-        public GetDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, ILogger<GetDoctorProfileHandler> logger, IMapper mapper)
+
+        public SearchDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, ILogger<SearchDoctorProfileHandler> logger, IMapper mapper)
         {
             this.profileRepository = profileRepository;
             this.logger = logger;
@@ -32,7 +33,8 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
             client = new UserService.UserServiceClient(channel);
             serviceClient = new ServiceInformationService.ServiceInformationServiceClient(channel2);
         }
-        public async Task<ObjectResult> Handle(GetDoctorProfileQuery request, CancellationToken cancellationToken)
+
+        public async Task<ObjectResult> Handle(SearchDoctorProfileQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -43,7 +45,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 }
                 var ListUser = res.User.ToList();
                 List<Guid> listID = ListUser.Select(s => Guid.Parse(s.UserID)).ToList();
-                var pagination = await profileRepository.GetDoctorProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
+                var pagination = await profileRepository.SearchDoctorProfilesAsync(listID, request.PaginationRequestHeader, request.SearchDoctor);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetDoctorProfileDtos>>(pagination.PaginationData);
                 var listSpecializationID = profileDtos.Select(s => s.Specialization.SpecializationID.ToString()).ToList();

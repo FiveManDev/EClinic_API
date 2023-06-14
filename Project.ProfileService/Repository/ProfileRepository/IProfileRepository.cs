@@ -1,6 +1,7 @@
 ﻿using Project.Common.Paging;
 using Project.Data.Repository.MSSQL;
 using Project.ProfileService.Data;
+using Project.ProfileService.Dtos.DoctorProfile;
 
 namespace Project.ProfileService.Repository.ProfileRepository
 {
@@ -15,5 +16,6 @@ namespace Project.ProfileService.Repository.ProfileRepository
         Task<PaginationModel<List<Profile>>> GetUserProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText);
         Task<PaginationModel<List<Profile>>> GetDoctorProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText);
         Task<PaginationModel<List<Profile>>> GetEmployeeProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText);
+        Task<PaginationModel<List<Profile>>> SearchDoctorProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, SearchDoctorDtos searchDoctor);
     }
 }

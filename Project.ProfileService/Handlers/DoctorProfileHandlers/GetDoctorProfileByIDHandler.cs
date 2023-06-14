@@ -53,7 +53,11 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 }
                 var doctorProfileDtos = mapper.Map<DoctorProfileDtos>(doctorProfiles);
                 doctorProfileDtos.EnabledAccount = userRes.Enabled;
-                doctorProfileDtos.SpecializationName = serviceRes.SpecializationName;
+                doctorProfileDtos.Specialization = new SpecializationDtos
+                {
+                    SpecializationName = serviceRes.SpecializationName,
+                    SpecializationID = doctorProfiles.DoctorProfile.SpecializationID
+                };
                 return ApiResponse.OK<DoctorProfileDtos>(doctorProfileDtos);
             }
             catch (Exception ex)

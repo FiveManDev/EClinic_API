@@ -38,6 +38,12 @@ namespace Project.ProfileService.Controllers
             return await mediator.Send(new GetUserProfileQuery(paginationRequestHeader, SearchText, Response));
         }
         [HttpGet]
+        public async Task<IActionResult> SearchDoctorProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchDoctorDtos searchDoctor)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new SearchDoctorProfileQuery(paginationRequestHeader, searchDoctor, Response));
+        }
+        [HttpGet]
         public async Task<IActionResult> GetDoctorProfiles([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText = "")
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
@@ -69,12 +75,16 @@ namespace Project.ProfileService.Controllers
             return await mediator.Send(new GetUserMainProfilesByIDQuery(userId));
         }
         [HttpGet]
+        public async Task<IActionResult> GetUserProfileDetailByID(Guid UserID)
+        {
+            return await mediator.Send(new GetUserProfileDetailByIDQuery(UserID));
+        }
+        [HttpGet]
         public async Task<IActionResult> GetUserProfilesByID(Guid UserID)
         {
             return await mediator.Send(new GetUserProfilesByIDQuery(UserID));
         }
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetDoctorProfileByID(Guid UserID)
         {
             return await mediator.Send(new GetDoctorProfileByIDQuery(UserID));

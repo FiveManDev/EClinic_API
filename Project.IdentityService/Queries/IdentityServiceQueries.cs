@@ -8,6 +8,6 @@ namespace Project.IdentityService.Queries
 {
     public record GetAllUserQuery(PaginationRequestHeader PaginationRequestHeader, SearchUserDtos SearchUserDtos, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetAllRoleQuery() : IRequest<ObjectResult>;
-    public record GetUserEnabledQuery(Guid userID) : IRequest<bool>;
+    public record GetUserEnabledQuery(Guid userID) : IRequest<int>;
     public record GetAllUserWithRoleQuery(string Role) : IRequest<List<User>>;
 }
