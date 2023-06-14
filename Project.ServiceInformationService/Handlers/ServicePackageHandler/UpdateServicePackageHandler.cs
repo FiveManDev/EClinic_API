@@ -48,7 +48,13 @@ public class UpdateServicePackageHandler : IRequestHandler<UpdateServicePackageC
                 return ApiResponse.BadRequest("Service Package not found!");
             }
 
-            servicePackage = mapper.Map<ServicePackage>(request.updateServicePackageDTO);
+            servicePackage.ServicePackageName = request.updateServicePackageDTO.ServicePackageName;
+            servicePackage.Description = request.updateServicePackageDTO.Description;
+            servicePackage.Price = request.updateServicePackageDTO.Price;
+            servicePackage.Discount = request.updateServicePackageDTO.Discount;
+            servicePackage.EstimatedTime = request.updateServicePackageDTO.EstimatedTime;
+            servicePackage.IsActive = request.updateServicePackageDTO.IsActive;
+
             servicePackage.UpdatedAt = DateTime.Now;
 
             if (request.updateServicePackageDTO.Image is not null)
