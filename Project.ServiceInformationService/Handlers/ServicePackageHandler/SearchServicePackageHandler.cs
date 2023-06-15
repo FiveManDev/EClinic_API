@@ -12,26 +12,27 @@ using Project.ServiceInformationService.Repository.ServicePackageRepository;
 
 namespace Project.ServiceInformationService.Handlers.ServicePackageHandler;
 
-public class SearchServicePackageForAdHandler : IRequestHandler<SearchServicePackageForAdQuery, ObjectResult>
+public class SearchServicePackageHandler : IRequestHandler<SearchServicePackageQuery, ObjectResult>
 {
     private readonly IServicePackageRepository repository;
     private readonly IMapper mapper;
-    private readonly ILogger<SearchServicePackageForAdHandler> logger;
+    private readonly ILogger<SearchServicePackageHandler> logger;
 
-    public SearchServicePackageForAdHandler(IServicePackageRepository repository, IMapper mapper, ILogger<SearchServicePackageForAdHandler> logger)
+    public SearchServicePackageHandler(IServicePackageRepository repository, IMapper mapper, ILogger<SearchServicePackageHandler> logger)
     {
         this.repository = repository;
         this.mapper = mapper;
         this.logger = logger;
     }
 
-    public async Task<ObjectResult> Handle(SearchServicePackageForAdQuery request, CancellationToken cancellationToken)
+    public async Task<ObjectResult> Handle(SearchServicePackageQuery request, CancellationToken cancellationToken)
     {
         try
         {
             var searchText = request.searchServicePackageDTO.SearchText?.Trim().ToLower() ?? "";
-           
-            var servicePackages = await repository.GetAllServicePackageAsync(x => x.ServicePackageName.ToLower().Contains(searchText) || x.Description.ToLower().Contains(searchText));
+            if (searchText.Equals("")) searchText = "h4ck3rRandomString";
+
+            var servicePackages = await repository.GetAllServicePackageAsync(x => x.IsActive && (x.ServicePackageName.ToLower().Contains(searchText) || x.Description.ToLower().Contains(searchText)));
             if (servicePackages == null)
             {
                 return ApiResponse.NotFound("Service Packages Not Found.");
