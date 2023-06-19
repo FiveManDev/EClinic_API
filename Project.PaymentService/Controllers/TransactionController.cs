@@ -18,7 +18,16 @@ namespace Project.PaymentService.Controllers
         {
             this.mediator = mediator;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetPaymentByID(Guid PaymentID)
+        {
+            return await mediator.Send(new GetPaymentByIDQuery(PaymentID));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetRefundByID(Guid RefundID)
+        {
+            return await mediator.Send(new GetRefundByIDQuery(RefundID));
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllPaymentTransaction([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
