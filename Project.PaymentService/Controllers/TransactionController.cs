@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Constants;
 using Project.Common.Paging;
+using Project.Core.Authentication;
 using Project.PaymentService.Commands;
 using Project.PaymentService.Model;
 using Project.PaymentService.Queries;
@@ -18,20 +20,34 @@ namespace Project.PaymentService.Controllers
         {
             this.mediator = mediator;
         }
-
         [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> GetPaymentByID(Guid PaymentID)
+        {
+            return await mediator.Send(new GetPaymentByIDQuery(PaymentID));
+        }
+        [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> GetRefundByID(Guid RefundID)
+        {
+            return await mediator.Send(new GetRefundByIDQuery(RefundID));
+        }
+        [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> GetAllPaymentTransaction([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetAllPaymentQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> GetAllRefundTransaction([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetAllRefundQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> GetTransactionQuery(DateTime StartTime, DateTime EndTime, TimeType timeType)
         {
             TransactionQueryModel query = new TransactionQueryModel
@@ -43,6 +59,7 @@ namespace Project.PaymentService.Controllers
             return await mediator.Send(new GetTransactionQuery(query));
         }
         [HttpPost]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> RefundTransaction(RefundModel RefundModel)
         {
             string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();

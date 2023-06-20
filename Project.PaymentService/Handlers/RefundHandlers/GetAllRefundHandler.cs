@@ -28,7 +28,7 @@ namespace Project.PaymentService.Handlers.RefundHandlers
         {
             try
             {
-                var refunds = await refundRepository.GetAllAsync();
+                var refunds = await refundRepository.GetAllRefund(x => true);
                 if (refunds == null)
                 {
                     return ApiResponse.NotFound("Payment not found");

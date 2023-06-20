@@ -13,8 +13,32 @@ namespace Project.PaymentService.Mapper
                     des => des.IsRefund,
                     opt => opt.MapFrom(src => src.Refund == null ? false : true)
                 )
+                .ForPath(
+                    des => des.PaymentService,
+                    opt => opt.MapFrom(src => src.PaymentService == 0 ? "Momo" : "VNPay")
+                )
                 .ReverseMap();
             CreateMap<Refund, RefundDtos>()
+                .ForPath(
+                    des => des.PaymentService,
+                    opt => opt.MapFrom(src => src.Payment.PaymentService == 0 ? "Momo" : "VNPay")
+                )
+                .ReverseMap();
+            CreateMap<Payment, PaymentDetailDtos>()
+               .ForPath(
+                   des => des.IsRefund,
+                   opt => opt.MapFrom(src => src.Refund == null ? false : true)
+               )
+               .ForPath(
+                   des => des.PaymentService,
+                   opt => opt.MapFrom(src => src.PaymentService == 0 ? "Momo" : "VNPay")
+               )
+               .ReverseMap();
+            CreateMap<Refund, RefundDetailDtos>()
+                .ForPath(
+                    des => des.PaymentService,
+                    opt => opt.MapFrom(src => src.Payment.PaymentService == 0 ? "Momo" : "VNPay")
+                )
                 .ReverseMap();
         }
     }

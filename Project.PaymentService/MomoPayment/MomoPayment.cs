@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Project.Core.Logger;
 using Project.PaymentService.Model;
 using Project.PaymentService.MomoPayment.MomoPaymentConfiguration;
@@ -38,24 +39,7 @@ namespace Project.PaymentService.MomoPayment
                     ExtraData = query["extraData"],
                     Signature = query["signature"]
                 };
-                string rawHash = "partnerCode=" +
-                     momoResponse.PartnerCode + "&accessKey=" +
-                     momoResponse.AccessKey + "&requestId=" +
-                     momoResponse.RequestId + "&amount=" +
-                     momoResponse.Amount + "&orderId=" +
-                     momoResponse.OrderId + "&orderInfo=" +
-                     momoResponse.OrderInfo + "&returnUrl=" +
-                     MomoInformation.ReturnUrl + "&notifyUrl=" +
-                     MomoInformation.NotifyUrl + "&extraData=" +
-                     momoResponse.ExtraData;
-                MoMoSecurity crypto = new MoMoSecurity();
-                string signature = crypto.signSHA256(rawHash, MomoInformation.MomoSerectkey);
                 PaymentResult result = new PaymentResult();
-                if(!momoResponse.Signature.Equals(signature))
-                {
-                    result.IsSuccess = false;
-                    return result;
-                }
                 if (momoResponse.ErrorCode != 0)
                 {
                     result.IsSuccess = false;
@@ -83,43 +67,47 @@ namespace Project.PaymentService.MomoPayment
         {
             try
             {
-                string router = "/v2/gateway/api/refund";
-                var OrderInfo = RefundModel.Message.ToString();
+                string router = "pay/refund";
+                var OrderID = RefundModel.OrderID;
+                var TransactionID = RefundModel.TransactionID;
+                string version = "2.0";
                 var Amount = RefundModel.Amount.ToString();
                 var ExtraData = RefundModel.UserID.ToString();
                 string orderid = DateTime.Now.Ticks.ToString();
                 string requestId = RefundModel.BookingID.ToString();
                 string transId = RefundModel.TransactionID;
-                string rawHash = "accessKey=" +
-                    MomoInformation.MomoAccessKey + "&amount=" +
-                    Amount + "&description=" +
-                    OrderInfo + "&orderId=" +
-                    orderid + "&partnerCode=" +
-                    MomoInformation.MomoPartnerCode + "&requestId=" +
-                    requestId + "&transId=" +
-                    transId;
+                var rawHash = new
+                {
+                    partnerCode = MomoInformation.MomoPartnerCode,
+                    partnerRefId = OrderID,
+                    momoTransId = TransactionID,
+                    amount = Amount,
+                    description = RefundModel.Message
+                };
+                var json = JsonConvert.SerializeObject(rawHash);
+
                 MoMoSecurity crypto = new MoMoSecurity();
-                string signature = crypto.signSHA256(rawHash, MomoInformation.MomoSerectkey);
+                string hash = crypto.RSAHash(json, MomoInformation.MomoPublicKey);
                 var message = new
                 {
                     partnerCode = MomoInformation.MomoPartnerCode,
-                    orderId = orderid,
                     requestId = requestId,
-                    amount = Amount,
-                    transId = transId,
-                    lang = "vi",
-                    description = OrderInfo,
-                    signature = signature
+                    hash = hash,
+                    version = version
                 };
                 var responseFromMomo = await MomoPaymentMethod.SendPaymentRequest(MomoInformation.Endpoint, router, message);
                 JObject jmessage = JObject.Parse(responseFromMomo);
-                RefundResult result = new RefundResult
+                var status = Int32.Parse(jmessage.GetValue("status").ToString());
+                RefundResult result = new RefundResult();
+                if (status != 0)
                 {
-                   
-                };
+                    result.IsSuccess = false;
+                    return result;
+                }
+                result.IsSuccess = true;
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
                 return null;
@@ -147,7 +135,7 @@ namespace Project.PaymentService.MomoPayment
                     MomoInformation.NotifyUrl + "&extraData=" +
                     ExtraData;
                 MoMoSecurity crypto = new MoMoSecurity();
-                string signature = crypto.signSHA256(rawHash, MomoInformation.MomoSerectkey);
+                string signature = crypto.signSHA256(rawHash, MomoInformation.MomoSerectKey);
                 var message = new
                 {
                     accessKey = MomoInformation.MomoAccessKey,
@@ -170,13 +158,13 @@ namespace Project.PaymentService.MomoPayment
                 }
                 return null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
                 return null;
             }
         }
 
-      
+
     }
 }

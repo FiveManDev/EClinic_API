@@ -51,7 +51,7 @@ namespace Project.CommunicateService.Controllers
             return await mediator.Send(new GetAllRoomQuery(paginationRequestHeader, Response, userId));
         }
         [HttpGet]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Doctor, RoleConstants.User })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Doctor, RoleConstants.Supporter })]
         public async Task<IActionResult> SearchRoom([FromHeader] int PageNumber, [FromHeader] int PageSize, string SearchText)
         {
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
