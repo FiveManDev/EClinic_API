@@ -98,4 +98,11 @@ public class ServicePackageController : ControllerBase
         return await mediator.Send(new SearchServicePackageForAdQuery(paginationRequestHeader, searchServicePackageDTO, Response));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> SearchServicePackageFiltered([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchServicePackageFilteredDTO searchServicePackageFilteredDTO)
+    {
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new SearchServicePackageFilteredQuery(paginationRequestHeader, searchServicePackageFilteredDTO, Response));
+    }
+
 }

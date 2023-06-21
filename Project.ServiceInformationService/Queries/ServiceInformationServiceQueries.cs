@@ -28,6 +28,7 @@ namespace Project.ServiceInformationService.Queries
     public record GetAllServicePackageForAdQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record SearchServicePackageQuery(PaginationRequestHeader PaginationRequestHeader, SearchServicePackageDTO searchServicePackageDTO, HttpResponse Response) : IRequest<ObjectResult>;
     public record SearchServicePackageForAdQuery(PaginationRequestHeader PaginationRequestHeader, SearchServicePackageDTO searchServicePackageDTO, HttpResponse Response) : IRequest<ObjectResult>;
+    public record SearchServicePackageFilteredQuery(PaginationRequestHeader PaginationRequestHeader, SearchServicePackageFilteredDTO searchServicePackageFilteredDTO, HttpResponse Response) : IRequest<ObjectResult>;
 
     #endregion
 }
