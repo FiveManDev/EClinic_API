@@ -55,10 +55,6 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 var ChatMessageDtos = mapper.Map<List<ChatMessageDto>>(ChatMessages);
                 foreach (var chatMessage in ChatMessageDtos)
                 {
-                    if (chatMessage.Type == MessageType.Image)
-                    {
-                        chatMessage.IsImage = true;
-                    }
                     if (chatMessage.UserID == UserID)
                     {
                         chatMessage.IsMyChat = true;

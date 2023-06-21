@@ -1,10 +1,12 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Project.Common.Enum;
 using Project.Common.Response;
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
+using Project.CommunicateService.Dtos.ChatMessageDtos;
 using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
@@ -20,14 +22,16 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
         private readonly IAmazonS3Bucket s3Bucket;
         private readonly ILogger<CreateMessageFileHandler> logger;
         private readonly IHubContext<MessageHub> hubContext;
+        private readonly IMapper mapper;
 
-        public CreateMessageFileHandler(IChatMessageRepository repository, IAmazonS3Bucket s3Bucket, ILogger<CreateMessageFileHandler> logger, IHubContext<MessageHub> hubContext, IRoomRepository roomRepository)
+        public CreateMessageFileHandler(IChatMessageRepository repository, IRoomRepository roomRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateMessageFileHandler> logger, IHubContext<MessageHub> hubContext, IMapper mapper)
         {
             this.repository = repository;
             this.roomRepository = roomRepository;
             this.s3Bucket = s3Bucket;
             this.logger = logger;
             this.hubContext = hubContext;
+            this.mapper = mapper;
         }
 
         public async Task<ObjectResult> Handle(CreateMessageFileCommand request, CancellationToken cancellationToken)
@@ -54,7 +58,8 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                 {
                     throw new Exception("Create chat message error.");
                 }
-                await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", MessageType.Image.ToString(), UserID, url);
+                var chatDtos = mapper.Map<ChatMessageDto>(ChatMessage);
+                await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", chatDtos);
                 return ApiResponse.Created("Create Success");
             }
             catch (Exception ex)

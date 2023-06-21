@@ -9,7 +9,6 @@ namespace Project.CommunicateService.Dtos.ChatMessageDtos
         public Guid UserID { get; set; }
         public string Content { get; set; }
         public bool IsImage { get; set; }
-        public MessageType Type { get; set; }
         public bool IsMyChat { get; set; } = false;
         public DateTime CreatedAt { get; set; }
     }

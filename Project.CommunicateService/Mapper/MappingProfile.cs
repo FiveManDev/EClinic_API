@@ -28,10 +28,6 @@ namespace Project.CommunicateService.Mapper
                     opt => opt.MapFrom(src => src.ChatMessages.FirstOrDefault().Type == MessageType.Image ? true : false)
                 )
                 .ForPath(
-                    des => des.ChatMessage.Type,
-                    opt => opt.MapFrom(src => src.ChatMessages.FirstOrDefault().Type)
-                )
-                .ForPath(
                     des => des.ChatMessage.CreatedAt,
                     opt => opt.MapFrom(src => src.ChatMessages.FirstOrDefault().CreatedAt)
                 )
@@ -47,6 +43,10 @@ namespace Project.CommunicateService.Mapper
             CreateMap<RoomType, RoomTypeDto>()
                .ReverseMap();
             CreateMap<ChatMessage, ChatMessageDto>()
+                .ForPath(
+                    des => des.IsImage,
+                    opt => opt.MapFrom(src => src.Type == MessageType.Image ? true : false)
+                )
                .ReverseMap();
 
         }

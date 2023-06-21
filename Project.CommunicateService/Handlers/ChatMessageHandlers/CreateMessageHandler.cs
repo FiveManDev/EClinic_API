@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Project.Common.Response;
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
+using Project.CommunicateService.Dtos.ChatMessageDtos;
 using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
@@ -17,12 +19,15 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
         private readonly ILogger<CreateMessageHandler> logger;
         private readonly IRoomRepository roomRepository;
         private readonly IHubContext<MessageHub> hubContext;
-        public CreateMessageHandler(IChatMessageRepository repository, ILogger<CreateMessageHandler> logger, IHubContext<MessageHub> hubContext, IRoomRepository roomRepository)
+        private readonly IMapper mapper;
+
+        public CreateMessageHandler(IChatMessageRepository repository, ILogger<CreateMessageHandler> logger, IRoomRepository roomRepository, IHubContext<MessageHub> hubContext, IMapper mapper)
         {
             this.repository = repository;
-            this.roomRepository = roomRepository;
             this.logger = logger;
+            this.roomRepository = roomRepository;
             this.hubContext = hubContext;
+            this.mapper = mapper;
         }
 
         public async Task<ObjectResult> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
@@ -48,7 +53,8 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                 {
                     throw new Exception("Create chat message error.");
                 }
-                await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", MessageType.Text.ToString(), UserID, ChatMessage.Content);
+                var chatDtos = mapper.Map<ChatMessageDto>(ChatMessage);
+                await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", chatDtos);
                 return ApiResponse.Created("Create Success");
             }
             catch (Exception ex)
