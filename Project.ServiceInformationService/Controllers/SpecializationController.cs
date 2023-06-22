@@ -50,7 +50,6 @@ public class SpecializationController : ControllerBase
     }
 
     [HttpGet]
-    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
     public async Task<IActionResult> GetAllSpecialization([FromHeader] int PageNumber, [FromHeader] int PageSize)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
@@ -58,7 +57,6 @@ public class SpecializationController : ControllerBase
     }
 
     [HttpGet]
-    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
     public async Task<IActionResult> SearchSpecialization([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchSpecializationDTO searchSpecializationDTO)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
