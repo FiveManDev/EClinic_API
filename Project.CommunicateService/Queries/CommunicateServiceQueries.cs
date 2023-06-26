@@ -5,6 +5,7 @@ using Project.Common.Paging;
 namespace Project.CommunicateService.Queries
 {
     public record GetAllMessageOfRoomQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, Guid RoomID, string UserID) : IRequest<ObjectResult>;
+    public record GetAllImageOfRoomQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, Guid RoomID) : IRequest<ObjectResult>;
     public record GetAllRoomQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID) : IRequest<ObjectResult>;
     public record GetAllRoomOfSupporterQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID) : IRequest<ObjectResult>;
     public record GetAllRoomOfDoctorQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID) : IRequest<ObjectResult>;

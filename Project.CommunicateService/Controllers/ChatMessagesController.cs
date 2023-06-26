@@ -28,6 +28,13 @@ namespace Project.CommunicateService.Controllers
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             return await mediator.Send(new GetAllMessageOfRoomQuery(paginationRequestHeader, Response, RoomID, userId));
         }
+        [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Doctor, RoleConstants.User })]
+        public async Task<IActionResult> GetAllImageOfRoom([FromHeader] int PageNumber, [FromHeader] int PageSize, Guid RoomID)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetAllImageOfRoomQuery(paginationRequestHeader, Response, RoomID));
+        }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Doctor, RoleConstants.User })]
         public async Task<IActionResult> CreateMessage(CreateMessageDtos createMessageDtos)

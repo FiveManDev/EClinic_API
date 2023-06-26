@@ -11,13 +11,13 @@ using Project.ForumService.Queries;
 
 namespace Project.ForumService.Handlers.PostHandlers
 {
-    public class GetCommentHandler : IRequestHandler<GetPostQuery, ObjectResult>
+    public class GetPostHandler : IRequestHandler<GetPostQuery, ObjectResult>
     {
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMapper mapper;
-        private readonly ILogger<GetCommentHandler> logger;
+        private readonly ILogger<GetPostHandler> logger;
 
-        public GetCommentHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetCommentHandler> logger)
+        public GetPostHandler(IMongoDBRepository<Post> repository, IMapper mapper, ILogger<GetPostHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
