@@ -39,7 +39,19 @@ def UploadModel(data:Model):
     return JSONResponse(res)
 @router.put('/UpdateModel')
 def UpdateModel(data:ModelDtos):
-    return "Khang"
+    model = 
+    result =repository.update(data.ModelID,data)
+    if result is False:
+        res = {
+            "isSuccess": False,
+            "Message": "Create error"
+        }
+        return JSONResponse(res)
+    res = {
+            "isSuccess": True,
+            "Message": "Create Success"
+        }
+    return JSONResponse(res)
 @router.delete('/DeleteModel')
 def DeleteModel(id:str):
     result =repository.delete(id)
