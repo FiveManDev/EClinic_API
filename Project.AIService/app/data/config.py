@@ -1,5 +1,1 @@
-from data.db import ModelRepository
-mongo_url = "mongodb://localhost:27017"
-db_name = "MachineLearningService"
-collection_name = "Model"
-repository = ModelRepository(mongo_url, db_name, collection_name)
+connection_string = 'DRIVER={SQL Server};SERVER=.;DATABASE=AIService;UID=sa;PWD=Eclinic123;'
