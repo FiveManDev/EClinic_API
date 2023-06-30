@@ -1,5 +1,6 @@
 import sys
 import os
+import shutil
 data_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
 sys.path.append(data_path)
 from fastapi import APIRouter, Depends, status, HTTPException, Response, File, UploadFile, Form
@@ -34,7 +35,11 @@ async def GetByID(ModelID:str):
         raise HTTPException(status_code=500, detail="Internal Server Error")          
 @router.post('/Model/Create')
 def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(...) ):
-    FileUrl =file.filename
+    FileUrl = 'model/' + file.filename
+    save_path = os.path.join(os.getcwd(), FileUrl)
+
+    with open(save_path, 'wb') as buffer:
+        shutil.copyfileobj(file.file, buffer)
     result =repository.Create(Accuracy,MachineID,DeepID,FileUrl)
     if result is False:
         res = {
@@ -47,9 +52,17 @@ def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(.
             "Message": "Create Success"
         }
     return JSONResponse(res)
+    return False
 @router.put('/Model/Update')
 def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(default=None) ):
-    FileUrl =None
+    if file is not None:
+        FileUrl = 'model/' + file.filename
+        save_path = os.path.join(os.getcwd(), FileUrl)
+
+        with open(save_path, 'wb') as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    else:
+        FileUrl =None
     result =repository.Update(ModelID,Accuracy,MachineID,DeepID,FileUrl)
     if result is False:
         res = {
@@ -58,6 +71,21 @@ def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(
         }
         return JSONResponse(res)
     res = {
+            "isSuccess": True,
+            "Message": "Update Success"
+        }
+    return JSONResponse(res)
+@router.put('/Model/Active')
+def Active(ModelID):
+    result =repository.ActiveModel(ModelID)
+    if result is False:
+        res = {
+            "isSuccess": False,
+            "Message": "Update error"
+        }
+        return JSONResponse(res)
+    else:
+        res = {
             "isSuccess": True,
             "Message": "Update Success"
         }

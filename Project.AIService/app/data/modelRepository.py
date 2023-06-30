@@ -126,7 +126,6 @@ def Update(ModelID,Accuracy, MachineID, DeepID, FileURL):
         else:
             return False
     except Exception as e:
-        # Handle the exception here
         print("An error occurred:", str(e))
         return False
 
@@ -135,6 +134,59 @@ def Delete(id):
         query = "DELETE FROM Model WHERE ModelID = ?"
         values = (id,)
         sql.execute(query, values)
+        connection.commit()
+        count = sql.rowcount
+        if count > 0:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print("An error occurred:", str(e))
+        return False
+
+def GetActive():
+    try:
+        query = f'''
+            SELECT *
+            FROM Model
+            WHERE IsActive = 1'
+            '''
+        sql.execute(query)
+        data = 0
+        row = sql.fetchone()
+        if row:
+            data = row[1]
+        else:
+            data = None
+        return data
+    except Exception as e:
+        print("An error occurred:", str(e))
+        return []
+def GetModelUrl(id):
+    try:
+        query = f'''
+            SELECT *
+            FROM Model
+            WHERE ModelID = '{id}''
+            '''
+        sql.execute(query)
+        data = 0
+        row = sql.fetchone()
+        if row:
+            data = row[1]
+        else:
+            data = None
+        return data
+    except Exception as e:
+        print("An error occurred:", str(e))
+        return []
+def ActiveModel(id):
+    try:
+        query = f'''
+                UPDATE Model SET IsActive = 1 WHERE ModelID = '{id}'
+                UPDATE Model SET IsActive = 0 WHERE ModelID <> '{id}'
+                '''
+        sql.execute(query)
         connection.commit()
         count = sql.rowcount
         if count > 0:
