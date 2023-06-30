@@ -10,8 +10,7 @@ import data.modelRepository as repository
 from data.data import ModelDtos
 router = APIRouter(tags=['Model'])
 
-# @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
-@router.get('/Model/GetAll')
+@router.get('/Model/GetAll',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetAll():
     try:
         data = repository.GetAll()
@@ -22,7 +21,7 @@ async def GetAll():
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-@router.get('/Model/GetByID')
+@router.get('/Model/GetByID',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetByID(ModelID:str):
     try:
         data = repository.GetByID(ModelID)
@@ -33,7 +32,7 @@ async def GetByID(ModelID:str):
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")          
-@router.post('/Model/Create')
+@router.post('/Model/Create',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(...) ):
     FileUrl = 'model/' + file.filename
     save_path = os.path.join(os.getcwd(), FileUrl)
@@ -53,7 +52,7 @@ def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(.
         }
     return JSONResponse(res)
     return False
-@router.put('/Model/Update')
+@router.put('/Model/Update',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(default=None) ):
     if file is not None:
         FileUrl = 'model/' + file.filename
@@ -75,7 +74,7 @@ def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(
             "Message": "Update Success"
         }
     return JSONResponse(res)
-@router.put('/Model/Active')
+@router.put('/Model/Active',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Active(ModelID):
     result =repository.ActiveModel(ModelID)
     if result is False:
@@ -90,7 +89,7 @@ def Active(ModelID):
             "Message": "Update Success"
         }
     return JSONResponse(res)
-@router.delete('/Model/Delete')
+@router.delete('/Model/Delete',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Delete(ModelID:str):
     result =repository.Delete(ModelID)
     if result is False:

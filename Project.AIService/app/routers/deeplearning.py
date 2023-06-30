@@ -9,8 +9,8 @@ import data.deepLearningRepository as repository
 from data.data import  DeepLearning
 router = APIRouter(tags=['DeepLearning'])
 
-# @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
-@router.get('/DeepLearning/GetAll')
+
+@router.get('/DeepLearning/GetAll',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetAll():
     try:
         data = repository.GetAll()
@@ -21,7 +21,7 @@ async def GetAll():
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-@router.get('/DeepLearning/GetByID')
+@router.get('/DeepLearning/GetByID',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetByID(DeepID:str):
     try:
         data = repository.GetByID(DeepID)
@@ -38,7 +38,7 @@ async def GetByID(DeepID:str):
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")          
-@router.post('/DeepLearning/Create')
+@router.post('/DeepLearning/Create',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Create(DeepName):
     result =repository.Create(DeepName)
     if result is False:
@@ -52,7 +52,7 @@ def Create(DeepName):
             "Message": "Create Success"
         }
     return JSONResponse(res)
-@router.put('/DeepLearning/Update')
+@router.put('/DeepLearning/Update',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Update(data: DeepLearning):
     result =repository.Update(data.DeepID,data.DeepName)
     if result is False:
@@ -66,7 +66,7 @@ def Update(data: DeepLearning):
             "Message": "Update Success"
         }
     return JSONResponse(res)
-@router.delete('/DeepLearning/Delete')
+@router.delete('/DeepLearning/Delete',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Delete(MachineID:str):
     result =repository.Delete(MachineID)
     if result is False:

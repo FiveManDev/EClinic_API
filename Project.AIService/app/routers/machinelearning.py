@@ -9,8 +9,7 @@ import data.machineLearningRepository as repository
 from data.data import MachineLearning
 router = APIRouter(tags=['MachineLearning'])
 
-# @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
-@router.get('/MachineLearning/GetAll')
+@router.get('/MachineLearning/GetAll',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetAll():
     try:
         data = repository.GetAll()
@@ -21,7 +20,7 @@ async def GetAll():
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-@router.get('/MachineLearning/GetByID')
+@router.get('/MachineLearning/GetByID',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetByID(MachineID:str):
     try:
         data = repository.GetByID(MachineID)
@@ -38,7 +37,7 @@ async def GetByID(MachineID:str):
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")          
-@router.post('/MachineLearning/Create')
+@router.post('/MachineLearning/Create',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Create(MachineName):
     result =repository.Create(MachineName)
     if result is False:
@@ -52,7 +51,7 @@ def Create(MachineName):
             "Message": "Create Success"
         }
     return JSONResponse(res)
-@router.put('/MachineLearning/Update')
+@router.put('/MachineLearning/Update',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Update(data:MachineLearning):
     result =repository.Update(data.MachineID,data.MachineName)
     if result is False:
@@ -66,7 +65,7 @@ def Update(data:MachineLearning):
             "Message": "Update Success"
         }
     return JSONResponse(res)
-@router.delete('/MachineLearning/Delete')
+@router.delete('/MachineLearning/Delete',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Delete(MachineID:str):
     result =repository.Delete(MachineID)
     if result is False:

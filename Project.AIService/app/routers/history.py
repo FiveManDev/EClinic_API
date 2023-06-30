@@ -10,7 +10,7 @@ from data.data import  DeepLearning
 router = APIRouter(tags=['History'])
 
 # # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
-@router.get('/History/GetAll')
+@router.get('/History/GetAll',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def GetAll():
     try:
         data = repository.GetAll()
@@ -21,10 +21,10 @@ async def GetAll():
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-@router.get('/History/GetByID')
-async def GetByID(id:str):
+@router.get('/History/GetByID',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
+async def GetByID(PredictID:str):
     try:
-        data = repository.GetByID(id)
+        data = repository.GetByID(PredictID)
         res = {
             "isSuccess": True,
             "data": data

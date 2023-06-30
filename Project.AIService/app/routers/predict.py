@@ -12,12 +12,16 @@ import data.historyRepository as historyRepository
 router = APIRouter(tags=['Predict'])
 
 # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
-@router.post('/AIPredict/DoctorPredict')
+@router.post('/AIPredict/DoctorPredict',dependencies=[Depends(JWTBearer(roles=[Role.Doctor]))] )
 async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(...)):
     try:
-        input = MobileNetPredict(file.file)
         model = repository.GetActive()
-        print(model.ModelID)
+        if model.DeepName =='ResNet-50':
+            input = ResNet50Predict(file.file)
+        if model.DeepName =='VGG16':
+            input = VGG16Predict(file.file)
+        if model.DeepName =='MobileNet':
+            input = MobileNetPredict(file.file)
         path = os.path.join(os.getcwd(), model.FileUrl)
         result = LoadModel(path,input)
         historyRepository.Create(Note,result,model.ModelID)
@@ -28,11 +32,16 @@ async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(...)):
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
-@router.post('/AIPredict/ExpertPredict')
+@router.post('/AIPredict/ExpertPredict',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 async def ExpertPredict(file: UploadFile = File(...), Note: str = Form(...),ModelID: str = Form(...)):
     try:
-        input = MobileNetPredict(file.file)
         model = repository.GetModelUrl(ModelID)
+        if model.DeepName =='ResNet-50':
+            input = ResNet50Predict(file.file)
+        if model.DeepName =='VGG16':
+            input = VGG16Predict(file.file)
+        if model.DeepName =='MobileNet':
+            input = MobileNetPredict(file.file)
         path = os.path.join(os.getcwd(), model.FileUrl)
         result = LoadModel(path,input)
         historyRepository.Create(Note,result,model.ModelID)

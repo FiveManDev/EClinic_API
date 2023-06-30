@@ -41,3 +41,4 @@ class ModelDtos(BaseModel):
 class GetModelDtos(BaseModel):
     ModelID:str
     FileUrl:str
+    DeepName:str

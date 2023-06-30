@@ -147,14 +147,16 @@ def Delete(id):
 def GetActive():
     try:
         query = f'''
-            SELECT *
-            FROM Model
+            SELECT M.ModelID,M.FileURL,DL.DeepName
+            FROM
+                "Model" M
+                JOIN "DeepLearning" DL ON M."DeepID" = DL."DeepID"
             WHERE IsActive = 1
             '''
         sql.execute(query)
         row = sql.fetchone()
         if row:
-            data = GetModelDtos(ModelID=row[0].lower(),FileUrl=row[1])
+            data = GetModelDtos(ModelID=row[0].lower(),FileUrl=row[1],DeepName=row[2])
         else:
             data = None
         return data
@@ -164,14 +166,16 @@ def GetActive():
 def GetModelUrl(id):
     try:
         query = f'''
-            SELECT *
-            FROM Model
-            WHERE ModelID = '{id}''
+            SELECT M.ModelID,M.FileURL,DL.DeepName
+            FROM
+                "Model" M
+                JOIN "DeepLearning" DL ON M."DeepID" = DL."DeepID"
+            WHERE ModelID = '{id}'
             '''
         sql.execute(query)
         row = sql.fetchone()
         if row:
-            data = GetModelDtos(ModelID=row[0].lower(),FileUrl=row[1])
+            data = GetModelDtos(ModelID=row[0].lower(),FileUrl=row[1],DeepName=row[2])
         else:
             data = None
         return data
