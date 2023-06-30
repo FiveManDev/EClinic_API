@@ -1,1 +1,1 @@
-connection_string = 'DRIVER={SQL Server};SERVER=.;DATABASE=AIService;UID=sa;PWD=Eclinic123;'
+connection_string = 'DRIVER={SQL Server};SERVER=172.20.0.32;DATABASE=AIService;UID=sa;PWD=Eclinic123;'
