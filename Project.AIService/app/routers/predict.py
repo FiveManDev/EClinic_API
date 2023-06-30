@@ -7,6 +7,8 @@ from fastapi.responses import JSONResponse
 from predict.deepPredict import MobileNetPredict,ResNet50Predict,VGG16Predict
 from predict.loadModel import LoadModel
 from auth_bearer import JWTBearer,Role
+import data.modelRepository as repository
+import data.historyRepository as historyRepository
 router = APIRouter(tags=['Predict'])
 
 # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
@@ -14,12 +16,14 @@ router = APIRouter(tags=['Predict'])
 async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(...)):
     try:
         input = MobileNetPredict(file.file)
-        path = os.path.join(os.getcwd(), "model/MobileNet_LogisticRegression.pkl")
+        model = repository.GetActive()
+        print(model.ModelID)
+        path = os.path.join(os.getcwd(), model.FileUrl)
         result = LoadModel(path,input)
-        print(result)
+        historyRepository.Create(Note,result,model.ModelID)
         res = {
             "isSuccess": True,
-            "data": Note
+            "data": result
         }
         return JSONResponse(res)
     except Exception as e:
@@ -27,13 +31,14 @@ async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(...)):
 @router.post('/AIPredict/ExpertPredict')
 async def ExpertPredict(file: UploadFile = File(...), Note: str = Form(...),ModelID: str = Form(...)):
     try:
-        # data = repository.GetAll()
-        print(file.filename)
-        print(ModelID)
-
+        input = MobileNetPredict(file.file)
+        model = repository.GetModelUrl(ModelID)
+        path = os.path.join(os.getcwd(), model.FileUrl)
+        result = LoadModel(path,input)
+        historyRepository.Create(Note,result,model.ModelID)
         res = {
             "isSuccess": True,
-            "data": Note
+            "data": result
         }
         return JSONResponse(res)
     except Exception as e:

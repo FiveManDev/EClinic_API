@@ -69,8 +69,8 @@ def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(
             "isSuccess": False,
             "Message": "Update error"
         }
-        return JSONResponse(res)
-    res = {
+    else:
+        res = {
             "isSuccess": True,
             "Message": "Update Success"
         }

@@ -1,6 +1,6 @@
 from data.config import connection_string
 import pyodbc
-from data.data import Model, MachineLearning, DeepLearning, ModelAll
+from data.data import Model, MachineLearning, DeepLearning, ModelAll,GetModelDtos
 from datetime import datetime
 
 connection = pyodbc.connect(connection_string)
@@ -149,13 +149,12 @@ def GetActive():
         query = f'''
             SELECT *
             FROM Model
-            WHERE IsActive = 1'
+            WHERE IsActive = 1
             '''
         sql.execute(query)
-        data = 0
         row = sql.fetchone()
         if row:
-            data = row[1]
+            data = GetModelDtos(ModelID=row[0].lower(),FileUrl=row[1])
         else:
             data = None
         return data
@@ -170,10 +169,9 @@ def GetModelUrl(id):
             WHERE ModelID = '{id}''
             '''
         sql.execute(query)
-        data = 0
         row = sql.fetchone()
         if row:
-            data = row[1]
+            data = GetModelDtos(ModelID=row[0].lower(),FileUrl=row[1])
         else:
             data = None
         return data

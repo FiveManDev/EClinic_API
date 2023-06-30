@@ -1,5 +1,6 @@
 from data.config import connection_string
 import pyodbc
+from datetime import datetime
 from data.data import MachineLearning,DeepLearning,PredictionHistoryALL,PredictionHistory
 connection = pyodbc.connect(connection_string)
 sql = connection.cursor()
@@ -67,10 +68,10 @@ def GetByID(id):
     except Exception as e:
         print("An error occurred:", str(e))
         return []
-def Create(Note,Result,PredictTime,ModelID):
+def Create(Note,Result,ModelID):
     try:
         query = "INSERT INTO PredictionHistory (Note,Result,PredictTime,ModelID) VALUES (?, ?, ?, ?)"
-        values = (Note,Result,PredictTime,ModelID)
+        values = (Note,Result,datetime.now(),ModelID)
         sql.execute(query, values)
         connection.commit()
         count = sql.rowcount

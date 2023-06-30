@@ -38,3 +38,6 @@ class ModelDtos(BaseModel):
     UpdatedAt: datetime
     MachineID: str
     MachineID: str
+class GetModelDtos(BaseModel):
+    ModelID:str
+    FileUrl:str

@@ -5,13 +5,11 @@ def LoadModel(modelPath, input):
         path = os.path.join(os.getcwd(), modelPath)
         loaded_model = joblib.load(path)
         prediction = loaded_model.predict(input)
-        print(prediction)
         predicted_label = prediction[0]
-
         return PredictResult(predicted_label)
     except Exception as e:
         print("An error occurred in LoadModel:", str(e))
-        return None
+        return "unknown"
 def PredictResult(num):
     if num == 1:
         return "Monkeypox"
