@@ -22,13 +22,19 @@ async def GetAll():
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 @router.get('/MachineLearning/GetByID')
-async def GetByID(id:str):
+async def GetByID(MachineID:str):
     try:
-        data = repository.GetByID(id)
-        res = {
+        data = repository.GetByID(MachineID)
+        if data is None:
+           res = {
+            "isSuccess": False,
+            "Message": "Not Found"
+            }
+        else:
+            res = {
             "isSuccess": True,
             "data": data
-        }
+            }
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")          

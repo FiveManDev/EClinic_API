@@ -2,11 +2,11 @@ import sys
 import os
 data_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
 sys.path.append(data_path)
-from fastapi import APIRouter, Depends, status, HTTPException, Response
+from fastapi import APIRouter, Depends, status, HTTPException, Response, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from auth_bearer import JWTBearer,Role
 import data.modelRepository as repository
-from data.data import  Model
+from data.data import ModelDtos
 router = APIRouter(tags=['Model'])
 
 # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
@@ -22,9 +22,9 @@ async def GetAll():
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 @router.get('/Model/GetByID')
-async def GetByID(id:str):
+async def GetByID(ModelID:str):
     try:
-        data = repository.GetByID(id)
+        data = repository.GetByID(ModelID)
         res = {
             "isSuccess": True,
             "data": data
@@ -33,8 +33,9 @@ async def GetByID(id:str):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")          
 @router.post('/Model/Create')
-def Create(DeepName):
-    result =repository.Create(DeepName)
+def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(...) ):
+    FileUrl =file.filename
+    result =repository.Create(Accuracy,MachineID,DeepID,FileUrl)
     if result is False:
         res = {
             "isSuccess": False,
@@ -47,8 +48,9 @@ def Create(DeepName):
         }
     return JSONResponse(res)
 @router.put('/Model/Update')
-def Update(data: Model):
-    result =repository.Update(data.DeepID,data.DeepName)
+def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(default=None) ):
+    FileUrl =None
+    result =repository.Update(ModelID,Accuracy,MachineID,DeepID,FileUrl)
     if result is False:
         res = {
             "isSuccess": False,
@@ -61,8 +63,8 @@ def Update(data: Model):
         }
     return JSONResponse(res)
 @router.delete('/Model/Delete')
-def Delete(MachineID:str):
-    result =repository.Delete(MachineID)
+def Delete(ModelID:str):
+    result =repository.Delete(ModelID)
     if result is False:
         res = {
             "isSuccess": False,

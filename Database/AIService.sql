@@ -11,7 +11,7 @@ ALTER TABLE
     "MachineLearning" ADD CONSTRAINT "machinelearning_machineid_primary" PRIMARY KEY("MachineID");
 CREATE TABLE "Model"(
     "ModelID" uniqueidentifier NOT NULL DEFAULT NewID(),
-    "FIleURL" VARCHAR(255) NOT NULL,
+    "FileURL" VARCHAR(255) NOT NULL,
     "Accuracy" FLOAT NOT NULL,
     "IsActive" BIT NOT NULL,
     "CreatedAt" DATETIME NOT NULL,

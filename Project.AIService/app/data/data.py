@@ -8,19 +8,29 @@ class DeepLearning(BaseModel):
     DeepName: str
 class Model(BaseModel):
     ModelID:str
-    FileURL: str
     Accuracy: float
     IsActive: bool
-    CreatedAt: datetime
-    UpdatedAt: datetime
-    MachineID: str
-    DeepID: str
+    CreatedAt: str
+    UpdatedAt: str
+    MachineLearning: MachineLearning
+    DeepLearning: DeepLearning
+class ModelAll(BaseModel):
+    ModelID:str
+    Accuracy: float
+    IsActive: bool
+    MachineLearning: MachineLearning
+    DeepLearning: DeepLearning
+class PredictionHistoryALL(BaseModel):
+    PredictID:str
+    Result: str
+    PredictTime: str
 class PredictionHistory(BaseModel):
     PredictID:str
-    Note: str
+    Note:str
     Result: str
-    PredictTime: datetime
-    ModelID: str
+    PredictTime: str
+    MachineLearning: MachineLearning
+    DeepLearning: DeepLearning
 class ModelDtos(BaseModel):
     Accuracy: float
     IsActive: bool

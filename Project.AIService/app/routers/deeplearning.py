@@ -22,13 +22,19 @@ async def GetAll():
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 @router.get('/DeepLearning/GetByID')
-async def GetByID(id:str):
+async def GetByID(DeepID:str):
     try:
-        data = repository.GetByID(id)
-        res = {
+        data = repository.GetByID(DeepID)
+        if data is None:
+           res = {
+            "isSuccess": False,
+            "Message": "Not Found"
+            }
+        else:
+            res = {
             "isSuccess": True,
             "data": data
-        }
+            }
         return JSONResponse(res)
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")          
