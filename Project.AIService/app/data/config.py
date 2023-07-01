@@ -1,1 +1,1 @@
-connection_string = 'DRIVER={SQL Server};SERVER=localhost,1444.32;DATABASE=AIService;UID=sa;PWD=Eclinic123;'
+connection_string = 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=172.20.0.32;DATABASE=AIService;UID=sa;PWD=Eclinic123;'

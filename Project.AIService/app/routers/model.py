@@ -36,7 +36,7 @@ async def GetByID(ModelID:str):
         raise HTTPException(status_code=500, detail="Internal Server Error")          
 @router.post('/Model/Create',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(...) ):
-    FileUrl = 'model/' + file.filename
+    FileUrl = '/app/app/model/' + file.filename
     save_path = os.path.join(os.getcwd(), FileUrl)
 
     with open(save_path, 'wb') as buffer:
@@ -57,7 +57,7 @@ def Create(Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(.
 @router.put('/Model/Update',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Update(ModelID:str=Form(...), Accuracy:float= Form(...),MachineID:str= Form(...),DeepID:str= Form(...),file: UploadFile = File(default=None) ):
     if file is not None:
-        FileUrl = 'model/' + file.filename
+        FileUrl = '/app/app/model/' + file.filename
         save_path = os.path.join(os.getcwd(), FileUrl)
 
         with open(save_path, 'wb') as buffer:
