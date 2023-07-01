@@ -1,12 +1,14 @@
 import sys
 import os
-data_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
+auth_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
+data_path = os.path.join(os.path.dirname(__file__), '..', 'data')
 sys.path.append(data_path)
+sys.path.append(auth_path)
 from fastapi import APIRouter, Depends, status, HTTPException, Response
 from fastapi.responses import JSONResponse
 from auth_bearer import JWTBearer,Role
-import data.machineLearningRepository as repository
-from data.data import MachineLearning
+import machineLearningRepository as repository
+from data import MachineLearning
 router = APIRouter(tags=['MachineLearning'])
 
 @router.get('/MachineLearning/GetAll',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )

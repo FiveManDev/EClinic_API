@@ -1,14 +1,18 @@
 import sys
 import os
-data_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
+auth_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
+data_path = os.path.join(os.path.dirname(__file__), '..', 'data')
+predict_path = os.path.join(os.path.dirname(__file__), '..', 'predict')
 sys.path.append(data_path)
+sys.path.append(auth_path)
+sys.path.append(predict_path)
 from fastapi import APIRouter, Depends, status, HTTPException, Response, File, UploadFile, Form
 from fastapi.responses import JSONResponse
-from predict.deepPredict import MobileNetPredict,ResNet50Predict,VGG16Predict
-from predict.loadModel import LoadModel
+from deepPredict import MobileNetPredict,ResNet50Predict,VGG16Predict
+from loadModel import LoadModel
 from auth_bearer import JWTBearer,Role
-import data.modelRepository as repository
-import data.historyRepository as historyRepository
+import modelRepository as repository
+import historyRepository as historyRepository
 router = APIRouter(tags=['Predict'])
 
 # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )

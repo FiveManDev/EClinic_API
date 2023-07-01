@@ -1,6 +1,6 @@
-from data.config import connection_string
+from config import connection_string
 import pyodbc
-from data.data import Model, MachineLearning, DeepLearning, ModelAll,GetModelDtos
+from data import Model, MachineLearning, DeepLearning, ModelAll,GetModelDtos
 from datetime import datetime
 
 connection = pyodbc.connect(connection_string)

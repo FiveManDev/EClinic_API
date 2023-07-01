@@ -1,13 +1,15 @@
 import sys
 import os
 import shutil
-data_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
+auth_path = os.path.join(os.path.dirname(__file__), '..', 'auth')
+data_path = os.path.join(os.path.dirname(__file__), '..', 'data')
 sys.path.append(data_path)
+sys.path.append(auth_path)
 from fastapi import APIRouter, Depends, status, HTTPException, Response, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from auth_bearer import JWTBearer,Role
-import data.modelRepository as repository
-from data.data import ModelDtos
+import modelRepository as repository
+from data import ModelDtos
 router = APIRouter(tags=['Model'])
 
 @router.get('/Model/GetAll',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )

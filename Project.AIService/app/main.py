@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from routers import machinelearning,deeplearning,model,predict,history
+from app.routers import machinelearning,deeplearning,model,predict,history
 
 
 app = FastAPI()

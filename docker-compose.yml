@@ -137,6 +137,8 @@ services:
     networks:
       eclinic:
         ipv4_address: 172.20.0.16
+    ports:
+      - "9889:8000"
 networks:
   eclinic:
     driver: bridge

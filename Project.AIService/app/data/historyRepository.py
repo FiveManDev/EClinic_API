@@ -1,7 +1,7 @@
-from data.config import connection_string
+from config import connection_string
 import pyodbc
 from datetime import datetime
-from data.data import MachineLearning,DeepLearning,PredictionHistoryALL,PredictionHistory
+from data import MachineLearning,DeepLearning,PredictionHistoryALL,PredictionHistory
 connection = pyodbc.connect(connection_string)
 sql = connection.cursor()
 def GetAll():
