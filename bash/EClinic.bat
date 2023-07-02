@@ -4,3 +4,4 @@ call ForumService.bat
 call CommunicateService.bat
 call ServiceInformationService.bat
 call PaymentService.bat
+call AIService.bat
