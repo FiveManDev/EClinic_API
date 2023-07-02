@@ -112,6 +112,15 @@ services:
       eclinic:
         ipv4_address: 172.20.0.12
 
+  project.bookingservice:
+    image: ${DOCKER_REGISTRY-}projectbookingservice
+    build:
+      context: .
+      dockerfile: Project.BookingService/Dockerfile
+    networks:
+      eclinic:
+        ipv4_address: 172.20.0.13
+
   project.communicateservice:
     image: ${DOCKER_REGISTRY-}projectcommunicateservice
     build:
