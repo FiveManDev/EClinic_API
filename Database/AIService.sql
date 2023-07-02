@@ -11,6 +11,7 @@ ALTER TABLE
     "MachineLearning" ADD CONSTRAINT "machinelearning_machineid_primary" PRIMARY KEY("MachineID");
 CREATE TABLE "Model"(
     "ModelID" uniqueidentifier NOT NULL DEFAULT NewID(),
+    "ModelName" VARCHAR(255) NOT NULL,
     "FileURL" VARCHAR(255) NOT NULL,
     "Accuracy" FLOAT NOT NULL,
     "IsActive" BIT NOT NULL,
@@ -68,18 +69,18 @@ VALUES ('4745a160-f27d-4fd4-af4b-d162fb9bfc73','AdaBoost Classifier')
 
 GO
 
-INSERT INTO [dbo].[Model]([ModelID],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
-VALUES ('7e50f977-3f64-4ede-92ae-003bad413f10','/app/app/model/MobileNet_GaussianNB.pkl',79.3,0,'2023-06-15 12:52:11.087','2023-06-30 12:52:11.087','f0c4aeaa-bb06-4927-821b-1b55fd1ecc11','0f9f2229-b411-4d7b-a88c-f7d007215fd9')
-INSERT INTO [dbo].[Model]([ModelID],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
-VALUES ('8524bb28-cbb4-4798-817d-17a7f42afd31','/app/app/model/MobileNet_LogisticRegression.pkl',96.2,1,'2023-06-17 12:52:11.087','2023-06-19 12:52:11.087','4056e726-c9fa-4f3f-be00-c84f79dc3609','0f9f2229-b411-4d7b-a88c-f7d007215fd9')
-INSERT INTO [dbo].[Model]([ModelID],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
-VALUES ('4f4525f6-3402-47c9-9934-26de920122cb','/app/app/model/MobileNet_RandomForestClassifier.pkl',83.4,0,'2023-06-19 12:52:11.087','2023-06-30 12:52:11.087','a9351300-ef9a-441c-8c9d-048f0aa109ac','0f9f2229-b411-4d7b-a88c-f7d007215fd9')
-INSERT INTO [dbo].[Model]([ModelID],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
-VALUES ('146ee539-a900-4988-b20e-3f6f27aad5fd','/app/app/model/ResNet50_LogisticRegression.pkl',76.2,0,'2023-06-21 12:52:11.087','2023-06-30 12:52:11.087','4056e726-c9fa-4f3f-be00-c84f79dc3609','cdf2376e-d944-4d54-8faa-00c43398368b')
-INSERT INTO [dbo].[Model]([ModelID],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
-VALUES ('52a2a512-2a7e-4352-8f60-7b651e8a3eec','/app/app/model/VGG16_LogisticRegression.pkl',91.7,0,'2023-06-22 12:52:11.087','2023-06-30 12:52:11.087','4056e726-c9fa-4f3f-be00-c84f79dc3609','46159922-0175-4408-80b2-68f0ef8f2f6a')
-INSERT INTO [dbo].[Model]([ModelID],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
-VALUES ('129fa429-f5e4-4969-9f09-8a988c5eaa05','/app/app/model/VGG16_RandomForestClassifier.pkl',80,0,'2023-06-23 12:52:11.087','2023-06-30 12:52:11.087','a9351300-ef9a-441c-8c9d-048f0aa109ac','46159922-0175-4408-80b2-68f0ef8f2f6a')
+INSERT INTO [dbo].[Model]([ModelID],[ModelName],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
+VALUES ('7e50f977-3f64-4ede-92ae-003bad413f10','MobileNet_GaussianNB','/app/app/model/MobileNet_GaussianNB.pkl',79.3,0,'2023-06-15 12:52:11.087','2023-06-30 12:52:11.087','f0c4aeaa-bb06-4927-821b-1b55fd1ecc11','0f9f2229-b411-4d7b-a88c-f7d007215fd9')
+INSERT INTO [dbo].[Model]([ModelID],[ModelName],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
+VALUES ('8524bb28-cbb4-4798-817d-17a7f42afd31','MobileNet_LogisticRegression','/app/app/model/MobileNet_LogisticRegression.pkl',96.2,1,'2023-06-17 12:52:11.087','2023-06-19 12:52:11.087','4056e726-c9fa-4f3f-be00-c84f79dc3609','0f9f2229-b411-4d7b-a88c-f7d007215fd9')
+INSERT INTO [dbo].[Model]([ModelID],[ModelName],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
+VALUES ('4f4525f6-3402-47c9-9934-26de920122cb','MobileNet_RandomForestClassifier','/app/app/model/MobileNet_RandomForestClassifier.pkl',83.4,0,'2023-06-19 12:52:11.087','2023-06-30 12:52:11.087','a9351300-ef9a-441c-8c9d-048f0aa109ac','0f9f2229-b411-4d7b-a88c-f7d007215fd9')
+INSERT INTO [dbo].[Model]([ModelID],[ModelName],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
+VALUES ('146ee539-a900-4988-b20e-3f6f27aad5fd','ResNet50_LogisticRegression','/app/app/model/ResNet50_LogisticRegression.pkl',76.2,0,'2023-06-21 12:52:11.087','2023-06-30 12:52:11.087','4056e726-c9fa-4f3f-be00-c84f79dc3609','cdf2376e-d944-4d54-8faa-00c43398368b')
+INSERT INTO [dbo].[Model]([ModelID],[ModelName],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
+VALUES ('52a2a512-2a7e-4352-8f60-7b651e8a3eec','VGG16_LogisticRegression','/app/app/model/VGG16_LogisticRegression.pkl',91.7,0,'2023-06-22 12:52:11.087','2023-06-30 12:52:11.087','4056e726-c9fa-4f3f-be00-c84f79dc3609','46159922-0175-4408-80b2-68f0ef8f2f6a')
+INSERT INTO [dbo].[Model]([ModelID],[ModelName],[FileURL],[Accuracy],[IsActive],[CreatedAt],[UpdatedAt],[MachineID],[DeepID])
+VALUES ('129fa429-f5e4-4969-9f09-8a988c5eaa05','VGG16_RandomForestClassifier','/app/app/model/VGG16_RandomForestClassifier.pkl',80,0,'2023-06-23 12:52:11.087','2023-06-30 12:52:11.087','a9351300-ef9a-441c-8c9d-048f0aa109ac','46159922-0175-4408-80b2-68f0ef8f2f6a')
 
 GO
 

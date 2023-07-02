@@ -11,6 +11,7 @@ def GetAll():
         query = '''
             SELECT
                 M."ModelID",
+                M."ModelName",
                 M."FileURL",
                 M."Accuracy",
                 M."IsActive",
@@ -24,6 +25,7 @@ def GetAll():
                 "Model" M
                 JOIN "MachineLearning" ML ON M."MachineID" = ML."MachineID"
                 JOIN "DeepLearning" DL ON M."DeepID" = DL."DeepID"
+            ORDER BY UpdatedAt DESC
             '''
         sql.execute(query)
         rows = sql.fetchall()
@@ -31,15 +33,16 @@ def GetAll():
         for row in rows:
             model = ModelAll(
                 ModelID=row[0].lower(),
-                Accuracy=row[2],
-                IsActive=row[3],
+                ModelName =row[1],
+                Accuracy=row[3],
+                IsActive=row[4],
                 MachineLearning=MachineLearning(
-                    MachineID=row[6].lower(),
-                    MachineName=row[7]
+                    MachineID=row[7].lower(),
+                    MachineName=row[8]
                 ),
                 DeepLearning=DeepLearning(
-                    DeepID=row[8].lower(),
-                    DeepName=row[9]
+                    DeepID=row[9].lower(),
+                    DeepName=row[10]
                 )
             )
             data.append(model.dict())
@@ -53,6 +56,7 @@ def GetByID(id):
         query = f'''
             SELECT
                 M."ModelID",
+                M."ModelName",
                 M."FileURL",
                 M."Accuracy",
                 M."IsActive",
@@ -74,17 +78,18 @@ def GetByID(id):
         if row:
             model = Model(
                 ModelID=row[0].lower(),
-                Accuracy=row[2],
-                IsActive=row[3],
-                CreatedAt=str(row[4]),
-                UpdatedAt=str(row[5]),
+                ModelName = row[1],
+                Accuracy=row[3],
+                IsActive=row[4],
+                CreatedAt=str(row[5]),
+                UpdatedAt=str(row[6]),
                 MachineLearning=MachineLearning(
-                    MachineID=row[6].lower(),
-                    MachineName=row[7]
+                    MachineID=row[7].lower(),
+                    MachineName=row[8]
                 ),
                 DeepLearning=DeepLearning(
-                    DeepID=row[8].lower(),
-                    DeepName=row[9]
+                    DeepID=row[9].lower(),
+                    DeepName=row[10]
                 )
             )
             data = model.dict()
@@ -95,10 +100,10 @@ def GetByID(id):
         print("An error occurred:", str(e))
         return []
 
-def Create(Accuracy, MachineID, DeepID, FileURL):
+def Create(ModelName, Accuracy, MachineID, DeepID, FileURL):
     try:
-        query = "INSERT INTO Model (FileURL,Accuracy,IsActive,CreatedAt,UpdatedAt,MachineID,DeepID) VALUES (?,?,?,?,?,?,?)"
-        values = (FileURL, Accuracy, False, datetime.now(), datetime.now(), MachineID, DeepID)
+        query = "INSERT INTO Model (ModelName,FileURL,Accuracy,IsActive,CreatedAt,UpdatedAt,MachineID,DeepID) VALUES (?,?,?,?,?,?,?,?)"
+        values = (ModelName,FileURL, Accuracy, False, datetime.now(), datetime.now(), MachineID, DeepID)
         sql.execute(query, values)
         connection.commit()
         count = sql.rowcount
@@ -110,14 +115,14 @@ def Create(Accuracy, MachineID, DeepID, FileURL):
         print("An error occurred:", str(e))
         return False
 
-def Update(ModelID,Accuracy, MachineID, DeepID, FileURL):
+def Update(ModelID,ModelName,Accuracy, MachineID, DeepID, FileURL):
     try:
         if FileURL is None:
-            query = "UPDATE Model SET Accuracy = ?,MachineID= ?,DeepID=?,UpdatedAt =? WHERE ModelID = ?"
-            values = (Accuracy, MachineID, DeepID, datetime.now(), ModelID)
+            query = "UPDATE Model SET ModelName= ?, Accuracy = ?,MachineID= ?,DeepID=?,UpdatedAt =? WHERE ModelID = ?"
+            values = (ModelName, Accuracy, MachineID, DeepID, datetime.now(), ModelID)
         else:
-            query = "UPDATE Model SET Accuracy = ?,MachineID= ?,DeepID=? ,FileURL=?,UpdatedAt =? WHERE ModelID = ?"
-            values = (Accuracy, MachineID, DeepID, FileURL,datetime.now(), ModelID)
+            query = "UPDATE Model SET ModelName= ?, Accuracy = ?,MachineID= ?,DeepID=? ,FileURL=?,UpdatedAt =? WHERE ModelID = ?"
+            values = (ModelName, Accuracy, MachineID, DeepID, FileURL,datetime.now(), ModelID)
         sql.execute(query, values)
         connection.commit()
         count = sql.rowcount

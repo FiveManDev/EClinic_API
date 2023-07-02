@@ -41,43 +41,52 @@ async def GetByID(MachineID:str):
         raise HTTPException(status_code=500, detail="Internal Server Error")          
 @router.post('/MachineLearning/Create',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Create(MachineName):
-    result =repository.Create(MachineName)
-    if result is False:
+    try:
+        result =repository.Create(MachineName)
+        if result is False:
+            res = {
+                "isSuccess": False,
+                "Message": "Create error"
+            }
+            return JSONResponse(res)
         res = {
-            "isSuccess": False,
-            "Message": "Create error"
-        }
+                "isSuccess": True,
+                "Message": "Create Success"
+            }
         return JSONResponse(res)
-    res = {
-            "isSuccess": True,
-            "Message": "Create Success"
-        }
-    return JSONResponse(res)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal Server Error")   
 @router.put('/MachineLearning/Update',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Update(data:MachineLearning):
-    result =repository.Update(data.MachineID,data.MachineName)
-    if result is False:
+    try:
+        result =repository.Update(data.MachineID,data.MachineName)
+        if result is False:
+            res = {
+                "isSuccess": False,
+                "Message": "Update error"
+            }
+            return JSONResponse(res)
         res = {
-            "isSuccess": False,
-            "Message": "Update error"
-        }
+                "isSuccess": True,
+                "Message": "Update Success"
+            }
         return JSONResponse(res)
-    res = {
-            "isSuccess": True,
-            "Message": "Update Success"
-        }
-    return JSONResponse(res)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal Server Error")   
 @router.delete('/MachineLearning/Delete',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
 def Delete(MachineID:str):
-    result =repository.Delete(MachineID)
-    if result is False:
+    try:
+        result =repository.Delete(MachineID)
+        if result is False:
+            res = {
+                "isSuccess": False,
+                "Message": "Delete error"
+            }
+            return JSONResponse(res)
         res = {
-            "isSuccess": False,
-            "Message": "Delete error"
-        }
+                "isSuccess": True,
+                "Message": "Delete Success"
+            }
         return JSONResponse(res)
-    res = {
-            "isSuccess": True,
-            "Message": "Delete Success"
-        }
-    return JSONResponse(res)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal Server Error")   

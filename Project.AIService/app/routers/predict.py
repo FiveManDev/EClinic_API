@@ -17,8 +17,10 @@ router = APIRouter(tags=['Predict'])
 
 # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
 @router.post('/AIPredict/DoctorPredict',dependencies=[Depends(JWTBearer(roles=[Role.Doctor]))] )
-async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(...)):
+async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(default=None)):
     try:
+        if Note is None:
+            Note = 'No content'
         model = repository.GetActive()
         if model.DeepName =='ResNet-50':
             input = ResNet50Predict(file.file)
@@ -37,8 +39,10 @@ async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal Server Error")
 @router.post('/AIPredict/ExpertPredict',dependencies=[Depends(JWTBearer(roles=[Role.Expert]))] )
-async def ExpertPredict(file: UploadFile = File(...), Note: str = Form(...),ModelID: str = Form(...)):
+async def ExpertPredict(file: UploadFile = File(...), Note: str = Form(default=None),ModelID: str = Form(...)):
     try:
+        if Note is None:
+            Note = 'No content'
         model = repository.GetModelUrl(ModelID)
         if model.DeepName =='ResNet-50':
             input = ResNet50Predict(file.file)

@@ -120,4 +120,5 @@ dotnet tool install --global dotnet-ef
 | Blog Service | https://localhost:5555/swagger/index.html | This is Swagger UI showing you all the Blog Service Api |
 | Communication Service | https://localhost:8686/swagger/index.html | This is Swagger UI showing you all the Communication Service Api |
 | Payment Service | https://localhost:9999/swagger/index.html | This is Swagger UI showing you all the Payment Service Api |
+| AI Service | http://localhost:9889/docs/ | This is Swagger UI showing you all the AI Service Api |
 | Test Service | https://localhost:1234/swagger/index.html | This is a service used to test some things or make tools for database designs (Frontend does not use this link) |

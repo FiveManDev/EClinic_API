@@ -1,14 +1,26 @@
 from config import connection_string
 import pyodbc
 from datetime import datetime
-from data import MachineLearning,DeepLearning,PredictionHistoryALL,PredictionHistory
+from data import MachineLearning,DeepLearning,PredictionHistoryALL,PredictionHistory,PaginationResponseHeader,PaginationResponse
 connection = pyodbc.connect(connection_string)
 sql = connection.cursor()
-def GetAll():
+def GetAll(PageIndex, PageSize):
     try:
-        query = '''
-            SELECT *
-            FROM PredictionHistory
+        query = f'''
+            SELECT 
+                P."PredictID",
+                P."Result",
+                P."PredictTime",
+                M."ModelName"
+            FROM
+                "PredictionHistory" P
+                JOIN "Model" M ON M."ModelID" = P."ModelID"
+            ORDER BY PredictTime DESC
+            OFFSET {(PageIndex - 1) * PageSize} ROWS
+            FETCH NEXT {PageSize} ROWS ONLY
+            '''
+        count_query = '''
+            SELECT COUNT(*) FROM "PredictionHistory"
             '''
         sql.execute(query)
         rows = sql.fetchall()
@@ -16,11 +28,33 @@ def GetAll():
         for row in rows:
             history = PredictionHistoryALL(
                 PredictID=row[0].lower(),
-                PredictTime=str(row[3]),
-                Result=row[2]
+                PredictTime=str(row[2]),
+                Result=row[1],
+                ModelName=row[3]
             )
-            data.append(history.dict())
-        return data
+            data.append(history)
+        sql.execute(count_query)
+        total_count = sql.fetchone()[0]
+        total_pages = (total_count + PageSize - 1) // PageSize
+
+        has_previous = PageIndex > 1
+        has_next = PageIndex < total_pages
+
+        response_header = PaginationResponseHeader(
+            PageIndex=PageIndex,
+            PageSize=PageSize,
+            TotalCount=total_count,
+            TotalPages=total_pages,
+            HasPrevious=has_previous,
+            HasNext=has_next
+        )
+        response = PaginationResponse(
+            PaginationResponseHeader=response_header,
+            Data=data
+        )
+
+        return response
+
     except Exception as e:
         print("An error occurred:", str(e))
         return []
@@ -36,7 +70,8 @@ def GetByID(id):
                     M."MachineID",
                     ML."MachineName",
                     M."DeepID",
-                    DL."DeepName"
+                    DL."DeepName",
+                    M."ModelName"
                 FROM
                     "PredictionHistory" P
 					JOIN "Model" M ON M."ModelID" = P."ModelID"
@@ -59,7 +94,8 @@ def GetByID(id):
                     DeepLearning=DeepLearning(
                         DeepID=row[6].lower(),
                         DeepName=row[7]
-                    )
+                    ),
+                    ModelName =row[8]
                 )
             data = history.dict()
         else:
