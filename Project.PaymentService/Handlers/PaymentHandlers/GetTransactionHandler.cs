@@ -34,17 +34,13 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 List<TransactionDtos> TransactionDtos = new List<TransactionDtos>();
                 if (timeType == TimeType.Day)
                 {
-
-                    for (int i = startTime.Day; i <= endTime.Day; i++)
+                    for (DateTime i = startTime; i <= endTime; i = i.AddDays(1))
                     {
-                        DateTime currentDate = new DateTime(startTime.Year, startTime.Month, i);
-                        var payments = await paymentRepository.GetAllAsync(x => x.PaymentTime.Day == currentDate.Day
-                                                         && x.PaymentTime.Month == currentDate.Month
-                                                         && x.PaymentTime.Year == currentDate.Year);
+                        var payments = await paymentRepository.GetAllAsync(x => x.PaymentTime == i);
                         var totalAmount = payments.Sum(x => x.PaymentAmount);
                         TransactionDtos.Add(new Model.TransactionDtos
                         {
-                            Time = currentDate,
+                            Time = i,
                             TotalAmount = totalAmount
                         });
                     }

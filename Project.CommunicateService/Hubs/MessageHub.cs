@@ -8,16 +8,26 @@ namespace Project.CommunicateService.Hubs
         [Authorize]
         public async Task JoinGroup(Guid RoomID)
         {
-            string userId = Context.User.FindFirst("UserID").Value;
             await Groups.AddToGroupAsync(Context.ConnectionId, RoomID.ToString());
-            await Clients.Group(RoomID.ToString()).SendAsync("Response", "JoinRoom", userId);
         }
         [Authorize]
         public async Task LeaveGroup(Guid RoomID)
         {
-            string userId = Context.User.FindFirst("UserID").Value;
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, RoomID.ToString());
-            await Clients.Group(RoomID.ToString()).SendAsync("Response", "LeaveGroup", userId);
+        }
+        [Authorize]
+        public async Task JoinCall(string CallID)
+        {
+            string userId = Context.User.FindFirst("UserID").Value;
+            await Groups.AddToGroupAsync(Context.ConnectionId, CallID);
+            await Clients.Group(CallID).SendAsync("Response", "JoinRoom", userId);
+        }
+        [Authorize]
+        public async Task LeaveCall(string CallID)
+        {
+            string userId = Context.User.FindFirst("UserID").Value;
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, CallID);
+            await Clients.Group(CallID).SendAsync("Response", "LeaveGroup", userId);
         }
     }
 }
