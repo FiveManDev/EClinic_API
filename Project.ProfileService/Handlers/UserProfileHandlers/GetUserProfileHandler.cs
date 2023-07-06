@@ -13,13 +13,13 @@ using Project.ProfileService.Repository.ProfileRepository;
 
 namespace Project.ProfileService.Handlers.UserProfileHandlers
 {
-    public class GetDoctorProfileHandler : IRequestHandler<GetUserProfileQuery, ObjectResult>
+    public class GetUserProfileHandler : IRequestHandler<GetUserProfileQuery, ObjectResult>
     {
         private readonly IProfileRepository profileRepository;
-        private readonly ILogger<GetDoctorProfileHandler> logger;
+        private readonly ILogger<GetUserProfileHandler> logger;
         private readonly UserService.UserServiceClient client;
         private readonly IMapper mapper;
-        public GetDoctorProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, ILogger<GetDoctorProfileHandler> logger, IMapper mapper)
+        public GetUserProfileHandler(IConfiguration configuration, IProfileRepository profileRepository, ILogger<GetUserProfileHandler> logger, IMapper mapper)
         {
             this.profileRepository = profileRepository;
             this.logger = logger;

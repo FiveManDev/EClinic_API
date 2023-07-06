@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.NotificationService.Commands;
+using Project.NotificationService.Dtos;
 
 namespace Project.NotificationService.Controllers
 {
@@ -24,6 +25,19 @@ namespace Project.NotificationService.Controllers
         public async Task<IActionResult> ConfirmEmail(string email)
         {
             return await mediator.Send(new ConfirmEmailCommand(email));
+        }
+        [HttpGet]
+        public async Task<IActionResult> SendBill(string email)
+        {
+            PaymentModel paymentModel = new PaymentModel
+            {
+                BookingID = Guid.NewGuid(),
+                PaymentAmount = 10000,
+                PaymentID = Guid.NewGuid(),
+                PaymentService = Data.PaymentService.Momo,
+                PaymentTime = DateTime.Now
+            };
+            return await mediator.Send(new SendBillCommand(email,paymentModel));
         }
     }
 }
