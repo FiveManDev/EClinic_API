@@ -1,6 +1,4 @@
-﻿using Amazon.S3.Model;
-using AutoMapper;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Project.ProfileService.Data;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Protos;
@@ -83,22 +81,22 @@ namespace Project.ProfileService.Service
         {
             try
             {
-                var profiles = await  profileRepository.GetProfilesAsync(Guid.Parse(request.UserID));
+                var profiles = await profileRepository.GetProfilesAsync(Guid.Parse(request.UserID));
                 var res = new GetProfileResponse();
                 if (profiles == null)
                 {
                     return res;
                 }
-                if (profiles.Count >1)
+                if (profiles.Count > 1)
                 {
                     foreach (var profile in profiles)
                     {
-                        if(profile.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID)
+                        if (profile.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID)
                         {
                             res.UserID = profile.UserID.ToString(); ;
                             res.Avatar = profile.Avatar;
                             res.FirstName = profile.FirstName;
-                            res.LastName = profile.LastName;  
+                            res.LastName = profile.LastName;
                             return res;
                         }
                     }
@@ -138,19 +136,20 @@ namespace Project.ProfileService.Service
                     }
                     return false;
                 });
-                profiles = profiles.OrderBy(profile => UserIDs.IndexOf(profile.UserID)).ToList();
                 GetAllProfileResponse getAllProfileResponse = new GetAllProfileResponse();
                 List<GetAllProfile> allProfiles = new List<GetAllProfile>();
-                foreach (var profile in profiles)
+                foreach (var id in UserIDs)
                 {
+                    var profile = profiles.SingleOrDefault(x => x.UserID == id);
                     allProfiles.Add(new GetAllProfile
                     {
                         UserID = profile.UserID.ToString(),
-                        Avatar =profile.Avatar,
+                        Avatar = profile.Avatar,
                         FirstName = profile.FirstName,
                         LastName = profile.LastName
                     });
                 }
+
                 getAllProfileResponse.Profiles.AddRange(allProfiles);
                 return getAllProfileResponse;
             }

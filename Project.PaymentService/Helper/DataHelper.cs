@@ -14,7 +14,6 @@ namespace Project.PaymentService.Helper
             switch (timeType)
             {
                 case TimeType.Day:
-                    if (startTime.Month != endTime.Month) return false;
                     if (startTime.Year != endTime.Year) return false;
                     result = true;
                     break;
