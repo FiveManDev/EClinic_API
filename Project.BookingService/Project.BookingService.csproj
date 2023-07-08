@@ -34,4 +34,8 @@
     <Protobuf Include="Protos\service.proto" GrpcServices="Client" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\BookingDoctorDtos\" />
+  </ItemGroup>
+
 </Project>

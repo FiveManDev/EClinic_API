@@ -5,6 +5,7 @@ public class BookingDoctor
     public Guid BookingID { get; set; }
     public Guid DoctorID { get; set; }
     public Guid UserID { get; set; }
+    public Guid ProfileID { get; set; }
     public double Price { get; set; }
     public DateTime BookingTime { get; set; }
     public BookingType BookingType { get; set; }

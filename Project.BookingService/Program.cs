@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Project.BookingService.Data.Configurations;
+using Project.BookingService.Repository.BookingDoctorRepository;
 using Project.BookingService.Repository.BookingPackageRepository;
+using Project.BookingService.Repository.DoctorCalendarRepository;
+using Project.BookingService.Repository.DoctorScheduleRepository;
 using Project.Core.Authentication;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
@@ -14,13 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => {
         options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"));
-        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );
 // add token jwt
 builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 
 builder.Services.AddScoped<IBookingPackageRepository, BookingPackageRepository>();
+builder.Services.AddScoped<IBookingDoctorRepository, BookingDoctorRepository>();
+builder.Services.AddScoped<IDoctorCalendarRepository, DoctorCalendarRepository>();
+builder.Services.AddScoped<IDoctorScheduleRepository, DoctorScheduleRepository>();
 
 // Add auto mapper
 builder.Services.AddMyMapper();

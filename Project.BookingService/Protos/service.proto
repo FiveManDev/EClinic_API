@@ -2,23 +2,17 @@ syntax = "proto3";
 option csharp_namespace = "Project.BookingService.Protos";
 
 service ServiceInformationService  {
-  rpc GetSpecialization (GetSpecializationRequest) returns (GetSpecializationResponse);
-  rpc GetAllSpecialization (GetAllSpecializationRequest) returns (GetAllSpecializationResponse);
-  rpc CheckSpecialization (GetSpecializationRequest) returns (GetSpecializations);
+  rpc GetAllServicePackage (GetAllServicePackageRequest) returns (GetAllServicePackageResponse);
 }
-message GetSpecializationRequest  {
-  string SpecializationID = 1;
+
+message GetAllServicePackageRequest  {
+  repeated string ServicePackageIDs = 1;
 }
-message GetSpecializationResponse  {
-  string SpecializationName = 1;
+message GetServicePackageResponse  {
+  string ServicePackageID = 1;
+  string ServicePackageName = 2;
+  string Image = 3;
 }
-message GetAllSpecializationRequest  {
-  repeated string SpecializationIDs = 1;
-}
-message GetAllSpecializationResponse  {
-  repeated GetSpecializations Specialization = 1;
-}
-message GetSpecializations {
-  string SpecializationID = 1;
-  string SpecializationName = 2;
+message GetAllServicePackageResponse  {
+  repeated GetServicePackageResponse ServicePackage = 1;
 }

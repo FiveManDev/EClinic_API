@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Project.BookingService.Data;
+﻿using Project.BookingService.Data;
 using Project.BookingService.Data.Configurations;
 using Project.Data.Repository.MSSQL;
-using System.Linq.Expressions;
 
 namespace Project.BookingService.Repository.BookingPackageRepository;
 

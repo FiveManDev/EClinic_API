@@ -2,6 +2,6 @@
 
 public enum BookingType
 {
-    Online = 0,
-    Offline = 1,
+    Online,
+    Offline,
 }

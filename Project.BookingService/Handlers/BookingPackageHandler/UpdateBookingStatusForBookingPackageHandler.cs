@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.BookingService.Repository.BookingPackageRepository;
 using Project.BookingServiceCommands.Commands;
@@ -12,27 +11,25 @@ public class UpdateBookingStatusForBookingPackageHandler : IRequestHandler<Updat
 {
     private readonly ILogger<UpdateBookingStatusForBookingPackageHandler> logger;
     private readonly IBookingPackageRepository repository;
-    private readonly IMapper mapper;
 
-    public UpdateBookingStatusForBookingPackageHandler(ILogger<UpdateBookingStatusForBookingPackageHandler> logger, IBookingPackageRepository repository, IMapper mapper)
+    public UpdateBookingStatusForBookingPackageHandler(ILogger<UpdateBookingStatusForBookingPackageHandler> logger, IBookingPackageRepository repository)
     {
         this.logger = logger;
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     public async Task<ObjectResult> Handle(UpdateBookingStatusForBookingPackageCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var bookingPackage = await repository.GetAsync(request.bookingPackageID);
+            var bookingPackage = await repository.GetAsync(request.BookingPackageID);
 
             if (bookingPackage is null)
             {
                 return ApiResponse.BadRequest("Booking Package not found!");
             }
 
-            bookingPackage.BookingStatus = request.bookingStatus;
+            bookingPackage.BookingStatus = request.BookingStatus;
 
             await repository.UpdateAsync(bookingPackage);
 

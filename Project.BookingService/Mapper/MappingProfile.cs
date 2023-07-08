@@ -10,12 +10,13 @@ namespace Project.BookingService.Mapper
         {
             #region BookingPackage
             CreateMap<BookingPackage, BookingPackageDTO>()
+                .ForMember(
+                    des => des.BookingStatus,
+                    opt => opt.MapFrom(src => src.BookingStatus.ToString())
+                )
                 .ReverseMap();
 
             CreateMap<BookingPackage, CreateBookingPackageDTO>()
-                .ReverseMap();
-
-            CreateMap<BookingPackage, UpdateBookingPackageDTO>()
                 .ReverseMap();
             #endregion
 

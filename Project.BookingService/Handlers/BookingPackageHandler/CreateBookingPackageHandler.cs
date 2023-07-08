@@ -9,7 +9,7 @@ using Project.Core.Logger;
 
 namespace Project.BookingService.Handlers.BookingPackageHandler;
 
-public class CreateBookingPackageHandler : IRequestHandler<CreateBookingPackageCommand, ObjectResult>
+public class CreateBookingPackageHandler : IRequestHandler<CreateBookingPackageCommand, BookingPackage>
 {
     private readonly ILogger<CreateBookingPackageHandler> logger;
     private readonly IBookingPackageRepository repository;
@@ -22,22 +22,21 @@ public class CreateBookingPackageHandler : IRequestHandler<CreateBookingPackageC
         this.mapper = mapper;
     }
 
-    public async Task<ObjectResult> Handle(CreateBookingPackageCommand request, CancellationToken cancellationToken)
+    public async Task<BookingPackage> Handle(CreateBookingPackageCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            BookingPackage bookingPackage = mapper.Map<BookingPackage>(request.createBookingPackageDTO);
+            BookingPackage bookingPackage = mapper.Map<BookingPackage>(request.CreateBookingPackageDTO);
 
             bookingPackage.BookingStatus = BookingStatus.Upcoming;
+            bookingPackage.BookingTime = DateTime.Now;
 
-            await repository.CreateAsync(bookingPackage);
-
-            return ApiResponse.OK("Create Success.");
+            return await repository.CreateEntityAsync(bookingPackage);
         }
         catch (Exception ex)
         {
             logger.WriteLogError(ex.Message);
-            return ApiResponse.InternalServerError();
+            return null;
         }
 
     }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Project.BookingService.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace Project.BookingService.Migrations
                 {
                     BookingID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     BookingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ServicePackageID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -66,6 +67,7 @@ namespace Project.BookingService.Migrations
                     BookingID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     DoctorID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     BookingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BookingType = table.Column<int>(type: "int", nullable: false),

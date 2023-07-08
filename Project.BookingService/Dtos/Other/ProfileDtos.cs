@@ -1,7 +1,8 @@
-﻿namespace Project.BookingService.Data
+﻿namespace Project.BookingService.Dtos.Other
 {
-    public class User
+    public class ProfileDtos
     {
+        public Guid ProfileID { get; set; }
         public Guid UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

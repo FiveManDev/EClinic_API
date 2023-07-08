@@ -4,6 +4,7 @@ public class BookingPackage
 {
     public Guid BookingID { get; set; }
     public Guid UserID { get; set; }
+    public Guid ProfileID { get; set; }
     public double Price { get; set; }
     public DateTime BookingTime { get; set; }
     public Guid ServicePackageID { get; set; }

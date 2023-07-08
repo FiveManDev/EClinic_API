@@ -44,6 +44,9 @@ namespace Project.BookingService.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<Guid>("ProfileID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ScheduleID")
                         .HasColumnType("uniqueidentifier");
 
@@ -76,6 +79,9 @@ namespace Project.BookingService.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<Guid>("ProfileID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ServicePackageID")
                         .HasColumnType("uniqueidentifier");

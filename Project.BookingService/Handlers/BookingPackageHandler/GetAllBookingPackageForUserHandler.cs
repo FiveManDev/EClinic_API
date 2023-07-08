@@ -14,14 +14,14 @@ using Project.Core.Logger;
 
 namespace Project.BookingService.Handlers.BookingPackageHandler
 {
-    public class GetAllBookingPackageForAdHandler : IRequestHandler<GetAllBookingPackageForAdQuery, ObjectResult>
+    public class GetAllBookingPackageForUserHandler : IRequestHandler<GetAllBookingPackageForUserQuery, ObjectResult>
     {
         private readonly IBookingPackageRepository repository;
         private readonly IMapper mapper;
-        private readonly ILogger<GetAllBookingPackageForAdHandler> logger;
+        private readonly ILogger<GetAllBookingPackageForUserHandler> logger;
         private readonly ProfileService.ProfileServiceClient client;
         private readonly ServiceInformationService.ServiceInformationServiceClient serviceClient;
-        public GetAllBookingPackageForAdHandler(IConfiguration configuration, IBookingPackageRepository repository, IMapper mapper, ILogger<GetAllBookingPackageForAdHandler> logger)
+        public GetAllBookingPackageForUserHandler(IConfiguration configuration, IBookingPackageRepository repository, IMapper mapper, ILogger<GetAllBookingPackageForUserHandler> logger)
         {
             this.repository = repository;
             this.mapper = mapper;
@@ -34,11 +34,11 @@ namespace Project.BookingService.Handlers.BookingPackageHandler
             serviceClient = new ServiceInformationService.ServiceInformationServiceClient(channel2);
         }
 
-        public async Task<ObjectResult> Handle(GetAllBookingPackageForAdQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetAllBookingPackageForUserQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var bookingPackage = await repository.GetAllAsync(x =>x.BookingStatus == request.BookingStatus);
+                var bookingPackage = await repository.GetAllAsync(x => x.UserID == Guid.Parse(request.UserID) && x.BookingStatus == request.BookingStatus);
                 if (bookingPackage == null)
                 {
                     return ApiResponse.NotFound("Booking Package Not Found");
