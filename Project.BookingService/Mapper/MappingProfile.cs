@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Project.BookingService.Data;
+using Project.BookingService.Dtos.BookingDoctorDtos;
 using Project.BookingService.Dtos.BookingPackageDTOs;
 
 namespace Project.BookingService.Mapper
@@ -17,6 +18,17 @@ namespace Project.BookingService.Mapper
                 .ReverseMap();
 
             CreateMap<BookingPackage, CreateBookingPackageDTO>()
+                .ReverseMap();
+            #endregion
+            #region BookingPackage
+            //CreateMap<BookingPackage, BookingPackageDTO>()
+            //    .ForMember(
+            //        des => des.BookingStatus,
+            //        opt => opt.MapFrom(src => src.BookingStatus.ToString())
+            //    )
+            //    .ReverseMap();
+
+            CreateMap<BookingDoctor, CreateBookingDoctorDto>()
                 .ReverseMap();
             #endregion
 

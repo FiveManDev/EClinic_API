@@ -1,5 +1,5 @@
 syntax = "proto3";
-option csharp_namespace = "Project.PaymentService.Protos";
+option csharp_namespace = "Project.BookingService.Protos";
 
 service BookingService  {
   rpc CreateBookingPackage (CreateBookingPackageRequest) returns (CreateBookingPackageResponse);

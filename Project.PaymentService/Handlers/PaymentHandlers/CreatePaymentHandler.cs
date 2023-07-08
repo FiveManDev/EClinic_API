@@ -1,11 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Project.Common.Response;
+﻿using Grpc.Net.Client;
+using MediatR;
 using Project.Core.Logger;
 using Project.PaymentService.Commands;
 using Project.PaymentService.Data;
 using Project.PaymentService.Model;
 using Project.PaymentService.MomoPayment;
+using Project.PaymentService.Protos;
 using Project.PaymentService.Repository.PaymentRepositories;
 using Project.PaymentService.VNPayPayment;
 
@@ -18,6 +18,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
         private readonly IVNPayPayment vNPayPayment;
         private readonly IPaymentRepository paymentRepository;
         private readonly string clientAddress;
+        private readonly BookingService.BookingServiceClient client;
 
         public CreatePaymentHandler(IConfiguration configuration, ILogger<CreatePaymentHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment, IPaymentRepository paymentRepository)
         {
@@ -26,6 +27,10 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
             this.vNPayPayment = vNPayPayment;
             this.paymentRepository = paymentRepository;
             clientAddress = configuration.GetValue<string>("ClinentUrl");
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:BookingServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new BookingService.BookingServiceClient(channel);
         }
 
         public async Task<string> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -50,6 +55,15 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 if (paymentResult == null)
                 {
                     return null;
+                }
+                var type = paymentResult.PaymentType;
+                if(type == "BookingPackage")
+                {
+                    var updateResult = client.UpdateBookingPackageAsync(new UpdateBookingPackageRequest { BookingPackageID = paymentResult.BookingID.ToString() });
+                }
+                if (type == "BookingDoctor")
+                {
+                    var updateResult = client.UpdateBookingDoctorAsync(new UpdateBookingDoctorRequest { BookingDoctorID = paymentResult.BookingID.ToString() });
                 }
                 Payment payment = new Payment
                 {

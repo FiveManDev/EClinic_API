@@ -2,6 +2,7 @@
 
 public enum BookingStatus
 {
+    NoPayment,
     Upcoming,
     Done,
     Cancel

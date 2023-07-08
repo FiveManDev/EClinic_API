@@ -1,9 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.BookingService.Data;
 using Project.BookingServiceCommands.Commands;
 using Project.BookingServiceQueries.Queries;
+using Project.Common.Constants;
 using Project.Common.Paging;
+using Project.Core.Authentication;
 
 namespace Project.BookingService.Controllers;
 
@@ -19,25 +22,28 @@ public class BookingPackageController : ControllerBase
         this.mediator = mediator;
     }
     [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin})]
     public async Task<IActionResult> GetAllBookingPackageForAD([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
         return await mediator.Send(new GetAllBookingPackageForAdQuery(paginationRequestHeader, Response,BookingStatus));
     }
     [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
     public async Task<IActionResult> GetAllBookingPackageForUser([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-        //string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
-        string userId = "63da4fe0-de4d-4c8e-b8c8-ec3202c20038";
+        string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
         return await mediator.Send(new GetAllBookingPackageForUserQuery(paginationRequestHeader, Response, userId,BookingStatus));
     }
     [HttpPut]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]
     public async Task<IActionResult> UpdateBookingPackageStatusDone(Guid BookingPackageID)
     {
         return await mediator.Send(new UpdateBookingStatusForBookingPackageCommand(BookingPackageID, BookingStatus.Done));
     }
     [HttpPut]
+    [Authorize]
     public async Task<IActionResult> UpdateBookingPackageStatusCancel(Guid BookingPackageID)
     {
         return await mediator.Send(new UpdateBookingStatusForBookingPackageCommand(BookingPackageID, BookingStatus.Cancel));

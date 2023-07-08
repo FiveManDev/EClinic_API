@@ -9,5 +9,6 @@
         public Guid UserID { get; set; }
         public Guid BookingID { get; set; }
         public string TransactionID { get; set; }
+        public string PaymentType { get; set; }
     }
 }
