@@ -1,0 +1,19 @@
+syntax = "proto3";
+option csharp_namespace = "Project.BookingService.Protos";
+
+service ProfileService  {
+  rpc GetAllUserProfile (GetAllUserProfileRequest) returns (GetAllUserProfileResponse);
+}
+message GetAllUserProfileRequest  {
+  repeated string ProfileIDs = 1;
+}
+message GetUserProfileResponse  {
+  string ProfileID = 1;
+  string UserID = 2;
+  string FirstName = 3;
+  string LastName = 4;
+  string Avatar = 5;
+}
+message GetAllUserProfileResponse {
+  repeated GetUserProfileResponse Profile = 1;
+}

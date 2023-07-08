@@ -159,5 +159,53 @@ namespace Project.ProfileService.Service
                 return res;
             }
         }
+
+        public override async Task<GetAllUserProfileResponse> GetAllUserProfile(GetAllUserProfileRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var ProfileIDs = request.ProfileIDs.Select(Guid.Parse).ToList();
+                var profiles = await profileRepository.GetAllAsync(x=>ProfileIDs.Contains(x.ProfileID));
+                var res = new GetAllUserProfileResponse();
+                if (profiles == null)
+                {
+                    return res;
+                }
+                profiles.RemoveAll(profile =>
+                {
+                    if (profile.HealthProfile == null)
+                    {
+                        return false;
+                    }
+                    if (profile.HealthProfile.RelationshipID != ConstantsData.MyRelationshipID)
+                    {
+                        return true;
+                    }
+                    return false;
+                });
+                GetAllUserProfileResponse getAllUserProfileResponse = new GetAllUserProfileResponse();
+                List<GetUserProfileResponse> allProfiles = new List<GetUserProfileResponse>();
+                foreach (var id in ProfileIDs)
+                {
+                    var profile = profiles.SingleOrDefault(x => x.ProfileID == id);
+                    allProfiles.Add(new GetUserProfileResponse
+                    {
+                        ProfileID = profile.ProfileID.ToString(),    
+                        UserID = profile.UserID.ToString(),
+                        Avatar = profile.Avatar,
+                        FirstName = profile.FirstName,
+                        LastName = profile.LastName
+                    });
+                }
+
+                getAllUserProfileResponse.Profile.AddRange(allProfiles);
+                return getAllUserProfileResponse;
+            }
+            catch
+            {
+                var res = new GetAllUserProfileResponse();
+                return res;
+            }
+        }
     }
 }

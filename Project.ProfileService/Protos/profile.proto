@@ -7,6 +7,7 @@ service ProfileService  {
   rpc CreateProfile (CreateProfileRequest) returns (CreateProfileResponse);
   rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
   rpc GetAllProfile (GetAllProfileRequest) returns (GetAllProfileResponse);
+  rpc GetAllUserProfile (GetAllUserProfileRequest) returns (GetAllUserProfileResponse);
 }
 message CheckEmailRequest  {
   string Email = 1;
@@ -46,4 +47,17 @@ message GetAllProfile  {
   string FirstName = 2;
   string LastName = 3;
   string Avatar = 4;
+}
+message GetAllUserProfileRequest  {
+  repeated string ProfileIDs = 1;
+}
+message GetUserProfileResponse  {
+  string ProfileID = 1;
+  string UserID = 2;
+  string FirstName = 3;
+  string LastName = 4;
+  string Avatar = 5;
+}
+message GetAllUserProfileResponse {
+  repeated GetUserProfileResponse Profile = 1;
 }

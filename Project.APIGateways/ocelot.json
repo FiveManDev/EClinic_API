@@ -79,6 +79,19 @@
         "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
+        "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+        "DownstreamScheme": "https",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "172.20.0.13",
+            "Port": 443
+          }
+        ],
+        "UpstreamPathTemplate": "/api/v1/booking/{controller}/{Action}",
+        "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+        "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
       "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

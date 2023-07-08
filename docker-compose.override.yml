@@ -111,6 +111,21 @@ services:
       - ~/.aspnet/https:/https:ro
       - ~/.aws:/root/.aws
 
+  project.bookingservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Eclinic123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - AWS_PROFILE= eclinic
+      - AWS_REGION= ap-southeast-1
+    ports:
+      - "80"
+      - "7777:443"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ~/.aws:/root/.aws
+
   project.communicateservice:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
