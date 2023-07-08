@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.PaymentService", "P
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlogService", "BlogService", "{FD0C5228-51F4-4AF4-93B6-A3BF43B6D6F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.BlogService", "Project.BlogsService\Project.BlogService.csproj", "{34453230-5F3B-4B89-BD4E-8E2B736A1EC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.BlogService", "Project.BlogsService\Project.BlogService.csproj", "{34453230-5F3B-4B89-BD4E-8E2B736A1EC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
