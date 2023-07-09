@@ -22,12 +22,12 @@ namespace Project.BookingService.Mapper
                 .ReverseMap();
             #endregion
             #region BookingPackage
-            //CreateMap<BookingPackage, BookingPackageDTO>()
-            //    .ForMember(
-            //        des => des.BookingStatus,
-            //        opt => opt.MapFrom(src => src.BookingStatus.ToString())
-            //    )
-            //    .ReverseMap();
+            CreateMap<BookingDoctor, BookingDoctorDTO>()
+                .ForMember(
+                    des => des.BookingStatus,
+                    opt => opt.MapFrom(src => src.BookingStatus.ToString())
+                )
+                .ReverseMap();
 
             CreateMap<BookingDoctor, CreateBookingDoctorDto>()
                 .ReverseMap();

@@ -165,24 +165,12 @@ namespace Project.ProfileService.Service
             try
             {
                 var ProfileIDs = request.ProfileIDs.Select(Guid.Parse).ToList();
-                var profiles = await profileRepository.GetAllAsync(x=>ProfileIDs.Contains(x.ProfileID));
+                var profiles = await profileRepository.GetAllAsync(x => ProfileIDs.Contains(x.ProfileID));
                 var res = new GetAllUserProfileResponse();
                 if (profiles == null)
                 {
                     return res;
                 }
-                profiles.RemoveAll(profile =>
-                {
-                    if (profile.HealthProfile == null)
-                    {
-                        return false;
-                    }
-                    if (profile.HealthProfile.RelationshipID != ConstantsData.MyRelationshipID)
-                    {
-                        return true;
-                    }
-                    return false;
-                });
                 GetAllUserProfileResponse getAllUserProfileResponse = new GetAllUserProfileResponse();
                 List<GetUserProfileResponse> allProfiles = new List<GetUserProfileResponse>();
                 foreach (var id in ProfileIDs)
@@ -190,7 +178,7 @@ namespace Project.ProfileService.Service
                     var profile = profiles.SingleOrDefault(x => x.ProfileID == id);
                     allProfiles.Add(new GetUserProfileResponse
                     {
-                        ProfileID = profile.ProfileID.ToString(),    
+                        ProfileID = profile.ProfileID.ToString(),
                         UserID = profile.UserID.ToString(),
                         Avatar = profile.Avatar,
                         FirstName = profile.FirstName,
@@ -205,6 +193,53 @@ namespace Project.ProfileService.Service
             {
                 var res = new GetAllUserProfileResponse();
                 return res;
+            }
+        }
+
+        public override async Task<GetDoctorAndUserProfileResponse> GetDoctorAndUserProfile(GetDoctorAndUserProfileRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var UserProfileIDs = request.UserProfileIDs.Select(Guid.Parse).ToList();
+                var DoctorProfileIDs = request.DoctorProfileIDs.Select(Guid.Parse).ToList();
+                var UserProfiles = await profileRepository.GetAllAsync(x => UserProfileIDs.Contains(x.ProfileID));
+                var DoctorProfiles = await profileRepository.GetAllAsync(x => DoctorProfileIDs.Contains(x.UserID));
+                var res = new GetDoctorAndUserProfileResponse();
+                if (UserProfiles == null)
+                {
+                    return null;
+                }
+                if (DoctorProfiles == null)
+                {
+                    return null;
+                }
+                GetDoctorAndUserProfileResponse DoctorAndUserProfile = new GetDoctorAndUserProfileResponse();
+                List<DoctorAndUserProfileResponse> Profiles = new List<DoctorAndUserProfileResponse>();
+                for (int i = 0; i < UserProfileIDs.Count; i++)
+                {
+                    var DoctorProfile = DoctorProfiles.SingleOrDefault(x => x.UserID == DoctorProfileIDs[i]);
+                    var UserProfile = UserProfiles.SingleOrDefault(x => x.ProfileID == UserProfileIDs[i]);
+                    Profiles.Add(new DoctorAndUserProfileResponse
+                    {
+                        DoctorProfileID = DoctorProfile.ProfileID.ToString(),
+                        DoctorUserID = DoctorProfile.UserID.ToString(),
+                        DoctorFirstName = DoctorProfile.FirstName,
+                        DoctorLastName = DoctorProfile.LastName,
+                        DoctorAvatar = DoctorProfile.Avatar,
+                        UserProfileID = UserProfile.ProfileID.ToString(),
+                        UserUserID = UserProfile.UserID.ToString(),
+                        UserFirstName = UserProfile.FirstName,
+                        UserLastName = UserProfile.LastName,
+                        UserAvatar = UserProfile.Avatar,
+                    });
+                }
+
+                DoctorAndUserProfile.Profile.AddRange(Profiles);
+                return DoctorAndUserProfile;
+            }
+            catch
+            {
+                return null;
             }
         }
     }

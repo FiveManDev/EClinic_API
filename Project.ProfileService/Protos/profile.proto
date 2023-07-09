@@ -8,6 +8,7 @@ service ProfileService  {
   rpc GetProfile (GetProfileRequest) returns (GetProfileResponse);
   rpc GetAllProfile (GetAllProfileRequest) returns (GetAllProfileResponse);
   rpc GetAllUserProfile (GetAllUserProfileRequest) returns (GetAllUserProfileResponse);
+  rpc GetDoctorAndUserProfile (GetDoctorAndUserProfileRequest) returns (GetDoctorAndUserProfileResponse);
 }
 message CheckEmailRequest  {
   string Email = 1;
@@ -60,4 +61,23 @@ message GetUserProfileResponse  {
 }
 message GetAllUserProfileResponse {
   repeated GetUserProfileResponse Profile = 1;
+}
+message GetDoctorAndUserProfileRequest  {
+  repeated string DoctorProfileIDs = 1;
+  repeated string UserProfileIDs = 2;
+}
+message DoctorAndUserProfileResponse  {
+  string DoctorProfileID = 1;
+  string DoctorUserID = 2;
+  string DoctorFirstName = 3;
+  string DoctorLastName = 4;
+  string DoctorAvatar = 5;
+  string UserProfileID = 6;
+  string UserUserID = 7;
+  string UserFirstName = 8;
+  string UserLastName = 9;
+  string UserAvatar = 10;
+}
+message GetDoctorAndUserProfileResponse {
+  repeated DoctorAndUserProfileResponse Profile = 1;
 }
