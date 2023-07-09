@@ -2,6 +2,7 @@
 using Project.BookingService.Data;
 using Project.BookingService.Dtos.BookingDoctorDtos;
 using Project.BookingService.Dtos.BookingPackageDTOs;
+using Project.BookingService.Dtos.DoctorScheduleDtos;
 
 namespace Project.BookingService.Mapper
 {
@@ -29,6 +30,46 @@ namespace Project.BookingService.Mapper
             //    .ReverseMap();
 
             CreateMap<BookingDoctor, CreateBookingDoctorDto>()
+                .ReverseMap();
+            #endregion
+            #region Doctor Schedule
+            CreateMap<CreateSlotDtos, DoctorSchedule>()
+                .ForMember(
+                    des => des.StartTime,
+                    opt => opt.MapFrom(src => DateTime.Parse(src.StartTime))
+                )
+                .ForMember(
+                    des => des.EndTime,
+                    opt => opt.MapFrom(src => DateTime.Parse(src.EndTime))
+                )
+                .ReverseMap();
+            CreateMap<UpdateSlotDtos, DoctorSchedule>()
+                .ForMember(
+                   des => des.ScheduleID,
+                   opt => opt.MapFrom(src => src.SlotID)
+               )
+               .ForMember(
+                   des => des.StartTime,
+                   opt => opt.MapFrom(src => DateTime.Parse(src.StartTime))
+               )
+               .ForMember(
+                   des => des.EndTime,
+                   opt => opt.MapFrom(src => DateTime.Parse(src.EndTime))
+               )
+               .ReverseMap();
+            CreateMap<DoctorSchedule, SlotDtos>()
+                .ForMember(
+                    des => des.SlotID,
+                    opt => opt.MapFrom(src => src.ScheduleID)
+                )
+                .ForMember(
+                    des => des.StartTime,
+                    opt => opt.MapFrom(src => src.StartTime.ToString("HH:mm"))
+                )
+                .ForMember(
+                    des => des.EndTime,
+                    opt => opt.MapFrom(src => src.EndTime.ToString("HH:mm"))
+                )
                 .ReverseMap();
             #endregion
 
