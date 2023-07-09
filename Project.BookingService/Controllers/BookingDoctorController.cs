@@ -22,6 +22,12 @@ public class BookingDoctorController : ControllerBase
         this.mediator = mediator;
     }
     [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]
+    public async Task<IActionResult> GetBookingDoctorByID(Guid BookingDoctorID)
+    {
+        return await mediator.Send(new GetBookingDoctorByIDQuery(BookingDoctorID));
+    }
+    [HttpGet]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin })]
     public async Task<IActionResult> GetAllBookingDoctorForAD([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
     {

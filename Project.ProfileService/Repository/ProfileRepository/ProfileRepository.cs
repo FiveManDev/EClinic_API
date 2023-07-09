@@ -141,5 +141,11 @@ namespace Project.ProfileService.Repository.ProfileRepository
             };
             return new PaginationModel<List<Profile>> { PaginationData = profiles, PaginationResponseHeader = paginationResponseHeader };
         }
+
+        public async Task<Profile> GetProfileByIDAsync(Guid ProfileID)
+        {
+            var result = await context.Profiles.Include(x => x.HealthProfile).ThenInclude(x=>x.Relationship).SingleOrDefaultAsync(x => x.ProfileID == ProfileID);
+            return result;
+        }
     }
 }

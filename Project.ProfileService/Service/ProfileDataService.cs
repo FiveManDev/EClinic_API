@@ -9,6 +9,7 @@ namespace Project.ProfileService.Service
 {
     public class ProfileDataService : Protos.ProfileService.ProfileServiceBase
     {
+
         private readonly IProfileRepository profileRepository;
         private readonly IHealthProfileRepository healthProfileRepository;
 
@@ -236,6 +237,41 @@ namespace Project.ProfileService.Service
 
                 DoctorAndUserProfile.Profile.AddRange(Profiles);
                 return DoctorAndUserProfile;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public override async Task<GetPatientProfileResponse> GetPatientProfile(GetPatientProfileRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var ProfileID = Guid.Parse(request.ProfileID);
+                var profile = await profileRepository.GetProfileByIDAsync(ProfileID);
+                if (profile == null)
+                {
+                    return null;
+                }
+                GetPatientProfileResponse response = new GetPatientProfileResponse
+                {
+                    ProfileID = profile.ProfileID.ToString(),
+                    UserID = profile.UserID.ToString(),
+                    FirstName = profile.FirstName,
+                    LastName = profile.LastName,
+                    Avatar = profile.Avatar,
+                    Address = profile.Address,
+                    DateOfBirth = profile.DateOfBirth.ToString(),
+                    Email = profile.Email,
+                    Gender = profile.Gender,
+                    BloodType = profile.HealthProfile.BloodType,
+                    Phone = profile.Phone,
+                    Height = profile.HealthProfile.Height,
+                    Weight = profile.HealthProfile.Weight,
+                    Relationship = profile.HealthProfile.Relationship.RelationshipName
+                };
+                return response;
             }
             catch
             {

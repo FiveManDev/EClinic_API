@@ -21,14 +21,19 @@ namespace Project.BookingService.Mapper
             CreateMap<BookingPackage, CreateBookingPackageDTO>()
                 .ReverseMap();
             #endregion
-            #region BookingPackage
+            #region BookingDoctor
             CreateMap<BookingDoctor, BookingDoctorDTO>()
                 .ForMember(
                     des => des.BookingStatus,
                     opt => opt.MapFrom(src => src.BookingStatus.ToString())
                 )
                 .ReverseMap();
-
+            CreateMap<BookingDoctor, BookingDoctorDetail>()
+                .ForMember(
+                    des => des.BookingStatus,
+                    opt => opt.MapFrom(src => src.BookingStatus.ToString())
+                )
+                .ReverseMap();
             CreateMap<BookingDoctor, CreateBookingDoctorDto>()
                 .ReverseMap();
             #endregion
@@ -69,6 +74,10 @@ namespace Project.BookingService.Mapper
                 .ForMember(
                     des => des.EndTime,
                     opt => opt.MapFrom(src => src.EndTime.ToString("HH:mm"))
+                )
+                .ForMember(
+                    des => des.IsBooking,
+                    opt => opt.MapFrom(src => src.BookingDoctor == null ? false : true)
                 )
                 .ReverseMap();
             #endregion

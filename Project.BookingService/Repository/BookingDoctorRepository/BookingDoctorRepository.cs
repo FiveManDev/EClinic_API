@@ -18,4 +18,9 @@ public class BookingDoctorRepository : MSSQLRepository<ApplicationDbContext, Boo
     {
         return await context.BookingDoctors.Include(x => x.DoctorSchedule).Where(filter).ToListAsync();
     }
+
+    public async Task<BookingDoctor> GetBookingDoctor(Expression<Func<BookingDoctor, bool>> filter)
+    {
+        return await context.BookingDoctors.Include(x => x.DoctorSchedule).SingleOrDefaultAsync(filter);
+    }
 }

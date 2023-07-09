@@ -1,6 +1,44 @@
-﻿namespace Project.BookingService.Handlers.DoctorScheduleHandler
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Project.BookingService.Dtos.DoctorScheduleDtos;
+using Project.BookingService.Repository.DoctorCalendarRepository;
+using Project.BookingServiceQueries.Queries;
+using Project.Common.Response;
+using Project.Core.Logger;
+
+namespace Project.BookingService.Handlers.DoctorScheduleHandler
 {
-    public class GetDoctorScheduleByDayForUserHandler
+    public class GetDoctorScheduleByDayForUserHandler : IRequestHandler<GetDoctorScheduleByDayForUserQuery, ObjectResult>
     {
+        private readonly IMapper mapper;
+        private readonly IDoctorCalendarRepository repository;
+        private readonly ILogger<GetDoctorScheduleByDayForUserHandler> logger;
+
+        public GetDoctorScheduleByDayForUserHandler(IMapper mapper, IDoctorCalendarRepository repository, ILogger<GetDoctorScheduleByDayForUserHandler> logger)
+        {
+            this.mapper = mapper;
+            this.repository = repository;
+            this.logger = logger;
+        }
+
+        public async Task<ObjectResult> Handle(GetDoctorScheduleByDayForUserQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var Calendar = await repository.GetDoctorCalendarForUserAsync(x => x.Time.Date == request.Date && x.DoctorID == request.DoctorID);
+                DoctorScheduleDtos scheduleDtos = new DoctorScheduleDtos();
+                scheduleDtos.CalenderID = Calendar.CalenderID;
+                scheduleDtos.Time = Calendar.Time;
+                Calendar.DoctorSchedules = Calendar.DoctorSchedules.OrderBy(x => x.StartTime).ToList();
+                scheduleDtos.Slots = mapper.Map<List<SlotDtos>>(Calendar.DoctorSchedules);
+                return ApiResponse.OK(scheduleDtos);
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return ApiResponse.InternalServerError();
+            }
+        }
     }
 }
