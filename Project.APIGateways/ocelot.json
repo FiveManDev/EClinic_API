@@ -53,43 +53,43 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-        "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
-        "DownstreamScheme": "https",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "172.20.0.11",
-            "Port": 443
-          }
-        ],
-        "UpstreamPathTemplate": "/api/v1/blog/{controller}/{Action}",
-        "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-        "DangerousAcceptAnyServerCertificateValidator": true
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.11",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/blog/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-        "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
-        "DownstreamScheme": "https",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "172.20.0.12",
-            "Port": 443
-          }
-        ],
-        "UpstreamPathTemplate": "/api/v1/serviceinformation/{controller}/{Action}",
-        "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-        "DangerousAcceptAnyServerCertificateValidator": true
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.12",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/serviceinformation/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-        "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
-        "DownstreamScheme": "https",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "172.20.0.13",
-            "Port": 443
-          }
-        ],
-        "UpstreamPathTemplate": "/api/v1/booking/{controller}/{Action}",
-        "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-        "DangerousAcceptAnyServerCertificateValidator": true
+      "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.13",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/booking/{controller}/{Action}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",
@@ -103,6 +103,17 @@
       "UpstreamPathTemplate": "/api/v1/communication/{controller}/{Action}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/message",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "172.20.0.14",
+          "Port": 443
+        }
+      ],
+      "UseDownstreamPathTemplate": false
     },
     {
       "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",

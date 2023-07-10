@@ -26,7 +26,7 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
         {
             try
             {
-                var Calendar = await repository.GetDoctorCalendarAsync(x => x.Time.Date == request.Date && x.DoctorID == request.DoctorID);
+                var Calendar = await repository.GetDoctorCalendarForUserAsync(x => x.Time.Date == request.Date && x.DoctorID == request.DoctorID);
                 DoctorScheduleDtos scheduleDtos = new DoctorScheduleDtos();
                 scheduleDtos.CalenderID = Calendar.CalenderID;
                 scheduleDtos.Time = Calendar.Time;
