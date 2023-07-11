@@ -22,6 +22,12 @@ public class BookingPackageController : ControllerBase
         this.mediator = mediator;
     }
     [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetBookingPackageByID(Guid BookingPackageID)
+    {
+        return await mediator.Send(new GetBookingPackageByIDQuery(BookingPackageID));
+    }
+    [HttpGet]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin})]
     public async Task<IActionResult> GetAllBookingPackageForAD([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
     {
