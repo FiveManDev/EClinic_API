@@ -2,14 +2,39 @@ syntax = "proto3";
 option csharp_namespace = "Project.PaymentService.Protos";
 
 service BookingService  {
-  rpc GetBooking (GetBookingRequest) returns (GetBookingResponse);
+  rpc CreateBookingPackage (CreateBookingPackageRequest) returns (CreateBookingPackageResponse);
+  rpc CreateBookingDoctor (CreateBookingDoctorRequest) returns (CreateBookingDoctorResponse);
+  rpc UpdateBookingPackage (UpdateBookingPackageRequest) returns (UpdateBookingResponse);
+  rpc UpdateBookingDoctor (UpdateBookingDoctorRequest) returns (UpdateBookingResponse);
 }
-message GetBookingRequest  {
-  string BookingID = 1;
+message CreateBookingPackageResponse  {
+  string BookingPackageID = 1;
 }
-message GetBookingResponse {
-  string BookingID = 1;
+message CreateBookingDoctorResponse  {
+  string BookingDoctorID = 1;
+}
+message CreateBookingPackageRequest {
+  string UserID = 1;
+  string ProfileID = 2;
+  double Price = 3;
+  string ServicePackageID = 4;
+  string AppoinmentTime = 5;
+}
+message CreateBookingDoctorRequest {
+  string DoctorID = 1;
   string UserID = 2;
-  double Amount = 3;
-  string Message = 4;
+  string ProfileID = 3;
+  double Price = 4;
+  int32 BookingType = 5;
+  string ScheduleID = 6;
+}
+message UpdateBookingPackageRequest  {
+  string BookingPackageID = 1;
+}
+message UpdateBookingDoctorRequest  {
+  string BookingDoctorID = 1;
+}
+message UpdateBookingResponse {
+  bool IsSuccess = 1; 
+  string UserID = 2;
 }

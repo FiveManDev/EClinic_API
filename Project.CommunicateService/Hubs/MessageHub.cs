@@ -18,16 +18,14 @@ namespace Project.CommunicateService.Hubs
         [Authorize]
         public async Task JoinCall(string CallID)
         {
-            string userId = Context.User.FindFirst("UserID").Value;
             await Groups.AddToGroupAsync(Context.ConnectionId, CallID);
-            await Clients.Group(CallID).SendAsync("Response", "JoinRoom", userId);
+            await Clients.Group(CallID).SendAsync("Response", "peerId", CallID);
         }
         [Authorize]
         public async Task LeaveCall(string CallID)
         {
-            string userId = Context.User.FindFirst("UserID").Value;
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, CallID);
-            await Clients.Group(CallID).SendAsync("Response", "LeaveGroup", userId);
+            await Clients.Group(CallID).SendAsync("Response", "peerId", CallID);
         }
     }
 }

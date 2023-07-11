@@ -79,7 +79,7 @@ namespace Project.BookingService.Handlers.BookingPackageHandler
                     bookingPackageDtos[i].Profile.FirstName = Proifles[i].FirstName;
                     bookingPackageDtos[i].Profile.LastName = Proifles[i].LastName;
                     bookingPackageDtos[i].Profile.Avatar = Proifles[i].Avatar;
-                    bookingPackageDtos[i].Service = new Service();
+                    bookingPackageDtos[i].Service = new ServiceInformation();
                     bookingPackageDtos[i].Service.ServicePackageID = Guid.Parse(ServicePackages[i].ServicePackageID);
                     bookingPackageDtos[i].Service.ServicePackageName = ServicePackages[i].ServicePackageName;
                     bookingPackageDtos[i].Service.Image = ServicePackages[i].Image;

@@ -9,7 +9,7 @@ public class BookingPackageDTO
     public ProfileDtos Profile { get; set; }
     public double Price { get; set; }
     public DateTime BookingTime { get; set; }
-    public Service Service { get; set; }
+    public ServiceInformation Service { get; set; }
     public DateTime AppoinmentTime { get; set; }
     public BookingStatus BookingStatus { get; set; }
 }

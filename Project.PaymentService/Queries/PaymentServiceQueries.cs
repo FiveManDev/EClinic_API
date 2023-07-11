@@ -5,7 +5,8 @@ using Project.PaymentService.Model;
 
 namespace Project.PaymentService.Queries
 {
-    public record GetPaymentURLQuery(Data.PaymentService PaymentService, Guid BookingID, string IpAddress = null) : IRequest<ObjectResult>;
+    public record GetPaymentURLForBookingPackageQuery(Data.PaymentService PaymentService, BookingPackageDtos BookingPackageDtos, string IpAddress = null) : IRequest<ObjectResult>;
+    public record GetPaymentURLForBookingDoctorQuery(Data.PaymentService PaymentService, BookingDoctorDtos BookingDoctorDtos, string IpAddress = null) : IRequest<ObjectResult>;
     public record GetPaymentByIDQuery(Guid PaymentID) : IRequest<ObjectResult>;
     public record GetRefundByIDQuery(Guid RefundID) : IRequest<ObjectResult>;
 

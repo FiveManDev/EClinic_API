@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Project.BookingService.Data;
 using Project.BookingService.Repository.BookingPackageRepository;
 using Project.BookingServiceCommands.Commands;
-using Project.Common.Response;
 using Project.Core.Logger;
 
 namespace Project.BookingService.Handlers.BookingPackageHandler;
@@ -28,7 +26,7 @@ public class CreateBookingPackageHandler : IRequestHandler<CreateBookingPackageC
         {
             BookingPackage bookingPackage = mapper.Map<BookingPackage>(request.CreateBookingPackageDTO);
 
-            bookingPackage.BookingStatus = BookingStatus.Upcoming;
+            bookingPackage.BookingStatus = BookingStatus.NoPayment;
             bookingPackage.BookingTime = DateTime.Now;
 
             return await repository.CreateEntityAsync(bookingPackage);

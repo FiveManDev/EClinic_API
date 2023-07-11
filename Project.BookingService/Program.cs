@@ -4,6 +4,7 @@ using Project.BookingService.Repository.BookingDoctorRepository;
 using Project.BookingService.Repository.BookingPackageRepository;
 using Project.BookingService.Repository.DoctorCalendarRepository;
 using Project.BookingService.Repository.DoctorScheduleRepository;
+using Project.BookingService.Service;
 using Project.Core.Authentication;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => {
         options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"));
+        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );
 // add token jwt
@@ -35,6 +37,7 @@ builder.Services.AddMyMediatR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMySwagger();
 builder.Services.AddMyVersioning();
+builder.Services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,7 +49,10 @@ app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<BookingDataService>();
+});
 app.MapControllers();
 
 app.Run();

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.PaymentService.Commands;
+using Project.PaymentService.Model;
 using Project.PaymentService.Queries;
 
 namespace Project.PaymentService.Controllers
@@ -18,9 +19,14 @@ namespace Project.PaymentService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> PaymentRequest(Guid BookingID)
+        public async Task<IActionResult> PaymentRequestForBookingPackage([FromQuery]BookingPackageDtos BookingPackageDtos)
         {
-            return await mediator.Send(new GetPaymentURLQuery(Data.PaymentService.Momo, BookingID));
+            return await mediator.Send(new GetPaymentURLForBookingPackageQuery(Data.PaymentService.Momo, BookingPackageDtos));
+        }
+        [HttpGet]
+        public async Task<IActionResult> PaymentRequestForBookingDoctor([FromQuery] BookingDoctorDtos BookingDoctorDtos)
+        {
+            return await mediator.Send(new GetPaymentURLForBookingDoctorQuery(Data.PaymentService.Momo, BookingDoctorDtos));
         }
         [HttpGet]
         public async Task<IActionResult> PaymentReturnURl()

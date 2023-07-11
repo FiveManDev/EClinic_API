@@ -13,6 +13,7 @@ namespace Project.ProfileService.Repository.ProfileRepository
         Task<Profile> GetDoctorProfileAsync(Guid UserID);
         Task<Profile> GetEmployeeProfileAsync(Guid UserID);
         Task<Profile> GetProfileAsync(Guid UserID);
+        Task<Profile> GetProfileByIDAsync(Guid ProfileID);
         Task<PaginationModel<List<Profile>>> GetUserProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText);
         Task<PaginationModel<List<Profile>>> GetDoctorProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText);
         Task<PaginationModel<List<Profile>>> GetEmployeeProfilesAsync(List<Guid> UserIDs, PaginationRequestHeader pagination, string searchText);

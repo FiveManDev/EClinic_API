@@ -68,6 +68,7 @@ namespace Project.PaymentService.VNPayPayment
                         result.BookingID = Guid.Parse(bookingId);
                         result.Amount = amount;
                         result.PaymentTime = dateTime;
+                        result.PaymentType = message;
                         return result;
 
                     }

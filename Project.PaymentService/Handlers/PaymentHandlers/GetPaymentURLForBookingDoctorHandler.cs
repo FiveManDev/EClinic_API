@@ -11,14 +11,13 @@ using Project.PaymentService.VNPayPayment;
 
 namespace Project.PaymentService.Handlers.PaymentHandlers
 {
-    public class GetPaymentURLHandler : IRequestHandler<GetPaymentURLQuery, ObjectResult>
+    public class GetPaymentURLForBookingDoctorHandler : IRequestHandler<GetPaymentURLForBookingDoctorQuery, ObjectResult>
     {
-        private readonly ILogger<GetPaymentURLHandler> logger;
+        private readonly ILogger<GetPaymentURLForBookingDoctorHandler> logger;
         private readonly IMomoPayment momoPayment;
         private readonly IVNPayPayment vNPayPayment;
         private readonly BookingService.BookingServiceClient client;
-
-        public GetPaymentURLHandler(IConfiguration configuration, ILogger<GetPaymentURLHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment)
+        public GetPaymentURLForBookingDoctorHandler(IConfiguration configuration, ILogger<GetPaymentURLForBookingDoctorHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment)
         {
             this.logger = logger;
             this.momoPayment = momoPayment;
@@ -29,24 +28,30 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
             client = new BookingService.BookingServiceClient(channel);
         }
 
-        public async Task<ObjectResult> Handle(GetPaymentURLQuery request, CancellationToken cancellationToken)
+        public async Task<ObjectResult> Handle(GetPaymentURLForBookingDoctorQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                //var booking = await client.GetBookingAsync(new GetBookingRequest { BookingID = request.BookingID.ToString() });
-                //PaymentModel paymentModel = new PaymentModel
-                //{
-                //    BookingID = Guid.Parse(booking.BookingID),
-                //    UserID = Guid.Parse(booking.UserID),
-                //    Amount = booking.Amount,
-                //    Message = booking.Message
-                //};
+                CreateBookingDoctorRequest doctorRequest = new CreateBookingDoctorRequest
+                {
+                    ProfileID = request.BookingDoctorDtos.ProfileID.ToString(),
+                    UserID = request.BookingDoctorDtos.UserID.ToString(),
+                    BookingType = Int32.Parse(request.BookingDoctorDtos.BookingType.ToString()),
+                    Price = request.BookingDoctorDtos.Price,
+                    DoctorID = request.BookingDoctorDtos.DoctorID.ToString(),
+                    ScheduleID = request.BookingDoctorDtos.ScheduleID.ToString()
+                };
+                var createResult = await client.CreateBookingDoctorAsync(doctorRequest);
+                if (createResult == null)
+                {
+                    return ApiResponse.InternalServerError();
+                }
                 PaymentModel paymentModel = new PaymentModel
                 {
-                    BookingID = Guid.Parse("63da4fe0-de4d-4c8e-b8c8-ec3202c20038"),
-                    UserID = Guid.Parse("63da4fe0-de4d-4c8e-b8c8-ec3202c20038"),
-                    Amount = 10000,
-                    Message = "Test"
+                    BookingID = Guid.Parse(createResult.BookingDoctorID),
+                    UserID = request.BookingDoctorDtos.UserID,
+                    Amount = request.BookingDoctorDtos.Price,
+                    Message = "BookingDoctor"
                 };
                 string url = "";
                 switch (request.PaymentService)
@@ -56,13 +61,13 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                         break;
 
                     case Data.PaymentService.VNPay:
-                        url = vNPayPayment.PaymentRequest(paymentModel,request.IpAddress);
+                        url = vNPayPayment.PaymentRequest(paymentModel, request.IpAddress);
                         break;
                     default:
                         url = null;
                         break;
                 }
-                if(url == null)
+                if (url == null)
                 {
                     throw new Exception("Get payment url error");
                 }
