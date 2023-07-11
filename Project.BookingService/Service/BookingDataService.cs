@@ -71,7 +71,7 @@ namespace Project.BookingService.Service
             {
                 var result = await mediator.Send(new UpdateBookingUpcomingForBookingDoctorCommand(Guid.Parse(request.BookingDoctorID)));
                 if (result == null) { return null; }
-                return new UpdateBookingResponse { IsSuccess = true, UserID = result.UserID.ToString() };
+                return new UpdateBookingResponse { IsSuccess = true, UserID = result.DoctorID.ToString() };
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace Project.BookingService.Service
             {
                 var result = await mediator.Send(new UpdateBookingUpcomingForBookingPackageCommand(Guid.Parse(request.BookingPackageID)));
                 if (result == null) { return null; }
-                return new UpdateBookingResponse {IsSuccess = true, UserID = result.UserID.ToString() };
+                return new UpdateBookingResponse {IsSuccess = true, UserID = result.ServicePackageID.ToString() };
             }
             catch (Exception ex)
             {
