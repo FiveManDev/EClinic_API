@@ -35,7 +35,9 @@ namespace Project.NotificationService.Controllers
                 PaymentAmount = 10000,
                 PaymentID = Guid.NewGuid(),
                 PaymentService = Data.PaymentService.Momo,
-                PaymentTime = DateTime.Now
+                PaymentTime = DateTime.Now,
+                FullName ="Nguyen Hoang Khang",
+                TransactionID = "1213244453",
             };
             return await mediator.Send(new SendBillCommand(email,paymentModel));
         }

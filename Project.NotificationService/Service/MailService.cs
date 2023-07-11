@@ -1,5 +1,6 @@
 ﻿using MassTransit.Internals.GraphValidation;
 using Project.Core.Logger;
+using Project.NotificationService.Data;
 using Project.NotificationService.Dtos;
 using System.ComponentModel;
 using System.Net;
@@ -102,15 +103,31 @@ namespace Project.NotificationService.Service
         {
             try
             {
+                var url = "";
+                var name = "";
+                if(paymentModel.PaymentService== PaymentService.VNPay)
+                {
+                    url = URLLogo.VNPay;
+                    name = "VNPay";
+                }
+                if (paymentModel.PaymentService == PaymentService.Momo)
+                {
+                    url = URLLogo.Momo;
+                    name = "Momo";
+                }
                 var mailName = email.Substring(0, email.IndexOf("@"));
                 var mailModel = new MailModel
                 {
                     EmailTo = email,
                     Subject = $"Reset {mailInformation.MailTile} account password",
-                    Body = @"<html>
+                    Body = @"<!DOCTYPE html>
+<html lang=""en"">
+
 <head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Document</title>
     <style>
-        
         body {
             background-color: #f6f9f8;
             font-family: 'Roboto', sans-serif;
@@ -152,9 +169,10 @@ namespace Project.NotificationService.Service
             margin-top: 10%;
             overflow: hidden;
             border-radius: 5px 5px 5px 5px;
-            -webkit-box-shadow: 0px 5px 21px 0px rgba(128,128,128,0.2);
-            -moz-box-shadow: 0px 5px 21px 0px rgba(128,128,128,0.2);
-            box-shadow: 0px 5px 21px 0px rgba(128,128,128,0.2);
+            -webkit-box-shadow: 0px 5px 21px 0px rgba(128, 128, 128, 0.2);
+            -moz-box-shadow: 0px 5px 21px 0px rgba(128, 128, 128, 0.2);
+            box-shadow: 0px 5px 21px 0px rgba(128, 128, 128, 0.2);
+            max-height: 456px;
         }
 
         .left {
@@ -182,10 +200,10 @@ namespace Project.NotificationService.Service
             height: 15%;
         }
 
-            .receipt > span {
-                font-weight: 500;
-                font-size: 21px;
-            }
+        .receipt>span {
+            font-weight: 500;
+            font-size: 21px;
+        }
 
         .entry {
             border-bottom: 1px solid #3895f4;
@@ -194,20 +212,20 @@ namespace Project.NotificationService.Service
             padding-top: 15px;
         }
 
-            .entry > p {
-                font-weight: 300;
-                font-size: 13px;
-                line-height: 26px;
-                margin-top: 0px !important;
-                float: left;
-            }
+        .entry>p {
+            font-weight: 300;
+            font-size: 13px;
+            line-height: 26px;
+            margin-top: 0px !important;
+            float: left;
+        }
 
-            .entry > i {
-                margin-top: 4px;
-                margin-right: 13px;
-                float: left;
-                color: #b4d8fc;
-            }
+        .entry>i {
+            margin-top: 4px;
+            margin-right: 13px;
+            float: left;
+            color: #b4d8fc;
+        }
 
         span {
             font-weight: 500;
@@ -224,6 +242,7 @@ namespace Project.NotificationService.Service
             height: 100%;
             float: left;
             border-radius: 0 5px 5px 0;
+            max-height: 456px;
         }
 
         .content {
@@ -235,19 +254,23 @@ namespace Project.NotificationService.Service
         .header {
             overflow: hidden;
             border-bottom: 1px solid #d7e2e7;
-            height: 50px;
+            height: 100px;
         }
 
-            .header > img {
-                width: 100px;
-                float: left;
-            }
+        .header>img {
+            width: 100px;
+            float: left;
+            max-width: 100px;
+        }
 
-            .header > h4 {
-                text-align: right;
-                margin-top: 10px;
-            }
-
+        .header>.payment {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .header>.payment>h4 {
+            text-align: center;
+            margin-right: 30px;
+        }
         .main {
             margin-top: 35px;
         }
@@ -256,16 +279,16 @@ namespace Project.NotificationService.Service
             margin-top: 40px;
         }
 
-            .message > p {
-                font-weight: 300;
-                font-size: 15px;
-                color: #7a838d;
-                line-height: 30px;
-            }
+        .message>p {
+            font-weight: 300;
+            font-size: 15px;
+            color: #7a838d;
+            line-height: 30px;
+        }
 
-            .message > h6 {
-                margin-top: 10px;
-            }
+        .message>h6 {
+            margin-top: 10px;
+        }
 
         .footer {
             overflow: hidden;
@@ -274,74 +297,67 @@ namespace Project.NotificationService.Service
             padding-top: 30px;
         }
 
-            .footer > a {
-                font-size: 13px;
-                font-weight: 500;
-                float: left;
-            }
+        .footer>a {
+            font-size: 13px;
+            font-weight: 500;
+            float: left;
+        }
 
-            .footer > h6 {
-                color: #7a838d;
-                text-align: right;
-                margin-top: 0px !important;
-            }
+        .footer>h6 {
+            color: #7a838d;
+            text-align: right;
+            margin-top: 0px !important;
+        }
     </style>
 </head>
+
 <body>
-    <html>
-    <head>
-        <title>Paypal checkout</title>
-        <link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.3.2/css/simple-line-icons.css"">
-    </head>
-    <body>
-        <div class=""container"">
-            <div class=""left"">
-                <div class=""info-box"">
-                    <div class=""receipt"">
-                        Receipt for <br> <span>Eclinic</span>
-                    </div>
-                    <div class=""entry"">
-                        <i class=""icon-wallet"" aria-hidden=""true""></i>
-                        <p>Amount:<br><span>$20.00 USD</span></p>
-                    </div>
-                    <div class=""entry"">
-                        <i class=""icon-calendar"" aria-hidden=""true""></i>
-                        <p>Date:<br><span>Nov 5</span></p>
-                    </div>
-                    <div class=""entry"">
-                        <i class=""icon-star"" aria-hidden=""true""></i>
-                        <p>Issuer:<br><span>Dribbble</span></p>
-                    </div>
-                    <div class=""entry"">
-                        <i class=""icon-notebook"" aria-hidden=""true""></i>
-                        <p>Confirmation Nr:<br><span>0YX123580219G</span></p>
-                    </div>
+    <div class=""container"">
+        <div class=""left"">
+            <div class=""info-box"">
+                <div class=""receipt"">
+                    Receipt for <br><span>"+ paymentModel.FullName+ @"</span>
                 </div>
-            </div>
-            <div class=""right"">
-                <div class=""content"">
-                    <div class=""header"">
-                        <img src=""https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png"">
-                        <h4>Oct 18, 2015   08:30:57   PDT</h4>
-                    </div>
-                    <div class=""main"">
-                        <h3>Dribbble Pro Account (1 year)</h3>
-                        <h5>Total: $20.00 USD</h5>
-                    </div>
-                    <div class=""message"">
-                        <p>Hello Ennio,</br>You sent a payment of $20.00 USD to Dribbble (<a href=""mailto:paypal@dribbble.com"">paypal@dribbble.com</a>)</p>
-                        <h6>It may take a few moments for this</br>transaction to appear in your account.</h6>
-                    </div>
-                    <div class=""footer"">
-                        <a href=""#"">www.paypal.com/help</a>
-                        <h6>Invoice ID: 108165</h6>
-                    </div>
+                <div class=""entry"">
+                    <p>Amount:<br><span>"+ paymentModel.PaymentAmount+@" VND</span></p>
+                </div>
+                <div class=""entry"">
+                    <p>Date:<br><span>"+ paymentModel.PaymentTime.Date+ @"</span></p>
+                </div>
+                <div class=""entry"">
+                    <p>Issuer:<br><span>EClinic</span></p>
+                </div>
+                <div class=""entry"">
+                    <p>TransactionID:<br><span>" + paymentModel.TransactionID+ @"</span></p>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+        <div class=""right"">
+            <div class=""content"">
+                <div class=""header"">
+                    <img src="""+ url+ @""" alt="""+ name+ @""">
+                    <div class=""payment"">
+                        <h4>Oct 18, 2015 08:30:57 PDT</h4>
+                        <h4>Payment By: "+ name+ @"</h4>
+                    </div>
+                    
+                </div>
+                <div class=""main"">
+                    <h3>Thank you for using our service</h3>
+                </div>
+                <div class=""message"">
+                    <p>Hello Ennio,<br>You sent a payment of " + paymentModel.PaymentAmount+ @" VND to Eclinic (<a
+                            href=""mailto:fivemandev123@gmail.com"">fivemandev123@gmail.com</a>)</p>
+                    <h6>It may take a few moments for this<br>transaction to appear in your account.</h6>
+                </div>
+                <div class=""footer"">
+                    <h6>Invoice ID: "+ paymentModel.BookingID+@"</h6>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>"
                 };
                 SendMail(mailModel);
