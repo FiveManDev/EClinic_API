@@ -105,15 +105,17 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "DownstreamPathTemplate": "/message",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/message/{everything}",
+      "DownstreamScheme": "ws",
       "DownstreamHostAndPorts": [
         {
           "Host": "172.20.0.14",
           "Port": 443
         }
       ],
-      "UseDownstreamPathTemplate": false
+      "UpstreamPathTemplate": "/message/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "SwaggerKey": "ai"
     },
     {
       "DownstreamPathTemplate": "/api/v1/{controller}/{Action}",

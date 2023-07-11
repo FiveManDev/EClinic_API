@@ -11,5 +11,5 @@ builder.Services.AddMyCors(CorsName);
 var app = builder.Build();
 app.UseCors(CorsName);
 await app.UseOcelot();
-
+app.UseWebSockets();
 app.Run();
