@@ -36,7 +36,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 {
                     ProfileID = request.BookingDoctorDtos.ProfileID.ToString(),
                     UserID = request.BookingDoctorDtos.UserID.ToString(),
-                    BookingType = Int32.Parse(request.BookingDoctorDtos.BookingType.ToString()),
+                    BookingType = (int)request.BookingDoctorDtos.BookingType,
                     Price = request.BookingDoctorDtos.Price,
                     DoctorID = request.BookingDoctorDtos.DoctorID.ToString(),
                     ScheduleID = request.BookingDoctorDtos.ScheduleID.ToString()
