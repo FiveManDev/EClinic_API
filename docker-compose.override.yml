@@ -106,7 +106,7 @@ services:
       - AWS_REGION= ap-southeast-1
     ports:
       - "80"
-      - "5432:443"
+      - "5454:443"
     volumes:
       - ~/.aspnet/https:/https:ro
       - ~/.aws:/root/.aws
