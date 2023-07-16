@@ -16,10 +16,10 @@ namespace Project.CommunicateService.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, RoomID.ToString());
         }
         [Authorize]
-        public async Task JoinCall(string CallID)
+        public async Task JoinCall(string CallID, Guid RoomID)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, CallID);
-            await Clients.Group(CallID).SendAsync("Response", "peerId", CallID);
+            await Clients.Group(RoomID.ToString()).SendAsync("Response", "peerId", CallID);
         }
         [Authorize]
         public async Task LeaveCall(string CallID)
