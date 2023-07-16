@@ -30,7 +30,7 @@ public class SearchServicePackageForAdHandler : IRequestHandler<SearchServicePac
         try
         {
             var searchText = request.searchServicePackageDTO.SearchText?.Trim().ToLower() ?? "";
-            if (searchText.Equals("")) searchText = "h4ck3rRandomString";
+            // if (searchText.Equals("")) searchText = "h4ck3rRandomString";
 
             var servicePackages = await repository.GetAllServicePackageAsync(x => x.ServicePackageName.ToLower().Contains(searchText) || x.Description.ToLower().Contains(searchText));
             if (servicePackages == null)
