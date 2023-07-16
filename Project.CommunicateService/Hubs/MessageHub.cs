@@ -22,10 +22,13 @@ namespace Project.CommunicateService.Hubs
             await Clients.Group(RoomID.ToString()).SendAsync("Response", "peerId", CallID);
         }
         [Authorize]
-        public async Task LeaveCall(string CallID)
+        public async Task ChangeCallStatus(string CallID, int status)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, CallID);
-            await Clients.Group(CallID).SendAsync("Response", "peerId", CallID);
+            await Clients.Group(CallID).SendAsync("Response", "Status", status, CallID);
+            if (status == 3)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, CallID);
+            }
         }
     }
 }
