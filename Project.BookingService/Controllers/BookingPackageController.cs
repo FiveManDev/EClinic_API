@@ -28,11 +28,11 @@ public class BookingPackageController : ControllerBase
         return await mediator.Send(new GetBookingPackageByIDQuery(BookingPackageID));
     }
     [HttpGet]
-    [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin})]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin })]
     public async Task<IActionResult> GetAllBookingPackageForAD([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-        return await mediator.Send(new GetAllBookingPackageForAdQuery(paginationRequestHeader, Response,BookingStatus));
+        return await mediator.Send(new GetAllBookingPackageForAdQuery(paginationRequestHeader, Response, BookingStatus));
     }
     [HttpGet]
     [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
@@ -40,10 +40,10 @@ public class BookingPackageController : ControllerBase
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
         string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
-        return await mediator.Send(new GetAllBookingPackageForUserQuery(paginationRequestHeader, Response, userId,BookingStatus));
+        return await mediator.Send(new GetAllBookingPackageForUserQuery(paginationRequestHeader, Response, userId, BookingStatus));
     }
     [HttpPut]
-    [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor })]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Supporter, RoleConstants.Admin })]
     public async Task<IActionResult> UpdateBookingPackageStatusDone(Guid BookingPackageID)
     {
         return await mediator.Send(new UpdateBookingStatusForBookingPackageCommand(BookingPackageID, BookingStatus.Done));
