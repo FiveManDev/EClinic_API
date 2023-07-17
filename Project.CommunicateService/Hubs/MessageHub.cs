@@ -25,10 +25,6 @@ namespace Project.CommunicateService.Hubs
         public async Task ChangeCallStatus(string CallID, int status)
         {
             await Clients.Group(CallID).SendAsync("Response", "Status", status, CallID);
-            if (status == 3)
-            {
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, CallID);
-            }
         }
     }
 }
