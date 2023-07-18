@@ -47,6 +47,7 @@ app.UseAuthorization();
 app.UseCors(CorsName);
 app.UseEndpoints(endpoints => {
     endpoints.MapHub<MessageHub>("/message");
+    endpoints.MapHub<CallHub>("/call");
 });
 app.MapControllers();
 
