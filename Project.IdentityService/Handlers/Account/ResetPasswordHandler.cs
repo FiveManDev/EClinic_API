@@ -1,10 +1,16 @@
 ﻿using Grpc.Net.Client;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Enum;
+using Project.Common.Functionality;
 using Project.Common.Response;
 using Project.Common.Security;
+using Project.Core.Caching.Service;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 using Project.IdentityService.Commands;
+using Project.IdentityService.Dtos;
 using Project.IdentityService.Protos;
 using Project.IdentityService.Repository.UserRepository;
 
@@ -15,8 +21,9 @@ namespace Project.IdentityService.Handlers.Account
         private readonly IUserRepository userRepository;
         private readonly ProfileService.ProfileServiceClient client;
         private readonly ILogger<ResetPasswordHandler> logger;
-
-        public ResetPasswordHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<ResetPasswordHandler> logger)
+        private readonly IResponseCacheService cacheService;
+        private readonly IBus bus;
+        public ResetPasswordHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<ResetPasswordHandler> logger,IResponseCacheService cacheService, IBus bus)
         {
             this.userRepository = userRepository;
             var httpHandler = new HttpClientHandler();
@@ -24,6 +31,8 @@ namespace Project.IdentityService.Handlers.Account
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new ProfileService.ProfileServiceClient(channel);
             this.logger = logger;
+            this.cacheService = cacheService;
+            this.bus = bus;
         }
 
         public async Task<ObjectResult> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
@@ -44,12 +53,14 @@ namespace Project.IdentityService.Handlers.Account
                 var pass = Cryptography.EncryptPassword(request.ResetPasswordDTO.NewPassword);
                 user.PasswordSalt = pass.Salt;
                 user.PasswordHash = pass.Hash;
-                var result = await userRepository.UpdateAsync(user);
-                if (!result)
-                {
-                    return ApiResponse.InternalServerError();
-                }
-                return ApiResponse.OK("Reset password success");
+                var TextBytes = System.Text.Encoding.UTF8.GetBytes(request.ResetPasswordDTO.Email + user.UserName+"Reset");
+                var key = Convert.ToBase64String(TextBytes);
+                var code = RandomText.RandomByNumberOfCharacters(6, RandomType.Number);
+                var DataCode = new DataCodeDtos { User = user, Code = code};
+                await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
+                var data = new ConfirmDataDtos { Key = key, Code = code };
+                await bus.SendMessage<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 });
+                return ApiResponse.OK(data);
             }
             catch (Exception ex)
             {

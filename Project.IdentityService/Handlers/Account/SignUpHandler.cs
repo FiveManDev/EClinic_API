@@ -4,13 +4,19 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
+using Project.Common.Enum;
+using Project.Common.Functionality;
 using Project.Common.Response;
 using Project.Common.Security;
+using Project.Core.Caching.Service;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Data;
+using Project.IdentityService.Dtos;
 using Project.IdentityService.Protos;
 using Project.IdentityService.Repository.UserRepository;
+using static MassTransit.ValidationResultExtensions;
 
 namespace Project.IdentityService.Handlers.Account
 {
@@ -19,8 +25,10 @@ namespace Project.IdentityService.Handlers.Account
         private readonly IUserRepository userRepository;
         private readonly ProfileService.ProfileServiceClient client;
         private readonly ILogger<SignUpHandler> logger;
+        private readonly IResponseCacheService cacheService;
+        private readonly IBus bus;
 
-        public SignUpHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<SignUpHandler> logger)
+        public SignUpHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<SignUpHandler> logger, IResponseCacheService cacheService, IBus bus)
         {
             this.userRepository = userRepository;
             var httpHandler = new HttpClientHandler();
@@ -28,6 +36,8 @@ namespace Project.IdentityService.Handlers.Account
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new ProfileService.ProfileServiceClient(channel);
             this.logger = logger;
+            this.cacheService = cacheService;
+            this.bus = bus;
         }
 
         public async Task<ObjectResult> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -50,26 +60,22 @@ namespace Project.IdentityService.Handlers.Account
                 }
                 var pass = Cryptography.EncryptPassword(request.SignUpDtos.Password);
                 var user = new User { UserName = request.SignUpDtos.UserName, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = RoleConstants.IDUser, CreatedAt = DateTime.Now };
-                var result = await userRepository.CreateEntityAsync(user);
-                if (result == null)
+                var code = RandomText.RandomByNumberOfCharacters(6, RandomType.Number);
+                CreateProfileRequest profile = new CreateProfileRequest
                 {
-                    return ApiResponse.InternalServerError();
-                }
-                var response = await client.CreateProfileAsync(new CreateProfileRequest
-                {
-                    UserID = result.UserID.ToString(),
                     Email = request.SignUpDtos.Email.ToLower(),
                     FirstName = request.SignUpDtos.FirstName,
                     LastName = request.SignUpDtos.LastName,
                     Gender = request.SignUpDtos.Gender,
                     DateOfBirth = request.SignUpDtos.DateOfBirth.ToTimestamp()
-                });
-                if (!response.IsSuccess)
-                {
-                    await userRepository.DeleteAsync(user);
-                    return ApiResponse.InternalServerError();
-                }
-                return ApiResponse.Created("Sign Up Success");
+                };
+                var TextBytes = System.Text.Encoding.UTF8.GetBytes(request.SignUpDtos.Email + user.UserName);
+                var key = Convert.ToBase64String(TextBytes);
+                var DataCode = new DataCodeDtos { User = user, Code = code,CreateProfileRequest = profile };
+                await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
+                var data = new ConfirmDataDtos { Key = key, Code = code };
+                await bus.SendMessage<VerifyEmail>(new VerifyEmail { Email = request.SignUpDtos.Email,Code = code,Type = 0});
+                return ApiResponse.OK(data);
             }
             catch (Exception ex)
             {

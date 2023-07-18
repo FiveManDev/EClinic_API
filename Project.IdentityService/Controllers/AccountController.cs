@@ -53,11 +53,50 @@ namespace Project.IdentityService.Controllers
             }
         }
         [HttpPost]
+        public async Task<IActionResult> ConfirmSignUp(ConfirmDataDtos ConfirmDataDtos)
+        {
+            try
+            {
+                return await mediator.Send(new ConfirmSignUpCommand(ConfirmDataDtos));
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return ApiResponse.InternalServerError();
+            }
+        }
+        [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordDTO resetPasswordDTO)
         {
             try
             {
                 return await mediator.Send(new ResetPasswordCommand(resetPasswordDTO));
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return ApiResponse.InternalServerError();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmResetPassword(ConfirmDataDtos ConfirmDataDtos)
+        {
+            try
+            {
+                return await mediator.Send(new ConfirmResetPasswordCommand(ConfirmDataDtos));
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return ApiResponse.InternalServerError();
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResendCode([FromBody] string key)
+        {
+            try
+            {
+                return await mediator.Send(new ReSendCodeCommand(key));
             }
             catch (Exception ex)
             {
