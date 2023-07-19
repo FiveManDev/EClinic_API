@@ -14,6 +14,6 @@ namespace Project.IdentityService.Commands
     public record ConfirmResetPasswordCommand(ConfirmDataDtos ConfirmDataDtos) : IRequest<ObjectResult>;
     public record ChangeStatusCommand(Guid UserID) : IRequest<ObjectResult>;
     public record CreateUserCommand(string Email, string Role, bool Enabled) : IRequest<Guid>;
-    public record UpdateUserCommand(Guid UserID, bool Enabled) : IRequest<bool>;
-    public record ReSendCodeCommand(string key):IRequest<ObjectResult>;
+    public record UpdateUserCommand(Guid UserID, bool Enabled, string Email) : IRequest<bool>;
+    public record ReSendCodeCommand(ResendCodeDtos ResendCodeDtos) : IRequest<ObjectResult>;
 }

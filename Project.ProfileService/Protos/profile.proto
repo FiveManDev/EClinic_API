@@ -37,6 +37,7 @@ message GetProfileResponse  {
   string FirstName = 2;
   string LastName = 3;
   string Avatar = 4;
+  string Email = 5;
 }
 message GetAllProfileRequest  {
   repeated string UserIDs = 1;

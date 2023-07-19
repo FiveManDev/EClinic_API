@@ -98,6 +98,7 @@ namespace Project.ProfileService.Service
                             res.Avatar = profile.Avatar;
                             res.FirstName = profile.FirstName;
                             res.LastName = profile.LastName;
+                            res.Email = profile.Email;
                             return res;
                         }
                     }

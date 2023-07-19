@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using MassTransit;
 using MediatR;
 using Project.Core.Logger;
 using Project.IdentityService.Commands;

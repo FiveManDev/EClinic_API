@@ -1,8 +1,6 @@
-﻿using MassTransit.Internals.GraphValidation;
-using Project.Core.Logger;
+﻿using Project.Core.Logger;
 using Project.NotificationService.Data;
 using Project.NotificationService.Dtos;
-using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
 
@@ -99,266 +97,159 @@ namespace Project.NotificationService.Service
             }
         }
 
-        public void SendBill(string email, PaymentModel paymentModel)
+        public void SendBill(string email, PaymentModelData paymentModel)
         {
             try
             {
-                var url = "";
-                var name = "";
-                if(paymentModel.PaymentService== PaymentService.VNPay)
-                {
-                    url = URLLogo.VNPay;
-                    name = "VNPay";
-                }
-                if (paymentModel.PaymentService == PaymentService.Momo)
-                {
-                    url = URLLogo.Momo;
-                    name = "Momo";
-                }
+                var name = paymentModel.PaymentService == PaymentService.VNPay ? "VNPay" : "Momo";
                 var mailName = email.Substring(0, email.IndexOf("@"));
                 var mailModel = new MailModel
                 {
                     EmailTo = email,
                     Subject = $"Reset {mailInformation.MailTile} account password",
                     Body = @"<!DOCTYPE html>
-<html lang=""en"">
+                                <html lang=""en"">
+                                <head>
+                                    <meta charset=""UTF-8"">
+                                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                    <title>Document</title>
+                                </head>
+                                <body>
+                                    <div class=""""><div class=""aHl""></div><div id="":n6"" tabindex=""-1""></div><div id="":uf"" class=""ii gt"" jslog=""20277; u014N:xr6bB; 1:WyIjdGhyZWFkLWY6MTc3MTU2OTA4NTAwMjY5Nzc4MCIsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsW11d; 4:WyIjbXNnLWY6MTc3MTU2OTA4NTAwMjY5Nzc4MCIsbnVsbCxbXV0.""><div id="":n5"" class=""a3s aiL msg5038991568354012347""><u></u>
+                                        <div style=""padding:0;margin:0;font-family:tahoma;font-size:14px;display:block;background:#ffffff"" bgcolor=""#ffffff"">
+                                            <table align=""center"" cellpadding=""0"" cellspacing=""0"" width=""100%"">
+                                                <tbody><tr>
+                                                    <td align=""center"" valign=""top"" bgcolor=""#ffffff"" width=""100%"">
+                                                        <table cellspacing=""0"" cellpadding=""0"" width=""100%"">
+                                                            <tbody><tr>
+                                                                <td>
+                                                                    <center style=""margin:20px 0px"">
+                                                                        <table cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width:640px"">
+                                                                            <tbody style=""display:block;margin:20px 32px!important"">
+                                                                                <tr id=""m_5038991568354012347"">
+                                                                                    <td height=""40"" style=""background:#f8f8f8!important"">
+                                                                                        <div align=""center"" style=""font-family:tahoma;font-size:12px;color:#384860;background:#f8f8f8!important"">
+                                                                                            <b style=""font-weight:bold"">Note</b>: This is an automatic email from the system, please do not reply to this email
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id=""m_5038991568354012347trNameCustomer"">
+                                                                                    <td height=""44"" style=""vertical-align:middle"">
+                                                                                         <span style=""""text-align:left;font-family:tahoma;font-size:14px;color:#384860;line-height:24px"""" id=""""m_5038991568354012347titleCusTaxCode"""">Dear:</span> <b style=""""color:#384860"""">" + paymentModel.FullName+ @"</b>
+                                                                                        <span style=""text-align:left;font-family:tahoma;font-size:14px;color:#384860;line-height:24px"" id=""m_5038991568354012347titleCusTaxCode"">ID:</span> <b style=""color:#384860"">" + paymentModel.TransactionID+ @"</b>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr id=""m_5038991568354012347trCusCode"">
+                                                                                    <td height=""50"" style=""vertical-align:middle;border-top:1px dashed #d3d3d3;padding-top:24px"">
+                                                                                        <b style=""text-align:left;font-family:tahoma;font-size:14px;color:#384860;line-height:24px;padding-bottom:12px;text-transform:uppercase"">EClinic</b><br>
+                                                                                        <span style=""text-align:left;font-family:tahoma;font-size:14px;color:#384860;line-height:24px;margin-bottom:8px"">Just issued an e-invoice to you with the following content::</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td height=""276"" style=""vertical-align:middle;background:#f1f5f9!important;border-radius:10px"">
+                                                                                        <center style=""margin:0 16px"">
+                                                                                            <table cellspacing=""0"" cellpadding=""0"" width=""100%"" style=""max-width:544px"">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td colspan=""2"" height=""8"" style=""vertical-align:middle;line-height:8px"">
+                                                                                                            &nbsp;
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr id=""m_5038991568354012347trPattern"">
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-left-radius:4px;border-bottom-left-radius:4px;background:#fff;padding-left:12px"">
+                                                                                                            <b id=""m_5038991568354012347titlePattern"" style=""text-align:left;font-family:tahoma;font-size:14px"">Payment ID:</b>
+                                                                                                        </td>
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-right-radius:4px;border-bottom-right-radius:4px;background:#fff;text-align:right;padding-right:16px"">
+                                                                                                            <span style=""font-family:tahoma;font-size:14px"">"+paymentModel.PaymentID+ @"</span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td colspan=""2"" height=""16"" style=""vertical-align:middle;line-height:16px"">
+                                                                                                            &nbsp;
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr id=""m_5038991568354012347trPattern"">
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-left-radius:4px;border-bottom-left-radius:4px;background:#fff;padding-left:12px"">
+                                                                                                            <b id=""m_5038991568354012347titlePattern"" style=""text-align:left;font-family:tahoma;font-size:14px"">Booking Type:</b>
+                                                                                                        </td>
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-right-radius:4px;border-bottom-right-radius:4px;background:#fff;text-align:right;padding-right:16px"">
+                                                                                                            <span style=""font-family:tahoma;font-size:14px"">"+paymentModel.BookingType+ @"</span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td colspan=""2"" height=""16"" style=""vertical-align:middle;line-height:16px"">
+                                                                                                            &nbsp;
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr id=""m_5038991568354012347trInvNumber"">
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-left-radius:4px;border-bottom-left-radius:4px;background:#fff;padding-left:12px"">
+                                                                                                            <b id=""m_5038991568354012347titlePattern"" style=""text-align:left;font-family:tahoma;font-size:14px"">Payment By:</b>
+                                                                                                        </td>
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-right-radius:4px;border-bottom-right-radius:4px;background:#fff;text-align:right;padding-right:16px"">
+                                                                                                            <span style=""font-family:tahoma;font-size:14px"">"+name+ @"</span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td colspan=""2"" height=""16"" style=""vertical-align:middle;line-height:16px"">
+                                                                                                            &nbsp;
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr id=""m_5038991568354012347trArisingDate"">
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-left-radius:4px;border-bottom-left-radius:4px;background:#fff;padding-left:12px"">
+                                                                                                            <b id=""m_5038991568354012347titlePattern"" style=""text-align:left;font-family:tahoma;font-size:14px"">Invoice date:</b>
+                                                                                                        </td>
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-right-radius:4px;border-bottom-right-radius:4px;background:#fff;text-align:right;padding-right:16px"">
+                                                                                                            <span style=""font-family:tahoma;font-size:14px"">"+paymentModel.PaymentTime.ToString("yyyy/MM/dd HH:mm:ss")+ @"</span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td colspan=""2"" height=""16"" style=""vertical-align:middle;line-height:16px"">
+                                                                                                            &nbsp;
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr id=""m_5038991568354012347trMCQT"">
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-left-radius:4px;border-bottom-left-radius:4px;background:#fff;padding-left:12px"">
+                                                                                                            <b id=""m_5038991568354012347titlePattern"" style=""text-align:left;font-family:tahoma;font-size:14px"">Amount:</b>
+                                                                                                        </td>
+                                                                                                        <td height=""36"" style=""vertical-align:middle;border-top-right-radius:4px;border-bottom-right-radius:4px;background:#fff;text-align:right;padding-right:16px"">
+                                                                                                            <span style=""font-family:tahoma;font-size:14px"">"+paymentModel.PaymentAmount+ @"</span>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td colspan=""2"" height=""8"" style=""vertical-align:middle;line-height:8px"">
+                                                                                                            &nbsp;
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+        
+                                                                                            </table>
+                                                                                        </center>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td height=""74"" style=""vertical-align:left;background:#f8f8f8!important"">
+                                                                                        <div align=""left"" style=""font-family:tahoma;font-size:14px;color:#384860;margin:12px 32px!important;line-height:24px"">
+                                                                                            Best regards<br>
+                                                                                            <b style=""color:#384860;text-transform:uppercase"">Five Man Dev</b>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
 
-<head>
-    <meta charset=""UTF-8"">
-    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-    <title>Document</title>
-    <style>
-        body {
-            background-color: #f6f9f8;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        a {
-            color: #0e7aea;
-            text-decoration: none;
-        }
-
-        h6 {
-            color: #9aa3ab;
-            font-weight: 300;
-            line-height: 15px;
-        }
-
-        h5 {
-            color: #99a1aa;
-            font-weight: 300;
-        }
-
-        h4 {
-            font-weight: 300;
-            font-size: 13px;
-            color: #97a2ad
-        }
-
-        h3 {
-            color: #58636a;
-            font-weight: 500;
-        }
-
-        .container {
-            width: 50%;
-            height: 40%;
-            min-width: 636px;
-            min-height: 456px;
-            margin: auto;
-            margin-top: 10%;
-            overflow: hidden;
-            border-radius: 5px 5px 5px 5px;
-            -webkit-box-shadow: 0px 5px 21px 0px rgba(128, 128, 128, 0.2);
-            -moz-box-shadow: 0px 5px 21px 0px rgba(128, 128, 128, 0.2);
-            box-shadow: 0px 5px 21px 0px rgba(128, 128, 128, 0.2);
-            max-height: 456px;
-        }
-
-        .left {
-            background-color: #1882ef;
-            width: 39%;
-            height: 457px;
-            border-radius: 5px 0 0 5px;
-            float: left;
-            color: #ffffff;
-        }
-
-        .info-box {
-            margin-top: 35px;
-            margin-left: 35px;
-            margin-right: 35px;
-        }
-
-        .receipt {
-            font-weight: 300;
-            font-size: 15px;
-            line-height: 26px;
-            padding-top: 10px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #3895f4;
-            height: 15%;
-        }
-
-        .receipt>span {
-            font-weight: 500;
-            font-size: 21px;
-        }
-
-        .entry {
-            border-bottom: 1px solid #3895f4;
-            height: 15%;
-            overflow: hidden;
-            padding-top: 15px;
-        }
-
-        .entry>p {
-            font-weight: 300;
-            font-size: 13px;
-            line-height: 26px;
-            margin-top: 0px !important;
-            float: left;
-        }
-
-        .entry>i {
-            margin-top: 4px;
-            margin-right: 13px;
-            float: left;
-            color: #b4d8fc;
-        }
-
-        span {
-            font-weight: 500;
-            font-size: 16px;
-        }
-
-        .entry:last-child {
-            border-bottom: none;
-        }
-
-        .right {
-            background-color: #fefefe;
-            width: 61%;
-            height: 100%;
-            float: left;
-            border-radius: 0 5px 5px 0;
-            max-height: 456px;
-        }
-
-        .content {
-            margin-top: 50px;
-            margin-left: 40px;
-            margin-right: 40px;
-        }
-
-        .header {
-            overflow: hidden;
-            border-bottom: 1px solid #d7e2e7;
-            height: 100px;
-        }
-
-        .header>img {
-            width: 100px;
-            float: left;
-            max-width: 100px;
-        }
-
-        .header>.payment {
-            text-align: right;
-            margin-top: 10px;
-        }
-        .header>.payment>h4 {
-            text-align: center;
-            margin-right: 30px;
-        }
-        .main {
-            margin-top: 35px;
-        }
-
-        .message {
-            margin-top: 40px;
-        }
-
-        .message>p {
-            font-weight: 300;
-            font-size: 15px;
-            color: #7a838d;
-            line-height: 30px;
-        }
-
-        .message>h6 {
-            margin-top: 10px;
-        }
-
-        .footer {
-            overflow: hidden;
-            border-top: 1px solid #d7e2e7;
-            margin-top: 40px;
-            padding-top: 30px;
-        }
-
-        .footer>a {
-            font-size: 13px;
-            font-weight: 500;
-            float: left;
-        }
-
-        .footer>h6 {
-            color: #7a838d;
-            text-align: right;
-            margin-top: 0px !important;
-        }
-    </style>
-</head>
-
-<body>
-    <div class=""container"">
-        <div class=""left"">
-            <div class=""info-box"">
-                <div class=""receipt"">
-                    Receipt for <br><span>"+ paymentModel.FullName+ @"</span>
-                </div>
-                <div class=""entry"">
-                    <p>Amount:<br><span>"+ paymentModel.PaymentAmount+@" VND</span></p>
-                </div>
-                <div class=""entry"">
-                    <p>Date:<br><span>"+ paymentModel.PaymentTime.Date+ @"</span></p>
-                </div>
-                <div class=""entry"">
-                    <p>Issuer:<br><span>EClinic</span></p>
-                </div>
-                <div class=""entry"">
-                    <p>TransactionID:<br><span>" + paymentModel.TransactionID+ @"</span></p>
-                </div>
-            </div>
-        </div>
-        <div class=""right"">
-            <div class=""content"">
-                <div class=""header"">
-                    <img src="""+ url+ @""" alt="""+ name+ @""">
-                    <div class=""payment"">
-                        <h4>Oct 18, 2015 08:30:57 PDT</h4>
-                        <h4>Payment By: "+ name+ @"</h4>
-                    </div>
-                    
-                </div>
-                <div class=""main"">
-                    <h3>Thank you for using our service</h3>
-                </div>
-                <div class=""message"">
-                    <p>Hello Ennio,<br>You sent a payment of " + paymentModel.PaymentAmount+ @" VND to Eclinic (<a
-                            href=""mailto:fivemandev123@gmail.com"">fivemandev123@gmail.com</a>)</p>
-                    <h6>It may take a few moments for this<br>transaction to appear in your account.</h6>
-                </div>
-                <div class=""footer"">
-                    <h6>Invoice ID: "+ paymentModel.BookingID+@"</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
-</html>"
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </center>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table><div class=""yj6qo""></div><div class=""adL"">
+                                        </div></div><div class=""adL"">
+                                        </div></div></div><div id="":mv"" class=""ii gt"" style=""display:none""><div id="":mw"" class=""a3s aiL ""></div></div><div class=""hi""></div></div>
+                                </body>
+                                </html>"
                 };
                 SendMail(mailModel);
             }
@@ -366,6 +257,17 @@ namespace Project.NotificationService.Service
             {
                 logger.WriteLogError(ex.Message);
             }
+        }
+        public void SendAccount(string email, AccountDtos account)
+        {
+            var mailModel = new MailModel
+            {
+                EmailTo = email,
+                Subject = $"Reset {mailInformation.MailTile} account password",
+                Body = $"<tr bgcolor=\"#efefef\">\r\n    <td style=\"color:#282828\">\r\n        <center>\r\n            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px;font-size:14px\">\r\n                <tbody>\r\n                    <tr>\r\n                        <td align=\"left\" style=\"padding:20px 10px;padding-bottom:0\">\r\n                            <div>\r\n                                <b>Welcome</b>\r\n                            </div>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td align=\"left\" style=\"padding:10px;color:#000\">\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n                                <tbody>\r\n                                    <tr>\r\n                                        <td>\r\n                                            Account information:<br><br>&nbsp; &nbsp; &nbsp; &nbsp; - UserName:\r\n                                            {account.UserName}<br>\r\n                                            &nbsp; &nbsp; &nbsp; &nbsp; - Password: {account.Password}<br>&nbsp; &nbsp; &nbsp;\r\n                                            &nbsp;<br><br>\r\n                                        </td>\r\n                                    </tr>\r\n                                    <tr>\r\n                                        <td>\r\n                                            <p\r\n                                                style=\"font-family:tahoma;font-size:12px;color:#363636;line-height:20px;margin:5px 0;padding-bottom:10px\">\r\n                                                <b>Note:</b>\r\n                                                After receiving the email, please change your password. Do not give your\r\n                                                account and password to 3rd parties\r\n                                            </p>\r\n                                        </td>\r\n                                    </tr>\r\n                                    <tr>\r\n                                        <td style=\"font-family:tahoma;font-size:12px;color:#363636;line-height:20px\">\r\n                                            Five Man Dev\r\n                                        </td>\r\n                                    </tr>\r\n                                </tbody>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                </tbody>\r\n            </table>\r\n        </center>\r\n    </td>\r\n</tr>\r\n</table>"
+
+            };
+            SendMail(mailModel);
         }
     }
 }

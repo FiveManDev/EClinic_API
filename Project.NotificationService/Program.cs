@@ -1,19 +1,23 @@
+using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.Core.Caching;
 using Project.Core.Cors;
-using Project.Core.Mapper;
 using Project.Core.MediatR;
+using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
+using Project.NotificationService.Consumer;
 using Project.NotificationService.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-//builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
-//{
-//    config.AddReceiveEndpoint<DeleteProfileConsumer>(ExchangeConstants.ProfileService, context);
-//});
+builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
+{
+    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.IdentityService, context);
+    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.BookingService, context);
+    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.IdentityService+"SendAccount", context);
+});
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);

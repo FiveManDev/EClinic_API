@@ -1,15 +1,21 @@
+using Project.BlogService.Consumer;
 using Project.BlogService.Data;
+using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.Core.AWS;
 using Project.Core.Cors;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
+using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
 using Project.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
+{
+    config.AddReceiveEndpoint<UpdateProfileConsumer>(ExchangeConstants.BlogsService, context);
+});
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);

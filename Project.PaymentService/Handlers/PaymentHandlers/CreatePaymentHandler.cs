@@ -1,6 +1,8 @@
 ﻿using Grpc.Net.Client;
+using MassTransit;
 using MediatR;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 using Project.PaymentService.Commands;
 using Project.PaymentService.Data;
 using Project.PaymentService.Model;
@@ -19,8 +21,10 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
         private readonly IPaymentRepository paymentRepository;
         private readonly string clientAddress;
         private readonly BookingService.BookingServiceClient client;
+        private readonly ProfileService.ProfileServiceClient profileclient;
+        private readonly IBus bus;
 
-        public CreatePaymentHandler(IConfiguration configuration, ILogger<CreatePaymentHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment, IPaymentRepository paymentRepository)
+        public CreatePaymentHandler(IBus bus,IConfiguration configuration, ILogger<CreatePaymentHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment, IPaymentRepository paymentRepository)
         {
             this.logger = logger;
             this.momoPayment = momoPayment;
@@ -31,6 +35,9 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
             GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:BookingServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
             client = new BookingService.BookingServiceClient(channel);
+            GrpcChannel channel2 = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            profileclient = new ProfileService.ProfileServiceClient(channel2);
+            this.bus = bus;
         }
 
         public async Task<string> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -83,6 +90,17 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 {
                     return clientAddress;
                 }
+                var res = await profileclient.GetProfileAsync(new GetProfileRequest { UserID = payment.UserID.ToString() });
+                await bus.SendMessage<PaymentModelData>(new PaymentModelData {
+                     FullName =res.FirstName+res.LastName,
+                     BookingType = type,
+                     PaymentAmount = paymentResult.Amount,
+                     PaymentID = payment.PaymentID,
+                     PaymentService=request.PaymentService,
+                     PaymentTime =paymentResult.PaymentTime,
+                     TransactionID =paymentResult.TransactionID,
+                     Email= res.Email
+                });
                 return url;
             }
             catch (Exception ex)

@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Functionality;
 using Project.Common.Security;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
@@ -15,11 +17,12 @@ namespace Project.IdentityService.Handlers.Account
     {
         private readonly IUserRepository userRepository;
         private readonly ILogger<CreateUserHandler> logger;
-
-        public CreateUserHandler(IUserRepository userRepository, ILogger<CreateUserHandler> logger)
+        private readonly IBus bus;
+        public CreateUserHandler(IUserRepository userRepository, ILogger<CreateUserHandler> logger, IBus bus)
         {
             this.userRepository = userRepository;
             this.logger = logger;
+            this.bus = bus;
         }
 
         public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -55,6 +58,10 @@ namespace Project.IdentityService.Handlers.Account
                     throw new Exception("Create User Erorr.");
                 }
                 var account = new ProviderAccountDtos { UserName = userNameGeneration, Password = passwordGeneration };
+                if (user.Enabled == true)
+                {
+                    await bus.SendMessage<AccountDtos>(new AccountDtos { Email = request.Email, UserName = user.UserName, Password = passwordGeneration });
+                }
                 return user.UserID;
             }
             catch (Exception ex)

@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Project.Common.Constants;
 using Project.Core.Authentication;
 using Project.Core.Caching;
 using Project.Core.Cors;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
+using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
+using Project.PaymentService.Consumer;
 using Project.PaymentService.Data.Configurations;
 using Project.PaymentService.MomoPayment;
 using Project.PaymentService.Repository.PaymentRepositories;
@@ -14,11 +17,10 @@ using Project.PaymentService.VNPayPayment;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
-//{
-//    config.AddReceiveEndpoint<DeleteProfileResultConsumer>(ExchangeConstants.ProfileService + "Delete", context);
-//    config.AddReceiveEndpoint<UpdateProfileResultConsumer>(ExchangeConstants.ProfileService, context);
-//});
+builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
+{
+    config.AddReceiveEndpoint<PaymentResult>(ExchangeConstants.ProfileService + "Delete", context);
+});
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"))
 );

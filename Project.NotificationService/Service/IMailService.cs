@@ -6,6 +6,7 @@ namespace Project.NotificationService.Service
     {
         void VerifyEmail(string email, string code);
         void ConfirmEmail(string email, string code);
-        void SendBill(string email, PaymentModel paymentModel);
+        void SendBill(string email, PaymentModelData paymentModel);
+        void SendAccount(string email, AccountDtos account);
     }
 }

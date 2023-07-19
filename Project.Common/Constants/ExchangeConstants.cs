@@ -6,5 +6,7 @@
         public const string ForumService = "ForumService";
         public const string ProfileService = "ProfileService";
         public const string NotificationService = "NotificationService";
+        public const string BookingService = "BookingService";
+        public const string BlogsService = "BlogsService";
     }
 }

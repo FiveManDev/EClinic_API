@@ -92,11 +92,11 @@ namespace Project.IdentityService.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> ResendCode([FromBody] string key)
+        public async Task<IActionResult> ResendCode(ResendCodeDtos ResendCodeDtos)
         {
             try
             {
-                return await mediator.Send(new ReSendCodeCommand(key));
+                return await mediator.Send(new ReSendCodeCommand(ResendCodeDtos));
             }
             catch (Exception ex)
             {
