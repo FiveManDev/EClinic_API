@@ -1,4 +1,4 @@
-﻿namespace Project.BlogService.Events
+﻿namespace Project.ProfileServices.Events
 {
     public class UpdateProfileEvents
     {

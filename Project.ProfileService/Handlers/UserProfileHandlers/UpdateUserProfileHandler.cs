@@ -9,9 +9,9 @@ using Project.Core.Logger;
 using Project.Core.RabbitMQ;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Data.Configurations;
-using Project.ProfileService.Events;
 using Project.ProfileService.Repository.HealthProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
+using Project.ProfileServices.Events;
 
 namespace Project.ProfileService.Handlers.UserProfileHandlers
 {
@@ -71,6 +71,13 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                         FirstName = profile.FirstName,
                         LastName = profile.LastName
                     }, ExchangeConstants.ForumService);
+                    await bus.SendMessageWithExchangeName<UpdateProfileEvents>(new UpdateProfileEvents
+                    {
+                        UserID = profile.UserID,
+                        Avatar = profile.Avatar,
+                        FirstName = profile.FirstName,
+                        LastName = profile.LastName
+                    }, ExchangeConstants.BlogsService);
                 }
                 healthProfile.Height = profileDtos.Height;
                 healthProfile.Weight = profileDtos.Weight;

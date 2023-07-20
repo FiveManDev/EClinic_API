@@ -1,6 +1,4 @@
-﻿using Project.NotificationService.Data;
-
-namespace Project.NotificationService.Dtos
+﻿namespace Project.NotificationService.Dtos
 {
     public class PaymentModelData
     {
@@ -10,7 +8,7 @@ namespace Project.NotificationService.Dtos
         public double PaymentAmount { get; set; }
         public string BookingType { get; set; }
         public DateTime PaymentTime { get; set; }
-        public PaymentService PaymentService { get; set; }
+        public string PaymentService { get; set; }
         public string TransactionID { get; set; }
     }
 }

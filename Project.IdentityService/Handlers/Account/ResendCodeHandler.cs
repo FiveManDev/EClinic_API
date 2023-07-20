@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Functionality;
 using Project.Common.Response;
@@ -10,6 +11,7 @@ using Project.Core.Logger;
 using Project.Core.RabbitMQ;
 using Project.IdentityService.Commands;
 using Project.IdentityService.Dtos;
+using Project.NotificationService.Dtos;
 
 namespace Project.IdentityService.Handlers.Account
 {
@@ -37,9 +39,8 @@ namespace Project.IdentityService.Handlers.Account
                 var DataCode = new DataCodeDtos { User = data.User, Code = code, CreateProfileRequest = data.CreateProfileRequest };
                 await cacheService.SetCacheResponseAsync(request.ResendCodeDtos.Key, DataCode, TimeSpan.FromHours(1));
                 var newdata = new ConfirmDataDtos { Key = request.ResendCodeDtos.Key, Code = code };
-                await bus.SendMessage<VerifyEmail>(new VerifyEmail { Email = data.CreateProfileRequest.Email, Code = code, Type = request.ResendCodeDtos.Type });
-                await Task.Delay(500);
-                return ApiResponse.OK(newdata);
+                await bus.SendMessageWithExchangeName<VerifyEmail>(new VerifyEmail { Email = data.CreateProfileRequest.Email, Code = code, Type = request.ResendCodeDtos.Type }, ExchangeConstants.NotificationService);
+                return ApiResponse.OK("Resend success");
             }
             catch (Exception ex)
             {

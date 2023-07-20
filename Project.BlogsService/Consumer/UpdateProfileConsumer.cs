@@ -1,8 +1,8 @@
 ﻿using MassTransit;
 using Project.BlogService.Data;
-using Project.BlogService.Events;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
+using Project.ProfileServices.Events;
 
 namespace Project.BlogService.Consumer
 {
@@ -10,9 +10,11 @@ namespace Project.BlogService.Consumer
     {
         private readonly IMongoDBRepository<Blog> postRepository;
         private readonly ILogger<UpdateProfileConsumer> logger;
-        public UpdateProfileConsumer(IMongoDBRepository<Blog> postRepository)
+
+        public UpdateProfileConsumer(IMongoDBRepository<Blog> postRepository, ILogger<UpdateProfileConsumer> logger)
         {
             this.postRepository = postRepository;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<UpdateProfileEvents> context)

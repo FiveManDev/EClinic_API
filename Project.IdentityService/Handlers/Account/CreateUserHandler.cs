@@ -10,6 +10,7 @@ using Project.IdentityService.Commands;
 using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
 using Project.IdentityService.Repository.UserRepository;
+using Project.NotificationService.Dtos;
 
 namespace Project.IdentityService.Handlers.Account
 {
@@ -60,7 +61,12 @@ namespace Project.IdentityService.Handlers.Account
                 var account = new ProviderAccountDtos { UserName = userNameGeneration, Password = passwordGeneration };
                 if (user.Enabled == true)
                 {
-                    await bus.SendMessage<AccountDtos>(new AccountDtos { Email = request.Email, UserName = user.UserName, Password = passwordGeneration });
+                    await bus.SendMessageWithExchangeName<AccountDtos>(new AccountDtos
+                    {
+                        Email = request.Email,
+                        UserName = user.UserName,
+                        Password = passwordGeneration
+                    }, ExchangeConstants.NotificationService + "SendAccount");
                 }
                 return user.UserID;
             }

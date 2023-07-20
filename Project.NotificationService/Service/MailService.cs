@@ -1,5 +1,4 @@
 ﻿using Project.Core.Logger;
-using Project.NotificationService.Data;
 using Project.NotificationService.Dtos;
 using System.Net;
 using System.Net.Mail;
@@ -101,7 +100,7 @@ namespace Project.NotificationService.Service
         {
             try
             {
-                var name = paymentModel.PaymentService == PaymentService.VNPay ? "VNPay" : "Momo";
+                var name = paymentModel.PaymentService;
                 var mailName = email.Substring(0, email.IndexOf("@"));
                 var mailModel = new MailModel
                 {

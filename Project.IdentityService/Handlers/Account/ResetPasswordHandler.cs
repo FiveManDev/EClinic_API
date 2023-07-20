@@ -2,6 +2,7 @@
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Functionality;
 using Project.Common.Response;
@@ -13,6 +14,7 @@ using Project.IdentityService.Commands;
 using Project.IdentityService.Dtos;
 using Project.IdentityService.Protos;
 using Project.IdentityService.Repository.UserRepository;
+using Project.NotificationService.Dtos;
 
 namespace Project.IdentityService.Handlers.Account
 {
@@ -59,8 +61,8 @@ namespace Project.IdentityService.Handlers.Account
                 var DataCode = new DataCodeDtos { User = user, Code = code};
                 await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
                 var data = new ConfirmDataDtos { Key = key, Code = code };
-                await bus.SendMessage<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 });
-                return ApiResponse.OK(data);
+                await bus.SendMessageWithExchangeName<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 }, ExchangeConstants.NotificationService);
+                return ApiResponse.OK(key);
             }
             catch (Exception ex)
             {

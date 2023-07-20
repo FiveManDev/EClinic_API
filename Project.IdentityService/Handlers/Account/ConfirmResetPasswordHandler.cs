@@ -16,10 +16,11 @@ namespace Project.IdentityService.Handlers.Account
         private readonly IResponseCacheService cacheService;
         private readonly ILogger<ConfirmResetPasswordHandler> logger;
 
-        public ConfirmResetPasswordHandler(IUserRepository userRepository, IResponseCacheService cacheService)
+        public ConfirmResetPasswordHandler(IUserRepository userRepository, IResponseCacheService cacheService, ILogger<ConfirmResetPasswordHandler> logger)
         {
             this.userRepository = userRepository;
             this.cacheService = cacheService;
+            this.logger = logger;
         }
 
         public async Task<ObjectResult> Handle(ConfirmResetPasswordCommand request, CancellationToken cancellationToken)

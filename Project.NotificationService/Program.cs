@@ -14,9 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
-    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.IdentityService, context);
-    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.BookingService, context);
-    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.IdentityService+"SendAccount", context);
+    config.AddReceiveEndpoint<SendMailConsumer>(ExchangeConstants.NotificationService, context);
+    config.AddReceiveEndpoint<SendBillConsumer>(ExchangeConstants.NotificationService+"SendBill", context);
+    config.AddReceiveEndpoint<SendAccountConsumer>(ExchangeConstants.NotificationService + "SendAccount", context);
 });
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";

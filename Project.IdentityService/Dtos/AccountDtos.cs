@@ -1,4 +1,4 @@
-﻿namespace Project.IdentityService.Dtos
+﻿namespace Project.NotificationService.Dtos
 {
     public class AccountDtos
     {

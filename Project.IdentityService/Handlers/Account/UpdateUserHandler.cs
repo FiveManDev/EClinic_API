@@ -1,13 +1,14 @@
 ﻿using MassTransit;
 using MediatR;
+using Project.Common.Constants;
 using Project.Common.Enum;
 using Project.Common.Functionality;
 using Project.Common.Security;
 using Project.Core.Logger;
 using Project.Core.RabbitMQ;
 using Project.IdentityService.Commands;
-using Project.IdentityService.Dtos;
 using Project.IdentityService.Repository.UserRepository;
+using Project.NotificationService.Dtos;
 
 namespace Project.IdentityService.Handlers.Account
 {
@@ -43,7 +44,12 @@ namespace Project.IdentityService.Handlers.Account
                     var pass = Cryptography.EncryptPassword(passwordGeneration);
                     user.PasswordSalt = pass.Salt;
                     user.PasswordHash = pass.Hash;
-                    await bus.SendMessage<AccountDtos>(new AccountDtos { Email = request.Email, UserName = user.UserName, Password = passwordGeneration });
+                    await bus.SendMessageWithExchangeName<AccountDtos>(new AccountDtos
+                    {
+                        Email = request.Email,
+                        UserName = user.UserName,
+                        Password = passwordGeneration
+                    }, ExchangeConstants.NotificationService + "SendAccount");
                 }
                 var result = await userRepository.UpdateAsync(user);
                 if (!result)

@@ -16,7 +16,7 @@ using Project.IdentityService.Data;
 using Project.IdentityService.Dtos;
 using Project.IdentityService.Protos;
 using Project.IdentityService.Repository.UserRepository;
-using static MassTransit.ValidationResultExtensions;
+using Project.NotificationService.Dtos;
 
 namespace Project.IdentityService.Handlers.Account
 {
@@ -74,8 +74,9 @@ namespace Project.IdentityService.Handlers.Account
                 var DataCode = new DataCodeDtos { User = user, Code = code,CreateProfileRequest = profile };
                 await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
                 var data = new ConfirmDataDtos { Key = key, Code = code };
-                await bus.SendMessage<VerifyEmail>(new VerifyEmail { Email = request.SignUpDtos.Email,Code = code,Type = 0});
-                return ApiResponse.OK(data);
+                var content = new VerifyEmail { Email = request.SignUpDtos.Email, Code = code, Type = 0 };
+                await bus.SendMessageWithExchangeName<VerifyEmail>(content, ExchangeConstants.NotificationService);
+                return ApiResponse.OK(key);
             }
             catch (Exception ex)
             {

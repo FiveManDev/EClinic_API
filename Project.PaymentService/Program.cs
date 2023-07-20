@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
-    config.AddReceiveEndpoint<PaymentResult>(ExchangeConstants.ProfileService + "Delete", context);
+    config.AddReceiveEndpoint<PaymentResult>(ExchangeConstants.NotificationService, context);
 });
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("EClinicDBConnection"))

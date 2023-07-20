@@ -23,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 );
 builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
 {
-    config.AddReceiveEndpoint<VerifyEmailResultConsumer>(ExchangeConstants.NotificationService, context);
+    config.AddReceiveEndpoint<VerifyEmailResultConsumer>(ExchangeConstants.IdentityService, context);
 });
 builder.Services.AddMyMapper();
 builder.Services.AddMyVersioning();

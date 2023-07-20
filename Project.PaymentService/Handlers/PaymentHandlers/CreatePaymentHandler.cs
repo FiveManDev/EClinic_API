@@ -1,8 +1,10 @@
 ﻿using Grpc.Net.Client;
 using MassTransit;
 using MediatR;
+using Project.Common.Constants;
 using Project.Core.Logger;
 using Project.Core.RabbitMQ;
+using Project.NotificationService.Dtos;
 using Project.PaymentService.Commands;
 using Project.PaymentService.Data;
 using Project.PaymentService.Model;
@@ -91,16 +93,16 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                     return clientAddress;
                 }
                 var res = await profileclient.GetProfileAsync(new GetProfileRequest { UserID = payment.UserID.ToString() });
-                await bus.SendMessage<PaymentModelData>(new PaymentModelData {
+                await bus.SendMessageWithExchangeName<PaymentModelData>(new PaymentModelData {
                      FullName =res.FirstName+res.LastName,
                      BookingType = type,
                      PaymentAmount = paymentResult.Amount,
                      PaymentID = payment.PaymentID,
-                     PaymentService=request.PaymentService,
+                     PaymentService= request.PaymentService== Data.PaymentService.Momo?"Momo":"VNPay",
                      PaymentTime =paymentResult.PaymentTime,
                      TransactionID =paymentResult.TransactionID,
                      Email= res.Email
-                });
+                }, ExchangeConstants.NotificationService + "SendBill");
                 return url;
             }
             catch (Exception ex)
