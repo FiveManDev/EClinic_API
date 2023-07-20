@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Project.Core.RabbitMQ;
 using Project.ProfileService.Events;
+using Project.ProfileServices.Events;
 
 namespace Project.ProfileService.Consumer
 {

@@ -13,6 +13,7 @@ using Project.ProfileService.Events;
 using Project.ProfileService.Protos;
 using Project.ProfileService.Repository.EmployeeProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
+using Project.ProfileServices.Events;
 
 namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
 {
