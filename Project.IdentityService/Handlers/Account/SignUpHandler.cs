@@ -76,7 +76,7 @@ namespace Project.IdentityService.Handlers.Account
                 var data = new ConfirmDataDtos { Key = key, Code = code };
                 var content = new VerifyEmail { Email = request.SignUpDtos.Email, Code = code, Type = 0 };
                 await bus.SendMessageWithExchangeName<VerifyEmail>(content, ExchangeConstants.NotificationService);
-                return ApiResponse.OK(key);
+                return ApiResponse.OK<string>(key);
             }
             catch (Exception ex)
             {

@@ -62,7 +62,7 @@ namespace Project.IdentityService.Handlers.Account
                 await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
                 var data = new ConfirmDataDtos { Key = key, Code = code };
                 await bus.SendMessageWithExchangeName<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 }, ExchangeConstants.NotificationService);
-                return ApiResponse.OK(key);
+                return ApiResponse.OK<string>(key);
             }
             catch (Exception ex)
             {
