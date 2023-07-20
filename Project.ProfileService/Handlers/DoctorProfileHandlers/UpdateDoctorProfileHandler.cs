@@ -88,7 +88,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     throw new Exception("Update Profile Error");
                 }
-                var userRes = await client.UpdateUserAsync(new UpdateUserRequest { UserID = profile.UserID.ToString(), Enabled = profileDtos.EnabledAccount });
+                var userRes = await client.UpdateUserAsync(new UpdateUserRequest { UserID = profile.UserID.ToString(), Enabled = profileDtos.EnabledAccount ,Email = profile.Email});
                 if (!userRes.IsSuccess)
                 {
                     return ApiResponse.InternalServerError();

@@ -15,6 +15,7 @@ message CreateUserRequest  {
 message UpdateUserRequest  {
   string UserID = 1;
   bool Enabled = 2;
+  string Email = 3;
 }
 message UpdateUserResponse  {
   bool IsSuccess = 1;

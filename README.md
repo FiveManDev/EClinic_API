@@ -116,7 +116,6 @@ dotnet tool install --global dotnet-ef
 | Identity Service | https://localhost:1111/swagger/index.html | This is Swagger UI showing you all the Identity Service Api |
 | Profile Service | https://localhost:2222/swagger/index.html | This is Swagger UI showing you all the Profile Service Api |
 | Forum Service | https://localhost:3333/swagger/index.html | This is Swagger UI showing you all the Forum Service Api |
-| Notification Service | https://localhost:4444/swagger/index.html | This is Swagger UI showing you all the Notification Service Api |
 | Blog Service | https://localhost:5555/swagger/index.html | This is Swagger UI showing you all the Blog Service Api |
 | Service Information Service | https://localhost:5432/swagger/index.html | This is Swagger UI showing you all the Service Information Service Api |
 | Booking Service | https://localhost:7777/swagger/index.html | This is Swagger UI showing you all the Booking Service Api |

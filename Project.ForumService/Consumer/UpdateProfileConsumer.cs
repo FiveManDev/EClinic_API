@@ -5,6 +5,7 @@ using Project.Core.RabbitMQ;
 using Project.Data.Repository.MongoDB;
 using Project.ForumService.Data;
 using Project.ForumService.Events;
+using Project.ProfileServices.Events;
 
 namespace Project.ForumService.Consumer
 {

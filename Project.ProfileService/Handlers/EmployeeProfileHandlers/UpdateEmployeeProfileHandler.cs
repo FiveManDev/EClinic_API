@@ -88,7 +88,7 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                     Avatar = profile.Avatar,
                     FirstName = profile.FirstName,
                     LastName = profile.LastName
-                }, ExchangeConstants.ForumService);
+                }, ExchangeConstants.BlogsService);
                 return ApiResponse.OK("Update Profile Success");
             }
             catch (Exception ex)

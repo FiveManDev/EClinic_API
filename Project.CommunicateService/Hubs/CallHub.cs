@@ -15,7 +15,8 @@ namespace Project.CommunicateService.Hubs
         {
             await Clients.Group(RoomID.ToString() + "Call").SendAsync("CallUser", signal, data);
         }
-        [Authorize] async Task AnswerCall(string signal, string data, Guid RoomID)
+        [Authorize] 
+        public async Task AnswerCall(string signal, string data, Guid RoomID)
         {
             await Clients.Group(RoomID.ToString() + "Call").SendAsync("AnswerCall", signal, data);
         }

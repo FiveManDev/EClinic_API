@@ -1,6 +1,6 @@
 ﻿namespace Project.PaymentService.Events
 {
-    public class Class
+    public class PaymentEvent
     {
     }
 }

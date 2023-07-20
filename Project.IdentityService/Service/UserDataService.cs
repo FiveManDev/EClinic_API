@@ -82,7 +82,7 @@ namespace Project.IdentityService.Service
             try
             {
                 var userID = Guid.Parse(request.UserID);
-                var result = await mediator.Send(new UpdateUserCommand(userID, request.Enabled));
+                var result = await mediator.Send(new UpdateUserCommand(userID, request.Enabled,request.Email));
                 var res = new UpdateUserResponse();
                 if (!result) { throw new Exception("Update User Error"); }
                 res.IsSuccess = result;
