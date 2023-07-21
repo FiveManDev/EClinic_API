@@ -25,7 +25,7 @@ namespace Project.IdentityService.Handlers.Account
         private readonly ILogger<ResetPasswordHandler> logger;
         private readonly IResponseCacheService cacheService;
         private readonly IBus bus;
-        public ResetPasswordHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<ResetPasswordHandler> logger,IResponseCacheService cacheService, IBus bus)
+        public ResetPasswordHandler(IUserRepository userRepository, IConfiguration configuration, ILogger<ResetPasswordHandler> logger, IResponseCacheService cacheService, IBus bus)
         {
             this.userRepository = userRepository;
             var httpHandler = new HttpClientHandler();
@@ -55,10 +55,10 @@ namespace Project.IdentityService.Handlers.Account
                 var pass = Cryptography.EncryptPassword(request.ResetPasswordDTO.NewPassword);
                 user.PasswordSalt = pass.Salt;
                 user.PasswordHash = pass.Hash;
-                var TextBytes = System.Text.Encoding.UTF8.GetBytes(request.ResetPasswordDTO.Email + user.UserName+"Reset");
+                var TextBytes = System.Text.Encoding.UTF8.GetBytes(request.ResetPasswordDTO.Email + user.UserName + "Reset");
                 var key = Convert.ToBase64String(TextBytes);
                 var code = RandomText.RandomByNumberOfCharacters(6, RandomType.Number);
-                var DataCode = new DataCodeDtos { User = user, Code = code};
+                var DataCode = new DataCodeDtos { User = user, Code = code, CreateProfileRequest = new CreateProfileRequest() };
                 await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
                 var data = new ConfirmDataDtos { Key = key, Code = code };
                 await bus.SendMessageWithExchangeName<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 }, ExchangeConstants.NotificationService);

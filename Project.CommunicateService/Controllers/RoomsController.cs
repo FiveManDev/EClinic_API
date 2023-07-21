@@ -59,10 +59,17 @@ namespace Project.CommunicateService.Controllers
             return await mediator.Send(new SearchRoomQuery(paginationRequestHeader, Response, userId, SearchText));
         }
         [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]
-        public async Task<IActionResult> CreateRoom(Guid RoomTypeID)
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User })]
+        public async Task<IActionResult> CreateSupporterRoom(string Message)
         {
-            return await mediator.Send(new CreateRoomCommand(RoomTypeID));
+            string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+            return await mediator.Send(new CreateSupporterRoomCommand(Message, userId));
+        }
+        [HttpPost]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]
+        public async Task<IActionResult> CreateDoctorRoom()
+        {
+            return await mediator.Send(new CreateDoctorRoomCommand());
         }
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]

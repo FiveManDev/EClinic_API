@@ -11,9 +11,9 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
     public class CloseRoomHandler : IRequestHandler<CloseRoomCommand, ObjectResult>
     {
         private readonly IRoomRepository roomRepository;
-        private readonly ILogger<CreateRoomHandler> logger;
+        private readonly ILogger<CloseRoomHandler> logger;
 
-        public CloseRoomHandler(IRoomRepository roomRepository, ILogger<CreateRoomHandler> logger)
+        public CloseRoomHandler(IRoomRepository roomRepository, ILogger<CloseRoomHandler> logger)
         {
             this.roomRepository = roomRepository;
             this.logger = logger;
