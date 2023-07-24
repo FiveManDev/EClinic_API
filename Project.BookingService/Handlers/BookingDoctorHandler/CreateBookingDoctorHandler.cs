@@ -34,7 +34,7 @@ namespace Project.BookingService.Handlers.BookingDoctorHandler
                 if (res == null) { return null; }
                 if (bookingDoctor.BookingType == BookingType.Offline)
                 {
-                    bookingDoctor.RoomID = Guid.NewGuid();
+                    bookingDoctor.RoomID = Guid.Empty;
                 }
                 if (bookingDoctor.BookingType == BookingType.Online)
                 {

@@ -65,12 +65,12 @@ namespace Project.CommunicateService.Controllers
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
             return await mediator.Send(new CreateSupporterRoomCommand(Message, userId));
         }
-        [HttpPost]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]
-        public async Task<IActionResult> CreateDoctorRoom()
-        {
-            return await mediator.Send(new CreateDoctorRoomCommand());
-        }
+        //[HttpPost]
+        //[CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]
+        //public async Task<IActionResult> CreateDoctorRoom()
+        //{
+        //    return await mediator.Send(new CreateDoctorRoomCommand());
+        //}
         [HttpPut]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Supporter, RoleConstants.Doctor })]
         public async Task<IActionResult> CloseRoom(Guid RoomID)
