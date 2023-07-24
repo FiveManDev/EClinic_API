@@ -15,8 +15,8 @@ public class BookingDoctorConfiguration : IEntityTypeConfiguration<BookingDoctor
         builder.Property(x => x.BookingTime).IsRequired();
         builder.Property(x => x.ScheduleID).IsRequired();
         builder.Property(x => x.BookingType).IsRequired();
+        builder.Property(x => x.RoomID).IsRequired();
         builder.Property(x => x.BookingStatus).IsRequired();
-
         builder.ToTable("BookingDoctor");
 
     }

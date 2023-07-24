@@ -47,6 +47,9 @@ namespace Project.BookingService.Migrations
                     b.Property<Guid>("ProfileID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("RoomID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ScheduleID")
                         .HasColumnType("uniqueidentifier");
 

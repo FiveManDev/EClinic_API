@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\communication.proto" />
     <None Remove="Protos\profile.proto" />
   </ItemGroup>
 
@@ -28,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\communication.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\profile.proto">
       <GrpcServices>Client</GrpcServices>
     </Protobuf>

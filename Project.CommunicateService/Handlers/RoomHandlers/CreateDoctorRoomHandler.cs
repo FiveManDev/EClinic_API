@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Project.Common.Response;
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
 using Project.CommunicateService.Data.Configurations;
@@ -9,7 +7,7 @@ using Project.Core.Logger;
 
 namespace Project.CommunicateService.Handlers.RoomHandlers
 {
-    public class CreateDoctorRoomHandler : IRequestHandler<CreateDoctorRoomCommand, ObjectResult>
+    public class CreateDoctorRoomHandler : IRequestHandler<CreateDoctorRoomCommand, Room>
     {
         private readonly IRoomRepository roomRepository;
         private readonly ILogger<CreateDoctorRoomHandler> logger;
@@ -20,7 +18,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
             this.logger = logger;
         }
 
-        public async Task<ObjectResult> Handle(CreateDoctorRoomCommand request, CancellationToken cancellationToken)
+        public async Task<Room> Handle(CreateDoctorRoomCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -30,12 +28,12 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 {
                     throw new Exception("Create Room Error.");
                 }
-                return ApiResponse.Created<Guid>(result.RoomID);
+                return Room;
             }
             catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
-                return ApiResponse.InternalServerError();
+                return null;
             }
         }
     }

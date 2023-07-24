@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Protos\booking.proto" />
+    <None Remove="Protos\communication.proto" />
     <None Remove="Protos\profile.proto" />
     <None Remove="Protos\service.proto" />
   </ItemGroup>
@@ -30,6 +31,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\booking.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\communication.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\profile.proto">
       <GrpcServices>Client</GrpcServices>
     </Protobuf>

@@ -12,7 +12,7 @@ using Project.BookingService.Data.Configurations;
 namespace Project.BookingService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230707160817_Initial")]
+    [Migration("20230724063347_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,9 @@ namespace Project.BookingService.Migrations
                         .HasColumnType("float");
 
                     b.Property<Guid>("ProfileID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoomID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ScheduleID")

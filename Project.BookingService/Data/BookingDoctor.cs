@@ -10,6 +10,7 @@ public class BookingDoctor
     public DateTime BookingTime { get; set; }
     public BookingType BookingType { get; set; }
     public BookingStatus BookingStatus { get; set; }
+    public Guid RoomID { get; set; }
 
     // Relationship
     public Guid ScheduleID { get; set; }

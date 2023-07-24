@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option csharp_namespace = "Project.CommunicateService.Protos";
+
+service CommunicationService  {
+  rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+}
+message CreateRoomRequest  {
+  int32 type = 1;
+}
+message CreateRoomResponse  {
+  string RoomID = 1;
+}

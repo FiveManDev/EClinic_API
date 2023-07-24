@@ -4,6 +4,7 @@ using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.CommunicateService.Repository.RoomTypeRepositories;
+using Project.CommunicateService.Service;
 using Project.Core.Authentication;
 using Project.Core.AWS;
 using Project.Core.Cors;
@@ -22,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
-
+builder.Services.AddGrpc();
 builder.Services.AddMyVersioning();
 var CorsName = "Eclinic";
 builder.Services.AddMyCors(CorsName);
@@ -48,7 +49,7 @@ app.UseCors(CorsName);
 app.UseEndpoints(endpoints => {
     endpoints.MapHub<MessageHub>("/message");
     endpoints.MapHub<CallHub>("/call");
+    endpoints.MapGrpcService<CommunicationDataService>();
 });
 app.MapControllers();
-
 app.Run();

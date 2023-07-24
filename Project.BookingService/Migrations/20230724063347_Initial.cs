@@ -72,6 +72,7 @@ namespace Project.BookingService.Migrations
                     BookingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BookingType = table.Column<int>(type: "int", nullable: false),
                     BookingStatus = table.Column<int>(type: "int", nullable: false),
+                    RoomID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ScheduleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
