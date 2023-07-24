@@ -11,26 +11,35 @@ VALUES ('bde8645f-2760-4729-ac4f-1c5b5ffedc2a',N'Doctor');
 
 GO
 
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('78b7f789-524d-47a3-a9d1-fe369873c016','0','2023-01-01 09:00:00','0ddb55c3-b551-4e04-b827-07ea8d777130');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('ad4210b9-4431-4b78-b28c-0003fc7a77e5','0','2023-01-01 10:00:00','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('b69d8383-6dfb-4763-8710-05b4cbea4d95','0','2023-01-02 10:00:00','0ddb55c3-b551-4e04-b827-07ea8d777130');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('93aee4f9-bfb3-4af3-b839-0f4fccb31377','0','2023-01-02 11:00:00','0ddb55c3-b551-4e04-b827-07ea8d777130');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('394ba900-3928-4d80-919f-10b419d415ad','0','2023-01-02 12:00:00','0ddb55c3-b551-4e04-b827-07ea8d777130');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('2ba8b19e-5ad4-479b-9a7f-115edd5040b1','0','2023-01-03 10:00:00','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('42c753c5-f0c2-4e93-865e-1314cfc611c6','0','2023-01-03 11:00:00','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('b2cd704d-b5b3-4be8-b614-1c07bd7b0770','0','2023-01-03 12:00:00','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('b04e49c9-1ada-43d7-a9df-1dfda469d9e0','0','2023-01-03 13:00:00','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
-INSERT INTO [Rooms]  (RoomID,IsClosed,CreatedAt,RoomTypeID)
-VALUES ('2f645efd-70aa-4a2a-aaa9-244fa1b719bc','0','2023-01-03 14:00:00','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('78b7f789-524d-47a3-a9d1-fe369873c016','0','1/1/2023 9:00:00 AM','0ddb55c3-b551-4e04-b827-07ea8d777130');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('ad4210b9-4431-4b78-b28c-0003fc7a77e5','0','1/1/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('b69d8383-6dfb-4763-8710-05b4cbea4d95','0','1/2/2023 10:00:00 AM','0ddb55c3-b551-4e04-b827-07ea8d777130');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('93aee4f9-bfb3-4af3-b839-0f4fccb31377','0','1/2/2023 11:00:00 AM','0ddb55c3-b551-4e04-b827-07ea8d777130');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('394ba900-3928-4d80-919f-10b419d415ad','0','1/2/2023 12:00:00 PM','0ddb55c3-b551-4e04-b827-07ea8d777130');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('2ba8b19e-5ad4-479b-9a7f-115edd5040b1','0','1/3/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('42c753c5-f0c2-4e93-865e-1314cfc611c6','0','1/3/2023 11:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('b2cd704d-b5b3-4be8-b614-1c07bd7b0770','0','1/3/2023 12:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('b04e49c9-1ada-43d7-a9df-1dfda469d9e0','0','1/3/2023 1:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('2f645efd-70aa-4a2a-aaa9-244fa1b719bc','0','1/3/2023 2:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('7ee6f70b-d58e-49ab-b70d-6ad83b492e40','0','1/1/2023 9:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('150927e4-d59d-4d5e-86d3-f17136d1652f','0','1/1/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('e2e8b80c-9c08-4a82-89ad-6c1635e2b0e3','0','1/2/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('1859260e-7d95-4e0e-b287-9235747c04c4','0','1/2/2023 11:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('41909012-ba0c-4f69-a88d-869604928a48','0','1/2/2023 12:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('a6898622-5dca-4e78-844c-9edea778eb4c','0','1/3/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('bb42f8f5-ae8f-4de7-b672-fdeac95ed6e0','0','1/3/2023 11:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('5b555c08-db96-4a1d-ae47-b8d79446da41','0','1/3/2023 12:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('5c9a4bb9-f67d-46a4-8aef-6dbecfd2d422','0','1/3/2023 1:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('c3eddb29-6943-4de3-8861-be62ec82db28','0','1/1/2023 9:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('3c34af3b-09b9-4a00-9f52-83abaef2a4b1','0','1/1/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('f8e780c9-a32f-40b2-a445-e32dcc63da30','0','1/2/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('0b9e6a8d-40a8-472e-ba0b-95c48fe7fb66','0','1/2/2023 11:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('f667d71e-4572-4fc2-abea-b2d19e38cf5c','0','1/2/2023 12:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('fbaae15a-7052-4458-8f48-68a45f013b53','0','1/3/2023 10:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('3ecef33a-b6dd-4a92-9191-f5d9787abaa4','0','1/3/2023 11:00:00 AM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('20662731-62a4-4f79-9b0d-3c11331ee5db','0','1/3/2023 12:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('cdf97b5b-95da-4140-9a59-1f2ab7a072c7','0','1/3/2023 1:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
+INSERT INTO [Rooms] (RoomID,IsClosed,CreatedAt,RoomTypeID) VALUES ('bc773941-302c-44fa-a5ac-6b81abb674b6','0','1/3/2023 2:00:00 PM','bde8645f-2760-4729-ac4f-1c5b5ffedc2a');
 
 GO
 
