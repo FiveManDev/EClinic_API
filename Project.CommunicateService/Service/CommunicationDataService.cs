@@ -21,7 +21,7 @@ namespace Project.CommunicateService.Service
         {
             try
             {
-                var result = await mediator.Send(new CreateDoctorRoomCommand());
+                var result = await mediator.Send(new CreateDoctorRoomCommand(request.UserID, request.DoctorID));
                 return new CreateRoomResponse { RoomID = result.RoomID.ToString() };
             }
             catch (Exception ex)

@@ -3,6 +3,7 @@
     public enum MessageType
     {
         Text,
-        Image
+        Image,
+        Hidden
     }
 }

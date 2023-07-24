@@ -58,25 +58,38 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 Rooms = Rooms
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
-                
+
                 header.PageIndex = request.PaginationRequestHeader.PageNumber;
                 header.PageSize = request.PaginationRequestHeader.PageSize;
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 var ListOrtherUserID = new List<Guid>();
                 foreach (var room in Rooms)
                 {
-                    ListOrtherUserID.Add(room.ChatMessages.Where(x => x.UserID != UserID).FirstOrDefault().UserID);
+                    var otherChat = room.ChatMessages.Where(x => x.UserID != UserID).FirstOrDefault();
+                    if (otherChat == null)
+                    {
+                        otherChat = new ChatMessage { UserID = Guid.Empty };
+                    }
+                    ListOrtherUserID.Add(otherChat.UserID);
+                }
+                foreach (var room in Rooms)
+                {
+                    var chatMessage = room.ChatMessages.Where(x => x.Type == MessageType.Hidden).ToList();
+                    if (chatMessage.Count != 0)
+                    {
+                        room.ChatMessages = null;
+                    }
                 }
                 var RoomDtos = mapper.Map<List<RoomDto>>(Rooms);
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
                 getAllProfileRequest.UserIDs.AddRange(ListOrtherUserID.ConvertAll(g => g.ToString()));
                 var response = await client.GetAllProfileAsync(getAllProfileRequest);
-                if(response is null)
+                if (response is null)
                 {
                     return ApiResponse.NotFound("Room Not Found");
                 }
                 var profiles = response.Profiles.ToList();
-                for (int i = 0; i <= RoomDtos.Count-1; i++)
+                for (int i = 0; i <= RoomDtos.Count - 1; i++)
                 {
                     RoomDtos[i].RoomAuthor = new Author();
                     RoomDtos[i].RoomAuthor.UserID = Guid.Parse(profiles[i].UserID);

@@ -1,4 +1,6 @@
 ﻿using Grpc.Core;
+using Project.Common.Enum;
+using Project.Core.AWS;
 using Project.ProfileService.Data;
 using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Protos;
@@ -12,12 +14,15 @@ namespace Project.ProfileService.Service
 
         private readonly IProfileRepository profileRepository;
         private readonly IHealthProfileRepository healthProfileRepository;
+        private readonly IAmazonS3Bucket s3Bucket;
 
-        public ProfileDataService(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository)
+        public ProfileDataService(IProfileRepository profileRepository, IHealthProfileRepository healthProfileRepository, IAmazonS3Bucket s3Bucket)
         {
             this.profileRepository = profileRepository;
             this.healthProfileRepository = healthProfileRepository;
+            this.s3Bucket = s3Bucket;
         }
+
         public override async Task<EmailExistResponse> EmailIsExist(CheckEmailRequest request, ServerCallContext context)
         {
             try
@@ -52,6 +57,7 @@ namespace Project.ProfileService.Service
                     Gender = request.Gender,
                     Email = request.Email
                 };
+                profile.Avatar = ConstantsData.DefaultAvatarURL;
                 var result = await profileRepository.CreateEntityAsync(profile);
                 var res = new CreateProfileResponse();
                 if (result == null)
@@ -142,7 +148,22 @@ namespace Project.ProfileService.Service
                 List<GetAllProfile> allProfiles = new List<GetAllProfile>();
                 foreach (var id in UserIDs)
                 {
-                    var profile = profiles.SingleOrDefault(x => x.UserID == id);
+                    Profile profile = null;
+                    if(id == Guid.Empty)
+                    {
+                        profile = new Profile
+                        {
+                            UserID = id,
+                            Avatar = ConstantsData.DefaultAvatarURL,
+                            FirstName = "Supporter",
+                            LastName = ""
+                        };
+                    }
+                    else
+                    {
+                        profile = profiles.SingleOrDefault(x => x.UserID == id);
+                    }
+
                     allProfiles.Add(new GetAllProfile
                     {
                         UserID = profile.UserID.ToString(),

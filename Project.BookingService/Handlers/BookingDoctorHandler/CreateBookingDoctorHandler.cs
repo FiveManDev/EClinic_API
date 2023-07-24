@@ -30,7 +30,11 @@ namespace Project.BookingService.Handlers.BookingDoctorHandler
             try
             {
                 BookingDoctor bookingDoctor = mapper.Map<BookingDoctor>(request.CreateBookingDoctorDTO);
-                var res = await client.CreateRoomAsync(new CreateRoomRequest { Type = 1 });
+                var res = await client.CreateRoomAsync(new CreateRoomRequest
+                {
+                    UserID = bookingDoctor.UserID.ToString(),
+                    DoctorID = bookingDoctor.DoctorID.ToString()
+                });
                 if (res == null) { return null; }
                 if (bookingDoctor.BookingType == BookingType.Offline)
                 {

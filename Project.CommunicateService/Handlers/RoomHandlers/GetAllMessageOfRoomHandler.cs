@@ -44,6 +44,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                     return ApiResponse.NotFound("Room Not Found");
                 }
                 var ChatMessages = Room.ChatMessages;
+                var ChatHidden = ChatMessages.Where(x=>x.Type==MessageType.Hidden).Select(x=>x.ChatMessageID).ToList();
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = ChatMessages.Count;
                 ChatMessages = ChatMessages
@@ -83,6 +84,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 }
                 var profiles = response.Profiles;
                 ChatResponseDtos chatResponseDtos = new ChatResponseDtos();
+                ChatMessageDtos.RemoveAll(x=>ChatHidden.Contains(x.ChatMessageID));
                 chatResponseDtos.Message = ChatMessageDtos;
                 chatResponseDtos.MyProfile = new Author();
                 if (MyChatID != null)

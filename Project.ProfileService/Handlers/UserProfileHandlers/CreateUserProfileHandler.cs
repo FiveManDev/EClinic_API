@@ -6,6 +6,7 @@ using Project.Core.AWS;
 using Project.Core.Logger;
 using Project.ProfileService.Commands;
 using Project.ProfileService.Data;
+using Project.ProfileService.Data.Configurations;
 using Project.ProfileService.Repository.HealthProfileRepository;
 using Project.ProfileService.Repository.ProfileRepository;
 
@@ -47,7 +48,7 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 }
                 else
                 {
-                    profile.Avatar = null;
+                    profile.Avatar = await s3Bucket.GetFileAsync(ConstantsData.DefaultAvatarKey);
                 }
                 var result = await profileRepository.CreateEntityAsync(profile);
                 if (result == null)

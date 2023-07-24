@@ -6,7 +6,8 @@ service CommunicationService  {
   rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
 }
 message CreateRoomRequest  {
-  int32 type = 1;
+  string UserID = 1;
+  string DoctorID = 2;
 }
 message CreateRoomResponse  {
   string RoomID = 1;

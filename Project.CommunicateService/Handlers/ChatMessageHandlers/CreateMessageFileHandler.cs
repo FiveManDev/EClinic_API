@@ -45,6 +45,10 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                 }
                 var UserID = Guid.Parse(request.UserID);
                 var url = await s3Bucket.UploadFileAsync(request.CreateMassageFileDtos.File, FileType.Image);
+                if (url == null)
+                {
+                    return ApiResponse.BadRequest("Server AWS CHậm mày ơi");
+                }
                 var ChatMessage = new ChatMessage
                 {
                     UserID = UserID,

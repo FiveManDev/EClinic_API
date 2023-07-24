@@ -37,7 +37,7 @@ namespace Project.ForumService.Handlers.PostHandlers
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = posts.Count;
                 posts = posts
-                    .OrderBy(x => x.CreatedAt)
+                    .OrderByDescending(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
                
