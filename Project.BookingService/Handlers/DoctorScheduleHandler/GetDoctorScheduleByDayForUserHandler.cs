@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver.Linq;
 using Project.BookingService.Dtos.DoctorScheduleDtos;
 using Project.BookingService.Repository.DoctorCalendarRepository;
 using Project.BookingServiceQueries.Queries;
@@ -30,8 +31,10 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
                 DoctorScheduleDtos scheduleDtos = new DoctorScheduleDtos();
                 scheduleDtos.CalenderID = Calendar.CalenderID;
                 scheduleDtos.Time = Calendar.Time;
-                Calendar.DoctorSchedules = Calendar.DoctorSchedules.OrderBy(x => x.StartTime).ToList();
-                scheduleDtos.Slots = mapper.Map<List<SlotDtos>>(Calendar.DoctorSchedules);
+                var Schedules = Calendar.DoctorSchedules;
+                Schedules = Schedules.Where(x => x.BookingDoctor?.BookingStatus != Data.BookingStatus.NoPayment).ToList();
+                Schedules = Schedules.OrderBy(x => x.StartTime).ToList();
+                scheduleDtos.Slots = mapper.Map<List<SlotDtos>>(Schedules);
                 return ApiResponse.OK(scheduleDtos);
             }
             catch (Exception ex)

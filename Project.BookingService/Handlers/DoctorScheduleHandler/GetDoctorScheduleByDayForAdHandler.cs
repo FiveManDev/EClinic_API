@@ -30,7 +30,9 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
                 DoctorScheduleDtos scheduleDtos = new DoctorScheduleDtos();
                 scheduleDtos.CalenderID = Calendar.CalenderID;
                 scheduleDtos.Time = Calendar.Time;
-                Calendar.DoctorSchedules = Calendar.DoctorSchedules.OrderBy(x=>x.StartTime).ToList();
+                var Schedules = Calendar.DoctorSchedules;
+                Schedules = Schedules.Where(x => x.BookingDoctor?.BookingStatus != Data.BookingStatus.NoPayment).ToList();
+                Schedules = Schedules.OrderBy(x => x.StartTime).ToList();
                 scheduleDtos.Slots = mapper.Map<List<SlotDtos>>(Calendar.DoctorSchedules);
                 return ApiResponse.OK(scheduleDtos);
             }
