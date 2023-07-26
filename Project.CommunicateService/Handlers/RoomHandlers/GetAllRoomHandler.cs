@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Grpc.Net.Client;
-using MassTransit.Initializers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -41,15 +40,17 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
             try
             {
                 var UserID = Guid.Parse(request.UserID);
-                var ChatMessagess = await chatMessageRepository.GetAllMessageOfRoom(UserID);
-                var RoomIDs = ChatMessagess.Select(x => x.RoomID).ToList();
-                var Rooms = await roomRepository.GetAllRoom(x => RoomIDs.Contains(x.RoomID));
+                var Rooms = await roomRepository.GetAllRoom(x => x.ReceiverID == UserID || x.SenderID == UserID);
                 if (Rooms.Count == 0)
                 {
                     return ApiResponse.NotFound("Room Not Found");
                 }
                 foreach (Room room in Rooms)
                 {
+                    if (room.ChatMessages.Count == 0)
+                    {
+                        room.ChatMessages.Add(new ChatMessage { CreatedAt = room.CreatedAt, Content = "" });
+                    }
                     room.ChatMessages = room.ChatMessages.OrderByDescending(x => x.CreatedAt).ToList();
                 }
                 Rooms = Rooms.OrderByDescending(x => x.ChatMessages.OrderByDescending(x => x.CreatedAt).ToList()[0].CreatedAt).ToList();
@@ -65,20 +66,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 var ListOrtherUserID = new List<Guid>();
                 foreach (var room in Rooms)
                 {
-                    var otherChat = room.ChatMessages.Where(x => x.UserID != UserID).FirstOrDefault();
-                    if (otherChat == null)
-                    {
-                        otherChat = new ChatMessage { UserID = Guid.Empty };
-                    }
-                    ListOrtherUserID.Add(otherChat.UserID);
-                }
-                foreach (var room in Rooms)
-                {
-                    var chatMessage = room.ChatMessages.Where(x => x.Type == MessageType.Hidden).ToList();
-                    if (chatMessage.Count != 0)
-                    {
-                        room.ChatMessages = null;
-                    }
+                    ListOrtherUserID.Add(room.SenderID != UserID ? room.SenderID : room.ReceiverID);
                 }
                 var RoomDtos = mapper.Map<List<RoomDto>>(Rooms);
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();

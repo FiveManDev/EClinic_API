@@ -35,7 +35,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
             try
             {
                 var UserID = Guid.Parse(request.UserID);
-                var Rooms = await roomRepository.GetAllRoom(room => room.ChatMessages.Any(chat => chat.UserID == UserID));
+                var Rooms = await roomRepository.GetAllRoom(room => room.ReceiverID == UserID || room.SenderID == UserID);
                 if (Rooms.Count == 0)
                 {
                     return ApiResponse.NotFound("Room Not Found");
@@ -43,11 +43,15 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 var ListOrtherUserID = new List<Guid>();
                 foreach (Room room in Rooms)
                 {
+                    if (room.ChatMessages.Count == 0)
+                    {
+                        room.ChatMessages.Add(new ChatMessage { CreatedAt = room.CreatedAt, Content = "" });
+                    }
                     room.ChatMessages = room.ChatMessages.OrderByDescending(x => x.CreatedAt).ToList();
                 }
                 foreach (var room in Rooms)
                 {
-                    ListOrtherUserID.Add(room.ChatMessages.Where(x => x.UserID != UserID).FirstOrDefault().UserID);
+                    ListOrtherUserID.Add(room.SenderID != UserID ? room.SenderID : room.ReceiverID);
                 }
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
                 getAllProfileRequest.UserIDs.AddRange(ListOrtherUserID.ConvertAll(g => g.ToString()));
@@ -77,8 +81,6 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 header.PageIndex = request.PaginationRequestHeader.PageNumber;
                 header.PageSize = request.PaginationRequestHeader.PageSize;
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
-
-
                 return ApiResponse.OK(RoomDtos);
             }
             catch (Exception ex)

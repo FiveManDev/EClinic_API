@@ -27,6 +27,8 @@ namespace Project.CommunicateService.Migrations
                 {
                     RoomID = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     IsClosed = table.Column<bool>(type: "bit", nullable: false),
+                    SenderID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReceiverID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoomTypeID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

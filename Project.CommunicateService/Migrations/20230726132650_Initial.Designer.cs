@@ -12,7 +12,7 @@ using Project.CommunicateService.Data.Configurations;
 namespace Project.CommunicateService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230530065805_Initial")]
+    [Migration("20230726132650_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,13 @@ namespace Project.CommunicateService.Migrations
                     b.Property<bool>("IsClosed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("ReceiverID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("RoomTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RoomID");

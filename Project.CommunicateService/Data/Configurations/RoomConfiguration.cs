@@ -10,6 +10,8 @@ namespace Project.CommunicateService.Data.Configurations
             builder.HasKey(r => r.RoomID);
             builder.Property(r => r.RoomID).HasDefaultValueSql("NEWID()").IsRequired();
             builder.Property(r => r.IsClosed).IsRequired();
+            builder.Property(r => r.ReceiverID).IsRequired();
+            builder.Property(r => r.SenderID).IsRequired();
             builder.Property(r => r.CreatedAt).IsRequired();
             builder.HasMany(r => r.ChatMessages)
                 .WithOne(c => c.Room)

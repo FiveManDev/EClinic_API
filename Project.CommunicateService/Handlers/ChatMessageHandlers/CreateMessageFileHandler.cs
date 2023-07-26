@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Grpc.Net.Client;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -8,6 +9,7 @@ using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
 using Project.CommunicateService.Dtos.ChatMessageDtos;
 using Project.CommunicateService.Hubs;
+using Project.CommunicateService.Protos;
 using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.Core.AWS;
@@ -23,8 +25,9 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
         private readonly ILogger<CreateMessageFileHandler> logger;
         private readonly IHubContext<MessageHub> hubContext;
         private readonly IMapper mapper;
-
-        public CreateMessageFileHandler(IChatMessageRepository repository, IRoomRepository roomRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateMessageFileHandler> logger, IHubContext<MessageHub> hubContext, IMapper mapper)
+        private readonly ProfileService.ProfileServiceClient client;
+        private readonly IHubContext<MessageNotificationHub> hub;
+        public CreateMessageFileHandler(IConfiguration configuration, IChatMessageRepository repository, IRoomRepository roomRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateMessageFileHandler> logger, IHubContext<MessageHub> hubContext, IMapper mapper, IHubContext<MessageNotificationHub> hub)
         {
             this.repository = repository;
             this.roomRepository = roomRepository;
@@ -32,6 +35,11 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
             this.logger = logger;
             this.hubContext = hubContext;
             this.mapper = mapper;
+            this.hub = hub;
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:ProfileServiceUrl"), new GrpcChannelOptions { HttpHandler = httpHandler });
+            client = new ProfileService.ProfileServiceClient(channel);
         }
 
         public async Task<ObjectResult> Handle(CreateMessageFileCommand request, CancellationToken cancellationToken)
@@ -44,11 +52,14 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                     return ApiResponse.BadRequest("Room is close");
                 }
                 var UserID = Guid.Parse(request.UserID);
-                var url = await s3Bucket.UploadFileAsync(request.CreateMassageFileDtos.File, FileType.Image);
-                if (url == null)
+                if (Room.ReceiverID != UserID && Room.SenderID != UserID)
                 {
-                    return ApiResponse.BadRequest("Server AWS CHậm mày ơi");
+                    if (Room.ReceiverID == Guid.Empty)
+                    {
+                        return ApiResponse.BadRequest("This conversation has been answered by someone else");
+                    }
                 }
+                var url = await s3Bucket.UploadFileAsync(request.CreateMassageFileDtos.File, FileType.Image);
                 var ChatMessage = new ChatMessage
                 {
                     UserID = UserID,
@@ -63,6 +74,24 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                     throw new Exception("Create chat message error.");
                 }
                 var chatDtos = mapper.Map<ChatMessageDto>(ChatMessage);
+                if (Room.ReceiverID == Guid.Empty && Room.SenderID != UserID)
+                {
+                    Room.ReceiverID = UserID;
+                    await roomRepository.UpdateAsync(Room);
+                    var ListUserID = new List<Guid>();
+                    ListUserID.Add(Room.ReceiverID);
+                    ListUserID.Add(Room.SenderID);
+                    GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
+                    getAllProfileRequest.UserIDs.AddRange(ListUserID.ConvertAll(g => g.ToString()));
+                    var response = await client.GetAllProfileAsync(getAllProfileRequest);
+                    if (response is null)
+                    {
+                        return ApiResponse.NotFound("Get Profile Error");
+                    }
+                    var profiles = response.Profiles;
+                    await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("NewAnswer", profiles[0]);
+                    await hub.Clients.All.SendAsync("Response", profiles[1], chatDtos);
+                }
                 await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", chatDtos);
                 return ApiResponse.Created("Create Success");
             }

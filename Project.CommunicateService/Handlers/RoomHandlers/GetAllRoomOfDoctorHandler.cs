@@ -39,18 +39,17 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
             try
             {
                 var UserID = Guid.Parse(request.UserID);
-                var Rooms = await roomRepository.GetAllRoom(x => x.RoomTypeID == ConstantsData.DoctorRoomTypeID);
-                if (Rooms.Count == 0)
-                {
-                    return ApiResponse.NotFound("Room Not Found");
-                }
-                Rooms = Rooms.Where(room => room.ChatMessages.Any(chat => chat.UserID == UserID)).ToList();
+                var Rooms = await roomRepository.GetAllRoom(x => (x.ReceiverID == UserID || x.SenderID == UserID)&& x.RoomTypeID == ConstantsData.DoctorRoomTypeID);
                 if (Rooms.Count == 0)
                 {
                     return ApiResponse.NotFound("Room Not Found");
                 }
                 foreach (Room room in Rooms)
                 {
+                    if (room.ChatMessages.Count == 0)
+                    {
+                        room.ChatMessages.Add(new ChatMessage { CreatedAt = room.CreatedAt, Content = "" });
+                    }
                     room.ChatMessages = room.ChatMessages.OrderByDescending(x => x.CreatedAt).ToList();
                 }
                 Rooms = Rooms.OrderByDescending(x => x.ChatMessages.OrderByDescending(x => x.CreatedAt).ToList()[0].CreatedAt).ToList();
@@ -66,7 +65,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 var ListOrtherUserID = new List<Guid>();
                 foreach (var room in Rooms)
                 {
-                    ListOrtherUserID.Add(room.ChatMessages.Where(x => x.UserID != UserID).FirstOrDefault().UserID);
+                    ListOrtherUserID.Add(room.SenderID != UserID ? room.SenderID : room.ReceiverID);
                 }
                 var RoomDtos = mapper.Map<List<RoomDto>>(Rooms);
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();

@@ -44,7 +44,6 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                     return ApiResponse.NotFound("Room Not Found");
                 }
                 var ChatMessages = Room.ChatMessages;
-                var ChatHidden = ChatMessages.Where(x=>x.Type==MessageType.Hidden).Select(x=>x.ChatMessageID).ToList();
                 PaginationResponseHeader header = new PaginationResponseHeader();
                 header.TotalCount = ChatMessages.Count;
                 ChatMessages = ChatMessages
@@ -64,17 +63,8 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 ChatMessageDtos = ChatMessageDtos.OrderBy(x => x.CreatedAt).ToList();
                 var ListUserID = new List<Guid>();
-                var MyChatID = ChatMessageDtos.FirstOrDefault(x => x.IsMyChat);
-                if (MyChatID != null)
-                {
-                    ListUserID.Add(ChatMessageDtos.FirstOrDefault(x => x.IsMyChat).UserID);
-                }
-                var OtherChatID = ChatMessageDtos.FirstOrDefault(x => x.IsMyChat == false);
-                if (OtherChatID != null)
-                {
-                    ListUserID.Add(ChatMessageDtos.FirstOrDefault(x => x.IsMyChat == false).UserID);
-                }
-
+                ListUserID.Add(UserID);
+                ListUserID.Add(Room.SenderID != UserID ? Room.SenderID : Room.ReceiverID);
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
                 getAllProfileRequest.UserIDs.AddRange(ListUserID.ConvertAll(g => g.ToString()));
                 var response = await client.GetAllProfileAsync(getAllProfileRequest);
@@ -84,24 +74,17 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 }
                 var profiles = response.Profiles;
                 ChatResponseDtos chatResponseDtos = new ChatResponseDtos();
-                ChatMessageDtos.RemoveAll(x=>ChatHidden.Contains(x.ChatMessageID));
                 chatResponseDtos.Message = ChatMessageDtos;
                 chatResponseDtos.MyProfile = new Author();
-                if (MyChatID != null)
-                {
-                    chatResponseDtos.MyProfile.UserID = Guid.Parse(profiles[0].UserID);
-                    chatResponseDtos.MyProfile.FirstName = profiles[0].FirstName;
-                    chatResponseDtos.MyProfile.LastName = profiles[0].LastName;
-                    chatResponseDtos.MyProfile.Avatar = profiles[0].Avatar;
-                }
-                if (OtherChatID != null)
-                {
-                    chatResponseDtos.OtherProfile = new Author();
-                    chatResponseDtos.OtherProfile.UserID = Guid.Parse(profiles[1].UserID);
-                    chatResponseDtos.OtherProfile.FirstName = profiles[1].FirstName;
-                    chatResponseDtos.OtherProfile.LastName = profiles[1].LastName;
-                    chatResponseDtos.OtherProfile.Avatar = profiles[1].Avatar;
-                }
+                chatResponseDtos.MyProfile.UserID = Guid.Parse(profiles[0].UserID);
+                chatResponseDtos.MyProfile.FirstName = profiles[0].FirstName;
+                chatResponseDtos.MyProfile.LastName = profiles[0].LastName;
+                chatResponseDtos.MyProfile.Avatar = profiles[0].Avatar;
+                chatResponseDtos.OtherProfile = new Author();
+                chatResponseDtos.OtherProfile.UserID = Guid.Parse(profiles[1].UserID);
+                chatResponseDtos.OtherProfile.FirstName = profiles[1].FirstName;
+                chatResponseDtos.OtherProfile.LastName = profiles[1].LastName;
+                chatResponseDtos.OtherProfile.Avatar = profiles[1].Avatar;
                 return ApiResponse.OK<ChatResponseDtos>(chatResponseDtos);
             }
             catch (Exception ex)

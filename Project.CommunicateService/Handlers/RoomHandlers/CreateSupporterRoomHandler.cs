@@ -27,7 +27,12 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
         {
             try
             {
-                var Room = new Room { RoomTypeID = ConstantsData.SupporterRoomTypeID };
+                var Room = new Room
+                {
+                    RoomTypeID = ConstantsData.SupporterRoomTypeID,
+                    ReceiverID = Guid.Empty,
+                    SenderID = Guid.Parse(request.UserID)
+                };
                 var result = await roomRepository.CreateEntityAsync(Room);
                 if (result == null)
                 {

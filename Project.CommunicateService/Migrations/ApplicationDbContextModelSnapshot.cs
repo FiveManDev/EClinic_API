@@ -65,7 +65,13 @@ namespace Project.CommunicateService.Migrations
                     b.Property<bool>("IsClosed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("ReceiverID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("RoomTypeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SenderID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RoomID");

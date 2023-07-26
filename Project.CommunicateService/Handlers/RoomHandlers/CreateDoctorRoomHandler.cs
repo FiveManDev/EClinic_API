@@ -2,7 +2,6 @@
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
 using Project.CommunicateService.Data.Configurations;
-using Project.CommunicateService.Repository.ChatMessageRepositories;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.Core.Logger;
 
@@ -12,26 +11,24 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
     {
         private readonly IRoomRepository roomRepository;
         private readonly ILogger<CreateDoctorRoomHandler> logger;
-        private readonly IChatMessageRepository repository;
 
-        public CreateDoctorRoomHandler(IRoomRepository roomRepository, ILogger<CreateDoctorRoomHandler> logger, IChatMessageRepository repository)
+        public CreateDoctorRoomHandler(IRoomRepository roomRepository, ILogger<CreateDoctorRoomHandler> logger)
         {
             this.roomRepository = roomRepository;
             this.logger = logger;
-            this.repository = repository;
         }
 
         public async Task<Room> Handle(CreateDoctorRoomCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var Room = new Room { RoomTypeID = ConstantsData.DoctorRoomTypeID };
-                var result = await roomRepository.CreateEntityAsync(Room);
-                await repository.CreateRangeAsync(new List<ChatMessage>
+                var Room = new Room
                 {
-                    new ChatMessage{UserID = Guid.Parse(request.UserID),Content= "Hidden",RoomID = result.RoomID,Type =MessageType.Hidden},
-                    new ChatMessage{UserID = Guid.Parse(request.DoctorID),Content= "Hidden",RoomID = result.RoomID,Type =MessageType.Hidden}
-                });
+                    RoomTypeID = ConstantsData.DoctorRoomTypeID,
+                    ReceiverID = Guid.Parse(request.DoctorID),
+                    SenderID = Guid.Parse(request.UserID)
+                };
+                var result = await roomRepository.CreateEntityAsync(Room);
                 if (result == null)
                 {
                     throw new Exception("Create Room Error.");

@@ -38,16 +38,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
 
             try
             {
-                var Rooms = await roomRepository.GetAllRoom(x => x.RoomTypeID == ConstantsData.SupporterRoomTypeID);
-                if (Rooms.Count == 0)
-                {
-                    return ApiResponse.NotFound("Room Not Found");
-                }
-                Rooms = Rooms.Where(room => room.ChatMessages.All(chat => chat.UserID == room.ChatMessages.First().UserID)).ToList();
-                if (Rooms.Count == 0)
-                {
-                    return ApiResponse.NotFound("Room Not Found");
-                }
+                var Rooms = await roomRepository.GetAllRoom(x => x.ReceiverID == Guid.Empty && x.RoomTypeID == ConstantsData.SupporterRoomTypeID);
                 foreach (Room room in Rooms)
                 {
                     room.ChatMessages = room.ChatMessages.OrderByDescending(x => x.CreatedAt).ToList();
@@ -65,7 +56,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 var ListOrtherUserID = new List<Guid>();
                 foreach (var room in Rooms)
                 {
-                    ListOrtherUserID.Add(room.ChatMessages.FirstOrDefault().UserID);
+                    ListOrtherUserID.Add(room.SenderID);
                 }
                 var RoomDtos = mapper.Map<List<RoomDto>>(Rooms);
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
