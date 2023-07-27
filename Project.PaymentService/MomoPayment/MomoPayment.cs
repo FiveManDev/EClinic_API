@@ -52,6 +52,7 @@ namespace Project.PaymentService.MomoPayment
                 result.BookingID = Guid.Parse(momoResponse.RequestId);
                 result.Amount = momoResponse.Amount;
                 result.PaymentTime = momoResponse.ResponseTime;
+                result.UserID = Guid.Parse(momoResponse.OrderInfo);
                 return result;
             }
             catch (Exception ex)
@@ -119,7 +120,7 @@ namespace Project.PaymentService.MomoPayment
             try
             {
                 string router = "gw_payment/transactionProcessor";
-                var OrderInfo = "Eclinic Booking Payment";
+                var OrderInfo = PaymentModel.UserID.ToString();
                 var Amount = PaymentModel.Amount.ToString();
                 var ExtraData = PaymentModel.Message;
                 string orderid = DateTime.Now.Ticks.ToString();

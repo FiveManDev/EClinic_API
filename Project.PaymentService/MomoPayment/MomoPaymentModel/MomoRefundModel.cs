@@ -7,6 +7,6 @@
         public string Message { get; set; }
         public Guid UserID { get; set; }
         public Guid BookingID { get; set; }
-        public Guid OrderID { get; set; }
+        public string OrderID { get; set; }
     }
 }

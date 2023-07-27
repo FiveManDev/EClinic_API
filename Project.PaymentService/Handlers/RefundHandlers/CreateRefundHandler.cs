@@ -61,7 +61,8 @@ namespace Project.PaymentService.Handlers.RefundHandlers
                             Amount = payment.PaymentAmount,
                             Message = $"Refund for {payment.BookingID}",
                             TransactionID = payment.TransactionID,
-                            UserID = payment.UserID
+                            UserID = payment.UserID,
+                            OrderID = payment.OrderID,
                         };
                         result = await momoPayment.PaymentRefund(momoRefundModel);
                         break;
