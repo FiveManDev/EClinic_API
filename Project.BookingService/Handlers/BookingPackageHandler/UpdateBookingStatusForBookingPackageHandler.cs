@@ -1,9 +1,14 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Project.BookingService.Data;
 using Project.BookingService.Repository.BookingPackageRepository;
 using Project.BookingServiceCommands.Commands;
+using Project.Common.Constants;
+using Project.Common.Model;
 using Project.Common.Response;
 using Project.Core.Logger;
+using Project.Core.RabbitMQ;
 
 namespace Project.BookingService.Handlers.BookingPackageHandler;
 
@@ -11,11 +16,13 @@ public class UpdateBookingStatusForBookingPackageHandler : IRequestHandler<Updat
 {
     private readonly ILogger<UpdateBookingStatusForBookingPackageHandler> logger;
     private readonly IBookingPackageRepository repository;
+    private readonly IBus bus;
 
-    public UpdateBookingStatusForBookingPackageHandler(ILogger<UpdateBookingStatusForBookingPackageHandler> logger, IBookingPackageRepository repository)
+    public UpdateBookingStatusForBookingPackageHandler(ILogger<UpdateBookingStatusForBookingPackageHandler> logger, IBookingPackageRepository repository, IBus bus)
     {
         this.logger = logger;
         this.repository = repository;
+        this.bus = bus;
     }
 
     public async Task<ObjectResult> Handle(UpdateBookingStatusForBookingPackageCommand request, CancellationToken cancellationToken)
@@ -30,7 +37,15 @@ public class UpdateBookingStatusForBookingPackageHandler : IRequestHandler<Updat
             }
 
             bookingPackage.BookingStatus = request.BookingStatus;
-
+            if (bookingPackage.BookingStatus == BookingStatus.Cancel)
+            {
+                await bus.SendMessageWithExchangeName<RefundEvent>(new RefundEvent
+                {
+                    BookingID = bookingPackage.BookingID,
+                    BookingType = 1,
+                    Price = bookingPackage.Price
+                }, ExchangeConstants.PaymentService);
+            }
             await repository.UpdateAsync(bookingPackage);
 
             return ApiResponse.OK("Update Success.");

@@ -8,6 +8,7 @@ using Project.BookingService.Service;
 using Project.Core.Authentication;
 using Project.Core.Mapper;
 using Project.Core.MediatR;
+using Project.Core.RabbitMQ;
 using Project.Core.Swagger;
 using Project.Core.Versioning;
 
@@ -21,6 +22,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(
         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 );
+builder.Services.AddMassTransitWithRabbitMQ((config, context) =>
+{
+});
 // add token jwt
 builder.Services.AddMyAuthentication(builder.Configuration.GetJWTOptions());
 

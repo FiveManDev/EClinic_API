@@ -8,5 +8,6 @@
         public const string NotificationService = "NotificationService";
         public const string BookingService = "BookingService";
         public const string BlogsService = "BlogsService";
+        public const string PaymentService = "PaymentService";
     }
 }
