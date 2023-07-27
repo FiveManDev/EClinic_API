@@ -25,6 +25,20 @@ namespace Project.IdentityService.Controllers
             this.logger = logger;
         }
         [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> GetStatisticsOverview()
+        {
+            try
+            {
+                return await mediator.Send(new GetStatisticsOverviewQuery());
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return ApiResponse.InternalServerError();
+            }
+        }
+        [HttpGet]
         public async Task<IActionResult> GetUsers([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] SearchUserDtos searchUserDtos)
         {
             try

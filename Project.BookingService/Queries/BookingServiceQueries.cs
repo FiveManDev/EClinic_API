@@ -19,4 +19,5 @@ namespace Project.BookingServiceQueries.Queries
     public record GetDoctorScheduleByDayForAdQuery(DateTime Date, Guid DoctorID) : IRequest<ObjectResult>;
     public record GetDoctorScheduleByDayForUserQuery(DateTime Date, Guid DoctorID) : IRequest<ObjectResult>;
     #endregion
+    public record GetStatisticsOverviewQuery() : IRequest<ObjectResult>;
 }

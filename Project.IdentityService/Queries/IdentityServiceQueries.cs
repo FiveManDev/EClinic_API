@@ -10,4 +10,5 @@ namespace Project.IdentityService.Queries
     public record GetAllRoleQuery() : IRequest<ObjectResult>;
     public record GetUserEnabledQuery(Guid userID) : IRequest<int>;
     public record GetAllUserWithRoleQuery(string Role) : IRequest<List<User>>;
+    public record GetStatisticsOverviewQuery() : IRequest<ObjectResult>;
 }

@@ -22,6 +22,12 @@ namespace Project.PaymentService.Controllers
         }
         [HttpGet]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> GetStatisticsOverview()
+        {
+            return await mediator.Send(new GetStatisticsOverviewQuery());
+        }
+        [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> GetPaymentByID(Guid PaymentID)
         {
             return await mediator.Send(new GetPaymentByIDQuery(PaymentID));

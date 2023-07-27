@@ -13,4 +13,5 @@ namespace Project.PaymentService.Queries
     public record GetAllPaymentQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetAllRefundQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetTransactionQuery(TransactionQueryModel TransactionQueryModel) : IRequest<ObjectResult>;
+    public record GetStatisticsOverviewQuery() : IRequest<ObjectResult>;
 }
