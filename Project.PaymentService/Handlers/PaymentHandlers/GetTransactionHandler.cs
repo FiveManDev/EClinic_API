@@ -36,7 +36,8 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 {
                     for (DateTime i = startTime; i <= endTime; i = i.AddDays(1))
                     {
-                        var payments = await paymentRepository.GetAllAsync(x => x.PaymentTime == i);
+                        var payments = await paymentRepository.GetAllAsync(x => x.PaymentTime.Month == i.Month
+                                                         && x.PaymentTime.Year == i.Year && x.PaymentTime.Day == i.Day);
                         var totalAmount = payments.Sum(x => x.PaymentAmount);
                         TransactionDtos.Add(new Model.TransactionDtos
                         {
@@ -49,7 +50,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 {
                     for (int i = startTime.Month; i <= endTime.Month; i++)
                     {
-                        DateTime currentDate = new DateTime(startTime.Year, startTime.Month, i);
+                        DateTime currentDate = new DateTime(startTime.Year, i, startTime.Day);
                         var payments = await paymentRepository.GetAllAsync(x => x.PaymentTime.Month == currentDate.Month
                                                          && x.PaymentTime.Year == currentDate.Year);
                         var totalAmount = payments.Sum(x => x.PaymentAmount);
@@ -62,9 +63,9 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 }
                 if (timeType == TimeType.Year)
                 {
-                    for (int i = startTime.Month; i <= endTime.Month; i++)
+                    for (int i = startTime.Year; i <= endTime.Year; i++)
                     {
-                        DateTime currentDate = new DateTime(startTime.Year, startTime.Month, i);
+                        DateTime currentDate = new DateTime(i, startTime.Month, startTime.Day);
                         var payments = await paymentRepository.GetAllAsync(x => x.PaymentTime.Year == currentDate.Year);
                         var totalAmount = payments.Sum(x => x.PaymentAmount);
                         TransactionDtos.Add(new Model.TransactionDtos

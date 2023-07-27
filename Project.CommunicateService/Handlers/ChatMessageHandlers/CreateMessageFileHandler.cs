@@ -90,6 +90,20 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                     }
                     var profiles = response.Profiles;
                     await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("NewAnswer", profiles[0]);
+                }
+                else if (Room.ReceiverID == Guid.Empty && Room.SenderID == UserID)
+                {
+                    var ListUserID = new List<Guid>();
+                    ListUserID.Add(Room.ReceiverID);
+                    ListUserID.Add(Room.SenderID);
+                    GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
+                    getAllProfileRequest.UserIDs.AddRange(ListUserID.ConvertAll(g => g.ToString()));
+                    var response = await client.GetAllProfileAsync(getAllProfileRequest);
+                    if (response is null)
+                    {
+                        return ApiResponse.NotFound("Get Profile Error");
+                    }
+                    var profiles = response.Profiles;
                     await hub.Clients.All.SendAsync("Response", profiles[1], chatDtos);
                 }
                 await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", chatDtos);

@@ -105,7 +105,7 @@ namespace Project.NotificationService.Service
                 var mailModel = new MailModel
                 {
                     EmailTo = email,
-                    Subject = $"Reset {mailInformation.MailTile} account password",
+                    Subject = $"Your invoice from {mailInformation.MailTile}",
                     Body = @"<!DOCTYPE html>
                                 <html lang=""en"">
                                 <head>
@@ -262,7 +262,7 @@ namespace Project.NotificationService.Service
             var mailModel = new MailModel
             {
                 EmailTo = email,
-                Subject = $"Reset {mailInformation.MailTile} account password",
+                Subject = $"Your account in {mailInformation.MailTile} ",
                 Body = $"<tr bgcolor=\"#efefef\">\r\n    <td style=\"color:#282828\">\r\n        <center>\r\n            <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px;font-size:14px\">\r\n                <tbody>\r\n                    <tr>\r\n                        <td align=\"left\" style=\"padding:20px 10px;padding-bottom:0\">\r\n                            <div>\r\n                                <b>Welcome</b>\r\n                            </div>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td align=\"left\" style=\"padding:10px;color:#000\">\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n                                <tbody>\r\n                                    <tr>\r\n                                        <td>\r\n                                            Account information:<br><br>&nbsp; &nbsp; &nbsp; &nbsp; - UserName:\r\n                                            {account.UserName}<br>\r\n                                            &nbsp; &nbsp; &nbsp; &nbsp; - Password: {account.Password}<br>&nbsp; &nbsp; &nbsp;\r\n                                            &nbsp;<br><br>\r\n                                        </td>\r\n                                    </tr>\r\n                                    <tr>\r\n                                        <td>\r\n                                            <p\r\n                                                style=\"font-family:tahoma;font-size:12px;color:#363636;line-height:20px;margin:5px 0;padding-bottom:10px\">\r\n                                                <b>Note:</b>\r\n                                                After receiving the email, please change your password. Do not give your\r\n                                                account and password to 3rd parties\r\n                                            </p>\r\n                                        </td>\r\n                                    </tr>\r\n                                    <tr>\r\n                                        <td style=\"font-family:tahoma;font-size:12px;color:#363636;line-height:20px\">\r\n                                            Five Man Dev\r\n                                        </td>\r\n                                    </tr>\r\n                                </tbody>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                </tbody>\r\n            </table>\r\n        </center>\r\n    </td>\r\n</tr>\r\n</table>"
 
             };

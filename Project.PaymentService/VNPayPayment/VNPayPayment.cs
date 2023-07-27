@@ -30,11 +30,11 @@ namespace Project.PaymentService.VNPayPayment
                 {
                     if (!string.IsNullOrEmpty(item.Key) && item.Key.StartsWith("vnp_"))
                     {
-                        pay.AddResponseData(item.Key, item.Value);
+                        pay.AddResponseData(item.Key, item.Value[0]);
                     }
                 }
-                long orderId = Convert.ToInt64(pay.GetResponseData("vnp_TxnRef"));
-                long vnpayTranId = Convert.ToInt64(pay.GetResponseData("vnp_TransactionNo"));
+                string orderId = Convert.ToString(pay.GetResponseData("vnp_TxnRef"));
+                string vnpayTranId = Convert.ToString(pay.GetResponseData("vnp_TransactionNo"));
                 string vnp_ResponseCode = pay.GetResponseData("vnp_ResponseCode");
                 string vnp_OrderInfo = pay.GetResponseData("vnp_OrderInfo");
                 string vnp_SecureHash = query["vnp_SecureHash"];
