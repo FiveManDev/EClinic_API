@@ -48,12 +48,9 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                     return ApiResponse.BadRequest("Room is close");
                 }
                 var UserID = Guid.Parse(request.UserID);
-                if (Room.ReceiverID != UserID && Room.SenderID != UserID)
+                if (Room.SenderID != UserID && Room.ReceiverID != Guid.Empty && Room.ReceiverID != UserID)
                 {
-                    if (Room.ReceiverID == Guid.Empty)
-                    {
-                        return ApiResponse.BadRequest("This conversation has been answered by someone else");
-                    }
+                    return ApiResponse.BadRequest("This conversation has been answered by someone else");
                 }
                 var ChatMessage = new ChatMessage
                 {
@@ -99,7 +96,7 @@ namespace Project.CommunicateService.Handlers.ChatMessageHandlers
                         return ApiResponse.NotFound("Get Profile Error");
                     }
                     var profiles = response.Profiles;
-                    await hub.Clients.All.SendAsync("Response", profiles[1], chatDtos);
+                    await hub.Clients.All.SendAsync("Response", profiles[1], chatDtos, Room.RoomID);
                 }
                 await hubContext.Clients.Group(ChatMessage.RoomID.ToString()).SendAsync("Response", chatDtos);
                 return ApiResponse.Created("Create Success");

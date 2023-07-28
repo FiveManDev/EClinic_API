@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
+using Project.Common.Paging;
 using Project.Core.Authentication;
 using Project.ForumService.Commands;
 using Project.ForumService.Dtos.CommentsDtos;
@@ -21,10 +22,11 @@ namespace Project.ForumService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllComment(Guid PostID)
+        public async Task<IActionResult> GetAllComment([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] Guid PostID)
         {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
             string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID")?.Value;
-            return await mediator.Send(new GetAllCommentQuery(PostID, userId));
+            return await mediator.Send(new GetAllCommentQuery(paginationRequestHeader, Response, PostID, userId));
         }
         [HttpPost]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Doctor, RoleConstants.User, RoleConstants.Supporter })]

@@ -12,7 +12,7 @@ namespace Project.ForumService.Queries
     public record GetPostNotActiveQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetPostNoAnswerQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetAnswerQuery(Guid PostID, string UserID) : IRequest<ObjectResult>;
-    public record GetAllCommentQuery(Guid PostID, string UserID) : IRequest<ObjectResult>;
+    public record GetAllCommentQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, Guid PostID, string UserID) : IRequest<ObjectResult>;
     public record GetAllHashtagQuery() : IRequest<ObjectResult>;
     public record GetPostsQuery(PaginationRequestHeader PaginationRequestHeader, SearchPostDtos SearchPostDtos, HttpResponse Response) : IRequest<ObjectResult>;
     public record GetPostsOfHashTagQuery(PaginationRequestHeader PaginationRequestHeader, string SearchText, HttpResponse Response) : IRequest<ObjectResult>;

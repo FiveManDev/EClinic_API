@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Project.Common.Paging;
 using Project.Common.Response;
 using Project.Core.Logger;
 using Project.Data.Repository.MongoDB;
@@ -32,6 +34,17 @@ namespace Project.ForumService.Handlers.CommentHandlers
                 {
                     return ApiResponse.NotFound("Comment Not Found.");
                 }
+                PaginationResponseHeader header = new PaginationResponseHeader();
+                header.TotalCount = comments.Count;
+                comments = comments
+                    .OrderByDescending(x => x.CreatedAt)
+                    .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
+                    .Take(request.PaginationRequestHeader.PageSize).ToList();
+
+                header.PageIndex = request.PaginationRequestHeader.PageNumber;
+                header.PageSize = request.PaginationRequestHeader.PageSize;
+
+                request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(header));
                 List<CommentDtos> commentDtos = mapper.Map<List<CommentDtos>>(comments);
 
 

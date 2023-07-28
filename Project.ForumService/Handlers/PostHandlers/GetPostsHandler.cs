@@ -33,7 +33,7 @@ namespace Project.ForumService.Handlers.PostHandlers
             {
                 var searchText = request.SearchPostDtos.SearchText;
                 if (searchText == null) { searchText = ""; }
-                var posts = await postRepository.GetAllAsync(x => x.Title.ToLower().Contains(searchText.ToLower()) || x.Title.ToLower().Contains(searchText.ToLower()));
+                var posts = await postRepository.GetAllAsync(x => (x.Title.ToLower().Contains(searchText.ToLower()) || x.Title.ToLower().Contains(searchText.ToLower()))&&x.IsActive == true);
                 if (posts == null)
                 {
                     return ApiResponse.NotFound("Post Not Found.");
