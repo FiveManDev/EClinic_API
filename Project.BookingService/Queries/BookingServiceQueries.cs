@@ -13,6 +13,7 @@ namespace Project.BookingServiceQueries.Queries
     #region Booking Doctor
     public record GetBookingDoctorByIDQuery(Guid BookingDoctorID) : IRequest<ObjectResult>;
     public record GetAllBookingDoctorForAdQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, BookingStatus BookingStatus) : IRequest<ObjectResult>;
+    public record GetAllBookingDoctorForDoctorQuery(string userID,PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, BookingStatus BookingStatus) : IRequest<ObjectResult>;
     public record GetAllBookingDoctorForUserQuery(PaginationRequestHeader PaginationRequestHeader, HttpResponse Response, string UserID, BookingStatus BookingStatus) : IRequest<ObjectResult>;
     #endregion
     #region  Doctor Schedule

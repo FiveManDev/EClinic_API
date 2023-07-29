@@ -45,7 +45,7 @@ INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOf
 VALUES ('003a894b-36a8-4471-b906-dc627a6ce9c2','99b8a1ab-1302-4443-9ef7-95fae52b4938',N'Khang',N'Expert',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Khang.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465541&Signature=AaYDlDZeX7FZdt1YqQWELyCl9aQ%3D',1,'01/01/2001','0369546798','expertkhang@gmail.com',N'Ca Mau');
 
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('1d3b82bb-e1c0-4100-a61b-1cba0bfa117a','22849f83-a5b4-49eb-93ed-e2d942254521',N'Doctor',N'Test',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D',1,'01/01/2001','0369123789','doctortest@gmail.com',N'Viet Nam');
+VALUES ('1d3b82bb-e1c0-4100-a61b-1cba0bfa117a','22849f83-a5b4-49eb-93ed-e2d942254521',N'Thang',N'Le Huu',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Thang.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465586&Signature=nDxbulnqE2F6ax50lACpeiZoo0E%3D',1,'01/01/2001','0369123789','doctortest@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('2b2cfaab-0e88-462c-b2be-4af928157c4d','8edf474e-0fcb-49fc-9c9e-4e902c7472f2',N'Tuan',N'Le Anh',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor1.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716468622&Signature=oVtN5ZlwfvIY76qC6rkRMgHLw34%3D',1,'01/01/1975','0369323245','leanhtuan@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
@@ -79,7 +79,7 @@ INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOf
 VALUES ('ed18c0f2-82bc-46f7-b675-16e71b7b6ee9','2268c972-4fb2-4a01-8dea-43341f1e6931',N'Thao',N'Nguyen Thi',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/doctor15.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716469764&Signature=oQjvU7k7OwF65zaqi%2FVJgvWOUtQ%3D',0,'01/01/1985','0369339752','thithao234@gmail.com',N'HCM');
 
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('5be2d966-3030-494c-8bec-2f7181bc4fc6','32ab71e0-a75d-4d39-8d5d-e66525477d48',N'Supporter',N'Test',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D',1,'01/01/2001','0369456889','supportertest@gmail.com',N'Viet Nam');
+VALUES ('5be2d966-3030-494c-8bec-2f7181bc4fc6','32ab71e0-a75d-4d39-8d5d-e66525477d48',N'Thang',N'Le Huu',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Thang.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465586&Signature=nDxbulnqE2F6ax50lACpeiZoo0E%3D',1,'01/01/2001','0369456889','supportertest@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('2692cf87-ade0-419a-85b3-a1c2a3c44968','b7bd24ed-941a-467a-81cb-b12b9bb1aed3',N'Trong',N'Bui Huu',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user1.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716470114&Signature=kPx5lqxADRLMK9hppkrkEVt8uEs%3D',1,'01/01/2001','0369457410','huutrong123@gmail.com',N'Can Tho');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
@@ -92,7 +92,7 @@ INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOf
 VALUES ('73070972-e93b-4dd2-9d6d-c7022759052e','c90d2651-857b-4694-bfa7-c3dd8a45031b',N'Tin',N'Le Trong',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user5.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716472942&Signature=bC2aVE85jU4oVdZHq20F%2B1IOZOg%3D',1,'01/01/2001','0369951230','trongtin123@gmail.com',N'Can Tho');
 
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
-VALUES ('e1d2bbb8-d3ac-4806-bc85-41a2630433e9','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'User',N'Test',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Default/default.jpeg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465218&Signature=zL0NQyzkJGhSAyJB%2F54MIqyfrkA%3D',1,'01/01/2001','0369156789','usertest@gmail.com',N'Viet Nam');
+VALUES ('e1d2bbb8-d3ac-4806-bc85-41a2630433e9','63da4fe0-de4d-4c8e-b8c8-ec3202c20038',N'Thang',N'Le Huu',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/Thang.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716465586&Signature=nDxbulnqE2F6ax50lACpeiZoo0E%3D',1,'01/01/2001','0369156789','usertest@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('45a9d235-0845-42e8-854b-ca62ac06ba0e','42ce372a-7078-4a4c-93a3-c5000d58bff1',N'Bao',N'Nguyen Hoang',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user6.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716472957&Signature=hX7KWjakTSng5Kish6oGCFuMc%2Fc%3D',1,'01/01/2001','0369357830','hoangbao123@gmail.com',N'Bac Lieu');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
@@ -165,6 +165,13 @@ INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOf
 VALUES ('a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','5a49af6d-19cb-4b15-9456-e3a1a9a083f7',N'Duong',N'Nguyen Thuy',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user29.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716474079&Signature=2FS58GbEmco%2BhqcB0SqpWnA9d84%3D',0,'01/01/2001','0369749613','thuyduong234@gmail.com',N'Viet Nam');
 INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
 VALUES ('2590134e-c741-405e-ba2a-2be38a27d8bc','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c',N'Hang',N'Luu Minh',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/user30.png?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1716474101&Signature=WNcwlXJqzcQTMu8FitdjY4cOLRk%3D',0,'01/01/2001','0369596959','minhhang234@gmail.com',N'Viet Nam');
+
+INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
+VALUES ('9ae8d896-2a86-4cef-a3ac-a819907d699b','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c',N'Kiet',N'Luu Tuan',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/avataruser31.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1722225456&Signature=Tnpr1tNJ8i0r0UVcf1V966%2FbpLU%3D',1,'05/05/1975','0707425333','luutuankiet234@gmail.com',N'Viet Nam');
+INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
+VALUES ('fd504cdf-e8bc-456a-a5fa-9b394e9bb810','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c',N'Lien',N'Ta Kim',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/avataruser32.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1722225483&Signature=P7oRe6bTgNhZaxwBVTUWArB9cMw%3D',0,'10/02/1977','0707425999','takimlien234@gmail.com',N'Viet Nam');
+INSERT INTO [Profiles] (ProfileID,UserID,FirstName,LastName,Avatar,Gender,DateOfBirth,Phone,Email,Address)
+VALUES ('bd4296d8-5537-48c4-a016-5138edb64e89','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c',N'Ngoc',N'Luu Minh',N'https://eclinicbucket.s3.ap-southeast-1.amazonaws.com/Image/avataruser33.jpg?AWSAccessKeyId=AKIAUBYK6ZN247UCBSWB&Expires=1722225497&Signature=WG6TkPz6tu3pHFuWCAxpXlvfugs%3D',0,'05/01/2003','0707425666','luuminhngoc234@gmail.com',N'Viet Nam');
 
 
 GO
@@ -310,6 +317,12 @@ VALUES ('a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','AB-',159,50,'13accb41-1cad-4171-
 INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
 VALUES ('2590134e-c741-405e-ba2a-2be38a27d8bc','AB+',155,49,'13accb41-1cad-4171-85aa-f3d76464c3dc');
 
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+VALUES ('9ae8d896-2a86-4cef-a3ac-a819907d699b','AB+',169,65,'6a213e3d-6121-490e-87fc-747ba820491e');
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+VALUES ('fd504cdf-e8bc-456a-a5fa-9b394e9bb810','AB+',165,60,'c956e62b-5709-4a4a-85b0-6a3452b48abf');
+INSERT INTO [PatientProfiles] (ProfileID,BloodType,Height,Weight,RelationshipID)
+VALUES ('bd4296d8-5537-48c4-a016-5138edb64e89','AB+',160,50,'8782bbd0-2f56-4fd4-89d6-081396549bfb');
 
 
 GO

@@ -43,6 +43,17 @@ INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,Servi
 INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) VALUES ('1dcb2c80-1afd-4be9-8fa5-8319fed06ca8','5a49af6d-19cb-4b15-9456-e3a1a9a083f7','a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','600000','2023-07-24 11:22:12.0000001','8ed52064-8ed1-42d4-aa67-44348c96c960','8/2/2023','3');
 INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) VALUES ('85ced3e5-3dd9-482c-aa94-bb26848d3417','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','2590134e-c741-405e-ba2a-2be38a27d8bc','1000000','2023-07-25 14:14:12.0000001','0e09d0da-2471-4ffe-9156-46a21c86afcb','8/3/2023','1');
 
+INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) 
+VALUES ('bec71889-9f6c-4fd9-8e84-945496d795fb','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','9ae8d896-2a86-4cef-a3ac-a819907d699b','600.000','2023-07-26 07:11:12.0000001','8ed52064-8ed1-42d4-aa67-44348c96c960','2023-08-26','3');
+INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) 
+VALUES ('8730235a-e669-46ad-ac9a-7866f6bd45a0','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','fd504cdf-e8bc-456a-a5fa-9b394e9bb810','800.000','2023-07-26 07:12:12.0000001','a5d3d2d7-1274-4447-80f8-42a074350fbc','2023-08-26','3');
+INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) 
+VALUES ('21c2278b-cf9d-41ff-bd3c-b48c78752646','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','9ae8d896-2a86-4cef-a3ac-a819907d699b','600.000','2023-07-26 07:13:12.0000001','8ed52064-8ed1-42d4-aa67-44348c96c960','2023-08-26','1');
+INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) 
+VALUES ('95e553c1-8fab-4136-875d-c441816ce895','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','fd504cdf-e8bc-456a-a5fa-9b394e9bb810','800.000','2023-07-26 07:14:12.0000001','a5d3d2d7-1274-4447-80f8-42a074350fbc','2023-08-26','1');
+INSERT INTO [BookingPackage] (BookingID,UserID,ProfileID,Price,BookingTime,ServicePackageID,AppoinmentTime,BookingStatus) 
+VALUES ('22b407e0-e48e-4d7c-ba0b-746fc7a82cd3','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','bd4296d8-5537-48c4-a016-5138edb64e89','1.000.000','2023-07-26 07:15:12.0000001','0e09d0da-2471-4ffe-9156-46a21c86afcb','2023-08-26','1');
+
 Go
 
 INSERT INTO [DoctorCalendar] (CalenderID,DoctorID,Time) VALUES ('1b8f9106-5ea8-44bc-a738-224cb7d654e6','8edf474e-0fcb-49fc-9c9e-4e902c7472f2','8/2/2023');
@@ -665,3 +676,14 @@ INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTi
 INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) VALUES ('b436b1fb-8e9c-42e7-b009-fbff1345b812','f8f4c1f6-b620-42e6-9da9-54438bbd13c5','826e96cd-e68e-4e21-b17f-d5adc5545872','bde3df23-94a5-4d12-8342-07307ceca903','100000','2023-07-23 09:12:12.0000001','0','1','bc773941-302c-44fa-a5ac-6b81abb674b6','b8bb26b0-4193-45f6-9840-dff49597763f');
 INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) VALUES ('92cbe2b2-91a8-4645-aa16-ce921d4cc2dc','f8f4c1f6-b620-42e6-9da9-54438bbd13c5','5a49af6d-19cb-4b15-9456-e3a1a9a083f7','a0bccb90-a68c-42c1-bf36-2a20f85a6fb0','100000','2023-07-24 11:22:12.0000001','1','2','00000000-0000-0000-0000-000000000000','ba5bfaed-4e35-474e-ab3e-955f9fc92abd');
 INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) VALUES ('8b8935b9-01cb-4285-ba33-9e075ee2af83','f8f4c1f6-b620-42e6-9da9-54438bbd13c5','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','2590134e-c741-405e-ba2a-2be38a27d8bc','100000','2023-07-25 14:14:12.0000001','1','3','00000000-0000-0000-0000-000000000000','f13011fd-6b2e-432c-a0f9-5d0f9f8b46ce');
+
+INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) 
+VALUES ('3406edc0-e136-417f-99c9-b1041cf6a45b','5145193c-51dc-4fed-8aa9-8adc068b9c69','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','9ae8d896-2a86-4cef-a3ac-a819907d699b','100000','2023-07-26 07:11:12.0000001','1','3','00000000-0000-0000-0000-000000000000','8fdfb8fd-d8f3-4dc7-880c-97ef3d15e674');
+INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) 
+VALUES ('25c25866-b52c-4067-9295-a3eae34221f4','5145193c-51dc-4fed-8aa9-8adc068b9c69','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','fd504cdf-e8bc-456a-a5fa-9b394e9bb810','100000','2023-07-26 07:12:12.0000001','1','3','00000000-0000-0000-0000-000000000000','c056459f-e6e1-48aa-a2c2-efe6c08996fd');
+INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) 
+VALUES ('b325fd54-458d-4d8d-8cdb-ddbaa533bcc4','5145193c-51dc-4fed-8aa9-8adc068b9c69','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','9ae8d896-2a86-4cef-a3ac-a819907d699b','100000','2023-07-26 07:13:12.0000001','1','1','00000000-0000-0000-0000-000000000000','969fbe20-6f27-45a3-8329-7fc0c3510f68');
+INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) 
+VALUES ('79c2f896-c6c0-4d85-a6ee-44a61580cd7a','5145193c-51dc-4fed-8aa9-8adc068b9c69','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','fd504cdf-e8bc-456a-a5fa-9b394e9bb810','100000','2023-07-26 07:14:12.0000001','1','1','00000000-0000-0000-0000-000000000000','432c3f0b-3428-44a8-88f0-b31a26c22a5e');
+INSERT INTO [BookingDoctor] (BookingID,DoctorID,UserID,ProfileID,Price,BookingTime,BookingType,BookingStatus,RoomID,ScheduleID) 
+VALUES ('d8edd716-f2ec-4b22-a7c4-42544da48792','5145193c-51dc-4fed-8aa9-8adc068b9c69','ca064e23-1ce0-4ca8-b045-ea8cf23bbc8c','bd4296d8-5537-48c4-a016-5138edb64e89','100000','2023-07-26 07:15:12.0000001','1','1','00000000-0000-0000-0000-000000000000','43d088da-6fa4-4ca1-967c-f69a2547ae1d');

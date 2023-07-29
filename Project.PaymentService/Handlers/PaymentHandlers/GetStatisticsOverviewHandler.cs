@@ -26,9 +26,11 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
             {
                 var CurrentTime = DateTime.Now;
                 var OldTime = CurrentTime.Month == 1 ? new DateTime(CurrentTime.Year - 1, CurrentTime.Month + 11, CurrentTime.Day) : new DateTime(CurrentTime.Year, CurrentTime.Month - 1, CurrentTime.Day);
-                var Current = await paymentRepository.CountAsync(x => x.PaymentTime.Month == CurrentTime.Month && x.PaymentTime.Year == CurrentTime.Year);
-                var Old = await paymentRepository.CountAsync(x => x.PaymentTime.Month == OldTime.Month && x.PaymentTime.Year == OldTime.Year);
-                int difference = Old - Current;
+                var paymentsCurrent = await paymentRepository.GetAllAsync(x => x.PaymentTime.Month == CurrentTime.Month && x.PaymentTime.Year == CurrentTime.Year);
+                var paymentsOld = await paymentRepository.GetAllAsync(x => x.PaymentTime.Month == OldTime.Month && x.PaymentTime.Year == OldTime.Year);
+                var Current = paymentsCurrent.Sum(x => x.PaymentAmount);
+                var Old = paymentsOld.Sum(x => x.PaymentAmount);
+                double difference = Old - Current;
                 double percentageChange = Math.Abs(Old) != 0 ? (double)(difference) / Math.Abs(Old) * 100 : Math.Abs(Current);
                 StatisticsStatus status = StatisticsStatus.Equal;
                 if (percentageChange > 0)
@@ -48,7 +50,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 {
                     Percent = Math.Abs(Math.Round(percentageChange, 1)),
                     Status = status,
-                    Total = Current
+                    Total = (int)Current
                 };
                 return ApiResponse.OK(statistics);
             }

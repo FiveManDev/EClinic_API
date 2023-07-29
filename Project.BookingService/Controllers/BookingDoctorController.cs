@@ -28,7 +28,15 @@ public class BookingDoctorController : ControllerBase
         return await mediator.Send(new GetBookingDoctorByIDQuery(BookingDoctorID));
     }
     [HttpGet]
-    [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor, RoleConstants.Admin, RoleConstants.Supporter })]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Doctor})]
+    public async Task<IActionResult> GetAllBookingDoctorForDoctor([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
+    {
+        string userId = User.Claims.FirstOrDefault(claim => claim.Type == "UserID").Value;
+        PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+        return await mediator.Send(new GetAllBookingDoctorForDoctorQuery(userId,paginationRequestHeader, Response, BookingStatus));
+    }
+    [HttpGet]
+    [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]
     public async Task<IActionResult> GetAllBookingDoctorForAD([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] BookingStatus BookingStatus)
     {
         PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
