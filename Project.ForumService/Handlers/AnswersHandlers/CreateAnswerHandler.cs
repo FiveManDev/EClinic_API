@@ -61,7 +61,7 @@ namespace Project.ForumService.Handlers.PostHandlers
                 }
                 await hashtagrepository.UpdateManyAsync(hashtags);
                 await repository.CreateAsync(answer);
-                return ApiResponse.Created("Create Answer Succes");
+                return ApiResponse.Created("Create Answer Success");
             }
             catch (Exception ex)
             {
