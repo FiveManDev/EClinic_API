@@ -28,7 +28,12 @@ namespace Project.ForumService.Handlers.PostHandlers
         {
             try
             {
-                var posts = await repository.GetAllAsync(x => x.IsActive == false);
+                var text = "";
+                if (request.SearchText != null) { text = request.SearchText; }
+                var posts = await repository.GetAllAsync(x => x.IsActive == false &&(x.Title.Contains(text)
+                                                        || x.Content.Contains(text)
+                                                        || x.Author.FirstName.Contains(text)
+                                                        || x.Author.LastName.Contains(text)));
                 if (posts == null)
                 {
                     return ApiResponse.NotFound("Post Not Found.");

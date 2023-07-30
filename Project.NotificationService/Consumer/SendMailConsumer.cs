@@ -16,25 +16,26 @@ namespace Project.NotificationService.Consumer
             this.logger = logger;
         }
 
-        public Task Consume(ConsumeContext<VerifyEmail> context)
+        public async Task Consume(ConsumeContext<VerifyEmail> context)
         {
             try
             {
                 int type = context.Message.Type;
                 string email = context.Message.Email;
                 string code = context.Message.Code;
+                Console.WriteLine("SendMailConsumer");
+                Console.WriteLine("Email: " + email);
                 if (type == 0) {
-                    mailService.ConfirmEmail(email, code);
+                   await mailService.ConfirmEmail(email, code);
                 }
                 if(type == 1)
                 {
-                    mailService.VerifyEmail(email, code);
+                    await mailService.VerifyEmail(email, code);
                 }
-                return Task.CompletedTask;
+                Console.WriteLine("Send mail");
             }catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
-                return Task.FromException(ex);
             }
         }
     }

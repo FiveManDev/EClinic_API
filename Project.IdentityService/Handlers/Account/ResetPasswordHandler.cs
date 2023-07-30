@@ -58,9 +58,10 @@ namespace Project.IdentityService.Handlers.Account
                 var TextBytes = System.Text.Encoding.UTF8.GetBytes(request.ResetPasswordDTO.Email + user.UserName + "Reset");
                 var key = Convert.ToBase64String(TextBytes);
                 var code = RandomText.RandomByNumberOfCharacters(6, RandomType.Number);
-                var DataCode = new DataCodeDtos { User = user, Code = code, CreateProfileRequest = new CreateProfileRequest() };
+                var DataCode = new DataCodeDtos { User = user, Code = code, CreateProfileRequest = new CreateProfileRequest { Email = request.ResetPasswordDTO.Email } };
                 await cacheService.SetCacheResponseAsync(key, DataCode, TimeSpan.FromHours(1));
                 var data = new ConfirmDataDtos { Key = key, Code = code };
+                await bus.SendMessageWithExchangeName<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 }, ExchangeConstants.NotificationService);
                 await bus.SendMessageWithExchangeName<VerifyEmail>(new VerifyEmail { Email = request.ResetPasswordDTO.Email, Code = code, Type = 1 }, ExchangeConstants.NotificationService);
                 return ApiResponse.OK<string>(key);
             }

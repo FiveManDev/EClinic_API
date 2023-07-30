@@ -39,23 +39,17 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetPostsQuery(paginationRequestHeader, SearchPostDtos, Response));
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPost([FromHeader] int PageNumber, [FromHeader] int PageSize)
-        {
-            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-            return await mediator.Send(new GetAllPostQuery(paginationRequestHeader, Response));
-        }
-        [HttpGet]
-        public async Task<IActionResult> GetPostNotActive([FromHeader] int PageNumber, [FromHeader] int PageSize)
-        {
-            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-            return await mediator.Send(new GetPostNotActiveQuery(paginationRequestHeader, Response));
-        }
-        [HttpGet]
         [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
-        public async Task<IActionResult> GetPostForAd([FromHeader] int PageNumber, [FromHeader] int PageSize)
+        public async Task<IActionResult> GetAllPost([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText)
         {
             PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
-            return await mediator.Send(new GetPostForAdQuery(paginationRequestHeader, Response));
+            return await mediator.Send(new GetAllPostQuery(paginationRequestHeader, Response, SearchText));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPostNotActive([FromHeader] int PageNumber, [FromHeader] int PageSize, [FromQuery] string SearchText)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostNotActiveQuery(paginationRequestHeader, Response, SearchText));
         }
         [HttpGet]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]

@@ -36,7 +36,7 @@ namespace Project.Core.RabbitMQ
                     });
                     configurator.UseMessageRetry(retryConfigurator =>
                     {
-                        retryConfigurator.Interval(3, TimeSpan.FromSeconds(5));
+                        retryConfigurator.Interval(3, TimeSpan.FromMinutes(5));
                     });
                     receiveConfigurator(configurator,context);
                 });

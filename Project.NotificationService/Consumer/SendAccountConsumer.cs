@@ -16,16 +16,17 @@ namespace Project.NotificationService.Consumer
             this.logger = logger;
         }
 
-        public Task Consume(ConsumeContext<AccountDtos> context)
+        public async Task Consume(ConsumeContext<AccountDtos> context)
         {
             try
             {
-                mailService.SendAccount(context.Message.Email, context.Message);
-                return Task.CompletedTask;
+                Console.WriteLine("SendAccountConsumer");
+                Console.WriteLine("Email: "+ context.Message.Email);
+                await mailService.SendAccount(context.Message.Email, context.Message);
+                Console.WriteLine("Send mail");
             }catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
-                return Task.FromException(ex);
             }
         }
     }

@@ -29,7 +29,13 @@ namespace Project.ForumService.Handlers.PostHandlers
         {
             try
             {
-                var posts = await repository.GetAllAsync();
+                var text = "";
+                if (request.SearchText != null) { text = request.SearchText; }
+                var posts = await repository.GetAllAsync(x => x.Title.Contains(text)
+                                                        || x.Content.Contains(text)
+                                                        || x.Author.FirstName.Contains(text)
+                                                        || x.Author.LastName.Contains(text)
+                );
                 if (posts == null)
                 {
                     return ApiResponse.NotFound("Post Not Found.");
@@ -40,7 +46,7 @@ namespace Project.ForumService.Handlers.PostHandlers
                     .OrderByDescending(x => x.CreatedAt)
                     .Skip((request.PaginationRequestHeader.PageNumber - 1) * request.PaginationRequestHeader.PageSize)
                     .Take(request.PaginationRequestHeader.PageSize).ToList();
-               
+
                 header.PageIndex = request.PaginationRequestHeader.PageNumber;
                 header.PageSize = request.PaginationRequestHeader.PageSize;
 
