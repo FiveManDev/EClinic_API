@@ -51,6 +51,13 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new GetPostNotActiveQuery(paginationRequestHeader, Response));
         }
         [HttpGet]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        public async Task<IActionResult> GetPostForAd([FromHeader] int PageNumber, [FromHeader] int PageSize)
+        {
+            PaginationRequestHeader paginationRequestHeader = new PaginationRequestHeader { PageSize = PageSize, PageNumber = PageNumber };
+            return await mediator.Send(new GetPostForAdQuery(paginationRequestHeader, Response));
+        }
+        [HttpGet]
         [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]
         public async Task<IActionResult> GetPostOfUser([FromHeader] int PageNumber, [FromHeader] int PageSize)
         {
@@ -86,7 +93,7 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new UpdatePostCommands(updatePostDtos));
         }
         [HttpDelete]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.User, RoleConstants.Admin, RoleConstants.Supporter })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
         public async Task<IActionResult> DeletePostByID(Guid PostID)
         {
             return await mediator.Send(new DeletePostCommands(PostID));
