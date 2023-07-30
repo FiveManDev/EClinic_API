@@ -57,7 +57,7 @@ namespace Project.ForumService.Handlers.PostHandlers
                 }
 
                 await repository.CreateAsync(post);
-                return ApiResponse.Created("Create Answer Succes");
+                return ApiResponse.Created("Create Post Success");
 
             }
             catch (Exception ex)
