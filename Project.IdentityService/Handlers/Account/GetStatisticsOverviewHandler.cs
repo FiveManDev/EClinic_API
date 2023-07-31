@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Constants;
 using Project.Common.Enum;
+using Project.Common.Functionality;
 using Project.Common.Model;
 using Project.Common.Response;
 using Project.Core.Logger;
@@ -26,7 +27,7 @@ namespace Project.IdentityService.Handlers.Account
             try
             {
                 var CurrentTime = DateTime.Now;
-                var OldTime = CurrentTime.Month == 1 ? new DateTime(CurrentTime.Year - 1, CurrentTime.Month + 11, CurrentTime.Day) : new DateTime(CurrentTime.Year, CurrentTime.Month - 1, CurrentTime.Day);
+                var OldTime = TimeCalculation.GetOldTime(CurrentTime);
                 var Current = await userRepository.CountAsync(x => x.CreatedAt.Month == CurrentTime.Month && x.CreatedAt.Year == CurrentTime.Year && x.RoleID == RoleConstants.IDUser);
                 var Old = await userRepository.CountAsync(x => x.CreatedAt.Month == OldTime.Month && x.CreatedAt.Year == OldTime.Year && x.RoleID == RoleConstants.IDUser);
                 int difference = Old - Current;

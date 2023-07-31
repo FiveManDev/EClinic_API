@@ -4,6 +4,7 @@ using Project.BookingService.Repository.BookingDoctorRepository;
 using Project.BookingService.Repository.BookingPackageRepository;
 using Project.BookingServiceQueries.Queries;
 using Project.Common.Enum;
+using Project.Common.Functionality;
 using Project.Common.Model;
 using Project.Common.Response;
 using Project.Core.Logger;
@@ -28,7 +29,7 @@ namespace Project.BookingService.Handlers.BookingHandler
             try
             {
                 var CurrentTime = DateTime.Now;
-                var OldTime = CurrentTime.Month == 1 ? new DateTime(CurrentTime.Year - 1, CurrentTime.Month + 11, CurrentTime.Day) : new DateTime(CurrentTime.Year, CurrentTime.Month - 1, CurrentTime.Day);
+                var OldTime = TimeCalculation.GetOldTime(CurrentTime);
                 var CurrentDoctor = await doctorRepository.CountAsync(x => x.BookingTime.Month == CurrentTime.Month && x.BookingTime.Year == CurrentTime.Year);
                 var CurrentPackage = await packageRepository.CountAsync(x => x.BookingTime.Month == CurrentTime.Month && x.BookingTime.Year == CurrentTime.Year);
                 int Current = CurrentDoctor + CurrentPackage;

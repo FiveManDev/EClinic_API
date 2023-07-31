@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Common.Enum;
+using Project.Common.Functionality;
 using Project.Common.Model;
 using Project.Common.Response;
 using Project.Core.Logger;
@@ -25,7 +26,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
             try
             {
                 var CurrentTime = DateTime.Now;
-                var OldTime = CurrentTime.Month == 1 ? new DateTime(CurrentTime.Year - 1, CurrentTime.Month + 11, CurrentTime.Day) : new DateTime(CurrentTime.Year, CurrentTime.Month - 1, CurrentTime.Day);
+                var OldTime = TimeCalculation.GetOldTime(CurrentTime);
                 var paymentsCurrent = await paymentRepository.GetAllAsync(x => x.PaymentTime.Month == CurrentTime.Month && x.PaymentTime.Year == CurrentTime.Year);
                 var paymentsOld = await paymentRepository.GetAllAsync(x => x.PaymentTime.Month == OldTime.Month && x.PaymentTime.Year == OldTime.Year);
                 var Current = paymentsCurrent.Sum(x => x.PaymentAmount);
