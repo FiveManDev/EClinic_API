@@ -140,6 +140,7 @@ services:
         ipv4_address: 172.20.0.15
   project.aiservice:
     image: ${DOCKER_REGISTRY-}projectaiservice
+    container_name: ai
     build:
       context: .
       dockerfile: Project.AIService/Dockerfile
