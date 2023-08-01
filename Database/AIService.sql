@@ -3,47 +3,47 @@ GO
 USE [AIService]
 
 GO
-CREATE TABLE "MachineLearning"(
-    "MachineID" uniqueidentifier NOT NULL DEFAULT NewID(),
-    "MachineName" VARCHAR(255) NOT NULL
+
+CREATE TABLE [MachineLearning] (
+    [MachineID] uniqueidentifier NOT NULL DEFAULT NEWID(),
+    [MachineName] VARCHAR(255) NOT NULL
 );
-ALTER TABLE
-    "MachineLearning" ADD CONSTRAINT "machinelearning_machineid_primary" PRIMARY KEY("MachineID");
-CREATE TABLE "Model"(
-    "ModelID" uniqueidentifier NOT NULL DEFAULT NewID(),
-    "ModelName" VARCHAR(255) NOT NULL,
-    "FileURL" VARCHAR(255) NOT NULL,
-    "Accuracy" FLOAT NOT NULL,
-    "IsActive" BIT NOT NULL,
-    "CreatedAt" DATETIME NOT NULL,
-    "UpdatedAt" DATETIME NOT NULL,
-    "MachineID" uniqueidentifier NOT NULL,
-    "DeepID" uniqueidentifier NOT NULL
+
+CREATE TABLE [Model] (
+    [ModelID] uniqueidentifier NOT NULL DEFAULT NEWID(),
+    [ModelName] VARCHAR(255) NOT NULL,
+    [FileURL] VARCHAR(255) NOT NULL,
+    [Accuracy] FLOAT NOT NULL,
+    [IsActive] BIT NOT NULL,
+    [CreatedAt] DATETIME NOT NULL,
+    [UpdatedAt] DATETIME NOT NULL,
+    [MachineID] uniqueidentifier NOT NULL,
+    [DeepID] uniqueidentifier NOT NULL
 );
-ALTER TABLE
-    "Model" ADD CONSTRAINT "model_modelid_primary" PRIMARY KEY("ModelID");
-CREATE TABLE "DeepLearning"(
-    "DeepID" uniqueidentifier NOT NULL DEFAULT NewID(),
-    "DeepName" NVARCHAR(255) NOT NULL
+
+CREATE TABLE [DeepLearning] (
+    [DeepID] uniqueidentifier NOT NULL DEFAULT NEWID(),
+    [DeepName] NVARCHAR(255) NOT NULL
 );
-ALTER TABLE
-    "DeepLearning" ADD CONSTRAINT "deeplearning_deepid_primary" PRIMARY KEY("DeepID");
-CREATE TABLE "PredictionHistory"(
-    "PredictID" uniqueidentifier NOT NULL DEFAULT NewID(),
-    "Note" NVARCHAR(255) NOT NULL,
-    "Result" VARCHAR(255) NOT NULL,
-    "PredictTime" DATETIME NOT NULL,
-    "ModelID" uniqueidentifier NOT NULL
+
+CREATE TABLE [PredictionHistory] (
+    [PredictID] uniqueidentifier NOT NULL DEFAULT NEWID(),
+    [Note] NVARCHAR(255) NOT NULL,
+    [Result] VARCHAR(255) NOT NULL,
+    [PredictTime] DATETIME NOT NULL,
+    [ModelID] uniqueidentifier NOT NULL
 );
-ALTER TABLE
-    "PredictionHistory" ADD CONSTRAINT "predictionhistory_predictid_primary" PRIMARY KEY("PredictID");
-ALTER TABLE
-    "PredictionHistory" ADD CONSTRAINT "predictionhistory_modelid_foreign" FOREIGN KEY("ModelID") REFERENCES "Model"("ModelID");
-ALTER TABLE
-    "Model" ADD CONSTRAINT "model_machineid_foreign" FOREIGN KEY("MachineID") REFERENCES "MachineLearning"("MachineID");
-ALTER TABLE
-    "Model" ADD CONSTRAINT "model_deepid_foreign" FOREIGN KEY("DeepID") REFERENCES "DeepLearning"("DeepID");
+
+ALTER TABLE [dbo].[MachineLearning] ADD CONSTRAINT [PK_MachineLearning] PRIMARY KEY ([MachineID]);
+ALTER TABLE [dbo].[Model] ADD CONSTRAINT [PK_Model] PRIMARY KEY ([ModelID]);
+ALTER TABLE [dbo].[DeepLearning] ADD CONSTRAINT [PK_DeepLearning] PRIMARY KEY ([DeepID]);
+ALTER TABLE [dbo].[PredictionHistory] ADD CONSTRAINT [PK_PredictionHistory] PRIMARY KEY ([PredictID]);
+
+ALTER TABLE [dbo].[PredictionHistory] ADD CONSTRAINT [FK_PredictionHistory_Model] FOREIGN KEY ([ModelID]) REFERENCES [dbo].[Model] ([ModelID]);
+ALTER TABLE [dbo].[Model] ADD CONSTRAINT [FK_Model_MachineLearning] FOREIGN KEY ([MachineID]) REFERENCES [dbo].[MachineLearning] ([MachineID]);
+ALTER TABLE [dbo].[Model] ADD CONSTRAINT [FK_Model_DeepLearning] FOREIGN KEY ([DeepID]) REFERENCES [dbo].[DeepLearning] ([DeepID]);
 GO
+
 
 INSERT INTO [dbo].[DeepLearning]([DeepID],[DeepName])
 VALUES ('cdf2376e-d944-4d54-8faa-00c43398368b','ResNet-50')
