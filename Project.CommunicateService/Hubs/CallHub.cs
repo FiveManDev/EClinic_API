@@ -25,5 +25,10 @@ namespace Project.CommunicateService.Hubs
         {
             await Clients.Group(RoomID.ToString() + "Call").SendAsync("Disconnect");
         }
+        [Authorize]
+        public async Task LeaveGroup(Guid RoomID)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, RoomID.ToString());
+        }
     }
 }

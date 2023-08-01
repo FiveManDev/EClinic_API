@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Project.Common.Response;
 using Project.CommunicateService.Commands;
 using Project.CommunicateService.Data;
+using Project.CommunicateService.Hubs;
 using Project.CommunicateService.Repository.RoomRepositories;
 using Project.Core.Logger;
 
@@ -12,11 +14,13 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
     {
         private readonly IRoomRepository roomRepository;
         private readonly ILogger<CloseRoomHandler> logger;
+        private readonly IHubContext<MessageHub> hub;
 
-        public CloseRoomHandler(IRoomRepository roomRepository, ILogger<CloseRoomHandler> logger)
+        public CloseRoomHandler(IRoomRepository roomRepository, ILogger<CloseRoomHandler> logger, IHubContext<MessageHub> hub)
         {
             this.roomRepository = roomRepository;
             this.logger = logger;
+            this.hub = hub;
         }
 
         public async Task<ObjectResult> Handle(CloseRoomCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 {
                     throw new Exception("Close Room Error.");
                 }
+                await hub.Clients.Group(Room.RoomID.ToString()).SendAsync("EndRoom");
                 return ApiResponse.OK("Close room is success");
             }
             catch (Exception ex)
