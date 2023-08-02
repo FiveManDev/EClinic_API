@@ -61,7 +61,7 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     var user = ListUser.SingleOrDefault(x => item.UserID == Guid.Parse(x.UserID));
                     item.EnabledAccount = user.Enabled;
-                    var spe = ListService.SingleOrDefault(x => item.Specialization.SpecializationID == Guid.Parse(x.SpecializationID));
+                    var spe = ListService.FirstOrDefault(x => item.Specialization.SpecializationID == Guid.Parse(x.SpecializationID));
                     item.Specialization.SpecializationName = spe.SpecializationName;
                 }
                 return ApiResponse.OK<List<GetDoctorProfileDtos>>(profileDtos);
