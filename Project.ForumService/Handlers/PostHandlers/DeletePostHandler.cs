@@ -9,15 +9,15 @@ using Project.ForumService.Data;
 
 namespace Project.ForumService.Handlers.PostHandlers
 {
-    public class DeleteCommentHandler : IRequestHandler<DeletePostCommands, ObjectResult>
+    public class DeletePostHandler : IRequestHandler<DeletePostCommands, ObjectResult>
     {
         private readonly IMongoDBRepository<Post> repository;
         private readonly IMongoDBRepository<Answer> answerRepository;
         private readonly IMongoDBRepository<Comment> commentRepository;
-        private readonly ILogger<DeleteCommentHandler> logger;
+        private readonly ILogger<DeletePostHandler> logger;
         private readonly IAmazonS3Bucket bucket;
 
-        public DeleteCommentHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMongoDBRepository<Comment> commentRepository, ILogger<DeleteCommentHandler> logger, IAmazonS3Bucket bucket)
+        public DeletePostHandler(IMongoDBRepository<Post> repository, IMongoDBRepository<Answer> answerRepository, IMongoDBRepository<Comment> commentRepository, ILogger<DeletePostHandler> logger, IAmazonS3Bucket bucket)
         {
             this.repository = repository;
             this.answerRepository = answerRepository;
