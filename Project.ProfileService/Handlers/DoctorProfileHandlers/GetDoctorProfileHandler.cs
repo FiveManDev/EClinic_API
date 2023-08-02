@@ -55,11 +55,12 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                     return ApiResponse.InternalServerError();
                 }
                 var ListService = serviceRes.Specialization.ToList();
-                for (var i = 0; i < profileDtos.Count; i++)
+                foreach (var item in profileDtos)
                 {
-                    profileDtos[i].EnabledAccount = ListUser[i].Enabled;
-                    profileDtos[i].Specialization.SpecializationName = ListService[i].SpecializationName;
-
+                    var user = ListUser.SingleOrDefault(x => item.UserID == Guid.Parse(x.UserID));
+                    item.EnabledAccount = user.Enabled;
+                    var spe = ListService.SingleOrDefault(x => item.Specialization.SpecializationID == Guid.Parse(x.SpecializationID));
+                    item.Specialization.SpecializationName = spe.SpecializationName;
                 }
                 return ApiResponse.OK<List<GetDoctorProfileDtos>>(profileDtos);
             }

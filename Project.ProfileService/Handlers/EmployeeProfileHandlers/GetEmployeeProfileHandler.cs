@@ -33,7 +33,7 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
             try
             {
                 var res = await client.GetAllUserWithRoleAsync(new GetAllUserWithRoleRequest { Role = request.Role });
-                if(res==null)
+                if (res == null)
                 {
                     throw new Exception("Get User Error");
                 }
@@ -42,9 +42,10 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                 var pagination = await profileRepository.GetEmployeeProfilesAsync(listID, request.PaginationRequestHeader, request.SearchText);
                 request.Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination.PaginationResponseHeader));
                 var profileDtos = mapper.Map<List<GetEmployeeProfileDtos>>(pagination.PaginationData);
-                for (var i = 0; i < profileDtos.Count; i++)
+                foreach (var item in profileDtos)
                 {
-                    profileDtos[i].EnabledAccount = ListUser[i].Enabled;
+                    var user = ListUser.SingleOrDefault(x => item.UserID == Guid.Parse(x.UserID));
+                    item.EnabledAccount = user.Enabled;
                 }
                 return ApiResponse.OK<List<GetEmployeeProfileDtos>>(profileDtos);
             }
