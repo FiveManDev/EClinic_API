@@ -87,7 +87,7 @@ namespace Project.ForumService.Controllers
             return await mediator.Send(new UpdatePostCommands(updatePostDtos));
         }
         [HttpDelete]
-        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin })]
+        [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.User })]
         public async Task<IActionResult> DeletePostByID(Guid PostID)
         {
             return await mediator.Send(new DeletePostCommands(PostID));
