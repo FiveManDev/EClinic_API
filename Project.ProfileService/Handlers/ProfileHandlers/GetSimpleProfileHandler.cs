@@ -42,8 +42,8 @@ namespace Project.ProfileService.Handlers.ProfileHandlers
                 {
                     profile = profiles.SingleOrDefault(x => x.HealthProfile.RelationshipID == ConstantsData.MyRelationshipID);
                 }
-                var sampleProfile = mapper.Map<SimpleProfileDtos>(profile);
-                return ApiResponse.OK<SimpleProfileDtos>(sampleProfile);
+                var simpleProfile = mapper.Map<SimpleProfileDtos>(profile);
+                return ApiResponse.OK<SimpleProfileDtos>(simpleProfile);
 
             }
             catch (Exception ex)
