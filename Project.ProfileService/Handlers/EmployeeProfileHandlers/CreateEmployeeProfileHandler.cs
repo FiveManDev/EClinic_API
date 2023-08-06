@@ -15,15 +15,15 @@ using Project.ProfileService.Repository.ProfileRepository;
 
 namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
 {
-    public class CreateEmployeeProfileProfileDtos : IRequestHandler<CreateEmployeeProfileCommands, ObjectResult>
+    public class CreateEmployeeProfileHandler : IRequestHandler<CreateEmployeeProfileCommands, ObjectResult>
     {
         private readonly IProfileRepository profileRepository;
         private readonly IEmployeeProfilesRepository employeeProfilesRepository;
         private readonly IAmazonS3Bucket s3Bucket;
-        private readonly ILogger<CreateUserProfileHandler> logger;
+        private readonly ILogger<CreateEmployeeProfileHandler> logger;
         private readonly UserService.UserServiceClient client;
 
-        public CreateEmployeeProfileProfileDtos(IConfiguration configuration,IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateUserProfileHandler> logger)
+        public CreateEmployeeProfileHandler(IConfiguration configuration,IProfileRepository profileRepository, IEmployeeProfilesRepository employeeProfilesRepository, IAmazonS3Bucket s3Bucket, ILogger<CreateEmployeeProfileHandler> logger)
         {
             this.profileRepository = profileRepository;
             this.employeeProfilesRepository = employeeProfilesRepository;
