@@ -33,7 +33,7 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
                 var Schedules = Calendar.DoctorSchedules;
                 foreach (var schedule in Schedules)
                 {
-                    if (schedule.BookingDoctor.BookingStatus == Data.BookingStatus.NoPayment)
+                    if (schedule.BookingDoctor != null && schedule.BookingDoctor.BookingStatus == Data.BookingStatus.NoPayment)
                     {
                         schedule.BookingDoctor = null;
                     }

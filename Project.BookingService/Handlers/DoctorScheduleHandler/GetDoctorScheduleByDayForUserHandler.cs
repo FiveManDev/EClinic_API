@@ -28,13 +28,17 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
             try
             {
                 var Calendar = await repository.GetDoctorCalendarForUserAsync(x => x.Time.Date == request.Date && x.DoctorID == request.DoctorID);
+                if (Calendar == null)
+                {
+                    return ApiResponse.NotFound("Calendar Not Found");
+                }
                 DoctorScheduleDtos scheduleDtos = new DoctorScheduleDtos();
                 scheduleDtos.CalenderID = Calendar.CalenderID;
                 scheduleDtos.Time = Calendar.Time;
                 var Schedules = Calendar.DoctorSchedules;
-                foreach( var schedule in Schedules )
+                foreach (var schedule in Schedules)
                 {
-                    if(schedule.BookingDoctor.BookingStatus == Data.BookingStatus.NoPayment)
+                    if (schedule.BookingDoctor != null && schedule.BookingDoctor.BookingStatus == Data.BookingStatus.NoPayment)
                     {
                         schedule.BookingDoctor = null;
                     }
