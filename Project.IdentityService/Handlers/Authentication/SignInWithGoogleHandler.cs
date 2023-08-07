@@ -67,7 +67,7 @@ namespace Project.IdentityService.Handlers.Authentication
                     Email = result.Email,
                     FirstName = result.Family_Name,
                     LastName = result.Given_Name,
-                    Gender = true,
+                    Gender = false,
                     DateOfBirth = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.UtcNow)
 
                 });

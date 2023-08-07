@@ -113,6 +113,7 @@ namespace Project.ProfileService.Service
                 res.Avatar = profiles[0].Avatar;
                 res.FirstName = profiles[0].FirstName;
                 res.LastName = profiles[0].LastName;
+                res.Email = profiles[0].Email;
                 return res;
             }
             catch
