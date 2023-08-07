@@ -74,6 +74,13 @@ namespace Project.PaymentService.VNPayPayment
                     }
                 }
                 result.IsSuccess = false;
+                result.TransactionID = vnpayTranId.ToString();
+                result.OrderID = orderId.ToString();
+                result.UserID = Guid.Parse(userId);
+                result.BookingID = Guid.Parse(bookingId);
+                result.Amount = amount;
+                result.PaymentTime = dateTime;
+                result.PaymentType = message;
                 return result;
             }
             catch (Exception ex)

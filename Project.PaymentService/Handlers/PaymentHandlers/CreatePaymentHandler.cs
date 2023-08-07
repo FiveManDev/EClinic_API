@@ -81,11 +81,13 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 {
                     var updateResult = await client.GetBookingPackageAsync(new GetBookingPackageRequest { BookingPackageID = paymentResult.BookingID.ToString() });
                     url = $"{clientAddress}/services/{updateResult.UserID}?bookingId={paymentResult.BookingID}&status=fail";
+                    return url;
                 }
                 if (type == "BookingDoctor" && paymentResult.IsSuccess == false)
                 {
                     var updateResult = await client.GetBookingDoctorAsync(new GetBookingDoctorRequest { BookingDoctorID = paymentResult.BookingID.ToString() });
                     url = $"{clientAddress}/doctors/{updateResult.UserID}?bookingId={paymentResult.BookingID}&status=fail";
+                    return url;
                 }
                 Payment payment = new Payment
                 {
@@ -105,18 +107,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                 var res = await profileclient.GetProfileAsync(new GetProfileRequest { UserID = payment.UserID.ToString() });
                 await bus.SendMessageWithExchangeName<PaymentModelData>(new PaymentModelData
                 {
-                    FullName = res.FirstName + res.LastName,
-                    BookingType = type,
-                    PaymentAmount = paymentResult.Amount,
-                    PaymentID = payment.PaymentID,
-                    PaymentService = request.PaymentService == Data.PaymentService.Momo ? "Momo" : "VNPay",
-                    PaymentTime = paymentResult.PaymentTime,
-                    TransactionID = paymentResult.TransactionID,
-                    Email = res.Email
-                }, ExchangeConstants.NotificationService + "SendBill");
-                await bus.SendMessageWithExchangeName<PaymentModelData>(new PaymentModelData
-                {
-                    FullName = res.FirstName + res.LastName,
+                    FullName = res.FirstName + " " + res.LastName,
                     BookingType = type,
                     PaymentAmount = paymentResult.Amount,
                     PaymentID = payment.PaymentID,

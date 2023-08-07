@@ -43,6 +43,13 @@ namespace Project.PaymentService.MomoPayment
                 if (momoResponse.ErrorCode != 0)
                 {
                     result.IsSuccess = false;
+                    result.TransactionID = momoResponse.TransId.ToString();
+                    result.OrderID = momoResponse.OrderId;
+                    result.PaymentType = momoResponse.ExtraData;
+                    result.BookingID = Guid.Parse(momoResponse.RequestId);
+                    result.Amount = momoResponse.Amount;
+                    result.PaymentTime = momoResponse.ResponseTime;
+                    result.UserID = Guid.Parse(momoResponse.OrderInfo);
                     return result;
                 }
                 result.IsSuccess = true;
