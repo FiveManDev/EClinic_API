@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Grpc.Net.Client;
 using MediatR;
 using Project.BookingService.Data;
-using Project.BookingService.Protos;
 using Project.BookingService.Repository.BookingDoctorRepository;
 using Project.BookingServiceCommands.Commands;
 using Project.Core.Logger;
@@ -14,36 +12,23 @@ namespace Project.BookingService.Handlers.BookingDoctorHandler
         private readonly ILogger<CreateBookingDoctorHandler> logger;
         private readonly IBookingDoctorRepository repository;
         private readonly IMapper mapper;
-        private readonly CommunicationService.CommunicationServiceClient client;
-        public CreateBookingDoctorHandler(IConfiguration configuration, IBookingDoctorRepository repository, ILogger<CreateBookingDoctorHandler> logger, IMapper mapper)
+        public CreateBookingDoctorHandler(IBookingDoctorRepository repository, ILogger<CreateBookingDoctorHandler> logger, IMapper mapper)
         {
             this.repository = repository;
             this.logger = logger;
             this.mapper = mapper;
-            var httpHandler = new HttpClientHandler();
-            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-            GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:CommunicationServiceURL"), new GrpcChannelOptions { HttpHandler = httpHandler });
-            client = new CommunicationService.CommunicationServiceClient(channel);
         }
         public async Task<BookingDoctor> Handle(CreateBookingDoctorCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var bookings = await repository.GetAllAsync(x => x.BookingStatus == BookingStatus.NoPayment);
+                if (bookings.Count != 0)
+                {
+                    await repository.DeleteRangeAsync(bookings);
+                }
                 BookingDoctor bookingDoctor = mapper.Map<BookingDoctor>(request.CreateBookingDoctorDTO);
-                var res = await client.CreateRoomAsync(new CreateRoomRequest
-                {
-                    UserID = bookingDoctor.UserID.ToString(),
-                    DoctorID = bookingDoctor.DoctorID.ToString()
-                });
-                if (res == null) { return null; }
-                if (bookingDoctor.BookingType == BookingType.Offline)
-                {
-                    bookingDoctor.RoomID = Guid.Empty;
-                }
-                if (bookingDoctor.BookingType == BookingType.Online)
-                {
-                    bookingDoctor.RoomID = Guid.Parse(res.RoomID);
-                }
+                bookingDoctor.RoomID = Guid.Empty;
                 bookingDoctor.BookingStatus = BookingStatus.NoPayment;
                 bookingDoctor.BookingTime = DateTime.Now;
 

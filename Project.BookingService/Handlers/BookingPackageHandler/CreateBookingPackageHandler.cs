@@ -24,6 +24,11 @@ public class CreateBookingPackageHandler : IRequestHandler<CreateBookingPackageC
     {
         try
         {
+            var bookings = await repository.GetAllAsync(x => x.BookingStatus == BookingStatus.NoPayment);
+            if (bookings.Count != 0)
+            {
+                await repository.DeleteRangeAsync(bookings);
+            }
             BookingPackage bookingPackage = mapper.Map<BookingPackage>(request.CreateBookingPackageDTO);
 
             bookingPackage.BookingStatus = BookingStatus.NoPayment;

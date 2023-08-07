@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using Grpc.Net.Client;
+using MediatR;
 using Project.BookingService.Data;
+using Project.BookingService.Protos;
 using Project.BookingService.Repository.BookingDoctorRepository;
 using Project.BookingServiceCommands.Commands;
 using Project.Core.Logger;
@@ -10,11 +12,15 @@ public class UpdateBookingUpcomingForBookingDoctorHandler : IRequestHandler<Upda
 {
     private readonly ILogger<UpdateBookingUpcomingForBookingDoctorHandler> logger;
     private readonly IBookingDoctorRepository repository;
-
-    public UpdateBookingUpcomingForBookingDoctorHandler(ILogger<UpdateBookingUpcomingForBookingDoctorHandler> logger, IBookingDoctorRepository repository)
+    private readonly CommunicationService.CommunicationServiceClient client;
+    public UpdateBookingUpcomingForBookingDoctorHandler(IConfiguration configuration, ILogger<UpdateBookingUpcomingForBookingDoctorHandler> logger, IBookingDoctorRepository repository)
     {
         this.logger = logger;
         this.repository = repository;
+        var httpHandler = new HttpClientHandler();
+        httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+        GrpcChannel channel = GrpcChannel.ForAddress(configuration.GetValue<string>("GrpcSettings:CommunicationServiceURL"), new GrpcChannelOptions { HttpHandler = httpHandler });
+        client = new CommunicationService.CommunicationServiceClient(channel);
     }
 
     public async Task<BookingDoctor> Handle(UpdateBookingUpcomingForBookingDoctorCommand request, CancellationToken cancellationToken)
@@ -27,7 +33,20 @@ public class UpdateBookingUpcomingForBookingDoctorHandler : IRequestHandler<Upda
             {
                 return null;
             }
-
+            var res = await client.CreateRoomAsync(new CreateRoomRequest
+            {
+                UserID = bookingDoctor.UserID.ToString(),
+                DoctorID = bookingDoctor.DoctorID.ToString()
+            });
+            if (res == null) { return null; }
+            if (bookingDoctor.BookingType == BookingType.Offline)
+            {
+                bookingDoctor.RoomID = Guid.Empty;
+            }
+            if (bookingDoctor.BookingType == BookingType.Online)
+            {
+                bookingDoctor.RoomID = Guid.Parse(res.RoomID);
+            }
             bookingDoctor.BookingStatus = BookingStatus.Upcoming;
 
             await repository.UpdateAsync(bookingDoctor);
