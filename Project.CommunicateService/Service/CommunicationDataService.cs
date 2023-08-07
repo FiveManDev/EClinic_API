@@ -30,5 +30,19 @@ namespace Project.CommunicateService.Service
                 return null;
             }
         }
+
+        public override async Task<DeleteRoomResponse> DeleteRoom(DeleteRoomRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var result = await mediator.Send(new DeleteRoomCommand(Guid.Parse(request.RoomID)));
+                return new DeleteRoomResponse { IsSuccess = result };
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return null;
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ option csharp_namespace = "Project.BookingService.Protos";
 
 service CommunicationService  {
   rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+  rpc DeleteRoom (DeleteRoomRequest) returns (DeleteRoomResponse);
 }
 message CreateRoomRequest  {
   string UserID = 1;
@@ -12,3 +13,10 @@ message CreateRoomRequest  {
 message CreateRoomResponse  {
   string RoomID = 1;
 }
+message DeleteRoomRequest  {
+  string RoomID = 1;
+}
+message DeleteRoomResponse  {
+  bool IsSuccess = 1;
+}
+

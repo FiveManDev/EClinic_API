@@ -12,6 +12,13 @@ namespace Project.PaymentService.Consumer
     {
         private readonly IMediator mediator;
         private readonly ILogger<RefundConsumer> logger;
+
+        public RefundConsumer(IMediator mediator, ILogger<RefundConsumer> logger)
+        {
+            this.mediator = mediator;
+            this.logger = logger;
+        }
+
         public async Task Consume(ConsumeContext<RefundEvent> context)
         {
             try

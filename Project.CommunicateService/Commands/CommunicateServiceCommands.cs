@@ -10,4 +10,5 @@ namespace Project.CommunicateService.Commands
     public record CreateSupporterRoomCommand(string Message,string UserID) : IRequest<ObjectResult>;
     public record CreateDoctorRoomCommand(string UserID,string DoctorID) : IRequest<Room>;
     public record CloseRoomCommand(Guid RoomID) : IRequest<ObjectResult>;
+    public record DeleteRoomCommand(Guid RoomID) : IRequest<bool>;
 }
