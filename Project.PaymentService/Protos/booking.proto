@@ -6,6 +6,9 @@ service BookingService  {
   rpc CreateBookingDoctor (CreateBookingDoctorRequest) returns (CreateBookingDoctorResponse);
   rpc UpdateBookingPackage (UpdateBookingPackageRequest) returns (UpdateBookingResponse);
   rpc UpdateBookingDoctor (UpdateBookingDoctorRequest) returns (UpdateBookingResponse);
+  rpc GetBookingDoctor (GetBookingDoctorRequest) returns (GetBookingResponse);
+  rpc GetBookingPackage (GetBookingPackageRequest) returns (GetBookingResponse);
+
 }
 message CreateBookingPackageResponse  {
   string BookingPackageID = 1;
@@ -35,6 +38,16 @@ message UpdateBookingDoctorRequest  {
   string BookingDoctorID = 1;
 }
 message UpdateBookingResponse {
+  bool IsSuccess = 1; 
+  string UserID = 2;
+}
+message GetBookingPackageRequest  {
+  string BookingPackageID = 1;
+}
+message GetBookingDoctorRequest  {
+  string BookingDoctorID = 1;
+}
+message GetBookingResponse {
   bool IsSuccess = 1; 
   string UserID = 2;
 }

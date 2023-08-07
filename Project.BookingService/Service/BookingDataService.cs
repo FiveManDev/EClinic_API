@@ -5,6 +5,7 @@ using Project.BookingService.Dtos.BookingDoctorDtos;
 using Project.BookingService.Dtos.BookingPackageDTOs;
 using Project.BookingService.Protos;
 using Project.BookingServiceCommands.Commands;
+using Project.BookingServiceQueries.Queries;
 using Project.Core.Logger;
 
 namespace Project.BookingService.Service
@@ -55,8 +56,38 @@ namespace Project.BookingService.Service
                     ServicePackageID = Guid.Parse(request.ServicePackageID),
                     UserID = Guid.Parse(request.UserID)
                 }));
-                if(result == null) { return null; }
+                if (result == null) { return null; }
                 return new CreateBookingPackageResponse { BookingPackageID = result.BookingID.ToString() };
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return null;
+            }
+        }
+
+        public override async Task<GetBookingResponse> GetBookingDoctor(GetBookingDoctorRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var result = await mediator.Send(new GetBookingDoctorQuery(Guid.Parse(request.BookingDoctorID)));
+                if (result == null) { return null; }
+                return new GetBookingResponse { IsSuccess = true, UserID = result.DoctorID.ToString() };
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return null;
+            }
+        }
+
+        public override async Task<GetBookingResponse> GetBookingPackage(GetBookingPackageRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var result = await mediator.Send(new GetBookingPackageQuery(Guid.Parse(request.BookingPackageID)));
+                if (result == null) { return null; }
+                return new GetBookingResponse { IsSuccess = true, UserID = result.ServicePackageID.ToString() };
             }
             catch (Exception ex)
             {
@@ -86,7 +117,7 @@ namespace Project.BookingService.Service
             {
                 var result = await mediator.Send(new UpdateBookingUpcomingForBookingPackageCommand(Guid.Parse(request.BookingPackageID)));
                 if (result == null) { return null; }
-                return new UpdateBookingResponse {IsSuccess = true, UserID = result.ServicePackageID.ToString() };
+                return new UpdateBookingResponse { IsSuccess = true, UserID = result.ServicePackageID.ToString() };
             }
             catch (Exception ex)
             {

@@ -26,7 +26,7 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
         private readonly ProfileService.ProfileServiceClient profileclient;
         private readonly IBus bus;
 
-        public CreatePaymentHandler(IBus bus,IConfiguration configuration, ILogger<CreatePaymentHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment, IPaymentRepository paymentRepository)
+        public CreatePaymentHandler(IBus bus, IConfiguration configuration, ILogger<CreatePaymentHandler> logger, IMomoPayment momoPayment, IVNPayPayment vNPayPayment, IPaymentRepository paymentRepository)
         {
             this.logger = logger;
             this.momoPayment = momoPayment;
@@ -67,15 +67,25 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                     return null;
                 }
                 var type = paymentResult.PaymentType;
-                if(type == "BookingPackage")
+                if (type == "BookingPackage" && paymentResult.IsSuccess == true)
                 {
                     var updateResult = await client.UpdateBookingPackageAsync(new UpdateBookingPackageRequest { BookingPackageID = paymentResult.BookingID.ToString() });
-                    url = $"{clientAddress}/services/{updateResult.UserID}?bookingId={paymentResult.BookingID}";
+                    url = $"{clientAddress}/services/{updateResult.UserID}?bookingId={paymentResult.BookingID}&status=success";
                 }
-                if (type == "BookingDoctor")
+                if (type == "BookingDoctor" && paymentResult.IsSuccess == true)
                 {
                     var updateResult = await client.UpdateBookingDoctorAsync(new UpdateBookingDoctorRequest { BookingDoctorID = paymentResult.BookingID.ToString() });
-                    url = $"{clientAddress}/doctors/{updateResult.UserID}?bookingId={paymentResult.BookingID}";
+                    url = $"{clientAddress}/doctors/{updateResult.UserID}?bookingId={paymentResult.BookingID}&status=success";
+                }
+                if (type == "BookingPackage" && paymentResult.IsSuccess == false)
+                {
+                    var updateResult = await client.GetBookingPackageAsync(new GetBookingPackageRequest { BookingPackageID = paymentResult.BookingID.ToString() });
+                    url = $"{clientAddress}/services/{updateResult.UserID}?bookingId={paymentResult.BookingID}&status=fail";
+                }
+                if (type == "BookingDoctor" && paymentResult.IsSuccess == false)
+                {
+                    var updateResult = await client.GetBookingDoctorAsync(new GetBookingDoctorRequest { BookingDoctorID = paymentResult.BookingID.ToString() });
+                    url = $"{clientAddress}/doctors/{updateResult.UserID}?bookingId={paymentResult.BookingID}&status=fail";
                 }
                 Payment payment = new Payment
                 {
@@ -93,15 +103,27 @@ namespace Project.PaymentService.Handlers.PaymentHandlers
                     return clientAddress;
                 }
                 var res = await profileclient.GetProfileAsync(new GetProfileRequest { UserID = payment.UserID.ToString() });
-                await bus.SendMessageWithExchangeName<PaymentModelData>(new PaymentModelData {
-                     FullName =res.FirstName+res.LastName,
-                     BookingType = type,
-                     PaymentAmount = paymentResult.Amount,
-                     PaymentID = payment.PaymentID,
-                     PaymentService= request.PaymentService== Data.PaymentService.Momo?"Momo":"VNPay",
-                     PaymentTime =paymentResult.PaymentTime,
-                     TransactionID =paymentResult.TransactionID,
-                     Email= res.Email
+                await bus.SendMessageWithExchangeName<PaymentModelData>(new PaymentModelData
+                {
+                    FullName = res.FirstName + res.LastName,
+                    BookingType = type,
+                    PaymentAmount = paymentResult.Amount,
+                    PaymentID = payment.PaymentID,
+                    PaymentService = request.PaymentService == Data.PaymentService.Momo ? "Momo" : "VNPay",
+                    PaymentTime = paymentResult.PaymentTime,
+                    TransactionID = paymentResult.TransactionID,
+                    Email = res.Email
+                }, ExchangeConstants.NotificationService + "SendBill");
+                await bus.SendMessageWithExchangeName<PaymentModelData>(new PaymentModelData
+                {
+                    FullName = res.FirstName + res.LastName,
+                    BookingType = type,
+                    PaymentAmount = paymentResult.Amount,
+                    PaymentID = payment.PaymentID,
+                    PaymentService = request.PaymentService == Data.PaymentService.Momo ? "Momo" : "VNPay",
+                    PaymentTime = paymentResult.PaymentTime,
+                    TransactionID = paymentResult.TransactionID,
+                    Email = res.Email
                 }, ExchangeConstants.NotificationService + "SendBill");
                 return url;
             }

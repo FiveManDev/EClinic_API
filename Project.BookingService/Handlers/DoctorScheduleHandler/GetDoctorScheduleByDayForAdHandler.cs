@@ -31,12 +31,18 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
                 scheduleDtos.CalenderID = Calendar.CalenderID;
                 scheduleDtos.Time = Calendar.Time;
                 var Schedules = Calendar.DoctorSchedules;
-                Schedules = Schedules.Where(x => x.BookingDoctor?.BookingStatus != Data.BookingStatus.NoPayment).ToList();
+                foreach (var schedule in Schedules)
+                {
+                    if (schedule.BookingDoctor.BookingStatus == Data.BookingStatus.NoPayment)
+                    {
+                        schedule.BookingDoctor = null;
+                    }
+                }
                 Schedules = Schedules.OrderBy(x => x.StartTime).ToList();
                 scheduleDtos.Slots = mapper.Map<List<SlotDtos>>(Calendar.DoctorSchedules);
                 return ApiResponse.OK(scheduleDtos);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.WriteLogError(ex.Message);
                 return ApiResponse.InternalServerError();
