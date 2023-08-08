@@ -49,6 +49,10 @@ namespace Project.IdentityService.Handlers.Authentication
                 {
                     var userID = Guid.Parse(checkEmail.UserID);
                     var user = await userRepository.GetAsync(userID);
+                    if (!user.Enabled)
+                    {
+                        return ApiResponse.BadRequest("User is not available");
+                    }
                     var role = await roleRepository.GetAsync(role => role.RoleID == user.RoleID);
                     var tokenInformation = new JWTTokenInformation { Role = role.RoleName, UserID = user.UserID };
                     var tokenModel = TokenExtensions.GetToken(tokenInformation);
