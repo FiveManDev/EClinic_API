@@ -47,6 +47,11 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     return ApiResponse.NotFound("Specialization Not Found");
                 }
+                var emailExist = await profileRepository.AnyAsync(x => x.Email == request.CreateDoctorProfileDtos.Email);
+                if (emailExist)
+                {
+                    return ApiResponse.BadRequest("Email is exist");
+                }
                 var profile = new Data.Profile
                 {
                     UserID = Guid.Empty,

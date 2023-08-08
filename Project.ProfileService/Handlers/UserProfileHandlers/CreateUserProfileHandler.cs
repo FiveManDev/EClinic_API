@@ -31,6 +31,11 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
         {
             try
             {
+                var emailExist = await profileRepository.AnyAsync(x => x.Email == request.CreateUserProfileDtos.Email);
+                if (emailExist)
+                {
+                    return ApiResponse.BadRequest("Email is exist");
+                }
                 var profile = new Profile
                 {
                     UserID = Guid.Parse(request.UserID),
