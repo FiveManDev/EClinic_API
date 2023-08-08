@@ -25,7 +25,7 @@ namespace Project.RefundService.Handlers.RefundHandlers
         {
             try
             {
-                var Refunds = await refundRepository.GetAsync(request.RefundID);
+                var Refunds = await refundRepository.GetRefund(request.RefundID);
                 var RefundDtos = mapper.Map<RefundDetailDtos>(Refunds);
                 return ApiResponse.OK(RefundDtos);
             }
