@@ -14,5 +14,6 @@ namespace Project.BookingService.Dtos.BookingDoctorDtos
         public BookingStatus BookingStatus { get; set; }
         public DoctorSlotDtos Slot { get; set; }
         public Guid RoomID { get; set; }
+        public DateTime BookingCalendar { get; set; }
     }
 }

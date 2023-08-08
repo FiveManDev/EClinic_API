@@ -16,7 +16,7 @@ public class BookingDoctorRepository : MSSQLRepository<ApplicationDbContext, Boo
 
     public async Task<List<BookingDoctor>> GetAllBookingDoctor(Expression<Func<BookingDoctor, bool>> filter)
     {
-        return await context.BookingDoctors.Include(x => x.DoctorSchedule).Where(filter).ToListAsync();
+        return await context.BookingDoctors.Include(x => x.DoctorSchedule).ThenInclude(x => x.DoctorCalendar).Where(filter).ToListAsync();
     }
 
     public async Task<BookingDoctor> GetBookingDoctor(Expression<Func<BookingDoctor, bool>> filter)

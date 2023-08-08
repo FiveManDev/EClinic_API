@@ -78,6 +78,7 @@ namespace Project.BookingService.Handlers.BookingDoctorHandler
                     bookingDoctorDtos[i].Slot.SlotID = bookingDoctor[i].DoctorSchedule.ScheduleID;
                     bookingDoctorDtos[i].Slot.StartTime = bookingDoctor[i].DoctorSchedule.StartTime.ToString("HH:mm");
                     bookingDoctorDtos[i].Slot.EndTime = bookingDoctor[i].DoctorSchedule.EndTime.ToString("HH:mm");
+                    bookingDoctorDtos[i].BookingCalendar = bookingDoctor[i].DoctorSchedule.DoctorCalendar.Time;
                 }
                 return ApiResponse.OK(bookingDoctorDtos);
             }
