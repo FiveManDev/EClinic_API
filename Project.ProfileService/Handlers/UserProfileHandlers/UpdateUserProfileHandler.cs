@@ -41,6 +41,11 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
+                var emailExist = await profileRepository.AnyAsync(x => x.Email == request.UpdateUserProfileDtos.Email && profile.Email != x.Email);
+                if (emailExist)
+                {
+                    return ApiResponse.BadRequest("Email is exist");
+                }
                 var profileDtos = request.UpdateUserProfileDtos;
                 profile.FirstName = profileDtos.FirstName;
                 profile.LastName = profileDtos.LastName;

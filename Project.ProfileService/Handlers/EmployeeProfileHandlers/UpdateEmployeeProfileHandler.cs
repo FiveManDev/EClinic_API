@@ -48,6 +48,11 @@ namespace Project.ProfileService.Handlers.EmployeeProfileHandlers
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
+                var emailExist = await profileRepository.AnyAsync(x => x.Email == request.UpdateEmployeeProfileDtos.Email && profile.Email != x.Email);
+                if (emailExist)
+                {
+                    return ApiResponse.BadRequest("Email is exist");
+                }
                 var profileDtos = request.UpdateEmployeeProfileDtos;
                 profile.FirstName = profileDtos.FirstName;
                 profile.LastName = profileDtos.LastName;

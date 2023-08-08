@@ -50,6 +50,11 @@ namespace Project.ProfileService.Handlers.DoctorProfileHandlers
                 {
                     return ApiResponse.NotFound("Profile Not Found.");
                 }
+                var emailExist = await profileRepository.AnyAsync(x => x.Email == request.UpdateDoctorProfileDtos.Email && profile.Email != x.Email);
+                if (emailExist)
+                {
+                    return ApiResponse.BadRequest("Email is exist");
+                }
                 var res = await serviceClient.CheckSpecializationAsync(new GetSpecializationRequest { SpecializationID = request.UpdateDoctorProfileDtos.SpecializationID.ToString() });
                 if (res == null)
                 {
