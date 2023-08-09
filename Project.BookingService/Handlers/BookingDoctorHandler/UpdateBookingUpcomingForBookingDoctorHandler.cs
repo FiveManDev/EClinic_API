@@ -33,18 +33,18 @@ public class UpdateBookingUpcomingForBookingDoctorHandler : IRequestHandler<Upda
             {
                 return null;
             }
-            var res = await client.CreateRoomAsync(new CreateRoomRequest
-            {
-                UserID = bookingDoctor.UserID.ToString(),
-                DoctorID = bookingDoctor.DoctorID.ToString()
-            });
-            if (res == null) { return null; }
             if (bookingDoctor.BookingType == BookingType.Offline)
             {
                 bookingDoctor.RoomID = Guid.Empty;
             }
             if (bookingDoctor.BookingType == BookingType.Online)
             {
+                var res = await client.CreateRoomAsync(new CreateRoomRequest
+                {
+                    UserID = bookingDoctor.UserID.ToString(),
+                    DoctorID = bookingDoctor.DoctorID.ToString()
+                });
+                if (res == null) { return null; }
                 bookingDoctor.RoomID = Guid.Parse(res.RoomID);
             }
             bookingDoctor.BookingStatus = BookingStatus.Upcoming;
