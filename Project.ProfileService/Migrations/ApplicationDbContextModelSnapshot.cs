@@ -121,7 +121,7 @@ namespace Project.ProfileService.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -141,6 +141,9 @@ namespace Project.ProfileService.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ProfileID");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Profiles", (string)null);
                 });

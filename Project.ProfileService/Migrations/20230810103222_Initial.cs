@@ -21,7 +21,7 @@ namespace Project.ProfileService.Migrations
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -122,6 +122,12 @@ namespace Project.ProfileService.Migrations
                 name: "IX_PatientProfiles_RelationshipID",
                 table: "PatientProfiles",
                 column: "RelationshipID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profiles_Email",
+                table: "Profiles",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

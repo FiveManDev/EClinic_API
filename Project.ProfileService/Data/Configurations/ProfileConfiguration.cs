@@ -10,6 +10,7 @@ namespace Project.IdentityService.Data.Configurations
         {
             builder.HasKey(p => p.ProfileID);
             builder.Property(p => p.ProfileID).HasDefaultValueSql("NEWID()").IsRequired();
+            builder.HasIndex(p => p.Email).IsUnique();
             builder.Property(p => p.UserID).IsRequired();
             builder.Property(p => p.FirstName).IsRequired();
             builder.Property(p => p.LastName).IsRequired();
