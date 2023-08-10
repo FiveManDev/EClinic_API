@@ -62,7 +62,7 @@ namespace Project.CommunicateService.Handlers.RoomHandlers
                 GetAllProfileRequest getAllProfileRequest = new GetAllProfileRequest();
                 getAllProfileRequest.UserIDs.AddRange(ListOrtherUserID.ConvertAll(g => g.ToString()));
                 var response = await client.GetAllProfileAsync(getAllProfileRequest);
-                if (response is null)
+                if (response.Profiles.Count == 0)
                 {
                     return ApiResponse.NotFound("Room Not Found");
                 }

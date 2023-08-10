@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Project.ProfileService.Dtos.UserProfile
-{
+{  
     public class CreateUserProfileDtos
     {
         [Required]

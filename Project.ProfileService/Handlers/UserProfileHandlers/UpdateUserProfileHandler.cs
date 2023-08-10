@@ -36,6 +36,7 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
         {
             try
             {
+                if (request.UpdateUserProfileDtos.RelationshipID == Guid.Empty) { return ApiResponse.BadRequest("RelationshipID not null."); }
                 var profile = await profileRepository.GetAsync(request.UpdateUserProfileDtos.ProfileID);
                 if (profile == null)
                 {

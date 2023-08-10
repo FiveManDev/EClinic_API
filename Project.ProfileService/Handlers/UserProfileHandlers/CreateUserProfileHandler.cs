@@ -31,6 +31,7 @@ namespace Project.ProfileService.Handlers.UserProfileHandlers
         {
             try
             {
+                if(request.CreateUserProfileDtos.RelationshipID == Guid.Empty) { return ApiResponse.BadRequest("RelationshipID not null."); }
                 var emailExist = await profileRepository.AnyAsync(x => x.Email == request.CreateUserProfileDtos.Email);
                 if (emailExist)
                 {
