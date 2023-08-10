@@ -49,7 +49,7 @@ namespace Project.IdentityService.Handlers.Account
                         role = RoleConstants.IDUser;
                         break;
                 }
-                var userNameGeneration = role.ToLower() + request.Email.Substring(0, request.Email.IndexOf('@'));
+                var userNameGeneration = role.ToLower() + request.Email.Substring(0, request.Email.IndexOf('@')) + RandomText.RandomByNumberOfCharacters(3, RandomType.Number);
                 var passwordGeneration = RandomText.RandomByNumberOfCharacters(15, RandomType.String);
                 var pass = Cryptography.EncryptPassword(passwordGeneration);
                 var user = new User { UserName = userNameGeneration, PasswordHash = pass.Hash, PasswordSalt = pass.Salt, RoleID = role, Enabled = request.Enabled };

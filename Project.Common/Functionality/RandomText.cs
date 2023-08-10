@@ -24,7 +24,7 @@ namespace Project.Common.Functionality
                     valid = "1234567890";
                     break;
                 case RandomType.String:
-                    valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@$%^&*?><";
+                    valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
                     break;
             };
             StringBuilder res = new StringBuilder();
