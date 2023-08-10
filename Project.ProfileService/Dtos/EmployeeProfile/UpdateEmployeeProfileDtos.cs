@@ -10,7 +10,6 @@ namespace Project.ProfileService.Dtos.EmployeeProfile
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required]
         public IFormFile Avatar { get; set; }
         [Required]
         public bool Gender { get; set; }
