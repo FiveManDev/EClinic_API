@@ -48,6 +48,13 @@ namespace Project.ProfileService.Service
         {
             try
             {
+                var profileExist = await profileRepository.AnyAsync(x => x.Email == request.Email);
+                if (profileExist)
+                {
+                    var x = new CreateProfileResponse();
+                    x.IsSuccess = false;
+                    return x;
+                }
                 var profile = new Data.Profile
                 {
                     UserID = Guid.Parse(request.UserID),
@@ -150,7 +157,7 @@ namespace Project.ProfileService.Service
                 foreach (var id in UserIDs)
                 {
                     Profile profile = null;
-                    if(id == Guid.Empty)
+                    if (id == Guid.Empty)
                     {
                         profile = new Profile
                         {
