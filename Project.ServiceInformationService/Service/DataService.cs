@@ -1,5 +1,7 @@
 ﻿using Grpc.Core;
+using MediatR;
 using Project.Core.Logger;
+using Project.ServiceInformationService.Commands;
 using Project.ServiceInformationService.Data;
 using Project.ServiceInformationService.Protos;
 using Project.ServiceInformationService.Repository.ServicePackageRepository;
@@ -12,12 +14,29 @@ namespace Project.ServiceInformationService.Service
         private readonly ISpecializationRepository repository;
         private readonly IServicePackageRepository servicePackageRepository;
         private readonly ILogger<DataService> logger;
+        private IMediator mediator;
 
-        public DataService(ISpecializationRepository repository, IServicePackageRepository servicePackageRepository, ILogger<DataService> logger)
+        public DataService(ISpecializationRepository repository, IServicePackageRepository servicePackageRepository, ILogger<DataService> logger, IMediator mediator)
         {
             this.repository = repository;
             this.servicePackageRepository = servicePackageRepository;
             this.logger = logger;
+            this.mediator = mediator;
+        }
+
+        public override async Task<IncreaseOrderResponse> IncreaseOrder(IncreaseOrderRequest request, ServerCallContext context)
+        {
+            try
+            {
+                IncreaseOrderResponse response = new IncreaseOrderResponse();
+                var increase = await mediator.Send(new IncreaseOrderCommand(Guid.Parse(request.ServicePackageID)));
+                return response;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLogError(ex.Message);
+                return null;
+            }
         }
 
         public override async Task<GetSpecializations> CheckSpecialization(GetSpecializationRequest request, ServerCallContext context)

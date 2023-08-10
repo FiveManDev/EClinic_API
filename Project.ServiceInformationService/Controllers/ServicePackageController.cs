@@ -42,11 +42,6 @@ public class ServicePackageController : ControllerBase
         return await mediator.Send(new ToggleActiveServicePackageCommand(servicePackageID, flag));
     }
 
-    [HttpPut]
-    public async Task<IActionResult> IncreaseOrder(Guid servicePackageID)
-    {
-        return await mediator.Send(new IncreaseOrderCommand(servicePackageID));
-    }
 
     [HttpDelete]
     [CustomAuthorize(Authorities = new[] { RoleConstants.Admin, RoleConstants.Supporter })]

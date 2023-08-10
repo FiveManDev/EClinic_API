@@ -1,27 +1,23 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Project.Common.Response;
 using Project.Core.Logger;
 using Project.ServiceInformationService.Commands;
 using Project.ServiceInformationService.Repository.ServicePackageRepository;
 
 namespace Project.ServiceInformationService.Handlers.ServicePackageHandler;
 
-public class IncreaseOrderHandler : IRequestHandler<IncreaseOrderCommand, ObjectResult>
+public class IncreaseOrderHandler : IRequestHandler<IncreaseOrderCommand, bool>
 {
     private readonly ILogger<IncreaseOrderHandler> logger;
     private readonly IServicePackageRepository repository;
-    private readonly IMapper mapper;
 
-    public IncreaseOrderHandler(ILogger<IncreaseOrderHandler> logger, IServicePackageRepository repository, IMapper mapper)
+    public IncreaseOrderHandler(ILogger<IncreaseOrderHandler> logger, IServicePackageRepository repository)
     {
         this.logger = logger;
         this.repository = repository;
-        this.mapper = mapper;
     }
 
-    public async Task<ObjectResult> Handle(IncreaseOrderCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(IncreaseOrderCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -29,20 +25,20 @@ public class IncreaseOrderHandler : IRequestHandler<IncreaseOrderCommand, Object
 
             if (servicePackage is null)
             {
-                return ApiResponse.BadRequest("Service Package not found!");
+                return false;
             }
 
             servicePackage.TotalOrder++;
             servicePackage.UpdatedAt = DateTime.Now;
 
-            await repository.UpdateAsync(servicePackage);
 
-            return ApiResponse.OK("Update Success.");
+
+            return await repository.UpdateAsync(servicePackage);
         }
         catch (Exception ex)
         {
             logger.WriteLogError(ex.Message);
-            return ApiResponse.InternalServerError();
+            return false;
         }
 
     }

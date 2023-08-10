@@ -6,6 +6,7 @@ service ServiceInformationService  {
   rpc GetAllSpecialization (GetAllSpecializationRequest) returns (GetAllSpecializationResponse);
   rpc CheckSpecialization (GetSpecializationRequest) returns (GetSpecializations);
   rpc GetAllServicePackage (GetAllServicePackageRequest) returns (GetAllServicePackageResponse);
+  rpc IncreaseOrder (IncreaseOrderRequest) returns (IncreaseOrderResponse);
 }
 message GetSpecializationRequest  {
   string SpecializationID = 1;
@@ -33,4 +34,10 @@ message GetServicePackageResponse  {
 }
 message GetAllServicePackageResponse  {
   repeated GetServicePackageResponse ServicePackage = 1;
+}
+message IncreaseOrderRequest  {
+  string ServicePackageID = 1;
+}
+message IncreaseOrderResponse  {
+  bool IsSuccess = 1;
 }

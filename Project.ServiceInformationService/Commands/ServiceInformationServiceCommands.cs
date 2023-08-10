@@ -22,6 +22,6 @@ namespace Project.ServiceInformationService.Commands
     public record UpdateServicePackageCommand(UpdateServicePackageDTO updateServicePackageDTO) : IRequest<ObjectResult>;
     public record DeleteServicePackageCommand(Guid deleteServicePackageID) : IRequest<ObjectResult>;
     public record ToggleActiveServicePackageCommand(Guid servicePackageID, bool flag) : IRequest<ObjectResult>;
-    public record IncreaseOrderCommand(Guid servicePackageID) : IRequest<ObjectResult>;
+    public record IncreaseOrderCommand(Guid servicePackageID) : IRequest<bool>;
     #endregion
 }
