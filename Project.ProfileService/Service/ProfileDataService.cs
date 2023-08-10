@@ -72,7 +72,7 @@ namespace Project.ProfileService.Service
                     res.IsSuccess = false;
                     return res;
                 }
-                var health = new HealthProfile { ProfileID = result.ProfileID, RelationshipID = ConstantsData.MyRelationshipID };
+                var health = new HealthProfile { ProfileID = result.ProfileID, RelationshipID = ConstantsData.MyRelationshipID, BloodType = "A+" };
                 var healthResult = await healthProfileRepository.CreateAsync(health);
                 if (!healthResult)
                 {
