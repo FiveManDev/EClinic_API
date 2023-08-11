@@ -29,6 +29,11 @@ namespace Project.BookingService.Handlers.DoctorScheduleHandler
         {
             try
             {
+                var CalendarExist = await calendarRepository.GetAllAsync(x => x.Time.Date == request.CreateDoctorScheduleDtos.Time.Date && x.DoctorID == request.CreateDoctorScheduleDtos.DoctorID);
+                if (CalendarExist.Count != 0)
+                {
+                    return ApiResponse.BadRequest("Calendar is exit");
+                }
                 var Calendar = await calendarRepository.CreateEntityAsync(new DoctorCalendar
                 {
                     DoctorID = request.CreateDoctorScheduleDtos.DoctorID,
