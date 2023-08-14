@@ -13,6 +13,8 @@ from loadModel import LoadModel
 from auth_bearer import JWTBearer,Role
 import modelRepository as repository
 import historyRepository as historyRepository
+import cv2
+import numpy as np
 router = APIRouter(tags=['Predict'])
 
 # @router.get('/test',dependencies=[Depends(JWTBearer(role = Role.Admin))] )
@@ -22,14 +24,28 @@ async def DoctorPredict(file: UploadFile = File(...), Note: str = Form(default=N
         if Note is None:
             Note = 'No content'
         model = repository.GetActive()
-        if model.DeepName =='ResNet-50':
-            input = ResNet50Predict(file.file)
-        if model.DeepName =='VGG16':
-            input = VGG16Predict(file.file)
-        if model.DeepName =='MobileNet':
-            input = MobileNetPredict(file.file)
         path = os.path.join(os.getcwd(), model.FileUrl)
-        result = LoadModel(path,input)
+        input = None
+        result = None
+        image = cv2.imdecode(np.frombuffer(file.file.read(), np.uint8), cv2.IMREAD_COLOR)
+        if model.DeepName =='ResNet-50':
+            input = ResNet50Predict(image)
+            result = LoadModel(path,input)
+        elif model.DeepName =='VGG16':
+            input = VGG16Predict(image)
+            result = LoadModel(path,input)
+        elif model.DeepName =='MobileNet':
+            input = MobileNetPredict(image)
+            result = LoadModel(path,input)
+        else:
+            input = ResNet50Predict(image)
+            result = LoadModel(path,input)
+            if result == 'unknown':
+                input = VGG16Predict(image)
+                result = LoadModel(path,input)
+            if result == 'unknown':
+                input = MobileNetPredict(image)
+                result = LoadModel(path,input)
         historyRepository.Create(Note,result,model.ModelID)
         res = {
             "isSuccess": True,
@@ -44,14 +60,28 @@ async def ExpertPredict(file: UploadFile = File(...), Note: str = Form(default=N
         if Note is None:
             Note = 'No content'
         model = repository.GetModelUrl(ModelID)
-        if model.DeepName =='ResNet-50':
-            input = ResNet50Predict(file.file)
-        if model.DeepName =='VGG16':
-            input = VGG16Predict(file.file)
-        if model.DeepName =='MobileNet':
-            input = MobileNetPredict(file.file)
         path = os.path.join(os.getcwd(), model.FileUrl)
-        result = LoadModel(path,input)
+        input = None
+        result = None
+        image = cv2.imdecode(np.frombuffer(file.file.read(), np.uint8), cv2.IMREAD_COLOR)
+        if model.DeepName =='ResNet-50':
+            input = ResNet50Predict(image)
+            result = LoadModel(path,input)
+        elif model.DeepName =='VGG16':
+            input = VGG16Predict(image)
+            result = LoadModel(path,input)
+        elif model.DeepName =='MobileNet':
+            input = MobileNetPredict(image)
+            result = LoadModel(path,input)
+        else:
+            input = ResNet50Predict(image)
+            result = LoadModel(path,input)
+            if result == 'unknown':
+                input = VGG16Predict(image)
+                result = LoadModel(path,input)
+            if result == 'unknown':
+                input = MobileNetPredict(image)
+                result = LoadModel(path,input)
         historyRepository.Create(Note,result,model.ModelID)
         res = {
             "isSuccess": True,
@@ -59,4 +89,5 @@ async def ExpertPredict(file: UploadFile = File(...), Note: str = Form(default=N
         }
         return JSONResponse(res)
     except Exception as e:
+        print(f"An exception occurred: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")

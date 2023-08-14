@@ -6,8 +6,7 @@ from tensorflow.keras.applications.mobilenet import MobileNet, preprocess_input
 def VGG16Predict(file):
     try:
         pic_size = 224
-        image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
-        image = cv2.resize(image, (pic_size, pic_size))
+        image = cv2.resize(file, (pic_size, pic_size))
         image = preprocess_input(image)
         image = np.reshape(image, (1, pic_size, pic_size, 3))
         base_model = VGG16(weights='imagenet', include_top=False)
@@ -21,8 +20,7 @@ def VGG16Predict(file):
 def ResNet50Predict(file):
     try:
         pic_size = 224
-        image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
-        image = cv2.resize(image, (pic_size, pic_size))
+        image = cv2.resize(file, (pic_size, pic_size))
         image = preprocess_input(image)
         image = np.reshape(image, (1, pic_size, pic_size, 3))
         base_model = ResNet50(weights='imagenet', include_top=False)
@@ -36,8 +34,7 @@ def ResNet50Predict(file):
 def MobileNetPredict(file):
     try:
         pic_size = 224
-        image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
-        image = cv2.resize(image, (pic_size, pic_size))
+        image = cv2.resize(file, (pic_size, pic_size))
         image = preprocess_input(image)
         image = np.reshape(image, (1, pic_size, pic_size, 3))
         base_model = MobileNet(weights='imagenet', include_top=False, input_shape=(pic_size, pic_size, 3))
